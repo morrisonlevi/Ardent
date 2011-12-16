@@ -20,7 +20,7 @@ interface Stack extends Countable, Iterator {
      * Looks at the top item of the stack without removing it.
      * 
      * @return mixed The item at the top of the stack.
-     * @throws some exception if the stack is empty.
+     * @throws \UnderflowException if the stack is empty.
      */
     function peek();
 
@@ -28,7 +28,7 @@ interface Stack extends Countable, Iterator {
      * Removes the top item from the stack and returns it.
      * 
      * @return mixed The item at the top of the stack.
-     * @throws some exception if the stack is empty.
+     * @throws \UnderflowException if the stack is empty.
      */
     function pop();
 
