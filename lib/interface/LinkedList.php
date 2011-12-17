@@ -1,6 +1,11 @@
 <?php
 
-
+/**
+ * An initial API for LinkedList.
+ * 
+ * @todo Decide on addAll and addArray etc.  Arrays don't implement Traversable.
+ * @todo Figure out the proper exception to throw when an illegal index type is given.
+ */
 interface LinkedList extends Countable, ArrayAccess, Iterator {
 
     /**
