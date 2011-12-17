@@ -6,7 +6,10 @@
  * are really poor if you just want true index-based datastructures.
  * 
  * @todo Note that if we do want ArrayList to exist, it may be useful to have
- * ArrayList and LinkedList to implement List, which define push, pop, etc.  
+ * ArrayList and LinkedList to implement a List interface (cannot be named list
+ * because of the language construct), which define push, pop, etc. We should
+ * decide on how helpful that really is, as ArrayAccess already exists.  Lists
+ * are not necessarily arrays, though. 
  */
 interface ArrayList extends Countable, ArrayAccess, Iterator {
 
