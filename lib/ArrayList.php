@@ -1,7 +1,7 @@
 <?php
 namespace Spl;
 
-require_once 'Vector.php';
+require_once 'interface/Vector.php';
 
 /**
  * An initial API for ArrayList. It would essentially be a high-level of
