@@ -1,21 +1,9 @@
 <?php
+namespace Spl;
 
-interface Queue extends Countable, Iterator {
+require_once 'Collection.php';
 
-    /**
-     * Clears out everything from the queue.
-     * 
-     * @return void
-     */
-    function clear();
-
-    /**
-     * Tests if the queue is empty.
-     * 
-     * @return bool Returns true if and only if the queue contains no items; false otherwise.
-     */
-    function isEmpty();
-
+interface Queue extends Collection {
     /**
      * Looks at the head item of the queue without removing it.
      * 

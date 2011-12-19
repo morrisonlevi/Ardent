@@ -1,21 +1,9 @@
 <?php
+namespace Spl;
 
-interface Stack extends Countable, Iterator {
+require_once 'Collection.php';
 
-    /**
-     * Clears out everything from the stack.
-     * 
-     * @return void
-     */
-    function clear();
-
-    /**
-     * Tests if the stack is empty.
-     * 
-     * @return bool Returns true if and only if the stack contains no items; false otherwise.
-     */
-    function isEmpty();
-
+interface Stack extends Collection {
     /**
      * Looks at the top item of the stack without removing it.
      * 
