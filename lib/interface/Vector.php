@@ -2,12 +2,12 @@
 
 namespace Spl;
 
-require 'Collection.php';
+require_once 'Collection.php';
 
 /**
  * Vector is a generic container used to represent an array.
  */
-interface Vector extends Collection, ArrayAccess {
+interface Vector extends Collection, \ArrayAccess {
     
 }
 
