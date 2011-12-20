@@ -12,7 +12,7 @@ require_once 'interface/Vector.php';
  * Note that IteratorAggregate must come before Vector or PHP will fail to
  * work correctly.  This is a bug regarding Traversable.
  */
-class ArrayList implements \IteratorAggregate, Vector, \Serializable {
+class ArrayList implements \IteratorAggregate, Vector {
 
     /**
      * @var \SplFixedArray
@@ -24,25 +24,52 @@ class ArrayList implements \IteratorAggregate, Vector, \Serializable {
      */
     private $count;
 
+    /**
+     * Creates a new ArrayList.
+     */
     public function __construct() {
         $this->list = new \SplFixedArray(1);
         $this->count = 0;
     }
-
+    
+    /**
+     * Returns the value at the specified position.
+     *
+     * @param int $index The index being obtained.
+     * @return mixed The value at the specified position.
+     * @throws \OutOfRangeException if the index is not an int.
+     * @throws \OutOfBoundsException if the index does not exist.
+     */
     public function offsetGet($offset) {
         if (filter_var($offset, FILTER_VALIDATE_INT) === false) {
             throw new \OutOfRangeException("Invalid index type: expected int");
         } else if ($offset < 0 || $offset >= $this->count) {
-            throw new \OutOfBoundsException("Index out-of-bounds.");
+            throw new \OutOfBoundsException(
+                "Index '$offset' is out-of-bounds."
+            );
         }
 
         return $this->list[$offset];
     }
 
+    /**
+     * Doubles the size of the interal array.
+     *
+     * @return void
+     */
     protected function grow() {
         $this->list->setSize($this->list->getSize() * 2);
     }
-
+    
+    /**
+     * Set the value at the specified position to the given value.
+     *
+     * @param int $index The index being set.
+     * @param mixed $value The new value for the index.
+     * @return void
+     * @throws \OutOfRangeException if the index is not an int.
+     * @throws \OutOfBoundsException if the index does not exist.
+     */
     public function offsetSet($offset, $value) {
         //Adding to the array
         if ($offset === null) {
@@ -56,44 +83,87 @@ class ArrayList implements \IteratorAggregate, Vector, \Serializable {
         else {
             if (filter_var($offset, FILTER_VALIDATE_INT) === false) {
                 throw new \OutOfRangeException(
-                        "Invalid index type: expected int"
+                    "Invalid index type: expected int"
                 );
             } else if ($offset < 0 || $offset >= $this->list->getSize()) {
                 throw new \OutOfBoundsException(
-                        "Index '$offset' out-of-bounds."
+                    "Index '$offset' out-of-bounds."
                 );
             }
 
             $this->list[$offset] = $value;
         }
     }
-
+    
+    /**
+     * Returns whether the requested index exists.
+     *
+     * @param int $index The index being checked.
+     * @return bool Returns true if the index exists.
+     */
     public function offsetExists($offset) {
         return  filter_var($offset, FILTER_VALIDATE_INT) !== false
                 && $offset >= 0
                 && $offset < $this->count;
         
     }
-
+    
+    /**
+     * Unsets the value at the specified position.
+     *
+     * @param int $index The index being set.
+     * @return void
+     * @throws \OutOfRangeException if the index is not an int.
+     * @throws \OutOfBoundsException if the index does not exist.
+     */
     public function offsetUnset($offset) {
+        if (filter_var($offset, FILTER_VALIDATE_INT) === false) {
+            throw new \OutOfRangeException(
+                "Invalid index type: expected int"
+            );
+        } else if ($offset < 0 || $offset >= $this->list->getSize()) {
+            throw new \OutOfBoundsException(
+                "Index '$offset' out-of-bounds."
+            );
+        }
         
         unset($this->list[$offset]);
     }
-
+    /**
+     * Returns the number of items in the list.
+     * 
+     * @return int The size of the list.
+     */
     public function count() {
         return $this->count;
     }
-
+    /**
+     * Returns true if this list contains no items.  This is exactly 
+     * equivalent to testing count for 0.
+     *
+     * @return bool Returns true if the colleciton contains no items.
+     */
     public function isEmpty() {
         return $this->count === 0;
     }
 
+    /**
+     * Removes all items from the list.
+     *
+     * @return void
+     */
     public function clear() {
         $this->list->setSize(1);
         unset($this->list[0]);
         $this->count = 0;
     }
 
+    /**
+     * Returns true if the list contains the given item at least once.
+     * 
+     * @param mixed $item Item whose presence is to be tested.
+     * @return bool Returns true if the list contains the item.
+     */
     public function contains($item) {
         for ($i = 0; $i < $this->count; $i++) {
             $value = $this->list[$i];
@@ -111,33 +181,11 @@ class ArrayList implements \IteratorAggregate, Vector, \Serializable {
         return false;
     }
 
-    public function serialize() {
-        return serialize(
-                array(
-                    $this->count,
-                    $this->list
-                )
-            );
-    }
-
-    public function unserialize($string) {
-        $array = unserialize($string);
-        if (!is_array($array)) {
-            //error
-        }
-        if (!isset($array[0]) || filter_var($array[0], FILTER_VALIDATE_INT)===false) {
-            // error
-        }
-        if (!isset($array[1]) || !($array[1] instanceof SplFixedArray)) {
-            //error
-        }
-        if ($array[0] > count($array[1]) || $array[0] < 0) {
-            //error
-        }
-        $this->count = $array[0];
-        $this->list->fromArray($array[1]);
-    }
-
+    /**
+     * Returns an external iterator.
+     *
+     * @return Traversable A traversable object.
+     */
     public function getIterator() {
         return new \ArrayIterator($this->list);
     }
