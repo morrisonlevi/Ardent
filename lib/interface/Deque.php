@@ -1,7 +1,9 @@
 <?php
 namespace Spl;
 
-interface Deque extends \Countable {
+require_once 'Collection.php';
+
+interface Deque extends Collection {
 
     /**
      * Retrieves the head item of the deque without removing it.
