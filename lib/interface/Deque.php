@@ -19,7 +19,6 @@ interface Deque extends \Countable {
      */
     function peekTail();
 
-
     /**
      * Removes the tail item of the deque and returns it.
      *
@@ -27,7 +26,6 @@ interface Deque extends \Countable {
      * @throws \UnderflowException if the deque is empty.
      */
     function pop();
-    
 
     /**
      * Adds the given item to the tail of the deque.
@@ -36,7 +34,6 @@ interface Deque extends \Countable {
      * @return void
      */
     function push($item);
-    
 
     /**
      * Removes the head item of the deque and returns it.
