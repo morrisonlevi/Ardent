@@ -12,6 +12,15 @@ interface Deque extends \Countable {
     function peek();
 
     /**
+     * Retrieves the tail item of the deque without removing it.
+     *
+     * @return mixed The tail item in the deque.
+     * @throws \UnderflowException if the deque is empty.
+     */
+    function peekTail();
+
+
+    /**
      * Removes the tail item of the deque and returns it.
      *
      * @return mixed The tail item in the deque.
