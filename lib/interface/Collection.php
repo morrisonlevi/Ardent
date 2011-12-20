@@ -5,7 +5,7 @@ namespace Spl;
  * By Collection, we do not mean the same thing as a Java collection. It is
  * simply a name by which we can give generic properties to.
  */
-interface Collection extends Countable, Traversable {
+interface Collection extends \Countable, \Traversable {
     /**
      * Removes all of the elements from the collection.
      *
