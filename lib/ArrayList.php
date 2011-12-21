@@ -128,6 +128,7 @@ class ArrayList implements \IteratorAggregate, Vector {
         }
         
         unset($this->list[$offset]);
+        $this->count--;
     }
     /**
      * Returns the number of items in the list.
