@@ -1,7 +1,6 @@
 <?php
-namespace Spl;
 
-require_once 'Collection.php';
+namespace Spl\Interfaces;
 
 interface Deque extends Collection {
 
@@ -52,7 +51,4 @@ interface Deque extends Collection {
      * @return void
      */
     function unshift($item);
-
 }
-
-?>

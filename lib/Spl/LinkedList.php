@@ -1,14 +1,19 @@
 <?php
 namespace Spl;
+use SplDoublyLinkedList;
+use Iterator;
+use Spl\Interfaces\Vector;
+use Spl\Interfaces\Deque;
 
-require_once 'interface/Vector.php';
-require_once 'interface/Deque.php';
+use OutOfRangeException;
+use OutOfBoundsException;
+use UnderflowException;
 
 /**
  * An initial API for LinkedList. A LinkedList is a doubly-linked list that can
  * be used like an array or a double-ended queue (commonly called a Deque).
  */
-class LinkedList implements \Iterator, Vector, Deque {
+class LinkedList implements Iterator, Vector, Deque {
 
     /**
      * @var \SplDoublyLinkedList
@@ -20,12 +25,12 @@ class LinkedList implements \Iterator, Vector, Deque {
      * be used like an array or a double-ended queue (commonly called a Deque).
      */
     public function __construct() {
-        $this->list = new \SplDoublyLinkedList();
+        $this->list = new SplDoublyLinkedList();
     }
 
     /**
      * Returns the number of items in the list.
-     * 
+     *
      * @return int The size of the list.
      */
     public function count() {
@@ -33,7 +38,7 @@ class LinkedList implements \Iterator, Vector, Deque {
     }
 
     /**
-     * Returns true if this list contains no items.  This is exactly 
+     * Returns true if this list contains no items.  This is exactly
      * equivalent to testing count for 0.
      *
      * @return bool Returns true if the colleciton contains no items.
@@ -48,12 +53,12 @@ class LinkedList implements \Iterator, Vector, Deque {
      * @return void
      */
     public function clear() {
-        $this->list = new \SplDoublyLinkedList();
+        $this->list = new SplDoublyLinkedList();
     }
-    
+
     /**
      * Returns true if the list contains the given item at least once.
-     * 
+     *
      * @param mixed $item Item whose presence is to be tested.
      * @return bool Returns true if the list contains the item.
      */
@@ -77,10 +82,10 @@ class LinkedList implements \Iterator, Vector, Deque {
      */
     public function offsetGet($index) {
         if (filter_var($index, FILTER_VALIDATE_INT) === false) {
-            throw new \OutOfRangeException('Invalid index type: expected int.');
+            throw new OutOfRangeException('Invalid index type: expected int.');
         }
         if ($index < 0 || $index >= $this->list->count()) {
-            throw new \OutOfBoundsException("Index '$index' is out-of-bounds.");
+            throw new OutOfBoundsException("Index '$index' is out-of-bounds.");
         }
 
         return $this->list[$index];
@@ -100,12 +105,12 @@ class LinkedList implements \Iterator, Vector, Deque {
             $this->list[] = $value;
         } else {
             if (filter_var($index, FILTER_VALIDATE_INT) === false) {
-                throw new \OutOfRangeException(
+                throw new OutOfRangeException(
                     'Invalid index type: expected int.'
                 );
             }
             if ($index < 0 || $index >= $this->list->count()) {
-                throw new \OutOfBoundsException(
+                throw new OutOfBoundsException(
                     "Index '$index' is out-of-bounds."
                 );
             }
@@ -137,10 +142,10 @@ class LinkedList implements \Iterator, Vector, Deque {
      */
     public function offsetUnset($index) {
         if (filter_var($index, FILTER_VALIDATE_INT) === false) {
-            throw new \OutOfRangeException('Invalid index type: expected int');
+            throw new OutOfRangeException('Invalid index type: expected int');
         }
         if ($index < 0 || $index >= $this->list->count()) {
-            throw new \OutOfBoundsException("Index '$index' is out-of-bounds");
+            throw new OutOfBoundsException("Index '$index' is out-of-bounds");
         }
 
         unset($this->list[$index]);
@@ -154,7 +159,7 @@ class LinkedList implements \Iterator, Vector, Deque {
      */
     public function peek() {
         if ($this->list->count() === 0) {
-            throw new \UnderflowException(
+            throw new UnderflowException(
                 'Cannot peek from an empty structure.'
             );
         }
@@ -170,7 +175,7 @@ class LinkedList implements \Iterator, Vector, Deque {
      */
     public function peekTail() {
         if ($this->list->count() === 0) {
-            throw new \UnderflowException(
+            throw new UnderflowException(
                 'Cannot peek at the tail of an empty structure.'
             );
         }
@@ -186,7 +191,7 @@ class LinkedList implements \Iterator, Vector, Deque {
      */
     public function pop() {
         if ($this->list->count() === 0) {
-            throw new \UnderflowException(
+            throw new UnderflowException(
                 'Cannot pop from an empty structure.'
             );
         }
@@ -212,7 +217,7 @@ class LinkedList implements \Iterator, Vector, Deque {
      */
     public function shift() {
         if ($this->list->count() === 0) {
-            throw new \UnderflowException(
+            throw new UnderflowException(
                 'Cannot shift from an empty structure.'
             );
         }
@@ -276,5 +281,3 @@ class LinkedList implements \Iterator, Vector, Deque {
     }
 
 }
-
-?>
