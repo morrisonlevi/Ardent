@@ -129,28 +129,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers {className}::{origMethodName}
-     * @todo Implement testSerialize().
-     */
-    public function testSerialize() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers {className}::{origMethodName}
-     * @todo Implement testUnserialize().
-     */
-    public function testUnserialize() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers {className}::{origMethodName}
      * @todo Implement testGetIterator().
      */
     public function testGetIterator() {
