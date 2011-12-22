@@ -2,23 +2,28 @@
 
 namespace Spl;
 
-require_once 'interface/Vector.php';
+use ArrayIterator;
+use IteratorAggregate;
+use SplFixedArray;
+use Spl\Interfaces\Vector;
+
+use OutOfRangeException;
+use OutOfBoundsException;
 
 /**
  * An initial API for ArrayList. It would essentially be a high-level of
- * abstraction with a low-level implementation for performance. PHP's arrays 
+ * abstraction with a low-level implementation for performance. PHP's arrays
  * are really poor if you just want true index-based datastructures.
- * 
+ *
  * Note that IteratorAggregate must come before Vector or PHP will fail to
  * work correctly.  This is a bug regarding Traversable.
  */
-class ArrayList implements \IteratorAggregate, Vector {
+class ArrayList implements IteratorAggregate, Vector {
 
     /**
      * @var \SplFixedArray
      */
     private $list;
-    
     /**
      * @var int The number of slots used.
      */
@@ -28,10 +33,19 @@ class ArrayList implements \IteratorAggregate, Vector {
      * Creates a new ArrayList.
      */
     public function __construct() {
-        $this->list = new \SplFixedArray(1);
+        $this->list = new SplFixedArray(0);
         $this->count = 0;
     }
-    
+
+    /**
+     * Returns the collection flattened into a normal array
+     *
+     * @return array The data from the collection
+     */
+    public function toArray() {
+        return array_slice($this->list->toArray(), 0, $this->count);
+    }
+
     /**
      * Returns the value at the specified position.
      *
@@ -42,9 +56,9 @@ class ArrayList implements \IteratorAggregate, Vector {
      */
     public function offsetGet($offset) {
         if (filter_var($offset, FILTER_VALIDATE_INT) === false) {
-            throw new \OutOfRangeException("Invalid index type: expected int");
+            throw new OutOfRangeException("Invalid index type: expected int");
         } else if ($offset < 0 || $offset >= $this->count) {
-            throw new \OutOfBoundsException(
+            throw new OutOfBoundsException(
                 "Index '$offset' is out-of-bounds."
             );
         }
@@ -58,9 +72,13 @@ class ArrayList implements \IteratorAggregate, Vector {
      * @return void
      */
     protected function grow() {
-        $this->list->setSize($this->list->getSize() * 2);
+        $size = $this->list->getSize() * 2;
+        if (!$size) {
+            $size = 2;
+        }
+        $this->list->setSize($size);
     }
-    
+
     /**
      * Set the value at the specified position to the given value.
      *
@@ -85,16 +103,20 @@ class ArrayList implements \IteratorAggregate, Vector {
                 throw new \OutOfRangeException(
                     "Invalid index type: expected int"
                 );
-            } else if ($offset < 0 || $offset >= $this->list->getSize()) {
-                throw new \OutOfBoundsException(
+            } else if ($offset < 0 || $offset > $this->count) {
+                throw new OutOfBoundsException(
                     "Index '$offset' out-of-bounds."
                 );
             }
+            if ($offset == $this->count) {
+                $this->offsetSet(null, $value);
+            } else {
+                $this->list[$offset] = $value;
+            }
 
-            $this->list[$offset] = $value;
         }
     }
-    
+
     /**
      * Returns whether the requested index exists.
      *
@@ -102,12 +124,11 @@ class ArrayList implements \IteratorAggregate, Vector {
      * @return bool Returns true if the index exists.
      */
     public function offsetExists($offset) {
-        return  filter_var($offset, FILTER_VALIDATE_INT) !== false
-                && $offset >= 0
-                && $offset < $this->count;
-        
+        return filter_var($offset, FILTER_VALIDATE_INT) !== false
+        && $offset >= 0
+        && $offset < $this->count;
     }
-    
+
     /**
      * Unsets the value at the specified position.
      *
@@ -122,24 +143,26 @@ class ArrayList implements \IteratorAggregate, Vector {
                 "Invalid index type: expected int"
             );
         } else if ($offset < 0 || $offset >= $this->list->getSize()) {
-            throw new \OutOfBoundsException(
+            throw new OutOfBoundsException(
                 "Index '$offset' out-of-bounds."
             );
         }
-        
+
         unset($this->list[$offset]);
         $this->count--;
     }
+
     /**
      * Returns the number of items in the list.
-     * 
+     *
      * @return int The size of the list.
      */
     public function count() {
         return $this->count;
     }
+
     /**
-     * Returns true if this list contains no items.  This is exactly 
+     * Returns true if this list contains no items.  This is exactly
      * equivalent to testing count for 0.
      *
      * @return bool Returns true if the colleciton contains no items.
@@ -154,14 +177,13 @@ class ArrayList implements \IteratorAggregate, Vector {
      * @return void
      */
     public function clear() {
-        $this->list->setSize(1);
-        unset($this->list[0]);
+        $this->list->setSize(0);
         $this->count = 0;
     }
 
     /**
      * Returns true if the list contains the given item at least once.
-     * 
+     *
      * @param mixed $item Item whose presence is to be tested.
      * @return bool Returns true if the list contains the item.
      */
@@ -188,9 +210,41 @@ class ArrayList implements \IteratorAggregate, Vector {
      * @return Traversable A traversable object.
      */
     public function getIterator() {
-        return new \ArrayIterator($this->list);
+        return new ArrayIterator($this->toArray());
+    }
+
+    /**
+     * Apply an arbitrary callback to each element of the collection, returning the
+     * same structure with the return values in place
+     *
+     * @param Callable $callback The callback to apply: func($value, $key)
+     *
+     * @return Collection the same structure, with values replaced
+     */
+    public function map($callback) {
+        $newList = new self;
+        foreach ($this as $key => $value) {
+            $newList[$key] = $callback($value);
+        }
+        return $newList;
+    }
+
+    /**
+     * Apply an arbitrary callback to each element of the collection, returning the
+     * same structure with only items the callback returns true.
+     *
+     * @param Callable $callback The callback to apply: func($value, $key)
+     *
+     * @return Collection The same structure, with filtered values only
+     */
+    public function filter($callback) {
+        $newList = new self;
+        foreach ($this as $key => $value) {
+            if ($callback($value)) {
+                $newList[$key] = $value;
+            }
+        }
+        return $newList;
     }
 
 }
-
-?>
