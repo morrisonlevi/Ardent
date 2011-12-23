@@ -224,7 +224,7 @@ class ArrayList implements IteratorAggregate, Vector {
     public function map($callback) {
         $newList = new self;
         foreach ($this as $key => $value) {
-            $newList[$key] = $callback($value);
+            $newList[] = $callback($value, $key);
         }
         return $newList;
     }
@@ -240,8 +240,8 @@ class ArrayList implements IteratorAggregate, Vector {
     public function filter($callback) {
         $newList = new self;
         foreach ($this as $key => $value) {
-            if ($callback($value)) {
-                $newList[$key] = $value;
+            if ($callback($value, $key)) {
+                $newList[] = $value;
             }
         }
         return $newList;
