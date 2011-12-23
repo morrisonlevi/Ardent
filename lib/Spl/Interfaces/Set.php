@@ -2,7 +2,9 @@
 
 namespace Spl\Interfaces;
 
-interface Set extends \Collection {
+use \Spl\Interfaces\Collection;
+
+interface Set extends Collection {
 
     /**
      * Add a new element to the set, only if it does not already exist
