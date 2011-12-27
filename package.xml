@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.10" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0        http://pear.php.net/dtd/tasks-1.0.xsd        http://pear.php.net/dtd/package-2.0        http://pear.php.net/dtd/package-2.0.xsd">
+  <name>PHP_Datastructures</name>
+  <channel>pear.php.net</channel>
+  <summary>PHP Data structures</summary>
+  <description>PHP Data structures</description>
+  <lead>
+    <name>Levi Morrison</name>
+    <user/>
+    <email>morrisonlevi@github.com</email>
+    <active>yes</active>
+  </lead>
+  <date>2011-12-27</date>
+  <time>10:40:39</time>
+  <version>
+    <release>0.1</release>
+    <api>0.1</api>
+  </version>
+  <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+  </stability>
+  <license>PHP</license>
+  <notes>-</notes>
+  <contents>
+    <dir name="/">
+      <file name="lib/bootstrap.php" role="php" md5sum="9d57adbea0c06339711eb9f3d6ad16d4"/>
+      <file name="lib/Spl/ArrayList.php" role="php" md5sum="9bc22cd9ba1578c3e751299dabb82e45"/>
+      <file name="lib/Spl/HashSet.php" role="php" md5sum="e45bac640f3e6b7d0ba872868fc9d860"/>
+      <file name="lib/Spl/HashSetIterator.php" role="php" md5sum="26563c454d809381791a8fa8097445db"/>
+      <file name="lib/Spl/Interfaces/Collection.php" role="php" md5sum="9693bdd5350041dd7ca5131d0575e23f"/>
+      <file name="lib/Spl/Interfaces/Deque.php" role="php" md5sum="1e76922526b6bbaecf25fa264c559b44"/>
+      <file name="lib/Spl/Interfaces/Queue.php" role="php" md5sum="40c8b1b114e5836b5399638a1154e814"/>
+      <file name="lib/Spl/Interfaces/Set.php" role="php" md5sum="176845c7d48c20378140affe1f3e3aa8"/>
+      <file name="lib/Spl/Interfaces/SetIterator.php" role="php" md5sum="c0bac12e7908950ad44ae7efc99f5747"/>
+      <file name="lib/Spl/Interfaces/Stack.php" role="php" md5sum="ff3761ec7349272060be997318a54007"/>
+      <file name="lib/Spl/Interfaces/Vector.php" role="php" md5sum="0e031663340baa7fb5e1f1bc56883829"/>
+      <file name="lib/Spl/LinkedList.php" role="php" md5sum="4d656997c6ceb4e4aa5b6b734ebda61d"/>
+    </dir>
+  </contents>
+  <dependencies>
+    <required>
+      <php>
+        <min>5.3</min>
+      </php>
+      <pearinstaller>
+        <min>1.4</min>
+      </pearinstaller>
+    </required>
+  </dependencies>
+  <phprelease>
+    <filelist>
+      <install name="lib/bootstrap.php" as="bootstrap.php"/>
+      <install name="lib/Spl/ArrayList.php" as="Spl/ArrayList.php"/>
+      <install name="lib/Spl/HashSet.php" as="Spl/HashSet.php"/>
+      <install name="lib/Spl/HashSetIterator.php" as="Spl/HashSetIterator.php"/>
+      <install name="lib/Spl/Interfaces/Collection.php" as="Spl/Interfaces/Collection.php"/>
+      <install name="lib/Spl/Interfaces/Deque.php" as="Spl/Interfaces/Deque.php"/>
+      <install name="lib/Spl/Interfaces/Queue.php" as="Spl/Interfaces/Queue.php"/>
+      <install name="lib/Spl/Interfaces/Set.php" as="Spl/Interfaces/Set.php"/>
+      <install name="lib/Spl/Interfaces/SetIterator.php" as="Spl/Interfaces/SetIterator.php"/>
+      <install name="lib/Spl/Interfaces/Stack.php" as="Spl/Interfaces/Stack.php"/>
+      <install name="lib/Spl/Interfaces/Vector.php" as="Spl/Interfaces/Vector.php"/>
+      <install name="lib/Spl/LinkedList.php" as="Spl/LinkedList.php"/>
+    </filelist>
+  </phprelease>
+</package>
