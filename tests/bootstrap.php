@@ -1,9 +1,7 @@
 <?php
 
 spl_autoload_register(function ($class) {
-    $path = '/' . str_replace('\\', '/', $class);
-    $path = __DIR__ . $path . '.php';
-//    var_dump($path);
+    $path = 'src' . DIRECTORY_SEPARATOR . str_replace('\\',  DIRECTORY_SEPARATOR , $class) . '.php';
     if (file_exists($path)) {
         require $path;
     }

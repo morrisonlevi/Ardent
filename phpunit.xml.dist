@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="true"
          backupStaticAttributes="false"
-         bootstrap="./bootstrap.php"
+         bootstrap="tests/bootstrap.php"
          colors="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -18,7 +18,7 @@
          verbose="false">
     <testsuites>
         <testsuite name="Spl">
-            <directory>./Spl</directory>
+            <directory>tests/Spl</directory>
         </testsuite>
     </testsuites>
     <filter>
