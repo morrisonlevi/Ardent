@@ -60,4 +60,10 @@ interface Vector extends ArrayAccess, Collection {
      */
     function slice($startIndex, $numberOfItemsToRemove = NULL);
 
+    /**
+     * @abstract
+     * @return array
+     */
+    function toArray();
+
 }
