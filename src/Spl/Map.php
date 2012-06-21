@@ -9,18 +9,18 @@ interface Map extends ArrayAccess, Collection {
 
     /**
      * @abstract
-     * @param Comparable $key
+     * @param $key
      * @return mixed
      */
-    function get(Comparable $key);
+    function get($key);
 
     /**
      * @abstract
-     * @param Comparable $key
+     * @param $key
      * @param mixed $value
      * @return void
      */
-    function insert(Comparable $key, $value);
+    function insert($key, $value);
 
     /**
      * @abstract
@@ -31,10 +31,10 @@ interface Map extends ArrayAccess, Collection {
 
     /**
      * @abstract
-     * @param Comparable $key
+     * @param  $key
      * @return mixed
      */
-    function remove(Comparable $key);
+    function remove( $key);
 
     /**
      * @abstract
