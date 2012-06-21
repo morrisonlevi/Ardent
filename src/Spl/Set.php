@@ -10,6 +10,7 @@ interface Set extends Collection {
      * @abstract
      * @param $item
      * @return void
+     * @throws InvalidTypeException when $item is not the correct type.
      */
     function add($item);
 
@@ -17,13 +18,15 @@ interface Set extends Collection {
      * @abstract
      * @param Traversable $items
      * @return void
+     * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
-    function addAll($items);
+    function addAll(Traversable $items);
 
     /**
      * @abstract
      * @param $item
      * @return void
+     * @throws InvalidTypeException when $item is not the correct type.
      */
     function remove($item);
 
@@ -31,7 +34,7 @@ interface Set extends Collection {
      * @abstract
      * @param Traversable $items
      * @return mixed
-     * @throws \Exception when the Traversable does not include an item of type Comparable.
+     * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
     function removeAll($items);
 
@@ -39,7 +42,7 @@ interface Set extends Collection {
      * @abstract
      * @param Traversable $items
      * @return mixed
-     * @throws \Exception when the Traversable does not include an item of type Comparable.
+     * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
     function retainAll($items);
 
