@@ -10,6 +10,13 @@ interface Map extends ArrayAccess, Collection {
     /**
      * @abstract
      * @param Comparable $key
+     * @return mixed
+     */
+    function get(Comparable $key);
+
+    /**
+     * @abstract
+     * @param Comparable $key
      * @param mixed $value
      * @return void
      */
