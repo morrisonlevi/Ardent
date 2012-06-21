@@ -8,32 +8,24 @@ interface Set extends Collection {
 
     /**
      * @abstract
-     * @param Comparable $item
+     * @param $item
      * @return void
      */
-    function add(Comparable $item);
+    function add($item);
 
     /**
      * @abstract
      * @param Traversable $items
      * @return void
      */
-    function addAll(Traversable $items);
+    function addAll($items);
 
     /**
      * @abstract
-     * @param Comparable $item
+     * @param $item
      * @return void
      */
-    function remove(Comparable $item);
-
-    /**
-     * @abstract
-     * @param Traversable $items
-     * @return mixed
-     * @throws \Exception when the Traversable does not include an item of type Comparable.
-     */
-    function removeAll(Traversable $items);
+    function remove($item);
 
     /**
      * @abstract
@@ -41,6 +33,14 @@ interface Set extends Collection {
      * @return mixed
      * @throws \Exception when the Traversable does not include an item of type Comparable.
      */
-    function retainAll(Traversable $items);
+    function removeAll($items);
+
+    /**
+     * @abstract
+     * @param Traversable $items
+     * @return mixed
+     * @throws \Exception when the Traversable does not include an item of type Comparable.
+     */
+    function retainAll($items);
 
 }
