@@ -16,15 +16,13 @@ use ArrayAccess,
 interface Vector extends ArrayAccess, Collection {
 
     /**
-     * Adds the object to the end of the vector (the last iterated value).
      * @abstract
-     * @param Comparable $value
+     * @param  $value
      * @return void
      */
-    function add(Comparable $value);
+    function append($value);
 
     /**
-     * Adds the object to the end of the vector (the last iterated value).
      * @abstract
      * @param int $index
      * @return void
@@ -36,12 +34,12 @@ interface Vector extends ArrayAccess, Collection {
     /**
      * @abstract
      * @param int $index
-     * @param Comparable $value
+     * @param $value
      * @return void
      * @throws \InvalidArgumentException when $index is not an integer
      * @throws OutOfBoundsException when $index < 0 or $index >= count($this)
      */
-    function set($index, Comparable $value);
+    function set($index, $value);
 
     /**
      * @abstract
@@ -53,10 +51,10 @@ interface Vector extends ArrayAccess, Collection {
 
     /**
      * @abstract
-     * @param Comparable $object
-     * @return Comparable
+     * @param  $object
+     * @return
      */
-    function removeObject(Comparable $object);
+    function removeObject($object);
 
     /**
      * @abstract
