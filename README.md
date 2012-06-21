@@ -8,6 +8,6 @@ The current Standard PHP Library (SPL) has many problems, some of which are docu
 
 ### How can I help?
 
-At the moment, I do not really need any help.  I have a small group of people* who I regularly discuss PHP matters with. For now they are all the help that I need.
+At the moment, I do not really need any help.  I have a small group of people* who I regularly discuss PHP matters with. For now they are all the help that I need. Later on, I will need people to write applications with the new library and give me precious feedback.  I hope you come back to help!
 
 <sup> * *I hope you guys know who you are.  I really appreciate you.*</sup>
