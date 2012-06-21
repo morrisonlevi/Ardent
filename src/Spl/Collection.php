@@ -27,10 +27,10 @@ interface Collection extends Countable, Traversable /*, \Serializable  */ {
 
     /**
      * @abstract
-     * @param Comparable $object
+     * @param $object
      * @return bool
      */
-    function contains(Comparable $object);
+    function contains($object);
 
     /**
      * @abstract
