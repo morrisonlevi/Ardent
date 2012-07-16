@@ -36,7 +36,7 @@ interface Set extends Collection {
      * @return mixed
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
-    function removeAll($items);
+    function removeAll(Traversable $items);
 
     /**
      * @abstract
@@ -44,6 +44,6 @@ interface Set extends Collection {
      * @return mixed
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
-    function retainAll($items);
+    function retainAll(Traversable $items);
 
 }
