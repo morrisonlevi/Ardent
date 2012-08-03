@@ -67,20 +67,14 @@ class PostOrderIterator implements Iterator {
         $this->value = $this->stack->pop();
 
         $right = $this->value->getRight();
-        if ($right !== NULL && !$this->stack->isEmpty() && ($right === $this->stack->peek())) {
+        if ($right !== NULL && !$this->stack->isEmpty() && $right === $this->stack->peek()) {
             $this->stack->pop();
             $this->stack->push($this->value);
-            $this->value = $this->value->getRight();
-            $this->current = $this->value;
+            $this->value = $right;
+            $this->next();
         } else {
-
-            if ($this->current === $this->value) {
-                $this->value = NULL;
-                $this->next();
-            } else {
-                $this->current = $this->value;
-                $this->value = NULL;
-            }
+            $this->current = $this->value;
+            $this->value = NULL;
         }
 
     }
