@@ -5,34 +5,6 @@ namespace Spl;
 use ArrayIterator,
     Iterator;
 
-class _LevelOrderIterator extends ArrayIterator {
-
-    public function __construct(BinaryNode $root) {
-
-        $array = array();
-        $queue = array();
-        array_push($queue, $root);
-        while (!empty($queue)) {
-            /**
-             * @var BinaryNode $node
-             */
-            $node = array_shift($queue);
-            $array[] = $node->getValue();
-
-            $left = $node->getLeft();
-            $right = $node->getRight();
-            if ($left !== NULL) {
-                array_push($queue, $left);
-            }
-            if ($right !== NULL) {
-                array_push($queue, $right);
-            }
-        }
-
-        parent::__construct($array);
-    }
-}
-
 class LevelOrderIterator implements Iterator {
 
     /**

@@ -3,7 +3,7 @@
 namespace Spl;
 
 use Iterator,
-    Traversable;
+Traversable;
 
 class HashSet implements Iterator, Set {
 
