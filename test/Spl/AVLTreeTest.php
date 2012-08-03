@@ -71,16 +71,70 @@ class AVLTreeTest extends \PHPUnit_Framework_TestCase {
      * @depends testRightLeft
      * @depends testLeftRight
      */
-    public function testRemoveBasic() {
-        $this->object->add(5);
-        $this->object->add(3);
+    public function testRemoveLeaf() {
         $this->object->add(4);
+        $this->object->add(3);
+        $this->object->add(5);
+
+        $this->object->remove(3);
+
+        $root = new BinaryNode(4);
+        $root->setRight(new BinaryNode(5));
+        $this->reCalculateHeights($root);
+
+        $this->assertEquals($root, $this->object->getRoot());
+    }
+
+    /**
+     * @covers Spl\AVLTree::remove
+     * @depends testRightLeft
+     * @depends testLeftRight
+     */
+    public function testRemoveWithLeftChild() {
+        $this->object->add(4);
+        $this->object->add(3);
+        $this->object->add(5);
         $this->object->add(1);
 
         $this->object->remove(3);
 
         $root = new BinaryNode(4);
         $root->setLeft(new BinaryNode(1));
+        $root->setRight(new BinaryNode(5));
+        $this->reCalculateHeights($root);
+
+        $this->assertEquals($root, $this->object->getRoot());
+    }
+
+    /**
+     * @covers Spl\AVLTree::remove
+     * @depends testRightLeft
+     * @depends testLeftRight
+     */
+    public function testRemoveWithRightChild() {
+        $this->object->add(4);
+        $this->object->add(3);
+        $this->object->add(5);
+        $this->object->add(7);
+
+        $this->object->remove(5);
+
+        $root = new BinaryNode(4);
+        $root->setLeft(new BinaryNode(3));
+        $root->setRight(new BinaryNode(7));
+        $this->reCalculateHeights($root);
+
+        $this->assertEquals($root, $this->object->getRoot());
+    }
+
+    public function testRemoveWithBothChildren() {
+        $this->object->add(4);
+        $this->object->add(3);
+        $this->object->add(5);
+
+        $this->object->remove(4);
+
+        $root = new BinaryNode(3);
         $root->setRight(new BinaryNode(5));
         $this->reCalculateHeights($root);
 

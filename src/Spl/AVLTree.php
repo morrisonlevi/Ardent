@@ -249,7 +249,7 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         $toFind = $this->getInOrderPredecessor($node);
         $value = $toFind->getValue();
 
-        $this->removeNode($value, $node->getLeft());
+        $node->setLeft($this->removeNode($value, $node->getLeft()));
 
         $node->setValue($value);
 
