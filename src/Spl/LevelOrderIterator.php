@@ -2,14 +2,43 @@
 
 namespace Spl;
 
-use Iterator;
+use ArrayIterator,
+    Iterator;
 
-class InOrderIterator implements Iterator {
+class _LevelOrderIterator extends ArrayIterator {
+
+    public function __construct(BinaryNode $root) {
+
+        $array = array();
+        $queue = array();
+        array_push($queue, $root);
+        while (!empty($queue)) {
+            /**
+             * @var BinaryNode $node
+             */
+            $node = array_shift($queue);
+            $array[] = $node->getValue();
+
+            $left = $node->getLeft();
+            $right = $node->getRight();
+            if ($left !== NULL) {
+                array_push($queue, $left);
+            }
+            if ($right !== NULL) {
+                array_push($queue, $right);
+            }
+        }
+
+        parent::__construct($array);
+    }
+}
+
+class LevelOrderIterator implements Iterator {
 
     /**
-     * @var ArrayStack
+     * @var array
      */
-    protected $stack;
+    protected $queue = array();
 
     /**
      * @var BinaryNode
@@ -22,7 +51,6 @@ class InOrderIterator implements Iterator {
     protected $value;
 
     public function __construct(BinaryNode $root) {
-        $this->stack = new ArrayStack;
         $this->root = $root;
     }
 
@@ -42,21 +70,24 @@ class InOrderIterator implements Iterator {
         /**
          * @var BinaryNode $node
          */
-        $node = $this->stack->pop();
+        $node = array_shift($this->queue);
+
+        $left = $node->getLeft();
+        if ($left !== NULL) {
+            $this->queue[] = $left;
+        }
 
         $right = $node->getRight();
         if ($right !== NULL) {
-            // left-most branch of the right side
-            for ($left = $right; $left !== NULL; $left = $left->getLeft()) {
-                $this->stack->push($left);
-            }
+            $this->queue[] = $right;
         }
 
-        if ($this->stack->isEmpty()) {
+        if (empty($this->queue)) {
             $this->value = NULL;
             return;
         }
-        $this->value = $this->stack->peek();
+
+        $this->value = $this->queue[0];
 
     }
 
@@ -81,12 +112,7 @@ class InOrderIterator implements Iterator {
      * @return void
      */
     public function rewind() {
-        $this->stack->clear();
-
-        for ($current = $this->root; $current !== NULL; $current = $current->getLeft()) {
-            $this->stack->push($current);
-        }
-
-        $this->value = $this->stack->peek();
+        $this->queue = array($this->root);
+        $this->value = $this->root;
     }
 }

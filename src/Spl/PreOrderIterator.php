@@ -4,7 +4,7 @@ namespace Spl;
 
 use Iterator;
 
-class InOrderIterator implements Iterator {
+class PreOrderIterator implements Iterator {
 
     /**
      * @var ArrayStack
@@ -46,10 +46,12 @@ class InOrderIterator implements Iterator {
 
         $right = $node->getRight();
         if ($right !== NULL) {
-            // left-most branch of the right side
-            for ($left = $right; $left !== NULL; $left = $left->getLeft()) {
-                $this->stack->push($left);
-            }
+            $this->stack->push($right);
+        }
+
+        $left = $node->getLeft();
+        if ($left !== NULL) {
+            $this->stack->push($left);
         }
 
         if ($this->stack->isEmpty()) {
@@ -83,10 +85,8 @@ class InOrderIterator implements Iterator {
     public function rewind() {
         $this->stack->clear();
 
-        for ($current = $this->root; $current !== NULL; $current = $current->getLeft()) {
-            $this->stack->push($current);
-        }
+        $this->stack->push($this->root);
 
-        $this->value = $this->stack->peek();
+        $this->value = $this->root;
     }
 }

@@ -4,7 +4,7 @@ namespace Spl;
 
 use Iterator;
 
-class InOrderIterator implements Iterator {
+class PostOrderIterator implements Iterator {
 
     /**
      * @var ArrayStack
@@ -21,6 +21,11 @@ class InOrderIterator implements Iterator {
      */
     protected $value;
 
+    /**
+     * @var BinaryNode
+     */
+    protected $current;
+
     public function __construct(BinaryNode $root) {
         $this->stack = new ArrayStack;
         $this->root = $root;
@@ -31,7 +36,7 @@ class InOrderIterator implements Iterator {
      * @return mixed
      */
     public function current() {
-        return $this->value->getValue();
+        return $this->current->getValue();
     }
 
     /**
@@ -42,21 +47,41 @@ class InOrderIterator implements Iterator {
         /**
          * @var BinaryNode $node
          */
-        $node = $this->stack->pop();
-
-        $right = $node->getRight();
-        if ($right !== NULL) {
-            // left-most branch of the right side
-            for ($left = $right; $left !== NULL; $left = $left->getLeft()) {
-                $this->stack->push($left);
+        if ($this->value !== NULL) {
+            $right = $this->value->getRight();
+            if ($right !== NULL) {
+                $this->stack->push($right);
             }
+            $this->stack->push($this->value);
+            $this->value = $this->value->getLeft();
+            $this->next();
+            return;
         }
 
         if ($this->stack->isEmpty()) {
+            $this->current = $this->value;
             $this->value = NULL;
             return;
         }
-        $this->value = $this->stack->peek();
+
+        $this->value = $this->stack->pop();
+
+        $right = $this->value->getRight();
+        if ($right !== NULL && !$this->stack->isEmpty() && ($right === $this->stack->peek())) {
+            $this->stack->pop();
+            $this->stack->push($this->value);
+            $this->value = $this->value->getRight();
+            $this->current = $this->value;
+        } else {
+
+            if ($this->current === $this->value) {
+                $this->value = NULL;
+                $this->next();
+            } else {
+                $this->current = $this->value;
+                $this->value = NULL;
+            }
+        }
 
     }
 
@@ -73,7 +98,7 @@ class InOrderIterator implements Iterator {
      * @return boolean
      */
     public function valid() {
-        return $this->value !== NULL;
+        return $this->current !== NULL;
     }
 
     /**
@@ -83,10 +108,7 @@ class InOrderIterator implements Iterator {
     public function rewind() {
         $this->stack->clear();
 
-        for ($current = $this->root; $current !== NULL; $current = $current->getLeft()) {
-            $this->stack->push($current);
-        }
-
-        $this->value = $this->stack->peek();
+        $this->value = $this->root;
+        $this->next();
     }
 }

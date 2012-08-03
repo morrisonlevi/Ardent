@@ -331,91 +331,44 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         }
         switch ($order) {
             case self::TRAVERSE_LEVEL_ORDER:
-                $queue = array();
-                array_push($queue, $this->root);
-                while (!empty($queue)) {
-                    /**
-                     * @var BinaryNode $node
-                     */
-                    $node = array_shift($queue);
-                    $callback($node->getValue());
 
-                    $left = $node->getLeft();
-                    $right = $node->getRight();
-                    if ($left !== NULL) {
-                        array_push($queue, $left);
-                    }
-                    if ($right !== NULL) {
-                        array_push($queue, $right);
-                    }
-                }
+                $iterator = new LevelOrderIterator($this->root);
+//                $queue = array();
+//                array_push($queue, $this->root);
+//                while (!empty($queue)) {
+//                    /**
+//                     * @var BinaryNode $node
+//                     */
+//                    $node = array_shift($queue);
+//                    $callback($node->getValue());
+//
+//                    $left = $node->getLeft();
+//                    $right = $node->getRight();
+//                    if ($left !== NULL) {
+//                        array_push($queue, $left);
+//                    }
+//                    if ($right !== NULL) {
+//                        array_push($queue, $right);
+//                    }
+//                }
                 break;
 
             case self::TRAVERSE_PRE_ORDER:
-                $queue = array();
-                array_push($queue, $this->root);
-                while (!empty($queue)) {
-                    /**
-                     * @var BinaryNode $node
-                     */
-                    $node = array_pop($queue);
-
-                    $left = $node->getLeft();
-                    $right = $node->getRight();
-
-                    $callback($node->getValue());
-
-                    if ($left !== NULL) {
-                        array_push($queue, $left);
-                    }
-                    if ($right !== NULL) {
-                        array_push($queue, $right);
-                    }
-                }
+                $iterator = new PreOrderIterator($this->root);
                 break;
 
             case self::TRAVERSE_POST_ORDER:
-                $queue = array();
-                array_push($queue, $this->root);
-                while (!empty($queue)) {
-                    /**
-                     * @var BinaryNode $node
-                     */
-                    $node = array_pop($queue);
-
-                    $left = $node->getLeft();
-                    $right = $node->getRight();
-                    if ($left !== NULL) {
-                        array_push($queue, $left);
-                    }
-                    if ($right !== NULL) {
-                        array_push($queue, $right);
-                    }
-                    $callback($node->getValue());
-                }
+                $iterator = new PostOrderIterator($this->root);
                 break;
 
             case self::TRAVERSE_IN_ORDER:
             default:
-                $queue = array();
-                array_push($queue, $this->root);
-                while (!empty($queue)) {
-                    /**
-                     * @var BinaryNode $node
-                     */
-                    $node = array_pop($queue);
-
-                    $left = $node->getLeft();
-                    $right = $node->getRight();
-                    if ($left !== NULL) {
-                        array_push($queue, $left);
-                    }
-                    $callback($node->getValue());
-                    if ($right !== NULL) {
-                        array_push($queue, $right);
-                    }
-                }
+                $iterator = new InOrderIterator($this->root);
                 break;
+        }
+
+        foreach ($iterator as $item) {
+            $callback($item);
         }
     }
 
@@ -453,15 +406,15 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
     public function getIterator($order = self::TRAVERSE_IN_ORDER) {
         switch ($order) {
             case self::TRAVERSE_LEVEL_ORDER:
-                return new InOrderIterator($this->root);
+                return new LevelOrderIterator($this->root);
                 break;
 
             case self::TRAVERSE_PRE_ORDER:
-                return new InOrderIterator($this->root);
+                return new PreOrderIterator($this->root);
                 break;
 
             case self::TRAVERSE_POST_ORDER:
-                return new InOrderIterator($this->root);
+                return new PostOrderIterator($this->root);
                 break;
 
             case self::TRAVERSE_IN_ORDER:
