@@ -331,26 +331,7 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         }
         switch ($order) {
             case self::TRAVERSE_LEVEL_ORDER:
-
                 $iterator = new LevelOrderIterator($this->root);
-//                $queue = array();
-//                array_push($queue, $this->root);
-//                while (!empty($queue)) {
-//                    /**
-//                     * @var BinaryNode $node
-//                     */
-//                    $node = array_shift($queue);
-//                    $callback($node->getValue());
-//
-//                    $left = $node->getLeft();
-//                    $right = $node->getRight();
-//                    if ($left !== NULL) {
-//                        array_push($queue, $left);
-//                    }
-//                    if ($right !== NULL) {
-//                        array_push($queue, $right);
-//                    }
-//                }
                 break;
 
             case self::TRAVERSE_PRE_ORDER:
