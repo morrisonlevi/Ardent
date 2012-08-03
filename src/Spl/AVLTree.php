@@ -4,25 +4,43 @@ namespace Spl;
 
 class AVLTree implements \IteratorAggregate, BinaryTree {
 
+    /**
+     * @var BinaryNode
+     */
     private $root = NULL;
 
+    /**
+     * @var int
+     */
     private $size = 0;
 
+    /**
+     * @var callable
+     */
     protected $comparator = NULL;
+
+    const LEVEL_ORDER = 1;
+    const IN_ORDER = 2;
+    const PRE_ORDER = 3;
+    const POST_ORDER = 4;
 
     /**
      * @param callable $comparator
      */
     function __construct($comparator = NULL) {
-
         if ($this->comparator === NULL) {
             $this->comparator = array($this, 'compare');
         } else {
             $this->comparator = $comparator;
         }
-
     }
 
+    /**
+     * @param $a
+     * @param $b
+     *
+     * @return int
+     */
     private function compare($a, $b) {
         if ($a < $b) {
             return -1;
@@ -35,10 +53,19 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         }
     }
 
-    function add($element) {
+    /**
+     * @param $element
+     */
+    public function add($element) {
         $this->root = $this->addNode($element, $this->root);
     }
 
+    /**
+     * @param $element
+     * @param BinaryNode $node
+     *
+     * @return null|BinaryNode
+     */
     protected function addNode($element, BinaryNode $node = NULL) {
         if ($node === NULL) {
             $this->size++;
@@ -60,6 +87,11 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         return $node;
     }
 
+    /**
+     * @param BinaryNode $node
+     *
+     * @return null|BinaryNode
+     */
     protected function balance(BinaryNode $node = NULL) {
         if ($node === NULL) {
             return NULL;
@@ -82,6 +114,11 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         return $node;
     }
 
+    /**
+     * @param BinaryNode $root
+     *
+     * @return BinaryNode
+     */
     protected function rotateRight(BinaryNode $root) {
         $leftNode = $root->getLeft();
         $leftHeight = $this->getHeight($leftNode->getLeft());
@@ -99,6 +136,11 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         }
     }
 
+    /**
+     * @param BinaryNode $root
+     *
+     * @return BinaryNode
+     */
     protected function rotateLeft(BinaryNode $root) {
         $rightNode = $root->getRight();
         $leftHeight = $this->getHeight($rightNode->getLeft());
@@ -116,6 +158,11 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         }
     }
 
+    /**
+     * @param BinaryNode $root
+     *
+     * @return BinaryNode
+     */
     protected function rotateSingleRight(BinaryNode $root) {
         $pivot = $root->getLeft();
         $root->setLeft($pivot->getRight());
@@ -124,6 +171,11 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         return $pivot;
     }
 
+    /**
+     * @param BinaryNode $root
+     *
+     * @return BinaryNode
+     */
     protected function rotateSingleLeft(BinaryNode $root) {
         $pivot = $root->getRight();
         $root->setRight($pivot->getLeft());
@@ -132,6 +184,11 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         return $pivot;
     }
 
+    /**
+     * @param BinaryNode $node
+     *
+     * @return int
+     */
     private function getHeight(BinaryNode $node = NULL) {
         if ($node === NULL) {
             return 0;
@@ -145,7 +202,14 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         $this->root = $this->removeNode($element, $this->root);
     }
 
-    function removeNode($element, BinaryNode $node = NULL) {
+
+    /**
+     * @param $element
+     * @param BinaryNode $node
+     *
+     * @return null|BinaryNode
+     */
+    private function removeNode($element, BinaryNode $node = NULL) {
         if ($node === NULL) {
             return;
         }
@@ -197,6 +261,11 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         return $node;
     }
 
+    /**
+     * @param BinaryNode $node
+     *
+     * @return BinaryNode
+     */
     protected function getInOrderPredecessor(BinaryNode $node) {
 
         for ($current = $node->getLeft(); $current->getRight() !== NULL; $current = $current->getRight()) ;
@@ -250,23 +319,116 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
     }
 
     /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Count elements of an object
-     *
      * @link http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
+     * @return int
      */
     public function count() {
         return $this->size;
     }
 
+    /**
+     * @param int $order
+     * @param callable $callback
+     */
+    public function traverse($callback, $order = self::IN_ORDER) {
+        if ($this->root === NULL) {
+            return;
+        }
+        switch ($order) {
+            case self::LEVEL_ORDER:
+                $queue = array();
+                array_push($queue, $this->root);
+                while (!empty($queue)) {
+                    /**
+                     * @var BinaryNode $node
+                     */
+                    $node = array_shift($queue);
+                    $callback($node->getValue());
+
+                    $left = $node->getLeft();
+                    $right = $node->getRight();
+                    if ($left !== NULL) {
+                        array_push($queue, $left);
+                    }
+                    if ($right !== NULL) {
+                        array_push($queue, $right);
+                    }
+                }
+                break;
+
+            case self::PRE_ORDER:
+                $this->preOrder($this->root, $callback);
+                break;
+
+            case self::POST_ORDER:
+                $this->postOrder($this->root, $callback);
+                break;
+
+            case self::IN_ORDER:
+            default:
+                $this->inOrder($this->root, $callback);
+                break;
+        }
+    }
+
+    protected function inOrder(BinaryNode $node, $callback) {
+        $left = $node->getLeft();
+        $right = $node->getRight();
+
+        if ($left !== NULL) {
+            $this->inOrder($left, $callback);
+        }
+        $callback($node->getValue());
+        if ($right !== NULL) {
+            $this->inOrder($right, $callback);
+        }
+    }
+
+    protected function preOrder(BinaryNode $node, $callback) {
+        $left = $node->getLeft();
+        $right = $node->getRight();
+
+        $callback($node->getValue());
+        if ($left !== NULL) {
+            $this->preOrder($left, $callback);
+        }
+        if ($right !== NULL) {
+            $this->preOrder($right, $callback);
+        }
+    }
+
+    protected function postOrder(BinaryNode $node, $callback) {
+        $left = $node->getLeft();
+        $right = $node->getRight();
+
+        if ($left !== NULL) {
+            $this->postOrder($left, $callback);
+        }
+        if ($right !== NULL) {
+            $this->postOrder($right, $callback);
+        }
+        $callback($node->getValue());
+    }
+
+    /**
+     * @return \Traversable
+     */
     public function getIterator() {
+        $inOrderValues = array();
+
+        if ($this->root !== NULL) {
+            $this->inOrder($this->root, function($item) use (&$inOrderValues) {
+                array_push($inOrderValues, $item);
+            });
+        }
+
+        return new \ArrayIterator($inOrderValues);
 
     }
 
+    /**
+     * @return BinaryNode
+     */
     protected function getRoot() {
         return $this->root;
     }

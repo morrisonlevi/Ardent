@@ -16,10 +16,16 @@ class BinaryNode {
         $this->value = $element;
     }
 
+    /**
+     * @return BinaryNode
+     */
     function getRight() {
         return $this->right;
     }
 
+    /**
+     * @return BinaryNode
+     */
     function getLeft() {
         return $this->left;
     }
