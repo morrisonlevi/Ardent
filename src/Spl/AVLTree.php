@@ -19,11 +19,6 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
      */
     protected $comparator = NULL;
 
-    const LEVEL_ORDER = 1;
-    const IN_ORDER = 2;
-    const PRE_ORDER = 3;
-    const POST_ORDER = 4;
-
     /**
      * @param callable $comparator
      */
@@ -207,11 +202,11 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
      * @param $element
      * @param BinaryNode $node
      *
-     * @return null|BinaryNode
+     * @return BinaryNode
      */
     private function removeNode($element, BinaryNode $node = NULL) {
         if ($node === NULL) {
-            return;
+            return NULL;
         }
 
         $comparisonResult = call_user_func($this->comparator, $element, $node->getValue());
@@ -330,12 +325,12 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
      * @param int $order
      * @param callable $callback
      */
-    public function traverse($callback, $order = self::IN_ORDER) {
+    public function traverse($callback, $order = self::TRAVERSE_IN_ORDER) {
         if ($this->root === NULL) {
             return;
         }
         switch ($order) {
-            case self::LEVEL_ORDER:
+            case self::TRAVERSE_LEVEL_ORDER:
                 $queue = array();
                 array_push($queue, $this->root);
                 while (!empty($queue)) {
@@ -356,15 +351,15 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
                 }
                 break;
 
-            case self::PRE_ORDER:
+            case self::TRAVERSE_PRE_ORDER:
                 $this->preOrder($this->root, $callback);
                 break;
 
-            case self::POST_ORDER:
+            case self::TRAVERSE_POST_ORDER:
                 $this->postOrder($this->root, $callback);
                 break;
 
-            case self::IN_ORDER:
+            case self::TRAVERSE_IN_ORDER:
             default:
                 $this->inOrder($this->root, $callback);
                 break;
@@ -411,18 +406,20 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
     }
 
     /**
+     * @param int $order [optional]
+     *
      * @return \Traversable
      */
-    public function getIterator() {
-        $inOrderValues = array();
+    public function getIterator($order = self::TRAVERSE_IN_ORDER) {
+        $values = array();
 
         if ($this->root !== NULL) {
-            $this->inOrder($this->root, function($item) use (&$inOrderValues) {
-                array_push($inOrderValues, $item);
-            });
+            $this->traverse(function($item) use (&$values) {
+                array_push($values, $item);
+            }, $order);
         }
 
-        return new \ArrayIterator($inOrderValues);
+        return new \ArrayIterator($values);
 
     }
 
@@ -432,4 +429,5 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
     protected function getRoot() {
         return $this->root;
     }
+
 }
