@@ -19,11 +19,11 @@ interface BinaryTree extends Collection {
     function remove($element);
 
     /**
-     * @param callable $callback
      * @param int $order
+     * @param callable $callback
      *
      * @return mixed
      */
-    function traverse($callback, $order = self::TRAVERSE_IN_ORDER);
+    function traverse($order, $callback);
 
 }

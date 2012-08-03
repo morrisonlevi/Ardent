@@ -325,7 +325,7 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
      * @param int $order
      * @param callable $callback
      */
-    public function traverse($callback, $order = self::TRAVERSE_IN_ORDER) {
+    public function traverse($order, $callback) {
         if ($this->root === NULL) {
             return;
         }
@@ -414,9 +414,9 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         $values = array();
 
         if ($this->root !== NULL) {
-            $this->traverse(function($item) use (&$values) {
+            $this->traverse($order, function($item) use (&$values) {
                 array_push($values, $item);
-            }, $order);
+            });
         }
 
         return new \ArrayIterator($values);
