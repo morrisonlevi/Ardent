@@ -3,7 +3,7 @@
 namespace Spl;
 
 use Countable,
-    Traversable;
+Traversable;
 
 /**
  * The foundational data structure of this library. It contains methods that should be available to all other data
@@ -27,7 +27,9 @@ interface Collection extends Countable, Traversable /*, \Serializable  */ {
 
     /**
      * @abstract
+     *
      * @param $object
+     *
      * @return bool
      * @throws InvalidTypeException when $object is not the correct type.
      */

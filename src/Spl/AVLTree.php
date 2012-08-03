@@ -26,10 +26,12 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
     private function compare($a, $b) {
         if ($a < $b) {
             return -1;
-        } else if ($b < $a) {
-            return 1;
         } else {
-            return 0;
+            if ($b < $a) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -46,9 +48,11 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
         $comparisonResult = call_user_func($this->comparator, $element, $node->getValue());
 
         if ($comparisonResult < 0) {
-             $node->setLeft($this->addNode($element, $node->getLeft()));
-        } else if ($comparisonResult > 0) {
-             $node->setRight($this->addNode($element, $node->getRight()));
+            $node->setLeft($this->addNode($element, $node->getLeft()));
+        } else {
+            if ($comparisonResult > 0) {
+                $node->setRight($this->addNode($element, $node->getRight()));
+            }
         }
 
         $node = $this->balance($node);
@@ -150,11 +154,13 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
 
         if ($comparisonResult < 0) {
             $node->setLeft($this->removeNode($element, $node->getLeft()));
-        } else if ($comparisonResult > 0) {
-            $node->setRight($this->removeNode($element, $node->getRight()));
         } else {
-            //remove the element
-            $node = $this->deleteNode($node);
+            if ($comparisonResult > 0) {
+                $node->setRight($this->removeNode($element, $node->getRight()));
+            } else {
+                //remove the element
+                $node = $this->deleteNode($node);
+            }
         }
 
         $node = $this->balance($node);
@@ -193,7 +199,7 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
 
     protected function getInOrderPredecessor(BinaryNode $node) {
 
-        for ($current = $node->getLeft(); $current->getRight() !== NULL; $current = $current->getRight());
+        for ($current = $node->getLeft(); $current->getRight() !== NULL; $current = $current->getRight()) ;
 
         return $current;
 
@@ -209,6 +215,7 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
 
     /**
      * @param $object
+     *
      * @return bool
      * @throws InvalidTypeException when $object is not the correct type.
      */
@@ -225,10 +232,12 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
 
         if ($comparisonResult < 0) {
             return $this->containsNode($element, $node->getLeft());
-        } else if ($comparisonResult > 0) {
-            return $this->containsNode($element, $node->getRight());
         } else {
-            return TRUE;
+            if ($comparisonResult > 0) {
+                return $this->containsNode($element, $node->getRight());
+            } else {
+                return TRUE;
+            }
         }
 
     }
@@ -243,6 +252,7 @@ class AVLTree implements \IteratorAggregate, BinaryTree {
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * Count elements of an object
+     *
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      * </p>

@@ -6,7 +6,9 @@ interface Stack extends Collection {
 
     /**
      * @abstract
+     *
      * @param mixed $object
+     *
      * @throws InvalidTypeException if $object is not the correct type.
      * @throws OverflowException if the Stack is full.
      * @return void

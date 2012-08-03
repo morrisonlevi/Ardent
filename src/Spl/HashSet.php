@@ -3,7 +3,7 @@
 namespace Spl;
 
 use Iterator,
-    Traversable;
+Traversable;
 
 class HashSet implements Iterator, Set {
 
@@ -11,6 +11,7 @@ class HashSet implements Iterator, Set {
 
     /**
      * @param $item
+     *
      * @return string
      */
     private function hash($item) {
@@ -36,6 +37,7 @@ class HashSet implements Iterator, Set {
 
     /**
      * @param $object
+     *
      * @return bool
      * @throws InvalidTypeException when $object is not the correct type.
      */
@@ -60,6 +62,7 @@ class HashSet implements Iterator, Set {
 
     /**
      * @param $item
+     *
      * @return void
      * @throws InvalidTypeException when $item is not the correct type.
      */
@@ -69,6 +72,7 @@ class HashSet implements Iterator, Set {
 
     /**
      * @param Traversable $items
+     *
      * @return void
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
@@ -80,6 +84,7 @@ class HashSet implements Iterator, Set {
 
     /**
      * @param $item
+     *
      * @return void
      * @throws InvalidTypeException when $item is not the correct type.
      */
@@ -89,6 +94,7 @@ class HashSet implements Iterator, Set {
 
     /**
      * @param Traversable $items
+     *
      * @return mixed
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
@@ -100,6 +106,7 @@ class HashSet implements Iterator, Set {
 
     /**
      * @param Traversable $items
+     *
      * @return mixed
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
@@ -111,6 +118,7 @@ class HashSet implements Iterator, Set {
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element
+     *
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed
      */
@@ -121,6 +129,7 @@ class HashSet implements Iterator, Set {
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Move forward to next element
+     *
      * @link http://php.net/manual/en/iterator.next.php
      * @return void Any returned value is ignored.
      */
@@ -131,6 +140,7 @@ class HashSet implements Iterator, Set {
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the key of the current element
+     *
      * @link http://php.net/manual/en/iterator.key.php
      * @return string
      */
@@ -141,6 +151,7 @@ class HashSet implements Iterator, Set {
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Checks if current position is valid
+     *
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean
      */
@@ -151,6 +162,7 @@ class HashSet implements Iterator, Set {
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Rewind the Iterator to the first element
+     *
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void Any returned value is ignored.
      */

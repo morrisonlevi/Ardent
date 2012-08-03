@@ -17,6 +17,7 @@ class ArrayStack implements Iterator, Stack {
 
     /**
      * @param $object
+     *
      * @return bool
      * @throws InvalidTypeException when $object is not the correct type.
      */
@@ -34,6 +35,7 @@ class ArrayStack implements Iterator, Stack {
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * Count elements of an object
+     *
      * @link http://php.net/manual/en/countable.count.php
      * @return int
      */
@@ -43,6 +45,7 @@ class ArrayStack implements Iterator, Stack {
 
     /**
      * @param mixed $object
+     *
      * @throws InvalidTypeException if $object is not the correct type.
      * @throws OverflowException if the Stack is full.
      * @return void
@@ -79,6 +82,7 @@ class ArrayStack implements Iterator, Stack {
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element
+     *
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed Can return any type.
      */
@@ -89,6 +93,7 @@ class ArrayStack implements Iterator, Stack {
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Move forward to next element
+     *
      * @link http://php.net/manual/en/iterator.next.php
      * @return void Any returned value is ignored.
      */
@@ -99,6 +104,7 @@ class ArrayStack implements Iterator, Stack {
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the key of the current element
+     *
      * @link http://php.net/manual/en/iterator.key.php
      * @return mixed scalar on success, or null on failure.
      */
@@ -109,6 +115,7 @@ class ArrayStack implements Iterator, Stack {
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Checks if current position is valid
+     *
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean The return value will be casted to boolean and then evaluated.
      * Returns true on success or false on failure.
@@ -120,6 +127,7 @@ class ArrayStack implements Iterator, Stack {
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Rewind the Iterator to the first element
+     *
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void Any returned value is ignored.
      */
@@ -127,7 +135,7 @@ class ArrayStack implements Iterator, Stack {
         reset($this->stack);
 
         //set the internal pointer to the very end.
-        for (; key($this->stack) !== NULL; next($this->stack));
+        for (; key($this->stack) !== NULL; next($this->stack)) ;
 
     }
 

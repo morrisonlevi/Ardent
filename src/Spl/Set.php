@@ -8,7 +8,9 @@ interface Set extends Collection {
 
     /**
      * @abstract
+     *
      * @param $item
+     *
      * @return void
      * @throws InvalidTypeException when $item is not the correct type.
      */
@@ -16,7 +18,9 @@ interface Set extends Collection {
 
     /**
      * @abstract
+     *
      * @param Traversable $items
+     *
      * @return void
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
@@ -24,7 +28,9 @@ interface Set extends Collection {
 
     /**
      * @abstract
+     *
      * @param $item
+     *
      * @return void
      * @throws InvalidTypeException when $item is not the correct type.
      */
@@ -32,7 +38,9 @@ interface Set extends Collection {
 
     /**
      * @abstract
+     *
      * @param Traversable $items
+     *
      * @return mixed
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
@@ -40,7 +48,9 @@ interface Set extends Collection {
 
     /**
      * @abstract
+     *
      * @param Traversable $items
+     *
      * @return mixed
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */

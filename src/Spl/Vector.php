@@ -3,7 +3,7 @@
 namespace Spl;
 
 use ArrayAccess,
-    Traversable;
+Traversable;
 
 /**
  * Vector is the object-oriented version of a PHP array. As with the other structures in this library, it is designed
@@ -17,7 +17,9 @@ interface Vector extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param $item
+     *
      * @return void
      * @throws InvalidTypeException when $item is not the correct type.
      */
@@ -25,7 +27,9 @@ interface Vector extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param int $index
+     *
      * @return void
      * @throws InvalidTypeException when $index is not an integer.
      * @throws OutOfBoundsException when $index < 0 or $index >= count($this).
@@ -34,8 +38,10 @@ interface Vector extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param int $index
      * @param $item
+     *
      * @return void
      * @throws InvalidTypeException when $index is not an integer or when $item is not the correct type.
      * @throws OutOfBoundsException when $index < 0 or $index >= count($this).
@@ -44,7 +50,9 @@ interface Vector extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param int $index
+     *
      * @return void
      * @throws InvalidTypeException when $index is not an integer.
      */
@@ -52,7 +60,9 @@ interface Vector extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param  $object
+     *
      * @return mixed
      * @throws InvalidTypeException when $object is not the correct type.
      */
@@ -60,7 +70,9 @@ interface Vector extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param Traversable $objects
+     *
      * @return mixed
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
@@ -68,7 +80,9 @@ interface Vector extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param Traversable $objects
+     *
      * @return mixed
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
@@ -76,8 +90,10 @@ interface Vector extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param int $startIndex
      * @param int $numberOfItemsToRemove [optional] If not provided, it will remove all items after the $startIndex.
+     *
      * @return Vector
      * @throws InvalidTypeException when $startIndex or $numberOfItemsToRemove are not integers.
      */

@@ -3,13 +3,15 @@
 namespace Spl;
 
 use ArrayAccess,
-    Traversable;
+Traversable;
 
 interface Map extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param $key
+     *
      * @return mixed
      * @throws InvalidTypeException when the $key is not the correct type.
      */
@@ -17,8 +19,10 @@ interface Map extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param $key
      * @param mixed $value
+     *
      * @return void
      * @throws InvalidTypeException when the $key or value is not the correct type.
      */
@@ -26,7 +30,9 @@ interface Map extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param Map $items
+     *
      * @return void
      * @throws InvalidTypeException when the Map does not include an item of the correct type.
      */
@@ -34,7 +40,9 @@ interface Map extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param  $key
+     *
      * @return mixed
      * @throws InvalidTypeException when the $key is not the correct type.
      */
@@ -42,7 +50,9 @@ interface Map extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param Traversable $keys
+     *
      * @return mixed
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
@@ -50,7 +60,9 @@ interface Map extends ArrayAccess, Collection {
 
     /**
      * @abstract
+     *
      * @param Traversable $keys
+     *
      * @return mixed
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */

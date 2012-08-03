@@ -9,5 +9,5 @@ interface Observer {
      * @return void
      */
     function notify();
-    
+
 }
