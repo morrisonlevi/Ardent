@@ -3,11 +3,29 @@
 namespace Spl;
 
 use Iterator,
-Traversable;
+    Traversable;
 
 class HashSet implements Iterator, Set {
 
+    /**
+     * @var array
+     */
     private $objects = array();
+
+    /**
+     * @var callable
+     */
+    protected $hashFunction = NULL;
+
+    /**
+     * @param callable $hashFunction
+     */
+    public function __construct($hashFunction = NULL) {
+        if ($hashFunction === NULL) {
+            $hashFunction = array($this, 'hash');
+        }
+        $this->hashFunction = $hashFunction;
+    }
 
     /**
      * @param $item
@@ -42,7 +60,7 @@ class HashSet implements Iterator, Set {
      * @throws InvalidTypeException when $object is not the correct type.
      */
     public function contains($object) {
-        return array_key_exists($this->hash($object), $this->objects);
+        return array_key_exists(call_user_func($this->hashFunction, $object), $this->objects);
     }
 
     /**
@@ -67,7 +85,7 @@ class HashSet implements Iterator, Set {
      * @throws InvalidTypeException when $item is not the correct type.
      */
     public function add($item) {
-        $this->objects[$this->hash($item)] = $item;
+        $this->objects[call_user_func($this->hashFunction, $item)] = $item;
     }
 
     /**
@@ -89,7 +107,7 @@ class HashSet implements Iterator, Set {
      * @throws InvalidTypeException when $item is not the correct type.
      */
     public function remove($item) {
-        unset($this->objects[$this->hash($item)]);
+        unset($this->objects[call_user_func($this->hashFunction, $item)]);
     }
 
     /**
