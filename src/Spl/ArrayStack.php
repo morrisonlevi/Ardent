@@ -76,7 +76,7 @@ class ArrayStack implements Iterator, Stack {
             throw new UnderflowException();
         }
 
-        return $this->stack[0];
+        return $this->stack[count($this->stack) - 1];
     }
 
     /**
