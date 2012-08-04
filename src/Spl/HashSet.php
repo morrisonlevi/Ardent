@@ -94,7 +94,7 @@ class HashSet implements Iterator, Set {
      * @param Traversable $items
      *
      * @return void
-     * @throws TypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable includes an item with an incorrect type.
      */
     public function addAll(Traversable $items) {
         foreach ($items as $item) {
@@ -116,7 +116,7 @@ class HashSet implements Iterator, Set {
      * @param Traversable $items
      *
      * @return mixed
-     * @throws TypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable includes an item with an incorrect type.
      */
     public function removeAll(Traversable $items) {
         foreach ($items as $item) {

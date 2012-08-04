@@ -5,8 +5,10 @@ namespace Spl;
 interface Observer {
 
     /**
+     * @param Subject $subject
+     *
      * @return void
      */
-    function notify();
+    function update(Subject $subject);
 
 }

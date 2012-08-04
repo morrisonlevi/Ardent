@@ -324,6 +324,8 @@ class AVLTree implements \IteratorAggregate, BinarySearchTree {
     /**
      * @param int $order
      * @param callable $callback
+     *
+     * @return void
      */
     public function traverse($order, $callback) {
         if ($this->root === NULL) {
@@ -351,32 +353,6 @@ class AVLTree implements \IteratorAggregate, BinarySearchTree {
         foreach ($iterator as $item) {
             $callback($item);
         }
-    }
-
-    protected function preOrder(BinaryNode $node, $callback) {
-        $left = $node->getLeft();
-        $right = $node->getRight();
-
-        $callback($node->getValue());
-        if ($left !== NULL) {
-            $this->preOrder($left, $callback);
-        }
-        if ($right !== NULL) {
-            $this->preOrder($right, $callback);
-        }
-    }
-
-    protected function postOrder(BinaryNode $node, $callback) {
-        $left = $node->getLeft();
-        $right = $node->getRight();
-
-        if ($left !== NULL) {
-            $this->postOrder($left, $callback);
-        }
-        if ($right !== NULL) {
-            $this->postOrder($right, $callback);
-        }
-        $callback($node->getValue());
     }
 
     /**

@@ -24,7 +24,6 @@ class SortedSet implements IteratorAggregate, Set {
     }
 
     /**
-     *
      * @param $object
      *
      * @return bool
@@ -65,7 +64,7 @@ class SortedSet implements IteratorAggregate, Set {
      * @param Traversable $items
      *
      * @return void
-     * @throws TypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable includes an item of the incorrect type.
      */
     function addAll(Traversable $items) {
         foreach ($items as $item) {
@@ -89,7 +88,7 @@ class SortedSet implements IteratorAggregate, Set {
      * @param Traversable $items
      *
      * @return mixed
-     * @throws TypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable includes an item with an incorrect type.
      */
     function removeAll(Traversable $items) {
         foreach ($items as $item) {

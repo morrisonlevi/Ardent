@@ -62,7 +62,7 @@ interface Vector extends ArrayAccess, Collection {
      * @param Traversable $objects
      *
      * @return mixed
-     * @throws TypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable includes an item with an incorrect type.
      */
     function removeAll(Traversable $objects);
 
@@ -70,7 +70,7 @@ interface Vector extends ArrayAccess, Collection {
      * @param Traversable $objects
      *
      * @return mixed
-     * @throws TypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable includes an item with an incorrect type.
      */
     function retainAll(Traversable $objects);
 
