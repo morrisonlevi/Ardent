@@ -108,7 +108,12 @@ class SortedMap implements IteratorAggregate, Map {
      * @throws TypeException when the $key is not the correct type.
      */
     function get($key) {
-        return $this->avl->get($key);
+        /**
+         * @var Pair $pair
+         */
+        $pair =  $this->avl->get($key);
+
+        return $pair->second();
     }
 
     /**
