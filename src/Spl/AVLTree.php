@@ -2,7 +2,7 @@
 
 namespace Spl;
 
-class AVLTree implements \IteratorAggregate, BinaryTree {
+class AVLTree implements \IteratorAggregate, BinarySearchTree {
 
     /**
      * @var BinaryNode

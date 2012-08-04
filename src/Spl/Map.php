@@ -3,13 +3,11 @@
 namespace Spl;
 
 use ArrayAccess,
-Traversable;
+    Traversable;
 
 interface Map extends ArrayAccess, Collection {
 
     /**
-     * @abstract
-     *
      * @param $key
      *
      * @return mixed
@@ -18,8 +16,6 @@ interface Map extends ArrayAccess, Collection {
     function get($key);
 
     /**
-     * @abstract
-     *
      * @param $key
      * @param mixed $value
      *
@@ -29,8 +25,6 @@ interface Map extends ArrayAccess, Collection {
     function insert($key, $value);
 
     /**
-     * @abstract
-     *
      * @param Map $items
      *
      * @return void
@@ -39,9 +33,7 @@ interface Map extends ArrayAccess, Collection {
     function insertAll(Map $items);
 
     /**
-     * @abstract
-     *
-     * @param  $key
+     * @param $key
      *
      * @return mixed
      * @throws InvalidTypeException when the $key is not the correct type.
@@ -49,8 +41,6 @@ interface Map extends ArrayAccess, Collection {
     function remove($key);
 
     /**
-     * @abstract
-     *
      * @param Traversable $keys
      *
      * @return mixed
@@ -59,8 +49,6 @@ interface Map extends ArrayAccess, Collection {
     function removeAll(Traversable $keys);
 
     /**
-     * @abstract
-     *
      * @param Traversable $keys
      *
      * @return mixed

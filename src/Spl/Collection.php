@@ -3,7 +3,7 @@
 namespace Spl;
 
 use Countable,
-Traversable;
+    Traversable;
 
 /**
  * The foundational data structure of this library. It contains methods that should be available to all other data
@@ -20,14 +20,11 @@ Traversable;
 interface Collection extends Countable, Traversable /*, \Serializable  */ {
 
     /**
-     * @abstract
      * @return void
      */
     function clear();
 
     /**
-     * @abstract
-     *
      * @param $object
      *
      * @return bool
@@ -36,7 +33,6 @@ interface Collection extends Countable, Traversable /*, \Serializable  */ {
     function contains($object);
 
     /**
-     * @abstract
      * @return bool
      */
     function isEmpty();

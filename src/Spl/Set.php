@@ -7,8 +7,6 @@ use Traversable;
 interface Set extends Collection {
 
     /**
-     * @abstract
-     *
      * @param $item
      *
      * @return void
@@ -17,8 +15,6 @@ interface Set extends Collection {
     function add($item);
 
     /**
-     * @abstract
-     *
      * @param Traversable $items
      *
      * @return void
@@ -27,8 +23,6 @@ interface Set extends Collection {
     function addAll(Traversable $items);
 
     /**
-     * @abstract
-     *
      * @param $item
      *
      * @return void
@@ -37,23 +31,11 @@ interface Set extends Collection {
     function remove($item);
 
     /**
-     * @abstract
-     *
      * @param Traversable $items
      *
      * @return mixed
      * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
      */
     function removeAll(Traversable $items);
-
-    /**
-     * @abstract
-     *
-     * @param Traversable $items
-     *
-     * @return mixed
-     * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
-     */
-    function retainAll(Traversable $items);
 
 }

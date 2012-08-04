@@ -3,7 +3,7 @@
 namespace Spl;
 
 use ArrayAccess,
-Traversable;
+    Traversable;
 
 /**
  * Vector is the object-oriented version of a PHP array. As with the other structures in this library, it is designed
@@ -16,8 +16,6 @@ Traversable;
 interface Vector extends ArrayAccess, Collection {
 
     /**
-     * @abstract
-     *
      * @param $item
      *
      * @return void
@@ -26,8 +24,6 @@ interface Vector extends ArrayAccess, Collection {
     function append($item);
 
     /**
-     * @abstract
-     *
      * @param int $index
      *
      * @return void
@@ -37,8 +33,6 @@ interface Vector extends ArrayAccess, Collection {
     function get($index);
 
     /**
-     * @abstract
-     *
      * @param int $index
      * @param $item
      *
@@ -49,8 +43,6 @@ interface Vector extends ArrayAccess, Collection {
     function set($index, $item);
 
     /**
-     * @abstract
-     *
      * @param int $index
      *
      * @return void
@@ -59,8 +51,6 @@ interface Vector extends ArrayAccess, Collection {
     function remove($index);
 
     /**
-     * @abstract
-     *
      * @param  $object
      *
      * @return mixed
@@ -69,8 +59,6 @@ interface Vector extends ArrayAccess, Collection {
     function removeObject($object);
 
     /**
-     * @abstract
-     *
      * @param Traversable $objects
      *
      * @return mixed
@@ -79,8 +67,6 @@ interface Vector extends ArrayAccess, Collection {
     function removeAll(Traversable $objects);
 
     /**
-     * @abstract
-     *
      * @param Traversable $objects
      *
      * @return mixed
@@ -89,8 +75,6 @@ interface Vector extends ArrayAccess, Collection {
     function retainAll(Traversable $objects);
 
     /**
-     * @abstract
-     *
      * @param int $startIndex
      * @param int $numberOfItemsToRemove [optional] If not provided, it will remove all items after the $startIndex.
      *
@@ -100,7 +84,6 @@ interface Vector extends ArrayAccess, Collection {
     function slice($startIndex, $numberOfItemsToRemove = NULL);
 
     /**
-     * @abstract
      * @return array
      */
     function toArray();
