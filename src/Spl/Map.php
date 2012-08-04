@@ -48,12 +48,4 @@ interface Map extends ArrayAccess, Collection {
      */
     function removeAll(Traversable $keys);
 
-    /**
-     * @param Traversable $keys
-     *
-     * @return mixed
-     * @throws TypeException when the Traversable includes an item with an incorrect type.
-     */
-    function retainAll(Traversable $keys);
-
 }
