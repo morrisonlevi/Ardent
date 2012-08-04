@@ -9,27 +9,22 @@ class SortedMap implements IteratorAggregate, Map {
 
     private $avl;
 
-    private $comparator;
-
     public function __construct($comparator = NULL) {
-        $this->comparator = $comparator !== NULL
-            ? $comparator
-            : array($this, 'compareItem');
-        $this->avl = new AVLTree(array($this, 'comparePair'));
-    }
-
-    private function compareItem($a, $b) {
-        if ($a < $b) {
-            return -1;
-        } elseif ($b < $a) {
-            return 1;
-        } else {
-            return 0;
+        if ($comparator === NULL) {
+            $comparator = function ($a, $b) {
+                if ($a < $b) {
+                    return -1;
+                } elseif ($b < $a) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            };
         }
-    }
 
-    private function comparePair(Pair $a, Pair $b) {
-        return call_user_func($this->comparator, $a->first(), $b->first());
+        $this->avl = new AVLTree(function(Pair $a, Pair $b) use ($comparator) {
+            return $comparator($a->first(), $b->first());
+        });
     }
 
     /**
@@ -111,7 +106,7 @@ class SortedMap implements IteratorAggregate, Map {
         /**
          * @var Pair $pair
          */
-        $pair =  $this->avl->get($key);
+        $pair =  $this->avl->get(new Pair($key, NULL));
 
         return $pair->second();
     }

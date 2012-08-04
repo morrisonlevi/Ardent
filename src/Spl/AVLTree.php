@@ -17,35 +17,23 @@ class AVLTree implements \IteratorAggregate, BinarySearchTree {
     /**
      * @var callable
      */
-    protected $comparator = NULL;
+    protected $comparator;
 
     /**
      * @param callable $comparator
      */
     function __construct($comparator = NULL) {
-        if ($this->comparator === NULL) {
-            $this->comparator = array($this, 'compare');
-        } else {
-            $this->comparator = $comparator;
-        }
-    }
-
-    /**
-     * @param $a
-     * @param $b
-     *
-     * @return int
-     */
-    private function compare($a, $b) {
-        if ($a < $b) {
-            return -1;
-        } else {
-            if ($b < $a) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
+        $this->comparator = $comparator !== NULL
+            ? $comparator
+            : function ($a, $b) {
+                if ($a < $b) {
+                    return -1;
+                } elseif ($b < $a) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            };
     }
 
     /**
@@ -55,6 +43,9 @@ class AVLTree implements \IteratorAggregate, BinarySearchTree {
         $this->root = $this->addNode($element, $this->root);
     }
 
+    public function callCompare($a, $b) {
+        return call_user_func($this->comparator, $a, $b);
+    }
     /**
      * @param $element
      * @param BinaryNode $node
@@ -66,6 +57,7 @@ class AVLTree implements \IteratorAggregate, BinarySearchTree {
             $this->size++;
             return new BinaryNode($element);
         }
+
 
         $comparisonResult = call_user_func($this->comparator, $element, $node->getValue());
 
