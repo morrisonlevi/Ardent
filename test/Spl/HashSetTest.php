@@ -87,19 +87,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\HashSet::retainAll
-     */
-    public function testRetainAll() {
-        $items = array(0, 1, 'one', new StdClass, fopen(__FILE__, 'r'), array());
-        $this->object->addAll(new ArrayIterator($items));
-
-        $retainItems = array('0', 'one');
-        $this->object->retainAll(new ArrayIterator($retainItems));
-
-        $this->assertCount(2, $this->object);
-    }
-
-    /**
      * @covers Spl\HashSet::current
      * @covers Spl\HashSet::key
      * @covers Spl\HashSet::next
