@@ -71,6 +71,13 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals($inItem, $peekedItem);
         $this->assertCount(1, $this->stack);
+
+        $secondInItem = 1;
+        $this->stack->push($secondInItem);
+        $secondPeekedItem = $this->stack->peek();
+
+        $this->assertEquals($secondInItem, $secondPeekedItem);
+        $this->assertCount(2, $this->stack);
     }
 
     /**
