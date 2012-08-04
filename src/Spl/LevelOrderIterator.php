@@ -5,7 +5,7 @@ namespace Spl;
 use ArrayIterator,
     Iterator;
 
-class LevelOrderIterator implements Iterator {
+class LevelOrderIterator implements BinarySearchTreeIterator {
 
     /**
      * @var array

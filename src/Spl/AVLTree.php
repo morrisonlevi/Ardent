@@ -197,6 +197,32 @@ class AVLTree implements \IteratorAggregate, BinarySearchTree {
         $this->root = $this->removeNode($element, $this->root);
     }
 
+    /**
+     * @param $element
+     *
+     * @return mixed|null the element or NULL if it wasn't found.
+     */
+    function get($element) {
+        return $this->getNode($element, $this->root);
+    }
+
+    private function getNode($element, BinaryNode $node = NULL) {
+        if ($node === NULL) {
+            return NULL;
+        }
+
+        $comparisonResult = call_user_func($this->comparator, $element, $node->getValue());
+
+        if ($comparisonResult < 0) {
+            return $this->getNode($element, $node->getLeft());
+        } elseif ($comparisonResult > 0) {
+            return $this->getNode($element, $node->getRight());
+        } else {
+            return $node->getValue();
+        }
+
+    }
+
 
     /**
      * @param $element
@@ -358,7 +384,7 @@ class AVLTree implements \IteratorAggregate, BinarySearchTree {
     /**
      * @param int $order [optional]
      *
-     * @return \Traversable
+     * @return BinarySearchTreeIterator
      */
     public function getIterator($order = self::TRAVERSE_IN_ORDER) {
         switch ($order) {

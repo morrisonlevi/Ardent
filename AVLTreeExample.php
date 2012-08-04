@@ -2,6 +2,8 @@
 
 require 'bootstrap.php';
 
+error_reporting(E_ALL & E_STRICT);
+
 $tree = new Spl\AVLTree();
 
 $tree->add(5);
@@ -34,4 +36,19 @@ print "\nPost-Order:\n";
 $postOrderIterator = $tree->getIterator($tree::TRAVERSE_POST_ORDER);
 foreach ($postOrderIterator as $item) {
     print "$item\n";
+}
+
+
+print "\nGet(3):";
+print $tree->get(3);
+print "\n";
+
+print "\nMap:\n";
+$map = new Spl\SortedMap();
+$map[1] = 2;
+$map[2] = 4;
+$map[3] = 6;
+
+foreach ($map as $key) {
+    print "$key => " . $map->get($key) . "\n";
 }
