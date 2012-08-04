@@ -19,7 +19,7 @@ class ArrayStack implements Iterator, Stack {
      * @param $object
      *
      * @return bool
-     * @throws InvalidTypeException when $object is not the correct type.
+     * @throws TypeException when $object is not the correct type.
      */
     public function contains($object) {
         return in_array($object, $this->stack);
@@ -46,7 +46,7 @@ class ArrayStack implements Iterator, Stack {
     /**
      * @param mixed $object
      *
-     * @throws InvalidTypeException if $object is not the correct type.
+     * @throws TypeException if $object is not the correct type.
      * @throws OverflowException if the Stack is full.
      * @return void
      */

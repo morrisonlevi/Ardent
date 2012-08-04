@@ -19,7 +19,7 @@ interface Vector extends ArrayAccess, Collection {
      * @param $item
      *
      * @return void
-     * @throws InvalidTypeException when $item is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
     function append($item);
 
@@ -27,7 +27,7 @@ interface Vector extends ArrayAccess, Collection {
      * @param int $index
      *
      * @return void
-     * @throws InvalidTypeException when $index is not an integer.
+     * @throws TypeException when $index is not an integer.
      * @throws OutOfBoundsException when $index < 0 or $index >= count($this).
      */
     function get($index);
@@ -37,7 +37,7 @@ interface Vector extends ArrayAccess, Collection {
      * @param $item
      *
      * @return void
-     * @throws InvalidTypeException when $index is not an integer or when $item is not the correct type.
+     * @throws TypeException when $index is not an integer or when $item is not the correct type.
      * @throws OutOfBoundsException when $index < 0 or $index >= count($this).
      */
     function set($index, $item);
@@ -46,7 +46,7 @@ interface Vector extends ArrayAccess, Collection {
      * @param int $index
      *
      * @return void
-     * @throws InvalidTypeException when $index is not an integer.
+     * @throws TypeException when $index is not an integer.
      */
     function remove($index);
 
@@ -54,7 +54,7 @@ interface Vector extends ArrayAccess, Collection {
      * @param  $object
      *
      * @return mixed
-     * @throws InvalidTypeException when $object is not the correct type.
+     * @throws TypeException when $object is not the correct type.
      */
     function removeObject($object);
 
@@ -62,7 +62,7 @@ interface Vector extends ArrayAccess, Collection {
      * @param Traversable $objects
      *
      * @return mixed
-     * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable does not include an item of the correct type.
      */
     function removeAll(Traversable $objects);
 
@@ -70,7 +70,7 @@ interface Vector extends ArrayAccess, Collection {
      * @param Traversable $objects
      *
      * @return mixed
-     * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable does not include an item of the correct type.
      */
     function retainAll(Traversable $objects);
 
@@ -79,7 +79,7 @@ interface Vector extends ArrayAccess, Collection {
      * @param int $numberOfItemsToRemove [optional] If not provided, it will remove all items after the $startIndex.
      *
      * @return Vector
-     * @throws InvalidTypeException when $startIndex or $numberOfItemsToRemove are not integers.
+     * @throws TypeException when $startIndex or $numberOfItemsToRemove are not integers.
      */
     function slice($startIndex, $numberOfItemsToRemove = NULL);
 

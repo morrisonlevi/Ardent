@@ -28,7 +28,7 @@ class SortedSet implements IteratorAggregate, Set {
      * @param $object
      *
      * @return bool
-     * @throws InvalidTypeException when $object is not the correct type.
+     * @throws TypeException when $object is not the correct type.
      */
     function contains($object) {
         return $this->bst->contains($object);
@@ -54,7 +54,7 @@ class SortedSet implements IteratorAggregate, Set {
      * @param $item
      *
      * @return void
-     * @throws InvalidTypeException when $item is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
     function add($item) {
         $this->bst->add($item);
@@ -65,7 +65,7 @@ class SortedSet implements IteratorAggregate, Set {
      * @param Traversable $items
      *
      * @return void
-     * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable does not include an item of the correct type.
      */
     function addAll(Traversable $items) {
         foreach ($items as $item) {
@@ -78,7 +78,7 @@ class SortedSet implements IteratorAggregate, Set {
      * @param $item
      *
      * @return void
-     * @throws InvalidTypeException when $item is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
     function remove($item) {
         $this->bst->remove($item);
@@ -89,7 +89,7 @@ class SortedSet implements IteratorAggregate, Set {
      * @param Traversable $items
      *
      * @return mixed
-     * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable does not include an item of the correct type.
      */
     function removeAll(Traversable $items) {
         foreach ($items as $item) {

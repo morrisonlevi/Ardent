@@ -281,7 +281,7 @@ class AVLTree implements \IteratorAggregate, BinarySearchTree {
      * @param $object
      *
      * @return bool
-     * @throws InvalidTypeException when $object is not the correct type.
+     * @throws TypeException when $object is not the correct type.
      */
     function contains($object) {
         return $this->containsNode($object, $this->root);

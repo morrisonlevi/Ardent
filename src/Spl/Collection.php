@@ -28,7 +28,7 @@ interface Collection extends Countable, Traversable /*, \Serializable  */ {
      * @param $object
      *
      * @return bool
-     * @throws InvalidTypeException when $object is not the correct type.
+     * @throws TypeException when $object is not the correct type.
      */
     function contains($object);
 

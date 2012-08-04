@@ -59,7 +59,7 @@ class HashSet implements Iterator, Set {
      * @param $object
      *
      * @return bool
-     * @throws InvalidTypeException when $object is not the correct type.
+     * @throws TypeException when $object is not the correct type.
      */
     public function contains($object) {
         return array_key_exists(call_user_func($this->hashFunction, $object), $this->objects);
@@ -84,7 +84,7 @@ class HashSet implements Iterator, Set {
      * @param $item
      *
      * @return void
-     * @throws InvalidTypeException when $item is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
     public function add($item) {
         $this->objects[call_user_func($this->hashFunction, $item)] = $item;
@@ -94,7 +94,7 @@ class HashSet implements Iterator, Set {
      * @param Traversable $items
      *
      * @return void
-     * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable does not include an item of the correct type.
      */
     public function addAll(Traversable $items) {
         foreach ($items as $item) {
@@ -106,7 +106,7 @@ class HashSet implements Iterator, Set {
      * @param $item
      *
      * @return void
-     * @throws InvalidTypeException when $item is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
     public function remove($item) {
         unset($this->objects[call_user_func($this->hashFunction, $item)]);
@@ -116,7 +116,7 @@ class HashSet implements Iterator, Set {
      * @param Traversable $items
      *
      * @return mixed
-     * @throws InvalidTypeException when the Traversable does not include an item of the correct type.
+     * @throws TypeException when the Traversable does not include an item of the correct type.
      */
     public function removeAll(Traversable $items) {
         foreach ($items as $item) {
