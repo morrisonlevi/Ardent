@@ -22,7 +22,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
      */
     protected $value;
 
-    public function __construct(BinaryNode $root) {
+    public function __construct(BinaryNode $root = NULL) {
         $this->root = $root;
     }
 

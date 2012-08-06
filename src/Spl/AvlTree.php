@@ -43,9 +43,6 @@ class AvlTree implements \IteratorAggregate, BinarySearchTree {
         $this->root = $this->addNode($element, $this->root);
     }
 
-    public function callCompare($a, $b) {
-        return call_user_func($this->comparator, $a, $b);
-    }
     /**
      * @param $element
      * @param BinaryNode $node
@@ -245,7 +242,7 @@ class AvlTree implements \IteratorAggregate, BinarySearchTree {
         return $node;
     }
 
-    function deleteNode(BinaryNode $node) {
+    protected function deleteNode(BinaryNode $node) {
 
         if ($node->isLeaf()) {
             $this->size--;
@@ -349,6 +346,21 @@ class AvlTree implements \IteratorAggregate, BinarySearchTree {
         if ($this->root === NULL) {
             return;
         }
+
+        $iterator = $this->getIterator($order);
+
+        foreach ($iterator as $item) {
+            $callback($item);
+        }
+    }
+
+    /**
+     * @param int $order [optional]
+     *
+     * @return BinaryTreeIterator
+     */
+    public function getIterator($order = self::TRAVERSE_IN_ORDER) {
+        $iterator = NULL;
         switch ($order) {
             case self::TRAVERSE_LEVEL_ORDER:
                 $iterator = new LevelOrderIterator($this->root);
@@ -365,38 +377,9 @@ class AvlTree implements \IteratorAggregate, BinarySearchTree {
             case self::TRAVERSE_IN_ORDER:
             default:
                 $iterator = new InOrderIterator($this->root);
-                break;
         }
 
-        foreach ($iterator as $item) {
-            $callback($item);
-        }
-    }
-
-    /**
-     * @param int $order [optional]
-     *
-     * @return BinaryTreeIterator
-     */
-    public function getIterator($order = self::TRAVERSE_IN_ORDER) {
-        switch ($order) {
-            case self::TRAVERSE_LEVEL_ORDER:
-                return new LevelOrderIterator($this->root);
-                break;
-
-            case self::TRAVERSE_PRE_ORDER:
-                return new PreOrderIterator($this->root);
-                break;
-
-            case self::TRAVERSE_POST_ORDER:
-                return new PostOrderIterator($this->root);
-                break;
-
-            case self::TRAVERSE_IN_ORDER:
-            default:
-                return new InOrderIterator($this->root);
-                break;
-        }
+        return $iterator;
 
     }
 

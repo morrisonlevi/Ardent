@@ -26,7 +26,7 @@ class PostOrderIterator implements BinaryTreeIterator {
      */
     protected $current;
 
-    public function __construct(BinaryNode $root) {
+    public function __construct(BinaryNode $root = NULL) {
         $this->stack = new ArrayStack;
         $this->root = $root;
     }

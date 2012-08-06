@@ -21,7 +21,7 @@ class InOrderIterator implements BinaryTreeIterator {
      */
     protected $value;
 
-    public function __construct(BinaryNode $root) {
+    public function __construct(BinaryNode $root = NULL) {
         $this->stack = new ArrayStack;
         $this->root = $root;
     }
@@ -87,6 +87,8 @@ class InOrderIterator implements BinaryTreeIterator {
             $this->stack->push($current);
         }
 
-        $this->value = $this->stack->peek();
+        if (!$this->stack->isEmpty()) {
+            $this->value = $this->stack->peek();
+        }
     }
 }

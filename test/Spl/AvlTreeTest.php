@@ -28,8 +28,8 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\AVLTree::add
-     * @covers Spl\AVLTree::balance
+     * @covers Spl\AvlTree::add
+     * @covers Spl\AvlTree::balance
      */
     public function testRightLeft() {
         $this->object->add(3);
@@ -67,7 +67,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\AVLTree::remove
+     * @covers Spl\AvlTree::remove
      * @depends testRightLeft
      * @depends testLeftRight
      */
@@ -86,7 +86,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\AVLTree::remove
+     * @covers Spl\AvlTree::remove
      * @depends testRightLeft
      * @depends testLeftRight
      */
@@ -107,7 +107,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\AVLTree::remove
+     * @covers Spl\AvlTree::remove
      * @depends testRightLeft
      * @depends testLeftRight
      */
@@ -142,9 +142,9 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\AVLTree::add
-     * @covers Spl\AVLTree::remove
-     * @covers Spl\AVLTree::balance
+     * @covers Spl\AvlTree::add
+     * @covers Spl\AvlTree::remove
+     * @covers Spl\AvlTree::balance
      */
     public function testGauntlet() {
 
@@ -292,7 +292,8 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\AVLTree::clear
+     * @covers Spl\AvlTree::clear
+     * @covers Spl\AvlTree::count
      */
     public function testClear() {
         $this->object->add(5);
@@ -304,7 +305,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\AVLTree::contains
+     * @covers Spl\AvlTree::contains
      */
     public function testContains() {
         $this->assertFalse($this->object->contains(1));
@@ -314,13 +315,205 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\AVLTree::isEmpty
+     * @covers Spl\AvlTree::contains
+     */
+    public function testContainsRightSubTree() {
+        $this->object->add(2);
+        $this->object->add(3);
+        $this->assertTrue($this->object->contains(3));
+        $this->assertFalse($this->object->contains(1));
+    }
+
+    /**
+     * @covers Spl\AvlTree::contains
+     */
+    public function testContainsLeftSubTree() {
+        $this->object->add(2);
+        $this->object->add(1);
+        $this->assertTrue($this->object->contains(1));
+        $this->assertFalse($this->object->contains(3));
+    }
+
+    /**
+     * @covers Spl\AvlTree::get
+     */
+    public function testGet() {
+        $this->assertNULL($this->object->get(1));
+
+        $this->object->add(1);
+        $this->assertEquals(1, $this->object->get(1));
+    }
+
+    /**
+     * @covers Spl\AvlTree::contains
+     */
+    public function testGetRightSubTree() {
+        $this->object->add(2);
+        $this->object->add(3);
+        $this->assertEquals(3, $this->object->get(3));
+        $this->assertNull($this->object->get(1));
+    }
+
+    /**
+     * @covers Spl\AvlTree::contains
+     * @covers Spl\AvlTree::containsNode
+     */
+    public function testGetLeftSubTree() {
+        $this->object->add(2);
+        $this->object->add(1);
+        $this->assertEquals(1, $this->object->get(1));
+        $this->assertNull($this->object->get(3));
+    }
+
+    /**
+     * @covers Spl\AvlTree::isEmpty
      */
     public function testIsEmpty() {
         $this->assertTrue($this->object->isEmpty());
 
         $this->object->add(1);
         $this->assertFalse($this->object->isEmpty());
+    }
+
+    public function testDefaultIterator() {
+        $iterator = $this->object->getIterator();
+
+        $this->assertInstanceOf('\\Spl\\InOrderIterator', $iterator);
+    }
+
+    public function testEmptyTreeIterators() {
+
+        $iterators = array(
+            'InOrder' => $this->object->getIterator(AvlTree::TRAVERSE_IN_ORDER),
+            'PreOrder' => $this->object->getIterator(AvlTree::TRAVERSE_PRE_ORDER),
+            'PostOrder' => $this->object->getIterator(AvlTree::TRAVERSE_POST_ORDER),
+            'LevelOrder' => $this->object->getIterator(AvlTree::TRAVERSE_LEVEL_ORDER),
+        );
+
+        foreach ($iterators as $algorithm => $iterator) {
+            $this->assertInstanceOf("\\Spl\\{$algorithm}Iterator", $iterator);
+
+            $iterator->rewind();
+            $this->assertFalse($iterator->valid());
+        }
+    }
+
+    public function testGetIteratorA() {
+        //          5
+        //        /     \
+        //       2      8
+        //        \    /
+        //        3  11
+        $this->object->add(5);
+        $this->object->add(2);
+        $this->object->add(8);
+        $this->object->add(11);
+        $this->object->add(3);
+
+        $expectedSequences = array(
+            'inOrder' => array(2,3,5,8,11),
+            'preOrder' => array(5,2,3,8,11),
+            'postOrder' => array(3,2,11,8,5),
+            'levelOrder' => array(5,2,8,3,11),
+        );
+
+        $this->__testIterators($expectedSequences);
+
+    }
+
+    public function testGetIteratorB() {
+        //          5
+        //        /     \
+        //       2      8
+        //      / \
+        //     1  3
+        $this->object->add(5);
+        $this->object->add(2);
+        $this->object->add(8);
+        $this->object->add(1);
+        $this->object->add(3);
+
+        $expectedSequences = array(
+            'inOrder' => array(1,2,3,5,8),
+            'preOrder' => array(5,2,1,3,8),
+            'postOrder' => array(1,3,2,8,5),
+            'levelOrder' => array(5,2,8,1,3),
+        );
+
+        $this->__testIterators($expectedSequences);
+
+    }
+    public function testGetIteratorC() {
+        //          5
+        //        /     \
+        //       2      8
+        //             / \
+        //            6  9
+        $this->object->add(5);
+        $this->object->add(2);
+        $this->object->add(8);
+        $this->object->add(6);
+        $this->object->add(9);
+
+        $expectedSequences = array(
+            'inOrder' => array(2,5,6,8,9),
+            'preOrder' => array(5,2,8,6,9),
+            'postOrder' => array(2,6,9,8,5),
+            'levelOrder' => array(5,2,8,6,9),
+        );
+
+        $this->__testIterators($expectedSequences);
+
+    }
+
+    private function __testIterators(array $expectedSequences) {
+
+        $iterators = array(
+            'inOrder' => $this->object->getIterator(AvlTree::TRAVERSE_IN_ORDER),
+            'preOrder' => $this->object->getIterator(AvlTree::TRAVERSE_PRE_ORDER),
+            'postOrder' => $this->object->getIterator(AvlTree::TRAVERSE_POST_ORDER),
+            'levelOrder' => $this->object->getIterator(AvlTree::TRAVERSE_LEVEL_ORDER),
+        );
+
+        foreach ($iterators as $algorithm => $iterator) {
+            $actualSequence = array();
+            foreach ($iterator as $item) {
+                $actualSequence[] = $item;
+            }
+
+            $this->assertEquals($expectedSequences[$algorithm], $actualSequence);
+        }
+
+    }
+
+    public function testTraverse() {
+        $sum = 0;
+        $callback = function($item) use (&$sum) {
+            $sum += $item;
+        };
+
+        $algorithms = array(
+            AvlTree::TRAVERSE_IN_ORDER,
+            AvlTree::TRAVERSE_PRE_ORDER,
+            AvlTree::TRAVERSE_POST_ORDER,
+            AvlTree::TRAVERSE_LEVEL_ORDER,
+        );
+
+        foreach ($algorithms as $algorithm) {
+            $this->object->traverse($algorithm, $callback);
+        }
+
+        $this->assertEquals(0, $sum);
+
+        $this->object->add(1);
+        $this->object->add(2);
+
+        foreach ($algorithms as $algorithm) {
+            $this->object->traverse($algorithm, $callback);
+        }
+
+        $this->assertEquals(12, $sum);
+
     }
 
 }
