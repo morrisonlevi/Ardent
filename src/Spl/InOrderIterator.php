@@ -2,8 +2,6 @@
 
 namespace Spl;
 
-use Iterator;
-
 class InOrderIterator implements BinaryTreeIterator {
 
     /**

@@ -2,9 +2,6 @@
 
 namespace Spl;
 
-use ArrayIterator,
-    Iterator;
-
 class LevelOrderIterator implements BinaryTreeIterator {
 
     /**

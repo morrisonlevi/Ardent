@@ -2,8 +2,6 @@
 
 namespace Spl;
 
-use Iterator;
-
 class PostOrderIterator implements BinaryTreeIterator {
 
     /**
