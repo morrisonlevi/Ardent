@@ -14,23 +14,23 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      */
     protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
     protected function setUp() {
         $this->object = new HashSet;
     }
 
     /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
+     * @covers Spl\HashSet::__construct
      */
-    protected function tearDown() {
+    public function testConstructor() {
+        new HashSet(function($item){
+            return 0;
+        });
+        new HashSet;
     }
 
     /**
      * @covers Spl\HashSet::add
+     * @covers Spl\HashSet::count
      */
     public function testAdd() {
         $this->object->add(new StdClass());
@@ -100,6 +100,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertNull($key);
         $this->assertFalse($current);
+        $this->assertFalse($this->object->valid());
 
         $this->object->next();
 
@@ -138,6 +139,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Spl\HashSet::contains
+     * @covers Spl\HashSet::hash
      * @depends testAdd
      */
     public function testContains() {
@@ -167,6 +169,12 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($this->object->contains($array));
         $this->object->add($array);
         $this->assertTrue($this->object->contains($array));
+
+        $null = NULL;
+
+        $this->assertFalse($this->object->contains($null));
+        $this->object->add($null);
+        $this->assertTrue($this->object->contains($null));
 
     }
 

@@ -28,6 +28,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Spl\ArrayStack::push
+     * @covers Spl\ArrayStack::count
      */
     public function testPush() {
         $this->stack->push(0);
@@ -89,6 +90,23 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers Spl\ArrayStack::key
+     * @covers Spl\ArrayStack::valid
+     * @covers Spl\ArrayStack::rewind
+     * @depends testPush
+     */
+    public function testIteratorEmpty() {
+        $i = 0;
+        foreach ($this->stack as $item) {
+            $i++;
+        }
+
+        $this->assertEquals(0, $i);
+
+        $this->assertNull($this->stack->key());
+    }
+
+    /**
      * @covers Spl\ArrayStack::current
      * @covers Spl\ArrayStack::key
      * @covers Spl\ArrayStack::next
@@ -97,6 +115,20 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
      * @depends testPush
      */
     public function testIterator() {
+        $this->stack->push(1);
+        $this->stack->push(2);
+
+        $expectedSequence = array(2,1);
+
+        $actualSequence = array();
+        $i = 0;
+        foreach ($this->stack as $key => $item) {
+            $this->assertEquals($i, $key);
+            $actualSequence[] = $item;
+            $i++;
+        }
+
+        $this->assertEquals($expectedSequence, $actualSequence);
 
     }
 

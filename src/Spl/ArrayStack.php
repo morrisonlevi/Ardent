@@ -97,7 +97,11 @@ class ArrayStack implements Iterator, Stack {
      * @return mixed
      */
     public function key() {
-        return key($this->stack);
+        $count = count($this->stack);
+        if ($count === 0) {
+            return NULL;
+        }
+        return count($this->stack) - key($this->stack) - 1;
     }
 
     /**
@@ -113,11 +117,7 @@ class ArrayStack implements Iterator, Stack {
      * @return void
      */
     public function rewind() {
-        reset($this->stack);
-
-        //set the internal pointer to the very end.
-        for (; key($this->stack) !== NULL; next($this->stack)) ;
-
+        end($this->stack);
     }
 
 }
