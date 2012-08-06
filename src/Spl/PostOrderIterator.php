@@ -4,7 +4,7 @@ namespace Spl;
 
 use Iterator;
 
-class PostOrderIterator implements BinarySearchTreeIterator {
+class PostOrderIterator implements BinaryTreeIterator {
 
     /**
      * @var ArrayStack

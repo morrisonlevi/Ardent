@@ -7,11 +7,11 @@ use Iterator;
 class SortedMapIterator implements Iterator {
 
     /**
-     * @var BinarySearchTreeIterator
+     * @var BinaryTreeIterator
      */
     private $iterator;
 
-    public function __construct(BinarySearchTreeIterator $iterator) {
+    public function __construct(BinaryTreeIterator $iterator) {
         $this->iterator = $iterator;
     }
 

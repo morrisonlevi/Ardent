@@ -22,7 +22,7 @@ class SortedMap implements IteratorAggregate, Map {
             };
         }
 
-        $this->avl = new AVLTree(function(Pair $a, Pair $b) use ($comparator) {
+        $this->avl = new AvlTree(function(Pair $a, Pair $b) use ($comparator) {
             return $comparator($a->first(), $b->first());
         });
     }

@@ -2,7 +2,7 @@
 
 namespace Spl;
 
-class AVLTree implements \IteratorAggregate, BinarySearchTree {
+class AvlTree implements \IteratorAggregate, BinarySearchTree {
 
     /**
      * @var BinaryNode
@@ -376,7 +376,7 @@ class AVLTree implements \IteratorAggregate, BinarySearchTree {
     /**
      * @param int $order [optional]
      *
-     * @return BinarySearchTreeIterator
+     * @return BinaryTreeIterator
      */
     public function getIterator($order = self::TRAVERSE_IN_ORDER) {
         switch ($order) {

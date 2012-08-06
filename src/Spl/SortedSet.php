@@ -13,7 +13,7 @@ class SortedSet implements IteratorAggregate, Set {
     private $bst;
 
     public function __construct($comparator = NULL) {
-        $this->bst = new AVLTree($comparator);
+        $this->bst = new AvlTree($comparator);
     }
 
     /**

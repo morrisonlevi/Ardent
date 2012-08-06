@@ -4,7 +4,7 @@ require 'bootstrap.php';
 
 error_reporting(E_ALL & E_STRICT);
 
-$tree = new Spl\AVLTree();
+$tree = new Spl\AvlTree();
 
 $tree->add(5);
 $tree->add(10);
