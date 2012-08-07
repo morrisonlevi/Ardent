@@ -26,7 +26,7 @@ interface Vector extends ArrayAccess, Collection {
     /**
      * @param int $index
      *
-     * @return void
+     * @return mixed
      * @throws TypeException when $index is not an integer.
      * @throws OutOfBoundsException when $index < 0 or $index >= count($this).
      */
@@ -53,7 +53,7 @@ interface Vector extends ArrayAccess, Collection {
     /**
      * @param  $object
      *
-     * @return mixed
+     * @return void
      * @throws TypeException when $object is not the correct type.
      */
     function removeObject($object);
@@ -61,27 +61,19 @@ interface Vector extends ArrayAccess, Collection {
     /**
      * @param Traversable $objects
      *
-     * @return mixed
+     * @return void
      * @throws TypeException when the Traversable includes an item with an incorrect type.
      */
     function removeAll(Traversable $objects);
 
     /**
-     * @param Traversable $objects
-     *
-     * @return mixed
-     * @throws TypeException when the Traversable includes an item with an incorrect type.
-     */
-    function retainAll(Traversable $objects);
-
-    /**
      * @param int $startIndex
-     * @param int $numberOfItemsToRemove [optional] If not provided, it will remove all items after the $startIndex.
+     * @param int $numberOfItemsToExtract [optional] If not provided, it will remove all items after the $startIndex.
      *
      * @return Vector
-     * @throws TypeException when $startIndex or $numberOfItemsToRemove are not integers.
+     * @throws TypeException when $startIndex or $numberOfItemsToExtract are not integers.
      */
-    function slice($startIndex, $numberOfItemsToRemove = NULL);
+    function slice($startIndex, $numberOfItemsToExtract = NULL);
 
     /**
      * @return array
