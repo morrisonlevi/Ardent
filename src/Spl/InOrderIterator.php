@@ -10,16 +10,16 @@ class InOrderIterator implements BinaryTreeIterator {
     protected $stack;
 
     /**
-     * @var BinaryNode
+     * @var BinaryTree
      */
     protected $root;
 
     /**
-     * @var BinaryNode
+     * @var BinaryTree
      */
     protected $value;
 
-    public function __construct(BinaryNode $root = NULL) {
+    public function __construct(BinaryTree $root = NULL) {
         $this->stack = new ArrayStack;
         $this->root = $root;
     }
@@ -38,7 +38,7 @@ class InOrderIterator implements BinaryTreeIterator {
      */
     public function next() {
         /**
-         * @var BinaryNode $node
+         * @var BinaryTree $node
          */
         $node = $this->stack->pop();
 

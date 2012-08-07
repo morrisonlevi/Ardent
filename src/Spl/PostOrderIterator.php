@@ -10,21 +10,21 @@ class PostOrderIterator implements BinaryTreeIterator {
     protected $stack;
 
     /**
-     * @var BinaryNode
+     * @var BinaryTree
      */
     protected $root;
 
     /**
-     * @var BinaryNode
+     * @var BinaryTree
      */
     protected $value;
 
     /**
-     * @var BinaryNode
+     * @var BinaryTree
      */
     protected $current;
 
-    public function __construct(BinaryNode $root = NULL) {
+    public function __construct(BinaryTree $root = NULL) {
         $this->stack = new ArrayStack;
         $this->root = $root;
     }
@@ -43,7 +43,7 @@ class PostOrderIterator implements BinaryTreeIterator {
      */
     public function next() {
         /**
-         * @var BinaryNode $node
+         * @var BinaryTree $node
          */
         if ($this->value !== NULL) {
             $right = $this->value->getRight();

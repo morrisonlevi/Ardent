@@ -2,15 +2,15 @@
 
 namespace Spl;
 
-class BinaryNode {
+class BinaryTree {
 
     /**
-     * @var BinaryNode
+     * @var BinaryTree
      */
     protected $left = NULL;
 
     /**
-     * @var BinaryNode
+     * @var BinaryTree
      */
     protected $right = NULL;
 
@@ -32,33 +32,33 @@ class BinaryNode {
     }
 
     /**
-     * @return BinaryNode
+     * @return BinaryTree
      */
     function getRight() {
         return $this->right;
     }
 
     /**
-     * @return BinaryNode
+     * @return BinaryTree
      */
     function getLeft() {
         return $this->left;
     }
 
     /**
-     * @param BinaryNode $node
+     * @param BinaryTree $node
      * @return void
      */
-    function setRight(BinaryNode $node = NULL) {
+    function setRight(BinaryTree $node = NULL) {
         $this->right = $node;
         $this->recalculateHeight();
     }
 
     /**
-     * @param BinaryNode $node
+     * @param BinaryTree $node
      * @return void
      */
-    function setLeft(BinaryNode $node = NULL) {
+    function setLeft(BinaryTree $node = NULL) {
         $this->left = $node;
         $this->recalculateHeight();
     }
@@ -71,10 +71,10 @@ class BinaryNode {
     }
 
     /**
-     * @param BinaryNode $node
+     * @param BinaryTree $node
      * @return int
      */
-    protected function getNodeHeight(BinaryNode $node = NULL) {
+    protected function getNodeHeight(BinaryTree $node = NULL) {
         if ($node === NULL) {
             return 0;
         }
@@ -114,6 +114,17 @@ class BinaryNode {
     function hasOnlyOneChild() {
         return ($this->left === NULL && $this->right !== NULL)
             || ($this->left !== NULL && $this->right === NULL);
+    }
+
+    /**
+     * @return BinaryTree
+     */
+    function getInOrderPredecessor() {
+
+        for ($current = $this->getLeft(); $current->getRight() !== NULL; $current = $current->getRight()) ;
+
+        return $current;
+
     }
 
 }

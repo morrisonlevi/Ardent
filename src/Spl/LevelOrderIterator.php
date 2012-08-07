@@ -10,16 +10,16 @@ class LevelOrderIterator implements BinaryTreeIterator {
     protected $queue = array();
 
     /**
-     * @var BinaryNode
+     * @var BinaryTree
      */
     protected $root;
 
     /**
-     * @var BinaryNode
+     * @var BinaryTree
      */
     protected $value;
 
-    public function __construct(BinaryNode $root = NULL) {
+    public function __construct(BinaryTree $root = NULL) {
         $this->root = $root;
     }
 
@@ -37,7 +37,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
      */
     public function next() {
         /**
-         * @var BinaryNode $node
+         * @var BinaryTree $node
          */
         $node = array_shift($this->queue);
 
