@@ -8,3 +8,4 @@ All exceptions listed here eventually extend from \Exception.
    - OutOfBoundsException
    - OverflowException
    - UnderflowException
+ - ValueException
