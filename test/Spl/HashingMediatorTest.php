@@ -28,7 +28,6 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Spl\HashingMediator::addListener
-     * @covers Spl\HashingMediator::hash
      */
     public function testAddListener() {
         $this->intercessor->addListener('error', function() {
@@ -109,6 +108,32 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
             ->with($this->equalTo($paramA), $this->equalTo($paramB));
 
         $this->intercessor->notify('test', $paramA, $paramB);
+    }
+
+    /**
+     * @covers Spl\HashingMediator::hash
+     */
+    public function testHash() {
+        $invokableObject = new CallableStub();
+        $callables = array(
+            'invokableObject' => $invokableObject,
+            'arrayCallableA' => array($invokableObject, '__invoke'),
+            'arrayCallableB' => array($invokableObject, '__invoke'),
+            'anonymousFunction' => function(){},
+        );
+
+        $expectedHashes = array(
+            'invokableObject' => spl_object_hash($invokableObject),
+            'arrayCallableA' => spl_object_hash($invokableObject) . '__invoke',
+            'arrayCallableB' => spl_object_hash($invokableObject) . '__invoke',
+            'anonymousFunction' => spl_object_hash($callables['anonymousFunction']),
+        );
+
+        foreach ($callables as $name => $callable) {
+            $this->assertEquals($expectedHashes[$name], $this->intercessor->hash($callable));
+        }
+
+        $this->assertEquals($expectedHashes['arrayCallableA'], $expectedHashes['arrayCallableB']);
     }
 
 }
