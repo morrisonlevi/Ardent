@@ -13,6 +13,12 @@ class HashingMediatorHelper extends HashingMediator {
 
 class CallableStub {
     public function __invoke(){}
+
+    public static function staticMethod(){}
+}
+
+function doNothing() {
+
 }
 
 class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
@@ -120,6 +126,9 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
             'arrayCallableA' => array($invokableObject, '__invoke'),
             'arrayCallableB' => array($invokableObject, '__invoke'),
             'anonymousFunction' => function(){},
+            'globalFunction' => 'Spl\\doNothing',
+            'staticArrayCallable' => array('Spl\\CallableStub', 'staticMethod'),
+            'staticCallable' => 'Spl\\CallableStub::staticMethod',
         );
 
         $expectedHashes = array(
@@ -127,12 +136,16 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
             'arrayCallableA' => spl_object_hash($invokableObject) . '__invoke',
             'arrayCallableB' => spl_object_hash($invokableObject) . '__invoke',
             'anonymousFunction' => spl_object_hash($callables['anonymousFunction']),
+            'globalFunction' => 'Spl\\doNothing',
+            'staticArrayCallable' => 'Spl\\CallableStub::staticMethod',
+            'staticCallable' => 'Spl\\CallableStub::staticMethod',
         );
 
         foreach ($callables as $name => $callable) {
-            $this->assertEquals($expectedHashes[$name], $this->intercessor->hash($callable));
+            $actualHashes[$name] = $this->intercessor->hash($callable);
         }
 
+        $this->assertEquals($expectedHashes, $actualHashes);
         $this->assertEquals($expectedHashes['arrayCallableA'], $expectedHashes['arrayCallableB']);
     }
 

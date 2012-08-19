@@ -32,8 +32,14 @@ class HashingMediator implements Mediator {
     }
 
     protected function hash($callable) {
+        if (is_string($callable)) {
+            return $callable;
+        }
         if (is_array($callable)) {
-            return spl_object_hash($callable[0]) . $callable[1];
+            if (is_object($callable[0])) {
+                return spl_object_hash($callable[0]) . $callable[1];
+            }
+            return "{$callable[0]}::{$callable[1]}";
         }
         return spl_object_hash($callable);
     }
