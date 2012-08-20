@@ -1,18 +1,19 @@
 <?php
+
 namespace Spl;
 
-class StdVectorTest extends \PHPUnit_Framework_TestCase {
+class VectorTest extends \PHPUnit_Framework_TestCase {
     /**
-     * @var StdVector
+     * @var Vector
      */
     protected $object;
 
     protected function setUp() {
-        $this->object = new StdVector;
+        $this->object = new Vector;
     }
 
     /**
-     * @covers Spl\StdVector::clear
+     * @covers Spl\Vector::clear
      */
     public function testClear() {
         $this->object[] = 1;
@@ -22,7 +23,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::contains
+     * @covers Spl\Vector::contains
      */
     public function testContains() {
         $this->assertFalse($this->object->contains(1));
@@ -33,7 +34,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::isEmpty
+     * @covers Spl\Vector::isEmpty
      */
     public function testIsEmpty() {
         $this->assertTrue($this->object->isEmpty());
@@ -43,7 +44,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::offsetExists
+     * @covers Spl\Vector::offsetExists
      */
     public function testOffsetExists() {
         $this->assertFalse($this->object->offsetExists(0));
@@ -56,7 +57,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::offsetGet
+     * @covers Spl\Vector::offsetGet
      * @expectedException Spl\OutOfBoundsException
      */
     public function testOffsetGetOutOfBoundsException() {
@@ -64,7 +65,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::offsetGet
+     * @covers Spl\Vector::offsetGet
      * @expectedException Spl\TypeException
      */
     public function testOffsetGetTypeException() {
@@ -72,7 +73,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::offsetSet
+     * @covers Spl\Vector::offsetSet
      */
     public function testOffsetSet() {
         $this->object[] = 1;
@@ -80,8 +81,8 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::offsetUnset
-     * @covers Spl\StdVector::count
+     * @covers Spl\Vector::offsetUnset
+     * @covers Spl\Vector::count
      */
     public function testOffsetUnset() {
         unset($this->object[0]);
@@ -94,7 +95,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
 
 
     /**
-     * @covers Spl\StdVector::append
+     * @covers Spl\Vector::append
      * @todo   Implement testAppend().
      */
     public function testAppend() {
@@ -105,7 +106,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::get
+     * @covers Spl\Vector::get
      * @todo   Implement testGet().
      */
     public function testGet() {
@@ -116,7 +117,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::set
+     * @covers Spl\Vector::set
      * @todo   Implement testSet().
      */
     public function testSet() {
@@ -127,7 +128,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::remove
+     * @covers Spl\Vector::remove
      * @todo   Implement testRemove().
      */
     public function testRemove() {
@@ -138,7 +139,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::removeObject
+     * @covers Spl\Vector::removeObject
      * @todo   Implement testRemoveObject().
      */
     public function testRemoveObject() {
@@ -149,7 +150,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::removeAll
+     * @covers Spl\Vector::removeAll
      * @todo   Implement testRemoveAll().
      */
     public function testRemoveAll() {
@@ -160,7 +161,18 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::slice
+     * @covers Spl\Vector::filter
+     * @todo   Implement testFilter().
+     */
+    public function testFilter() {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+    }
+
+    /**
+     * @covers Spl\Vector::slice
      * @todo   Implement testSlice().
      */
     public function testSlice() {
@@ -171,7 +183,7 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::toArray
+     * @covers Spl\Vector::toArray
      * @todo   Implement testToArray().
      */
     public function testToArray() {
@@ -182,57 +194,14 @@ class StdVectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\StdVector::current
-     * @todo   Implement testCurrent().
+     * @covers Spl\Vector::getIterator
+     * @todo   Implement testGetIterator().
      */
-    public function testCurrent() {
+    public function testGetIterator() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
         );
     }
 
-    /**
-     * @covers Spl\StdVector::next
-     * @todo   Implement testNext().
-     */
-    public function testNext() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers Spl\StdVector::key
-     * @todo   Implement testKey().
-     */
-    public function testKey() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers Spl\StdVector::valid
-     * @todo   Implement testValid().
-     */
-    public function testValid() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers Spl\StdVector::rewind
-     * @todo   Implement testRewind().
-     */
-    public function testRewind() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
 }

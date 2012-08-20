@@ -2,9 +2,9 @@
 
 require 'bootstrap.php';
 
-use Spl\StdVector;
+use Spl\Vector;
 
-$vector = new StdVector;
+$vector = new Vector;
 
 $vector[] = 1; //append to the vector
 $vector[0] = 0; //set an item
@@ -20,4 +20,3 @@ $vector[] = 8;
 $vector[] = 10;
 
 $slice = $vector->slice(2, 2); //slice contains [4 , 6]
-
