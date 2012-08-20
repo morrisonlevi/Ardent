@@ -45,6 +45,14 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers Spl\HashingMediator::addListener
+     * @expectedException Spl\TypeException
+     */
+    public function testAddListenerException() {
+        $this->intercessor->addListener('error', 'notCallable');
+    }
+
+    /**
      * @covers Spl\HashingMediator::removeListener
      */
     public function testRemoveListener() {
@@ -55,6 +63,13 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
         $this->intercessor->removeListener('error', $fn);
 
         $this->assertCount(0, $events['error']);
+    }
+
+    /**
+     * @covers Spl\HashingMediator::removeListener
+     */
+    public function testRemoveListenerInvalidCallable() {
+        $this->intercessor->removeListener('error', 'notCallable');
     }
 
     /**
