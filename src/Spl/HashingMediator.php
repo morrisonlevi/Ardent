@@ -4,8 +4,8 @@ namespace Spl;
 
 /**
  * HashingMediator enforces that a specific instance of a listener can only be
- * attached to the same event once. It does this by using the hash returned
- * by spl_object_hash.
+ * attached to the same event once, minus an edge case or two that are not
+ * worth fussing over.
  */
 class HashingMediator implements Mediator {
 
