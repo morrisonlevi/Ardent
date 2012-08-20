@@ -73,6 +73,10 @@ class HashingMediator implements Mediator {
      * @return void
      */
     public function notify($event) {
+        if (empty($this->events[$event])) {
+            return;
+        }
+        
         $args = func_get_args();
         array_shift($args);
 
