@@ -1,0 +1,22 @@
+{
+    "name": "morrisonlevi/spl",
+    "type": "library",
+    "description": "A new standard library for PHP",
+    "keywords": ["php", "spl", "standard library"],
+    "homepage": "https://github.com/morrisonlevi/PHP-Datastructures",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Levi Morrison",
+            "email": "levim@php.net",
+            "homepage": "http://morrisonlevi.github.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {"Spl": "src/"}
+    }
+}
