@@ -14,26 +14,16 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
     private $array;
 
     /**
-     * @param int|array|Vector|null $arg1
+     * @param ...
      * @throws TypeException
      */
-    function __construct($arg1 = NULL) {
-
-        if (is_array($arg1)) {
-            $this->array = \SplFixedArray::fromArray($arg1, FALSE);
-        } elseif (filter_var($arg1, FILTER_VALIDATE_INT) !== FALSE) {
-            $this->array = new \SplFixedArray($arg1);
-            $this->maxSize = $arg1;
-        } elseif ($arg1 instanceof Vector) {
-            $this->maxSize = $arg1->maxSize;
-            $this->count = $arg1->count;
-            $this->array = clone $arg1->array;
-        }elseif ($arg1 === NULL) {
-            $this->array = new \SplFixedArray($this->maxSize);
+    function __construct() {
+        if (func_num_args() > 0) {
+            $this->array = \SplFixedArray::fromArray(func_get_args(), FALSE);
+            $this->count = $this->array->getSize();
+            $this->maxSize = $this->array->getSize();
         } else {
-            throw new TypeException(
-                'Parameter to ' .__CLASS__ . '::__construct() takes an int, array, or Vector.'
-            );
+            $this->array = new \SplFixedArray($this->maxSize);
         }
     }
 
@@ -136,7 +126,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      */
     function append($item) {
         if ($this->count === $this->maxSize) {
-            $this->maxSize *= 0;
+            $this->maxSize *= 2;
             $this->array->setSize($this->maxSize);
         }
         $this->array[$this->count++] = $item;

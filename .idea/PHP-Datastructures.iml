@@ -6,6 +6,18 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="PHP">
+        <CLASSES>
+          <root url="file:///usr/share/php" />
+          <root url="file:///usr/share/php5" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/share/php" />
+          <root url="file:///usr/share/php5" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
 

@@ -184,24 +184,28 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Spl\Vector::toArray
-     * @todo   Implement testToArray().
      */
     public function testToArray() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $emptyArray = $this->object->toArray();
+        $this->assertTrue(is_array($emptyArray));
+        $this->assertCount(0, $emptyArray);
+
+        $this->object[] = 1;
+        $this->object[] = 5;
+        $this->object[] = 3;
+
+        $notEmptyArray = $this->object->toArray();
+        $this->assertTrue(is_array($notEmptyArray));
+        $this->assertCount(3, $notEmptyArray);
     }
 
     /**
      * @covers Spl\Vector::getIterator
-     * @todo   Implement testGetIterator().
      */
     public function testGetIterator() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $iterator = $this->object->getIterator();
+
+        $this->assertInstanceOf('\\Spl\\VectorIterator', $iterator);
     }
 
 }
