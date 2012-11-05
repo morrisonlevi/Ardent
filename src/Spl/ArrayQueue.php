@@ -2,7 +2,7 @@
 
 namespace Spl;
 
-class ArrayQueue implements Queue {
+class ArrayQueue implements \IteratorAggregate, Queue {
 
     /**
      * @var array
@@ -48,6 +48,13 @@ class ArrayQueue implements Queue {
      */
     function count() {
         return count($this->queue);
+    }
+
+    /**
+     * @return \Traversable
+     */
+    function getIterator() {
+        return new \ArrayIterator($this->queue);
     }
 
 }
