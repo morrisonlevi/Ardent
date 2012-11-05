@@ -40,13 +40,13 @@ class InOrderIterator implements BinaryTreeIterator {
         /**
          * @var BinaryTree $node
          */
-        $node = $this->stack->pop();
+        $node = $this->stack->popBack();
 
         $right = $node->getRight();
         if ($right !== NULL) {
             // left-most branch of the right side
             for ($left = $right; $left !== NULL; $left = $left->getLeft()) {
-                $this->stack->push($left);
+                $this->stack->pushBack($left);
             }
         }
 
@@ -54,7 +54,7 @@ class InOrderIterator implements BinaryTreeIterator {
             $this->value = NULL;
             return;
         }
-        $this->value = $this->stack->peek();
+        $this->value = $this->stack->peekBack();
 
     }
 
@@ -82,11 +82,11 @@ class InOrderIterator implements BinaryTreeIterator {
         $this->stack->clear();
 
         for ($current = $this->root; $current !== NULL; $current = $current->getLeft()) {
-            $this->stack->push($current);
+            $this->stack->pushBack($current);
         }
 
         if (!$this->stack->isEmpty()) {
-            $this->value = $this->stack->peek();
+            $this->value = $this->stack->peekBack();
         }
     }
 }

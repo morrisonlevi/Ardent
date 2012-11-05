@@ -47,7 +47,7 @@ class ArrayStack implements Iterator, Stack {
      * @throws OverflowException if the Stack is full.
      * @return void
      */
-    public function push($object) {
+    public function pushBack($object) {
         array_push($this->stack, $object);
     }
 
@@ -55,7 +55,7 @@ class ArrayStack implements Iterator, Stack {
      * @throws UnderflowException if the Stack is empty.
      * @return mixed
      */
-    public function pop() {
+    public function popBack() {
         if (count($this->stack) === 0) {
             throw new UnderflowException();
         }
@@ -68,7 +68,7 @@ class ArrayStack implements Iterator, Stack {
      * @throws UnderflowException if the Stack is empty.
      * @return mixed
      */
-    public function peek() {
+    public function peekBack() {
         if (count($this->stack) === 0) {
             throw new UnderflowException();
         }

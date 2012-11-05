@@ -48,9 +48,9 @@ class PostOrderIterator implements BinaryTreeIterator {
         if ($this->value !== NULL) {
             $right = $this->value->getRight();
             if ($right !== NULL) {
-                $this->stack->push($right);
+                $this->stack->pushBack($right);
             }
-            $this->stack->push($this->value);
+            $this->stack->pushBack($this->value);
             $this->value = $this->value->getLeft();
             $this->next();
             return;
@@ -62,12 +62,12 @@ class PostOrderIterator implements BinaryTreeIterator {
             return;
         }
 
-        $this->value = $this->stack->pop();
+        $this->value = $this->stack->popBack();
 
         $right = $this->value->getRight();
-        if ($right !== NULL && !$this->stack->isEmpty() && $right === $this->stack->peek()) {
-            $this->stack->pop();
-            $this->stack->push($this->value);
+        if ($right !== NULL && !$this->stack->isEmpty() && $right === $this->stack->peekBack()) {
+            $this->stack->popBack();
+            $this->stack->pushBack($this->value);
             $this->value = $right;
             $this->next();
         } else {

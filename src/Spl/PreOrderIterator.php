@@ -40,23 +40,23 @@ class PreOrderIterator implements BinaryTreeIterator {
         /**
          * @var BinaryTree $node
          */
-        $node = $this->stack->pop();
+        $node = $this->stack->popBack();
 
         $right = $node->getRight();
         if ($right !== NULL) {
-            $this->stack->push($right);
+            $this->stack->pushBack($right);
         }
 
         $left = $node->getLeft();
         if ($left !== NULL) {
-            $this->stack->push($left);
+            $this->stack->pushBack($left);
         }
 
         if ($this->stack->isEmpty()) {
             $this->value = NULL;
             return;
         }
-        $this->value = $this->stack->peek();
+        $this->value = $this->stack->peekBack();
 
     }
 
@@ -83,7 +83,7 @@ class PreOrderIterator implements BinaryTreeIterator {
     public function rewind() {
         $this->stack->clear();
 
-        $this->stack->push($this->root);
+        $this->stack->pushBack($this->root);
 
         $this->value = $this->root;
     }

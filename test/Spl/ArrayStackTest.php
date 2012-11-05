@@ -31,10 +31,10 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
      * @covers Spl\ArrayStack::count
      */
     public function testPush() {
-        $this->stack->push(0);
+        $this->stack->pushBack(0);
         $this->assertCount(1, $this->stack);
 
-        $this->stack->push(0);
+        $this->stack->pushBack(0);
         $this->assertCount(2, $this->stack);
     }
 
@@ -44,9 +44,9 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
      */
     public function testPop() {
         $inItem = 0;
-        $this->stack->push($inItem);
+        $this->stack->pushBack($inItem);
 
-        $outItem = $this->stack->pop();
+        $outItem = $this->stack->popBack();
 
         $this->assertEquals($inItem, $outItem);
         $this->assertCount(0, $this->stack);
@@ -57,7 +57,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \Spl\UnderflowException
      */
     public function testPopException() {
-        $this->stack->pop();
+        $this->stack->popBack();
     }
 
     /**
@@ -66,16 +66,16 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
      */
     public function testPeek() {
         $inItem = 0;
-        $this->stack->push($inItem);
+        $this->stack->pushBack($inItem);
 
-        $peekedItem = $this->stack->peek();
+        $peekedItem = $this->stack->peekBack();
 
         $this->assertEquals($inItem, $peekedItem);
         $this->assertCount(1, $this->stack);
 
         $secondInItem = 1;
-        $this->stack->push($secondInItem);
-        $secondPeekedItem = $this->stack->peek();
+        $this->stack->pushBack($secondInItem);
+        $secondPeekedItem = $this->stack->peekBack();
 
         $this->assertEquals($secondInItem, $secondPeekedItem);
         $this->assertCount(2, $this->stack);
@@ -86,7 +86,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \Spl\UnderflowException
      */
     public function testPeekException() {
-        $this->stack->peek();
+        $this->stack->peekBack();
     }
 
     /**
@@ -115,8 +115,8 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
      * @depends testPush
      */
     public function testIterator() {
-        $this->stack->push(1);
-        $this->stack->push(2);
+        $this->stack->pushBack(1);
+        $this->stack->pushBack(2);
 
         $expectedSequence = array(2,1);
 
@@ -137,7 +137,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
      * @depends testPush
      */
     public function testClear() {
-        $this->stack->push(0);
+        $this->stack->pushBack(0);
 
         $this->stack->clear();
         $this->assertCount(0, $this->stack);
@@ -150,7 +150,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
     public function testContains() {
         $item = 0;
         $this->assertFalse($this->stack->contains($item));
-        $this->stack->push($item);
+        $this->stack->pushBack($item);
         $this->assertTrue($this->stack->contains($item));
     }
 
@@ -160,7 +160,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
      */
     public function testIsEmpty() {
         $this->assertTrue($this->stack->isEmpty());
-        $this->stack->push(0);
+        $this->stack->pushBack(0);
         $this->assertFalse($this->stack->isEmpty());
     }
 
