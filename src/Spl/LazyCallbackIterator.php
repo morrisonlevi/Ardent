@@ -22,9 +22,9 @@ class LazyCallbackIterator extends IteratorIterator {
 
     /**
      * @param Traversable $iterator
-     * @param $callback Callback has the signature ($key, $value,...)
+     * @param callable $callback Callback has the signature ($key, $value,...)
      */
-    public function __construct(Traversable $iterator, callable $callback) {
+    public function __construct(Traversable $iterator, $callback) {
         parent::__construct($iterator);
         $this->callback = $callback;
 
