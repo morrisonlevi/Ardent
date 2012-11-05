@@ -57,4 +57,28 @@ class ArrayQueue implements \IteratorAggregate, Queue {
         return new \ArrayIterator($this->queue);
     }
 
+    /**
+     * @return void
+     */
+    function clear() {
+        $this->queue = array();
+    }
+
+    /**
+     * @param $object
+     *
+     * @return bool
+     * @throws TypeException when $object is not the correct type.
+     */
+    function contains($object) {
+        return in_array($object, $this->queue);
+    }
+
+    /**
+     * @return bool
+     */
+    function isEmpty() {
+        return empty($this->queue);
+    }
+
 }

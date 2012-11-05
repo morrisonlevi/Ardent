@@ -2,7 +2,7 @@
 
 namespace Spl;
 
-interface Queue extends \Countable, \Traversable {
+interface Queue extends Collection {
     /**
      * @param $item
      *
