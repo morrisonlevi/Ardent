@@ -14,7 +14,7 @@ interface Queue extends Collection {
 
     /**
      * @return mixed
-     * @throws UnderflowException if the Stack is empty.
+     * @throws UnderflowException if the Queue is empty.
      */
     function popFront();
 
