@@ -2,8 +2,6 @@
 
 namespace Spl;
 
-use Exception;
-
 /**
  * TypeException should be thrown when a provided variable is the incorrect
  * type, such as providing an integer when an object is required.

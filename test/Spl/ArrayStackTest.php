@@ -27,7 +27,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\ArrayStack::push
+     * @covers Spl\ArrayStack::pushBack
      * @covers Spl\ArrayStack::count
      */
     public function testPush() {
@@ -39,7 +39,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\ArrayStack::pop
+     * @covers Spl\ArrayStack::popBack
      * @depends testPush
      */
     public function testPop() {
@@ -53,7 +53,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\ArrayStack::pop
+     * @covers Spl\ArrayStack::popBack
      * @expectedException \Spl\EmptyException
      */
     public function testPopException() {
@@ -61,7 +61,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\ArrayStack::peek
+     * @covers Spl\ArrayStack::peekBack
      * @depends testPush
      */
     public function testPeek() {
@@ -82,7 +82,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\ArrayStack::peek
+     * @covers Spl\ArrayStack::peekBack
      * @expectedException \Spl\EmptyException
      */
     public function testPeekException() {

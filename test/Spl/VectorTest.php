@@ -58,7 +58,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Spl\Vector::offsetGet
-     * @expectedException Spl\OutOfBoundsException
+     * @expectedException \Spl\IndexException
      */
     public function testOffsetGetOutOfBoundsException() {
         $this->object[0];
@@ -66,7 +66,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Spl\Vector::offsetGet
-     * @expectedException Spl\TypeException
+     * @expectedException \Spl\TypeException
      */
     public function testOffsetGetTypeException() {
         $this->object[new \StdClass()];

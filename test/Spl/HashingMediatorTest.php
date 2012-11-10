@@ -45,8 +45,8 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\HashingMediator::addListener
-     * @expectedException Spl\TypeException
+     * @covers \Spl\HashingMediator::addListener
+     * @expectedException \Spl\TypeException
      */
     public function testAddListenerException() {
         $this->intercessor->addListener('error', 'notCallable');
