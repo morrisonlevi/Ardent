@@ -3,8 +3,7 @@
 namespace Spl;
 
 use ArrayAccess,
-    IteratorAggregate,
-    Traversable;
+    IteratorAggregate;
 
 class Vector implements IteratorAggregate, ArrayAccess, Collection {
 
@@ -73,7 +72,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      *
      * @param int $offset
      *
-     * @throws OutOfBoundsException
+     * @throws IndexException
      * @throws TypeException
      * @return mixed
      */
@@ -87,7 +86,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      * @param int $offset
      * @param mixed $value
      *
-     * @throws OutOfBoundsException
+     * @throws IndexException
      * @throws TypeException
      * @return void
      */
@@ -137,7 +136,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      *
      * @return mixed
      * @throws TypeException when $index is not an integer.
-     * @throws OutOfBoundsException when $index < 0 or $index >= count($this).
+     * @throws IndexException when $index < 0 or $index >= count($this).
      */
     function get($index) {
         if (filter_var($index, FILTER_VALIDATE_INT) === FALSE) {
@@ -145,7 +144,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
         }
 
         if (!$this->offsetExists($index)) {
-            throw new OutOfBoundsException;
+            throw new IndexException;
         }
 
         return $this->array[$index];
@@ -157,7 +156,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      *
      * @return void
      * @throws TypeException when $index is not an integer or when $item is not the correct type.
-     * @throws OutOfBoundsException when $index < 0 or $index >= count($this).
+     * @throws IndexException when $index < 0 or $index >= count($this).
      */
     function set($index, $item) {
         if (filter_var($index, FILTER_VALIDATE_INT) === FALSE) {
@@ -165,7 +164,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
         }
 
         if (!$this->offsetExists($index)) {
-            throw new OutOfBoundsException;
+            throw new IndexException;
         }
 
         $this->array[$index] = $item;
@@ -217,8 +216,8 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      * @param int $numberOfItemsToExtract [optional] If not provided, it will extract all items after the $startIndex.
      *
      * @return Vector
-     * @throws RangeException when $numberOfItemsToExtract is negative or if it would put the function out of bounds.
-     * @throws OutOfBoundsException when $startIndex is < 0 or >= $this->count()
+     * @throws IndexException when $numberOfItemsToExtract is negative or if it would put the function out of bounds.
+     * @throws IndexException when $startIndex is < 0 or >= $this->count()
      * @throws TypeException when $startIndex or $numberOfItemsToExtract are not integers.
      */
     function slice($startIndex, $numberOfItemsToExtract = NULL) {
@@ -230,7 +229,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
         }
 
         if (!$this->offsetExists($startIndex)) {
-            throw new OutOfBoundsException;
+            throw new IndexException;
         }
 
         $stopIndex = $numberOfItemsToExtract !== NULL
@@ -238,7 +237,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
             : $this->count - $startIndex;
 
         if ($numberOfItemsToExtract < 0 || !$this->offsetExists($stopIndex)) {
-            throw new RangeException;
+            throw new IndexException;
         }
 
         $slice = new Vector($this->maxSize);

@@ -54,7 +54,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Spl\ArrayStack::pop
-     * @expectedException \Spl\UnderflowException
+     * @expectedException \Spl\EmptyException
      */
     public function testPopException() {
         $this->stack->popBack();
@@ -83,7 +83,7 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Spl\ArrayStack::peek
-     * @expectedException \Spl\UnderflowException
+     * @expectedException \Spl\EmptyException
      */
     public function testPeekException() {
         $this->stack->peekBack();

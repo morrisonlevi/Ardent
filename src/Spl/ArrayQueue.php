@@ -21,11 +21,11 @@ class ArrayQueue implements \IteratorAggregate, Queue {
 
     /**
      * @return mixed
-     * @throws UnderflowException if the Stack is empty.
+     * @throws EmptyException if the Stack is empty.
      */
     function popFront() {
         if ($this->count() === 0) {
-            throw new UnderflowException;
+            throw new EmptyException;
         }
 
         return array_slice($this->queue, 0, 1, $PRESERVE_KEYS = FALSE);
@@ -33,11 +33,11 @@ class ArrayQueue implements \IteratorAggregate, Queue {
 
     /**
      * @return mixed
-     * @throws UnderflowException if the Queue is empty.
+     * @throws EmptyException if the Queue is empty.
      */
     function peekFront() {
         if ($this->count() === 0) {
-            throw new UnderflowException;
+            throw new EmptyException;
         }
 
         return $this->queue[0];

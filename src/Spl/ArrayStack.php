@@ -4,6 +4,7 @@ namespace Spl;
 
 use Iterator;
 
+
 class ArrayStack implements Iterator, Stack {
 
     private $stack = array();
@@ -44,7 +45,7 @@ class ArrayStack implements Iterator, Stack {
      * @param mixed $object
      *
      * @throws TypeException if $object is not the correct type.
-     * @throws OverflowException if the Stack is full.
+     * @throws FullException if the Stack is full.
      * @return void
      */
     public function pushBack($object) {
@@ -52,12 +53,12 @@ class ArrayStack implements Iterator, Stack {
     }
 
     /**
-     * @throws UnderflowException if the Stack is empty.
+     * @throws EmptyException if the Stack is empty.
      * @return mixed
      */
     public function popBack() {
         if (count($this->stack) === 0) {
-            throw new UnderflowException();
+            throw new EmptyException();
         }
 
         return array_pop($this->stack);
@@ -65,12 +66,12 @@ class ArrayStack implements Iterator, Stack {
     }
 
     /**
-     * @throws UnderflowException if the Stack is empty.
+     * @throws EmptyException if the Stack is empty.
      * @return mixed
      */
     public function peekBack() {
         if (count($this->stack) === 0) {
-            throw new UnderflowException();
+            throw new EmptyException();
         }
 
         return $this->stack[count($this->stack) - 1];
