@@ -23,7 +23,7 @@ class HashSet implements Iterator, Set {
      * @return \Spl\HashSet
      */
     public function __construct($hashFunction = NULL) {
-        $this->hashFunction = $hashFunction;
+        $this->hashFunction = $hashFunction ?: array($this, '__hash');
     }
 
     /**
@@ -31,7 +31,7 @@ class HashSet implements Iterator, Set {
      *
      * @return string
      */
-    private function __hash($item) {
+    protected function __hash($item) {
         if (is_object($item)) {
             return spl_object_hash($item);
         } elseif (is_scalar($item)) {
@@ -45,12 +45,8 @@ class HashSet implements Iterator, Set {
         return '0';
     }
 
-    private function hash($item) {
-        if ($this->hashFunction !== NULL) {
-            return call_user_func($this->hashFunction, $item);
-        }
-
-        return $this->__hash($item);
+    protected function hash($item) {
+        return call_user_func($this->hashFunction, $item);
     }
 
     /**
@@ -64,10 +60,19 @@ class HashSet implements Iterator, Set {
      * @param $object
      *
      * @return bool
+     * @throws FunctionException when the hashing function returns an improper value.
      * @throws TypeException when $object is not the correct type.
      */
     public function contains($object) {
-        return array_key_exists($this->hash($object), $this->objects);
+        $hash = $this->hash($object);
+
+        if (!is_scalar($hash)) {
+            throw new FunctionException(
+                'Hashing function must return a scalar value'
+            );
+        }
+
+        return array_key_exists($hash, $this->objects);
     }
 
     /**
@@ -89,10 +94,19 @@ class HashSet implements Iterator, Set {
      * @param $item
      *
      * @return void
+     * @throws FunctionException when the hashing function returns an improper value.
      * @throws TypeException when $item is not the correct type.
      */
     public function add($item) {
-        $this->objects[$this->hash($item)] = $item;
+        $hash = $this->hash($item);
+
+        if (!is_scalar($hash)) {
+            throw new FunctionException(
+                'Hashing function must return a scalar value'
+            );
+        }
+
+        $this->objects[$hash] = $item;
     }
 
     /**
@@ -111,10 +125,19 @@ class HashSet implements Iterator, Set {
      * @param $item
      *
      * @return void
+     * @throws FunctionException when the hashing function returns an improper value.
      * @throws TypeException when $item is not the correct type.
      */
     public function remove($item) {
-        unset($this->objects[$this->hash($item)]);
+        $hash = $this->hash($item);
+
+        if (!is_scalar($hash)) {
+            throw new FunctionException(
+                'Hashing function must return a scalar value'
+            );
+        }
+
+        unset($this->objects[$hash]);
     }
 
     /**
