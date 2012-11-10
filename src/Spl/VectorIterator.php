@@ -3,9 +3,9 @@
 namespace Spl;
 
 use Countable,
-    Iterator;
+    SeekableIterator;
 
-class VectorIterator implements Iterator, Countable {
+class VectorIterator implements SeekableIterator, Countable {
 
     /**
      * @var Vector
@@ -67,6 +67,19 @@ class VectorIterator implements Iterator, Countable {
      */
     public function count() {
         return $this->vector->count();
+    }
+
+    /**
+     * @param int $index
+     * @link http://php.net/manual/en/seekableiterator.seek.php
+     * @return void
+     * @throws \Spl\LookupException if it cannot seek to the position
+     */
+    public function seek($index) {
+        if (!$this->vector->offsetExists($index)) {
+            throw new LookupException();
+        }
+        $this->currentKey = $index;
     }
 
 }
