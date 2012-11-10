@@ -156,6 +156,7 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
             'staticCallable' => 'Spl\\CallableStub::staticMethod',
         );
 
+        $actualHashes = array();
         foreach ($callables as $name => $callable) {
             $actualHashes[$name] = $this->intercessor->hash($callable);
         }

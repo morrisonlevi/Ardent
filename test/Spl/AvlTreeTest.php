@@ -457,6 +457,9 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         );
 
         foreach ($iterators as $algorithm => $iterator) {
+            /**
+             * @var \Iterator $iterator
+             */
             $this->assertInstanceOf("\\Spl\\{$algorithm}Iterator", $iterator);
 
             $iterator->rewind();
@@ -580,8 +583,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
         foreach ($iterators as $algorithm => $iterator) {
             $actualSequence = array();
-            foreach ($iterator as $key => $item) {
-//                $this->assertNull($key);
+            foreach ($iterator as $item) {
                 $actualSequence[] = $item;
             }
 
