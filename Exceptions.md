@@ -1,6 +1,6 @@
 #Exceptions
 
-Designing a good exceptions hierarchy is more difficult that it looks. This one
+Designing a good exceptions hierarchy is more difficult than it looks. This one
 has been carefully designed after looking at how Python, Java and PHP's current
 SPL created their exception hierarchy. Furthermore, exceptions are not
 integrated into the PHP core and many of the exceptions used in other libraries
