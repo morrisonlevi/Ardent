@@ -7,31 +7,21 @@ use ArrayAccess,
 
 class Vector implements IteratorAggregate, ArrayAccess, Collection {
 
-    private $maxSize = 10;
-    private $count = 0;
-
-    private $array;
+    protected $array = array();
 
     /**
-     * @param ...
+     * @param mixed,... $varargs
      * @throws TypeException
      */
-    function __construct() {
-        if (func_num_args() > 0) {
-            $this->array = \SplFixedArray::fromArray(func_get_args(), FALSE);
-            $this->count = $this->array->getSize();
-            $this->maxSize = $this->array->getSize();
-        } else {
-            $this->array = new \SplFixedArray($this->maxSize);
-        }
+    function __construct($varargs = NULL) {
+        $this->array = func_get_args();
     }
 
     /**
      * @return void
      */
     function clear() {
-        $this->array = new \SplFixedArray(10);
-        $this->count = 0;
+        $this->array = array();
     }
 
     /**
@@ -41,19 +31,14 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      * @throws TypeException when $object is not the correct type.
      */
     function contains($object) {
-        foreach ($this->array as $item) {
-            if ($object == $item) {
-                return TRUE;
-            }
-        }
-        return FALSE;
+        return in_array($object, $this->array);
     }
 
     /**
      * @return bool
      */
     function isEmpty() {
-        return $this->count === 0;
+        return count($this->array) === 0;
     }
 
     /**
@@ -64,7 +49,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      * @return boolean
      */
     public function offsetExists($offset) {
-        return $offset >= 0 && $offset < $this->count;
+        return $offset >= 0 && $offset < $this->count();
     }
 
     /**
@@ -114,7 +99,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      * @return int
      */
     public function count() {
-        return $this->count;
+        return count($this->array);
     }
 
     /**
@@ -124,11 +109,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      * @throws TypeException when $item is not the correct type.
      */
     function append($item) {
-        if ($this->count === $this->maxSize) {
-            $this->maxSize *= 2;
-            $this->array->setSize($this->maxSize);
-        }
-        $this->array[$this->count++] = $item;
+        $this->array[] = $item;
     }
 
     /**
@@ -181,18 +162,11 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
             throw new TypeException;
         }
 
-        if ($this->offsetExists($index)) {
-            for ($i = 0; $i < $this->count; $i++) {
-                if ($i >= $index) {
-                    if ($i + 1 < $this->count) {
-                        $this->array[$i] = $this->array[$i + 1];
-                    } else {
-                        $this->array[$i] = NULL;
-                    }
-                }
-            }
-            $this->count--;
+        if (!$this->offsetExists($index)) {
+            return;
         }
+
+        array_splice($this->array, $index, 1);
     }
 
     /**
@@ -201,14 +175,12 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      * @throws TypeException if $object is the incorrect type for the Vector
      * @return void
      */
-    function removeObject($object) {
-        for ($i = 0; $i < $this->count; $i++) {
-            $item = $this->array[$i];
-            if ($item === $object) {
-                $this->remove($i);
-                return;
-            }
+    function removeItem($object) {
+        $index = array_search($object, $this->array);
+        if ($index === FALSE) {
+            return;
         }
+        array_splice($this->array, $index, 1);
     }
 
     /**
@@ -234,17 +206,15 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
 
         $stopIndex = $numberOfItemsToExtract !== NULL
             ? $numberOfItemsToExtract + $startIndex
-            : $this->count - $startIndex;
+            : $this->count() - $startIndex;
 
         if ($numberOfItemsToExtract < 0 || !$this->offsetExists($stopIndex)) {
             throw new IndexException;
         }
 
-        $slice = new Vector($this->maxSize);
+        $slice = new Vector;
 
-        for ($i = $startIndex; $i < $stopIndex; $i++) {
-            $slice[] = $this->array[$i];
-        }
+        $slice->array = array_slice($this->array, $startIndex, $numberOfItemsToExtract);
 
         return $slice;
     }
@@ -262,11 +232,11 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
             throw new TypeException;
         }
 
-        $vector = new Vector($this->maxSize);
+        $vector = new Vector;
 
-        foreach ($this->array as $key => $item) {
-            if (call_user_func($callable, $item, $key)) {
-                $vector->append($item);
+        foreach ($this->array as $i => $item) {
+            if (call_user_func($callable, $item, $i)) {
+                $vector->array[] = $item;
             }
         }
 
@@ -286,11 +256,9 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
             throw new TypeException;
         }
 
-        $vector = new Vector($this->maxSize);
+        $vector = new Vector;
 
-        foreach ($this->array as $index => $item) {
-            $vector->append(call_user_func($callable, $item, $index));
-        }
+        $vector->array = array_map($callable, $this->array);
 
         return $vector;
     }
@@ -308,9 +276,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
             throw new TypeException;
         }
 
-        foreach ($this->array as $index => $item) {
-            $this->set($index, call_user_func($callable, $item, $index));
-        }
+        array_walk($this->array, $callable);
     }
 
     /**
