@@ -13,16 +13,11 @@ use Countable,
  * instead of array. This was a design choice to focus on objects instead of doing what is convenient. You can always
  * pass in an ArrayIterator instead.
  *
- * Note that Collection does not extend Serializable.  This is because all objects can be serialized and unserialized
+ * Note that Collection does not extend Serializable. This is because all objects can be serialized and unserialized
  * by PHP, and the interface is used only for custom serializing. The final implementations of the data structures in C
  * will extend the Serializable interface.
  */
 interface Collection extends Countable, Traversable /*, \Serializable  */ {
-
-    /**
-     * @return void
-     */
-    function clear();
 
     /**
      * @param $object
