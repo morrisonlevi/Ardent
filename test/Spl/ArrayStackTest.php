@@ -103,7 +103,6 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(0, $i);
 
-        $this->assertNull($this->stack->key());
     }
 
     /**

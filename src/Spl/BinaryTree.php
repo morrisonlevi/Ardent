@@ -127,4 +127,17 @@ class BinaryTree {
 
     }
 
+    function __clone() {
+        $tree = new BinaryTree($this->value);
+        $tree->left = $this->left === NULL
+            ? NULL
+            : clone $this->left;
+
+        $tree->right = $this->right === NULL
+            ? NULL
+            : clone $this->right;
+
+        return $tree;
+    }
+
 }

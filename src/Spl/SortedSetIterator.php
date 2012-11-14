@@ -2,42 +2,30 @@
 
 namespace Spl;
 
-class SortedMapIterator implements CountableIterator {
+class SortedSetIterator implements CountableIterator {
 
-    /**
-     * @var BinaryTreeIterator
-     */
-    private $iterator;
-
-    private $size;
+    private $key = 0;
 
     public function __construct(BinaryTreeIterator $iterator, $size) {
         $this->iterator = $iterator;
         $this->size = $size;
+        $this->iterator->rewind();
     }
 
+    /**
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int
+     */
     public function count() {
         return $this->size;
     }
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
-     * @throws TypeException
      * @return mixed
      */
     public function current() {
-        /**
-         * @var Pair $pair
-         */
-        $pair = $this->iterator->current();
-
-        if (!($pair instanceof Pair)) {
-            throw new TypeException(
-                __CLASS__ . ' only works with a BinarySearchTreeIterator that returns pair objects as values'
-            );
-        }
-
-        return $pair->first();
+        return $this->iterator->current();
     }
 
     /**
@@ -46,6 +34,7 @@ class SortedMapIterator implements CountableIterator {
      */
     public function next() {
         $this->iterator->next();
+        $this->key++;
     }
 
     /**
@@ -53,7 +42,9 @@ class SortedMapIterator implements CountableIterator {
      * @return mixed
      */
     public function key() {
-        return NULL;
+        return $this->size > 0
+            ? $this->key
+            : NULL;
     }
 
     /**
@@ -70,6 +61,7 @@ class SortedMapIterator implements CountableIterator {
      */
     public function rewind() {
         $this->iterator->rewind();
+        $this->key = 0;
     }
 
 }

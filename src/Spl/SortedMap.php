@@ -165,14 +165,10 @@ class SortedMap implements IteratorAggregate, Map {
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Retrieve an external iterator
-     *
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
+     * @return SortedMapIterator
      */
     public function getIterator() {
-        return new SortedMapIterator($this->avl->getIterator());
+        return new SortedMapIterator($this->avl->getIterator(), $this->avl->count());
     }
 }

@@ -2,10 +2,7 @@
 
 namespace Spl;
 
-use Countable,
-    SeekableIterator;
-
-class VectorIterator implements SeekableIterator, Countable {
+class VectorIterator implements CountableSeekableIterator {
 
     /**
      * @var Vector

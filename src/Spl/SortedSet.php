@@ -8,7 +8,7 @@ use IteratorAggregate,
 class SortedSet implements IteratorAggregate, Set {
 
     /**
-     * @var BinarySearchTree
+     * @var AvlTree
      */
     private $bst;
 
@@ -101,7 +101,7 @@ class SortedSet implements IteratorAggregate, Set {
      * @return Traversable
      */
     public function getIterator() {
-        return $this->bst->getIterator();
+        return new SortedSetIterator($this->bst->getIterator(), $this->count());
     }
 
 }

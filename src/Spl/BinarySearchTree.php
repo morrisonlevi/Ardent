@@ -2,8 +2,7 @@
 
 namespace Spl;
 
-use IteratorAggregate,
-    Traversable;
+use IteratorAggregate;
 
 class BinarySearchTree implements IteratorAggregate, Collection {
 
@@ -46,6 +45,7 @@ class BinarySearchTree implements IteratorAggregate, Collection {
      */
     function add($element) {
         $this->root = $this->addNode($element, $this->root);
+        $this->cache = NULL;
     }
 
     /**
@@ -59,7 +59,6 @@ class BinarySearchTree implements IteratorAggregate, Collection {
             $this->size++;
             return new BinaryTree($element);
         }
-
 
         $comparisonResult = call_user_func($this->comparator, $element, $node->getValue());
 
@@ -79,6 +78,7 @@ class BinarySearchTree implements IteratorAggregate, Collection {
      */
     function remove($element) {
         $this->root = $this->removeNode($element, $this->root);
+        $this->cache = NULL;
     }
 
     /**
@@ -220,28 +220,39 @@ class BinarySearchTree implements IteratorAggregate, Collection {
     }
 
     /**
+     * @var BinaryTree
+     */
+    private $cache = NULL;
+
+    /**
      * @param int $order [optional]
      *
      * @return BinaryTreeIterator
      */
     function getIterator($order = self::TRAVERSE_IN_ORDER) {
         $iterator = NULL;
+
+        $root = $this->cache ?: (
+            $this->root !== NULL
+                ? clone $this->root
+                : NULL
+        );
         switch ($order) {
             case self::TRAVERSE_LEVEL_ORDER:
-                $iterator = new LevelOrderIterator($this->root);
+                $iterator = new LevelOrderIterator($root);
                 break;
 
             case self::TRAVERSE_PRE_ORDER:
-                $iterator = new PreOrderIterator($this->root);
+                $iterator = new PreOrderIterator($root);
                 break;
 
             case self::TRAVERSE_POST_ORDER:
-                $iterator = new PostOrderIterator($this->root);
+                $iterator = new PostOrderIterator($root);
                 break;
 
             case self::TRAVERSE_IN_ORDER:
             default:
-                $iterator = new InOrderIterator($this->root);
+                $iterator = new InOrderIterator($root);
         }
 
         return $iterator;
@@ -274,4 +285,13 @@ class BinarySearchTree implements IteratorAggregate, Collection {
         return $this->size;
     }
 
+    function __clone() {
+        $tree = new BinarySearchTree();
+        $tree->size = $this->size;
+        $tree->root = $this->root === NULL
+            ? NULL
+            : clone $this->root;
+
+        return $tree;
+    }
 }

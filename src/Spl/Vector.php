@@ -22,6 +22,7 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      */
     function clear() {
         $this->array = array();
+        $this->cache = NULL;
     }
 
     /**
@@ -110,6 +111,8 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
      */
     function append($item) {
         $this->array[] = $item;
+
+        $this->cache = NULL;
     }
 
     /**
@@ -149,6 +152,8 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
         }
 
         $this->array[$index] = $item;
+
+        $this->cache = NULL;
     }
 
     /**
@@ -167,6 +172,8 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
         }
 
         array_splice($this->array, $index, 1);
+
+        $this->cache = NULL;
     }
 
     /**
@@ -181,6 +188,8 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
             return;
         }
         array_splice($this->array, $index, 1);
+
+        $this->cache = NULL;
     }
 
     /**
@@ -277,6 +286,8 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
         }
 
         array_walk($this->array, $callable);
+
+        $this->cache = NULL;
     }
 
     /**
@@ -287,10 +298,17 @@ class Vector implements IteratorAggregate, ArrayAccess, Collection {
     }
 
     /**
+     * @var Vector
+     */
+    private $cache = NULL;
+
+    /**
      * @return VectorIterator
      */
     function getIterator() {
-        return new VectorIterator($this);
+        $this->cache = $this->cache ?: clone $this;
+
+        return new VectorIterator($this->cache);
     }
 
 }
