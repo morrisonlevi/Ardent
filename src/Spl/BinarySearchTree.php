@@ -2,9 +2,7 @@
 
 namespace Spl;
 
-use IteratorAggregate;
-
-class BinarySearchTree implements IteratorAggregate, Collection {
+class BinarySearchTree implements Collection {
 
     const TRAVERSE_IN_ORDER = 1;
     const TRAVERSE_LEVEL_ORDER = 2;

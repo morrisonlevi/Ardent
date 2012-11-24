@@ -2,7 +2,7 @@
 
 namespace Spl;
 
-class ArrayQueue implements \IteratorAggregate, Queue {
+class ArrayQueue implements Queue {
 
     /**
      * @var array
@@ -54,7 +54,7 @@ class ArrayQueue implements \IteratorAggregate, Queue {
      * @return \Traversable
      */
     function getIterator() {
-        return new \ArrayIterator($this->queue);
+        return new ArrayIterator($this->queue);
     }
 
     /**

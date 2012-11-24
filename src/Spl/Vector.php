@@ -2,10 +2,9 @@
 
 namespace Spl;
 
-use ArrayAccess,
-    IteratorAggregate;
+use ArrayAccess;
 
-class Vector implements IteratorAggregate, ArrayAccess, Collection {
+class Vector implements ArrayAccess, Collection {
 
     protected $array = array();
 

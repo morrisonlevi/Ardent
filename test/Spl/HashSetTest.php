@@ -113,46 +113,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\HashSet::current
-     * @covers Spl\HashSet::key
-     * @covers Spl\HashSet::next
-     * @covers Spl\HashSet::valid
-     * @covers Spl\HashSet::rewind
-     * @depends testAdd
-     */
-    public function testIterator() {
-        $key = $this->object->key();
-        $current = $this->object->current();
-
-        $this->assertNull($key);
-        $this->assertFalse($current);
-        $this->assertFalse($this->object->valid());
-
-        $this->object->next();
-
-        $this->assertNull($key);
-        $this->assertFalse($current);
-
-        $this->object->rewind();
-
-        $item = new StdClass;
-        $this->object->add($item);
-
-        $key = $this->object->key();
-        $current = $this->object->current();
-
-        $this->assertNotEquals('', $key);
-        $this->assertEquals($item, $current);
-
-        $this->object->next();
-        $key = $this->object->key();
-        $current = $this->object->current();
-
-        $this->assertNull($key);
-        $this->assertFalse($current);
-    }
-
-    /**
      * @covers Spl\HashSet::clear
      * @depends testAdd
      */

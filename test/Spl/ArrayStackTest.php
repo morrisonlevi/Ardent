@@ -90,48 +90,6 @@ class ArrayStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\ArrayStack::key
-     * @covers Spl\ArrayStack::valid
-     * @covers Spl\ArrayStack::rewind
-     * @depends testPush
-     */
-    public function testIteratorEmpty() {
-        $i = 0;
-        foreach ($this->stack as $item) {
-            $i++;
-        }
-
-        $this->assertEquals(0, $i);
-
-    }
-
-    /**
-     * @covers Spl\ArrayStack::current
-     * @covers Spl\ArrayStack::key
-     * @covers Spl\ArrayStack::next
-     * @covers Spl\ArrayStack::valid
-     * @covers Spl\ArrayStack::rewind
-     * @depends testPush
-     */
-    public function testIterator() {
-        $this->stack->pushBack(1);
-        $this->stack->pushBack(2);
-
-        $expectedSequence = array(2,1);
-
-        $actualSequence = array();
-        $i = 0;
-        foreach ($this->stack as $key => $item) {
-            $this->assertEquals($i, $key);
-            $actualSequence[] = $item;
-            $i++;
-        }
-
-        $this->assertEquals($expectedSequence, $actualSequence);
-
-    }
-
-    /**
      * @covers Spl\ArrayStack::clear
      * @depends testPush
      */

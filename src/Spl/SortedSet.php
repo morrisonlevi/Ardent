@@ -2,10 +2,9 @@
 
 namespace Spl;
 
-use IteratorAggregate,
-    Traversable;
+use Traversable;
 
-class SortedSet implements IteratorAggregate, Set {
+class SortedSet implements Set {
 
     /**
      * @var AvlTree

@@ -2,10 +2,9 @@
 
 namespace Spl;
 
-use IteratorAggregate,
-    Traversable;
+use Traversable;
 
-class SortedMap implements IteratorAggregate, Map {
+class SortedMap implements Map {
 
     private $avl;
 
