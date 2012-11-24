@@ -62,13 +62,15 @@ class SortedMap implements Map {
     }
 
     /**
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     *
      * @param mixed $offset
-     *
+     * @link http://php.net/manual/en/arrayaccess.offsetget.php
      * @return mixed
+     * @throws KeyException
      */
     public function offsetGet($offset) {
+        if (!$this->contains($offset)) {
+            throw new KeyException;
+        }
         return $this->avl->get($offset);
     }
 

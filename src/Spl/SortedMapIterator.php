@@ -37,7 +37,7 @@ class SortedMapIterator implements CountableIterator {
             );
         }
 
-        return $pair->first();
+        return $pair->second();
     }
 
     /**
@@ -49,11 +49,24 @@ class SortedMapIterator implements CountableIterator {
     }
 
     /**
+     * @link https://bugs.php.net/bug.php?id=45684
      * @link http://php.net/manual/en/iterator.key.php
      * @return mixed
+     * @throws TypeException
      */
     public function key() {
-        return NULL;
+        /**
+         * @var Pair $pair
+         */
+        $pair = $this->iterator->current();
+
+        if (!($pair instanceof Pair)) {
+            throw new TypeException(
+                __CLASS__ . ' only works with a BinarySearchTreeIterator that returns pair objects as values'
+            );
+        }
+
+        return $pair->first();
     }
 
     /**

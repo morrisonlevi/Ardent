@@ -49,6 +49,6 @@ $map[1] = 2;
 $map[2] = 4;
 $map[3] = 6;
 
-foreach ($map as $key) {
-    print "$key => " . $map->get($key) . "\n";
+foreach ($map as $key => $value) {
+    print "$key => $value\n";
 }
