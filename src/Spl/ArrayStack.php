@@ -2,10 +2,7 @@
 
 namespace Spl;
 
-use IteratorAggregate;
-
-
-class ArrayStack implements IteratorAggregate, Stack {
+class ArrayStack implements Stack {
 
     private $stack = array();
 
