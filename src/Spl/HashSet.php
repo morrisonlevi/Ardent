@@ -152,6 +152,7 @@ class HashSet implements Set {
     }
 
     /**
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return HashSetIterator
      */
     function getIterator() {

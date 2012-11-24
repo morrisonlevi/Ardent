@@ -51,10 +51,11 @@ class ArrayQueue implements Queue {
     }
 
     /**
-     * @return \Traversable
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return ArrayQueueIterator
      */
     function getIterator() {
-        return new ArrayIterator($this->queue);
+        return new ArrayQueueIterator($this->queue);
     }
 
     /**

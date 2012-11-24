@@ -302,6 +302,7 @@ class Vector implements ArrayAccess, Collection {
     private $cache = NULL;
 
     /**
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return VectorIterator
      */
     function getIterator() {

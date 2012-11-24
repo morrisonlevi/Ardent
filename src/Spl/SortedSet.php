@@ -97,7 +97,7 @@ class SortedSet implements Set {
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable
+     * @return SortedSetIterator
      */
     public function getIterator() {
         return new SortedSetIterator($this->bst->getIterator(), $this->count());

@@ -74,6 +74,10 @@ class ArrayStack implements Stack {
         return $this->stack[count($this->stack) - 1];
     }
 
+    /**
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return ArrayStackIterator
+     */
     function getIterator() {
         return new ArrayStackIterator($this->stack);
     }
