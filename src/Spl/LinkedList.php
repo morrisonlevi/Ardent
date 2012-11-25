@@ -416,4 +416,8 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
         return $a == $b;
     }
 
+    protected function getCurrentOffset() {
+        return $this->currentOffset;
+    }
+
 }

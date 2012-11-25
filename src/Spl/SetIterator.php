@@ -2,6 +2,6 @@
 
 namespace Spl;
 
-interface SetIterator extends \CountableIterator {
+interface SetIterator extends CountableIterator {
 
 }
