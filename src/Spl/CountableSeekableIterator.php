@@ -2,6 +2,6 @@
 
 namespace Spl;
 
-interface CountableSeekableIterator extends CountableIterator, \SeekableIterator {
+interface CountableSeekableIterator extends CountableIterator, SeekableIterator {
 
 }
