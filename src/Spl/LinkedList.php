@@ -186,7 +186,8 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
         $tail = $this->tail;
         $tail->next = $node;
         $node->prev = $tail;
-        $this->tail = $node;
+        $this->currentNode = $this->tail = $node;
+        $this->currentOffset = $this->size - 1;
     }
 
 
