@@ -19,9 +19,9 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::clear
+     * @covers \Spl\Vector::clear
      */
-    public function testClear() {
+    function testClear() {
         $this->object->append(1);
         $this->object->clear();
 
@@ -29,9 +29,9 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::contains
+     * @covers \Spl\Vector::contains
      */
-    public function testContains() {
+    function testContains() {
         $this->assertFalse($this->object->contains(1));
 
         $this->object->append(1);
@@ -40,9 +40,9 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::isEmpty
+     * @covers \Spl\Vector::isEmpty
      */
-    public function testIsEmpty() {
+    function testIsEmpty() {
         $this->assertTrue($this->object->isEmpty());
 
         $this->object->append(1);
@@ -50,9 +50,9 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::offsetExists
+     * @covers \Spl\Vector::offsetExists
      */
-    public function testOffsetExists() {
+    function testOffsetExists() {
         $this->assertFalse($this->object->offsetExists(0));
 
         $this->object->append(1);
@@ -63,35 +63,35 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::offsetGet
+     * @covers \Spl\Vector::offsetGet
      * @expectedException \Spl\IndexException
      */
-    public function testOffsetGetOutOfBoundsException() {
+    function testOffsetGetOutOfBoundsException() {
         $this->object[0];
     }
 
     /**
-     * @covers Spl\Vector::offsetGet
+     * @covers \Spl\Vector::offsetGet
      * @expectedException \Spl\TypeException
      */
-    public function testOffsetGetTypeException() {
+    function testOffsetGetTypeException() {
 
         $this->object->get(array());
     }
 
     /**
-     * @covers Spl\Vector::offsetSet
+     * @covers \Spl\Vector::offsetSet
      */
-    public function testOffsetSet() {
+    function testOffsetSet() {
         $this->object[] = 1;
         $this->object[0] = 0;
     }
 
     /**
-     * @covers Spl\Vector::offsetUnset
-     * @covers Spl\Vector::count
+     * @covers \Spl\Vector::offsetUnset
+     * @covers \Spl\Vector::count
      */
-    public function testOffsetUnset() {
+    function testOffsetUnset() {
         unset($this->object[0]);
 
         $this->object[] = 1;
@@ -102,9 +102,9 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
 
     /**
-     * @covers Spl\Vector::append
+     * @covers \Spl\Vector::append
      */
-    public function testAppend() {
+    function testAppend() {
         $vector = new VectorMock;
         $vector->append(1);
         $this->assertCount(1, $vector);
@@ -118,9 +118,9 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::get
+     * @covers \Spl\Vector::get
      */
-    public function testGet() {
+    function testGet() {
         $vector = new VectorMock;
         $array =& $vector->getInnerArray();
 
@@ -131,9 +131,27 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::set
+     * @covers \Spl\Vector::get
+     * @expectedException \Spl\TypeException
      */
-    public function testSet() {
+    function testGetNonInteger() {
+        $vector = new Vector();
+        $vector->get(array());
+    }
+
+    /**
+     * @covers \Spl\Vector::get
+     * @expectedException \Spl\IndexException
+     */
+    function testGetNonExistentOffset() {
+        $vector = new Vector();
+        $vector->get(1);
+    }
+
+    /**
+     * @covers \Spl\Vector::set
+     */
+    function testSet() {
         $vector = new VectorMock;
         $array =& $vector->getInnerArray();
 
@@ -145,9 +163,27 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::remove
+     * @covers \Spl\Vector::set
+     * @expectedException \Spl\TypeException
      */
-    public function testRemove() {
+    function testSetNonInteger() {
+        $vector = new Vector();
+        $vector->set(array(), 0);
+    }
+
+    /**
+     * @covers \Spl\Vector::set
+     * @expectedException \Spl\IndexException
+     */
+    function testSetNonExistentOffset() {
+        $vector = new Vector();
+        $vector->set(1, 0);
+    }
+
+    /**
+     * @covers \Spl\Vector::remove
+     */
+    function testRemove() {
         $vector = new VectorMock(0);
         $array =& $vector->getInnerArray();
 
@@ -169,10 +205,19 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::__construct
-     * @covers Spl\Vector::removeItem
+     * @covers \Spl\Vector::remove
+     * @expectedException \Spl\TypeException
      */
-    public function testRemoveItem() {
+    function testRemoveNonInteger() {
+        $vector = new Vector();
+        $vector->remove(array());
+    }
+
+    /**
+     * @covers \Spl\Vector::__construct
+     * @covers \Spl\Vector::removeItem
+     */
+    function testRemoveItem() {
         $vector = new VectorMock(0, 2, 4);
         $array =& $vector->getInnerArray();
 
@@ -192,9 +237,9 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::filter
+     * @covers \Spl\Vector::filter
      */
-    public function testFilter() {
+    function testFilter() {
         $vector = new VectorMock();
         $array =& $vector->getInnerArray();
 
@@ -219,10 +264,20 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @depends testGet
-     * @covers Spl\Vector::slice
+     * @covers \Spl\Vector::filter
+     * @expectedException \Spl\TypeException
      */
-    public function testSlice() {
+    function testFilterNotCallable() {
+        $vector = new Vector();
+        $vector->append(0);
+        $vector->filter('happy_hour_is_not_callable');
+    }
+
+    /**
+     * @depends testGet
+     * @covers \Spl\Vector::slice
+     */
+    function testSlice() {
         $vector = new VectorMock(0,1,2,3);
 
         $slice = $vector->slice(1);
@@ -239,9 +294,9 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::toArray
+     * @covers \Spl\Vector::toArray
      */
-    public function testToArray() {
+    function testToArray() {
         $emptyArray = $this->object->toArray();
         $this->assertTrue(is_array($emptyArray));
         $this->assertCount(0, $emptyArray);
@@ -256,12 +311,71 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Spl\Vector::getIterator
+     * @covers \Spl\Vector::getIterator
      */
-    public function testGetIterator() {
+    function testGetIterator() {
         $iterator = $this->object->getIterator();
 
         $this->assertInstanceOf('\\Spl\\VectorIterator', $iterator);
+    }
+
+    /**
+     * @covers \Spl\Vector::map
+     */
+    function testMap() {
+        $vector = new Vector(0, 1, 2, 3);
+        $size = $vector->count();
+
+        $doubleValue = function ($value) {
+            return $value * 2;
+        };
+
+        $map = $vector->map($doubleValue);
+
+        $this->assertInstanceOf('Spl\\Vector', $map);
+        $this->assertCount(4, $map);
+
+        for ($i = 0; $i < $size; $i++) {
+            $this->assertEquals($doubleValue($vector[$i]), $map[$i]);
+        }
+    }
+
+    /**
+     * @covers \Spl\Vector::map
+     * @expectedException \Spl\TypeException
+     */
+    function testMapNotCallable() {
+        $vector = new Vector();
+        $vector->map('happy_hour_is_not_callable');
+    }
+
+    /**
+     * @covers \Spl\Vector::apply
+     */
+    function testApply() {
+        $vector = new Vector(0, 1, 2, 3);
+        $size = $vector->count();
+
+        $doubleValue = function ($value) {
+            return $value * 2;
+        };
+
+        $vector->apply($doubleValue);
+
+        $this->assertInstanceOf('Spl\\Vector', $vector);
+        $this->assertCount(4, $vector);
+
+        for ($i = 0; $i < $size; $i++) {
+            $this->assertEquals($doubleValue($i), $vector[$i]);
+        }
+    }
+    /**
+     * @covers \Spl\Vector::apply
+     * @expectedException \Spl\TypeException
+     */
+    function testApplyNotCallable() {
+        $vector = new Vector();
+        $vector->apply('happy_hour_is_not_callable');
     }
 
 }

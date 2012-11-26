@@ -284,7 +284,9 @@ class Vector implements ArrayAccess, Collection {
             throw new TypeException;
         }
 
-        array_walk($this->array, $callable);
+        foreach ($this->array as $i => $value) {
+            $this->array[$i] = call_user_func($callable, $value, $i);
+        }
 
         $this->cache = NULL;
     }
