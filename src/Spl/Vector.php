@@ -196,11 +196,14 @@ class Vector implements ArrayAccess, Collection {
      * @param int $numberOfItemsToExtract [optional] If not provided, it will extract all items after the $startIndex.
      *
      * @return Vector
-     * @throws IndexException when $numberOfItemsToExtract is negative or if it would put the function out of bounds.
-     * @throws IndexException when $startIndex is < 0 or >= $this->count()
+     * @throws EmptyException
+     * @throws IndexException when $startIndex >= count() or $startIndex < (-1 * count())
      * @throws TypeException when $startIndex or $numberOfItemsToExtract are not integers.
      */
     function slice($startIndex, $numberOfItemsToExtract = NULL) {
+        if ($this->isEmpty()) {
+            throw new EmptyException;
+        }
         if (filter_var($startIndex, FILTER_VALIDATE_INT) === FALSE) {
             throw new TypeException;
         }
@@ -208,15 +211,7 @@ class Vector implements ArrayAccess, Collection {
             throw new TypeException;
         }
 
-        if (!$this->offsetExists($startIndex)) {
-            throw new IndexException;
-        }
-
-        $stopIndex = $numberOfItemsToExtract !== NULL
-            ? $numberOfItemsToExtract + $startIndex
-            : $this->count() - $startIndex;
-
-        if ($numberOfItemsToExtract < 0 || !$this->offsetExists($stopIndex)) {
+        if ($startIndex >= $this->count() || $startIndex < (-1 * $this->count())) {
             throw new IndexException;
         }
 

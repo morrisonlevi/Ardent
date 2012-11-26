@@ -294,6 +294,51 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers \Spl\Vector::slice
+     * @expectedException \Spl\EmptyException
+     */
+    function testSliceEmpty() {
+        $vector = new Vector();
+        $vector->slice(0);
+    }
+
+    /**
+     * @covers \Spl\Vector::slice
+     * @expectedException \Spl\TypeException
+     */
+    function testSliceNonIntegerStart() {
+        $vector = new Vector(0);
+        $vector->slice(array());
+    }
+
+    /**
+     * @covers \Spl\Vector::slice
+     * @expectedException \Spl\TypeException
+     */
+    function testSliceNonIntegerCount() {
+        $vector = new Vector(0);
+        $vector->slice(0, array());
+    }
+
+    /**
+     * @covers \Spl\Vector::slice
+     * @expectedException \Spl\IndexException
+     */
+    function testSliceStartGreaterThanCount() {
+        $vector = new Vector(0);
+        $vector->slice(1);
+    }
+
+    /**
+     * @covers \Spl\Vector::slice
+     * @expectedException \Spl\IndexException
+     */
+    function testSliceStartLessThanNegativeCount() {
+        $vector = new Vector(0);
+        $vector->slice(-2);
+    }
+
+    /**
      * @covers \Spl\Vector::toArray
      */
     function testToArray() {
