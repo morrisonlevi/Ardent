@@ -32,10 +32,14 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
     private $currentOffset;
 
     /**
-     * @return LinkedList
+     * @return void
      */
     function __clone() {
-        return $this->copyRange(0, $this->size);
+        $that = $this->copyRange(0, $this->size);
+        $this->head = $that->head;
+        $this->tail = $that->tail;
+        $this->currentNode = $that->currentNode;
+        $this->currentOffset = $that->currentOffset;
     }
 
     /**
@@ -224,6 +228,7 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
      */
     function pushFront($value) {
         $node = new LinkedListNode($value);
+        $this->size++;
 
         if ($this->head === NULL) {
             $this->head
@@ -235,7 +240,7 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
 
         $this->head->prev = $node;
         $node->next = $this->head;
-        $this->head = $node;
+        $this->currentNode = $this->head = $node;
 
         $this->currentOffset = 0;
     }
@@ -325,11 +330,67 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
     }
 
     /**
+     * @param int $start
+     * @param int $count
+     * @return LinkedList
+     * @throws EmptyException
+     * @throws IndexException
+     * @throws TypeException
+     */
+    function slice($start, $count = NULL) {
+        if ($this->isEmpty()) {
+            throw new EmptyException;
+        }
+        if (filter_var($start, FILTER_VALIDATE_INT) === FALSE) {
+            throw new TypeException(
+                'Argument 1 of LinkedList::slice must be an integer'
+            );
+        }
+        if ($count !== NULL && filter_var($count, FILTER_VALIDATE_INT) === FALSE) {
+            throw new TypeException(
+                'If used, argument 2 of LinkedList::slice must be an integer'
+            );
+        }
+        if ($start >= $this->size) {
+            throw new IndexException(
+                'Argument 1 of LinkedList::slice cannot be greater than or equal to the list size'
+            );
+        }
+        if ($start < (-1 * $this->size)) {
+            throw new IndexException(
+                'Argument 1 of LinkedList::slice cannot be smaller than the lists negative size'
+            );
+        }
+
+        if ($start < 0) {
+            // add because start is a negative number
+            $start = $this->size + $start;
+        }
+
+        $stop = $start + $count;
+
+        if ($count < 0) {
+            //add because $count is negative
+            $stop = $this->size + $count;
+        } elseif ($count === NULL || $stop > $this->size) {
+            $stop = $this->size;
+        }
+
+
+        return $this->copyRange($start, $stop);
+    }
+
+    /**
      * @param int $offset
      * @return void
      * @throws IndexException
+     * @throws TypeException
      */
-    public function seek($offset) {
+    function seek($offset) {
+        if (filter_var($offset, FILTER_VALIDATE_INT) === FALSE) {
+            throw new TypeException;
+        }
+
         if (!$this->offsetExists($offset)) {
             throw new IndexException;
         }
@@ -359,11 +420,11 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
 
         $currentDiff = $this->currentOffset - $offset;
         if ($currentDiff < 0) {
-            for ($i = $this->currentOffset; $i < $offset; $i++) {
+            for ($i = 0; $i > $currentDiff; $i--) {
                 $node = $node->next;
             }
         } else {
-            for ($i = $this->currentOffset; $i > $currentDiff; $i--) {
+            for ($i = 0; $i < $currentDiff; $i++) {
                 $node = $node->prev;
             }
         }
@@ -395,7 +456,6 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
 
     private function copyRange($start, $finish) {
         $that = new LinkedList();
-        $that->size = $finish - $start;
 
         $this->__seek($start);
 

@@ -75,7 +75,8 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \Spl\TypeException
      */
     public function testOffsetGetTypeException() {
-        $this->object->get(new \StdClass);
+
+        $this->object->get(array());
     }
 
     /**

@@ -53,7 +53,9 @@ class LinkedListIterator implements CountableSeekableIterator {
      * @return void
      */
     public function rewind() {
-        $this->list->seek($this->currentOffset = 0);
+        if ($this->list->count() > 0) {
+            $this->list->seek($this->currentOffset = 0);
+        }
     }
 
     /**
