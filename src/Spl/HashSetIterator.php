@@ -9,8 +9,14 @@ class HashSetIterator implements SetIterator {
      */
     private $objects;
 
+    /**
+     * @var int
+     */
+    private $key = 0;
+
     function  __construct(array $set) {
         $this->objects = $set;
+        $this->rewind();
     }
 
     function count() {
@@ -22,7 +28,10 @@ class HashSetIterator implements SetIterator {
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed
      */
-    public function current() {
+    function current() {
+        if (!$this->valid()) {
+            return NULL;
+        }
         return current($this->objects);
     }
 
@@ -30,23 +39,27 @@ class HashSetIterator implements SetIterator {
      * @link http://php.net/manual/en/iterator.next.php
      * @return void
      */
-    public function next() {
+    function next() {
         next($this->objects);
+        $this->key++;
     }
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
      * @return string
      */
-    public function key() {
-        return key($this->objects);
+    function key() {
+        if (!$this->valid()) {
+            return NULL;
+        }
+        return $this->key;
     }
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean
      */
-    public function valid() {
+    function valid() {
         return key($this->objects) !== NULL;
     }
 
@@ -54,8 +67,9 @@ class HashSetIterator implements SetIterator {
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void
      */
-    public function rewind() {
+    function rewind() {
         reset($this->objects);
+        $this->key = 0;
     }
 
 }

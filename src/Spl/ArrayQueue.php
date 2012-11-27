@@ -7,7 +7,7 @@ class ArrayQueue implements Queue {
     /**
      * @var array
      */
-    protected $queue;
+    protected $queue = array();
 
     /**
      * @param $item
@@ -28,7 +28,7 @@ class ArrayQueue implements Queue {
             throw new EmptyException;
         }
 
-        return array_slice($this->queue, 0, 1, $PRESERVE_KEYS = FALSE);
+        return array_shift($this->queue);
     }
 
     /**
@@ -80,6 +80,13 @@ class ArrayQueue implements Queue {
      */
     function isEmpty() {
         return empty($this->queue);
+    }
+
+    /**
+     * @return array
+     */
+    function getArrayList() {
+        return $this->queue;
     }
 
 }

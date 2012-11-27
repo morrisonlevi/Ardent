@@ -2,7 +2,7 @@
 namespace Spl;
 
 use ArrayIterator,
-StdClass;
+    StdClass;
 
 class HashSetMock extends HashSet {
 
@@ -29,7 +29,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Spl\HashSet::__construct
      */
-    public function testConstructor() {
+    function testConstructor() {
         new HashSet(function($item){
             return 0;
         });
@@ -58,7 +58,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      * @covers Spl\HashSet::add
      * @covers Spl\HashSet::count
      */
-    public function testAdd() {
+    function testAdd() {
         $this->object->add(new StdClass());
         $this->assertCount(1, $this->object);
 
@@ -73,7 +73,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Spl\HashSet::addAll
      */
-    public function testAddAll() {
+    function testAddAll() {
         $items = array(0, '0', 1, 'one', new StdClass, fopen(__FILE__, 'r'), array());
 
         $this->object->addAll(new ArrayIterator($items));
@@ -84,7 +84,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      * @covers Spl\HashSet::remove
      * @depends testAdd
      */
-    public function testRemove() {
+    function testRemove() {
         $item = new StdClass();
         $this->object->add($item);
         $this->object->remove($item);
@@ -102,7 +102,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Spl\HashSet::removeAll
      */
-    public function testRemoveAll() {
+    function testRemoveAll() {
         $items = array(0, 1, 'one', new StdClass, fopen(__FILE__, 'r'), array());
         $this->object->addAll(new ArrayIterator($items));
 
@@ -116,7 +116,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      * @covers Spl\HashSet::clear
      * @depends testAdd
      */
-    public function testClear() {
+    function testClear() {
         $this->object->add(0);
         $this->object->clear();
 
@@ -129,7 +129,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      * @covers Spl\HashSet::__hash
      * @depends testAdd
      */
-    public function testContains() {
+    function testContains() {
         $scalar = 0;
         $this->assertFalse($this->object->contains($scalar));
         $this->object->add($scalar);
@@ -169,7 +169,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      * @covers Spl\HashSet::isEmpty
      * @depends testAdd
      */
-    public function testIsEmpty() {
+    function testIsEmpty() {
         $this->assertTrue($this->object->isEmpty());
 
         $this->object->add(0);
@@ -180,7 +180,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\HashSet::contains
      * @expectedException \Spl\FunctionException
      */
-    public function testContainsException() {
+    function testContainsException() {
         $obj = new HashSet(function($item) {return array($item);});
 
         $obj->contains($obj);
@@ -190,7 +190,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\HashSet::add
      * @expectedException \Spl\FunctionException
      */
-    public function testAddException() {
+    function testAddException() {
         $obj = new HashSet(function($item) {return array($item);});
 
         $obj->add($obj);
@@ -200,10 +200,83 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\HashSet::remove
      * @expectedException \Spl\FunctionException
      */
-    public function testRemoveException() {
+    function testRemoveException() {
         $obj = new HashSet(function($item) {return array($item);});
 
         $obj->remove($obj);
+    }
+
+    /**
+     * @depends testAdd
+     * @covers \Spl\HashSet::getIterator
+     * @covers \Spl\HashSetIterator::__construct
+     * @covers \Spl\HashSetIterator::rewind
+     * @covers \Spl\HashSetIterator::valid
+     * @covers \Spl\HashSetIterator::next
+     * @covers \Spl\HashSetIterator::count
+     */
+    function testIteratorEmpty() {
+        $set = new HashSet();
+
+        $iterator = $set->getIterator();
+        $this->assertInstanceOf('Spl\\HashSetIterator', $iterator);
+        $this->assertCount(0, $iterator);
+        $this->assertFalse($iterator->valid());
+        $iterator->rewind();
+        $this->assertFalse($iterator->valid());
+        $iterator->next();
+        $this->assertFalse($iterator->valid());
+
+    }
+
+    /**
+     * @depends testAdd
+     * @covers \Spl\HashSet::getIterator
+     * @covers \Spl\HashSetIterator::__construct
+     * @covers \Spl\HashSetIterator::rewind
+     * @covers \Spl\HashSetIterator::valid
+     * @covers \Spl\HashSetIterator::key
+     * @covers \Spl\HashSetIterator::current
+     * @covers \Spl\HashSetIterator::next
+     * @covers \Spl\HashSetIterator::count
+     */
+    function testIterator() {
+        $set = new HashSet();
+        $set->add(0);
+
+        $iterator = $set->getIterator();
+        $this->assertInstanceOf('Spl\\HashSetIterator', $iterator);
+        $this->assertCount(count($set), $iterator);
+
+        $this->assertTrue($iterator->valid());
+        $this->assertEquals(0, $iterator->key());
+        $this->assertEquals(0, $iterator->current());
+
+        $set->add(1);
+        $set->add(2);
+        $set->add(3);
+
+
+        $iterator = $set->getIterator();
+        $this->assertCount(count($set), $iterator);
+        $usedValues = new HashSet();
+        for ($i = 0; $i < count($set); $i++) {
+            $this->assertTrue($iterator->valid());
+
+            $this->assertEquals($i, $iterator->key());
+            $this->assertFalse($usedValues->contains($iterator->current()));
+            $usedValues->add($iterator->current());
+
+            $iterator->next();
+        }
+
+        $this->assertFalse($iterator->valid());
+        $this->assertNull($iterator->key());
+        $this->assertNull($iterator->current());
+        $iterator->next();
+        $this->assertNull($iterator->key());
+        $this->assertNull($iterator->current());
+
     }
 
 }

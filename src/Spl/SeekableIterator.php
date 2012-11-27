@@ -2,6 +2,6 @@
 
 namespace Spl;
 
-interface SeekableIterator extends Seekable, \Iterator {
+interface SeekableIterator extends \SeekableIterator {
 
 }

@@ -12,9 +12,9 @@ class HashingMediatorHelper extends HashingMediator {
 }
 
 class CallableStub {
-    public function __invoke(){}
+    function __invoke(){}
 
-    public static function staticMethod(){}
+    static function staticMethod(){}
 }
 
 function doNothing() {
@@ -35,7 +35,7 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Spl\HashingMediator::addListener
      */
-    public function testAddListener() {
+    function testAddListener() {
         $this->intercessor->addListener('error', function() {
 
         });
@@ -48,14 +48,14 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\HashingMediator::addListener
      * @expectedException \Spl\TypeException
      */
-    public function testAddListenerException() {
+    function testAddListenerException() {
         $this->intercessor->addListener('error', 'notCallable');
     }
 
     /**
      * @covers Spl\HashingMediator::removeListener
      */
-    public function testRemoveListener() {
+    function testRemoveListener() {
         $fn = function(){};
         $events =& $this->intercessor->getEvents();
         $events['error'][$this->intercessor->hash($fn)] = $fn;
@@ -68,14 +68,14 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Spl\HashingMediator::removeListener
      */
-    public function testRemoveListenerInvalidCallable() {
+    function testRemoveListenerInvalidCallable() {
         $this->intercessor->removeListener('error', 'notCallable');
     }
 
     /**
      * @covers Spl\HashingMediator::removeListenersForEvent
      */
-    public function testRemoveListenersForEvent() {
+    function testRemoveListenersForEvent() {
         $fnA = function(){};
         $fnB = function(){};
         $events =& $this->intercessor->getEvents();
@@ -90,7 +90,7 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Spl\HashingMediator::removeAllListeners
      */
-    public function testRemoveAllListeners() {
+    function testRemoveAllListeners() {
         $fn = function(){};
         $events =& $this->intercessor->getEvents();
         $events['error'][$this->intercessor->hash($fn)] = $fn;
@@ -104,7 +104,7 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Spl\HashingMediator::notify
      */
-    public function testNotify() {
+    function testNotify() {
         $fnA = $this->getMock(
             'Spl\\CallableStub',
             array('__invoke')
@@ -129,12 +129,14 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
             ->with($this->equalTo($paramA), $this->equalTo($paramB));
 
         $this->intercessor->notify('test', $paramA, $paramB);
+
+        $this->intercessor->notify('nonExistentEvent');
     }
 
     /**
      * @covers Spl\HashingMediator::hash
      */
-    public function testHash() {
+    function testHash() {
         $invokableObject = new CallableStub();
         $callables = array(
             'invokableObject' => $invokableObject,

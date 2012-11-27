@@ -2,15 +2,16 @@
 
 namespace Spl;
 
-class ArrayQueueIterator implements CountableSeekableIterator, QueueIterator {
+class ArrayQueueIterator implements QueueIterator {
 
     /**
      * @var ArrayIterator
      */
-    private $queue;
+    private $iterator;
 
     function __construct(array $queue) {
-        $this->queue = new ArrayIterator($queue);
+        $this->iterator = new \ArrayIterator($queue);
+        $this->rewind();
     }
 
     /**
@@ -18,7 +19,7 @@ class ArrayQueueIterator implements CountableSeekableIterator, QueueIterator {
      * @return mixed
      */
     function current() {
-        return $this->queue->current();
+        return $this->iterator->current();
     }
 
     /**
@@ -26,7 +27,7 @@ class ArrayQueueIterator implements CountableSeekableIterator, QueueIterator {
      * @return void
      */
     function next() {
-        $this->queue->next();
+        $this->iterator->next();
     }
 
     /**
@@ -34,7 +35,7 @@ class ArrayQueueIterator implements CountableSeekableIterator, QueueIterator {
      * @return int
      */
     function key() {
-        $this->queue->key();
+        return $this->iterator->key();
     }
 
     /**
@@ -42,7 +43,7 @@ class ArrayQueueIterator implements CountableSeekableIterator, QueueIterator {
      * @return boolean
      */
     function valid() {
-        return $this->queue->valid();
+        return $this->iterator->valid();
     }
 
     /**
@@ -50,7 +51,7 @@ class ArrayQueueIterator implements CountableSeekableIterator, QueueIterator {
      * @return void
      */
     function rewind() {
-        $this->queue->rewind();
+        $this->iterator->rewind();
     }
 
     /**
@@ -58,16 +59,7 @@ class ArrayQueueIterator implements CountableSeekableIterator, QueueIterator {
      * @return int
      */
     function count() {
-        return $this->queue->count();
-    }
-
-    /**
-     * @link http://php.net/manual/en/seekableiterator.seek.php
-     * @param int $position
-     * @return void
-     */
-    function seek($position) {
-        $this->queue->seek($position);
+        return $this->iterator->count();
     }
 
 }

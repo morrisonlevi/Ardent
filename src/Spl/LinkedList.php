@@ -4,7 +4,7 @@ namespace Spl;
 
 use ArrayAccess;
 
-class LinkedList implements Seekable, ArrayAccess, Collection {
+class LinkedList implements ArrayAccess, Collection {
 
     /**
      * @var LinkedNode
