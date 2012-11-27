@@ -2,28 +2,33 @@
 
 namespace Spl;
 
-use Traversable;
-
 class SortedMap implements Map {
 
     private $avl;
 
-    function __construct($comparator = NULL) {
-        if ($comparator === NULL) {
-            $comparator = function ($a, $b) {
-                if ($a < $b) {
-                    return -1;
-                } elseif ($b < $a) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            };
-        }
+    /**
+     * @var callable
+     */
+    private $comparator;
 
-        $this->avl = new AvlTree(function(Pair $a, Pair $b) use ($comparator) {
-            return $comparator($a->first(), $b->first());
-        });
+    function __construct($comparator = NULL) {
+        $this->comparator = $comparator ?: array($this, 'compareStandard');
+
+        $this->avl = new AvlTree(array($this, 'compareKeys'));
+    }
+
+    function compareKeys(Pair $a, Pair $b) {
+        return call_user_func($this->comparator, $a->first(), $b->first());
+    }
+
+    function compareStandard($a, $b) {
+        if ($a < $b) {
+            return -1;
+        } elseif ($b < $a) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -34,13 +39,26 @@ class SortedMap implements Map {
     }
 
     /**
-     * @param $item
+     * @param mixed $item
+     * @param callable $callback
      *
      * @return bool
      * @throws TypeException when $item is not the correct type.
      */
-    function contains($item) {
-        return $this->avl->contains(new Pair($item, NULL));
+    function contains($item, $callback = NULL) {
+        if ($callback === NULL) {
+            $callback = array($this, 'compareStandard');
+        }
+        foreach ($this->avl as $pair) {
+            /**
+             * @var Pair $pair
+             */
+            if (call_user_func($callback, $pair->second(), $item) === 0) {
+                return TRUE;
+            }
+        }
+
+        return FALSE;
     }
 
     /**
@@ -55,10 +73,10 @@ class SortedMap implements Map {
      *
      * @param mixed $offset
      *
-     * @return boolean
+     * @return bool
      */
     function offsetExists($offset) {
-        return $this->contains($offset);
+        return $this->avl->contains(new Pair($offset, NULL));
     }
 
     /**
@@ -71,7 +89,8 @@ class SortedMap implements Map {
         if (!$this->contains($offset)) {
             throw new KeyException;
         }
-        return $this->avl->get($offset);
+
+        return $this->get($offset);
     }
 
     /**
@@ -102,8 +121,12 @@ class SortedMap implements Map {
      *
      * @return mixed
      * @throws TypeException when the $key is not the correct type.
+     * @throws KeyException when the $key is not the correct type.
      */
     function get($key) {
+        if (!$this->contains($key)) {
+            throw new KeyException;
+        }
         /**
          * @var Pair $pair
          */
@@ -124,18 +147,6 @@ class SortedMap implements Map {
     }
 
     /**
-     * @param Map $items
-     *
-     * @return void
-     * @throws TypeException when the Map does not include an item of the correct type.
-     */
-    function insertAll(Map $items) {
-        foreach ($items as $key) {
-            $this->insert($key, $items->get($key));
-        }
-    }
-
-    /**
      * @param $key
      *
      * @return mixed
@@ -143,18 +154,6 @@ class SortedMap implements Map {
      */
     function remove($key) {
         $this->avl->remove(new Pair($key, NULL));
-    }
-
-    /**
-     * @param Traversable $keys
-     *
-     * @return mixed
-     * @throws TypeException when the Traversable includes an item with an incorrect type.
-     */
-    function removeAll(Traversable $keys) {
-        foreach ($keys as $key) {
-            $this->avl->remove($key);
-        }
     }
 
     /**

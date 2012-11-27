@@ -2,7 +2,7 @@
 
 namespace Spl;
 
-class SortedMapIterator implements CountableIterator {
+class SortedMapIterator implements MapIterator {
 
     /**
      * @var BinaryTreeIterator
@@ -11,13 +11,55 @@ class SortedMapIterator implements CountableIterator {
 
     private $size;
 
-    public function __construct(BinaryTreeIterator $iterator, $size) {
+    function __construct(BinaryTreeIterator $iterator, $size) {
         $this->iterator = $iterator;
         $this->size = $size;
+        $this->rewind();
     }
 
-    public function count() {
+    function count() {
         return $this->size;
+    }
+
+    /**
+     * @link http://php.net/manual/en/iterator.rewind.php
+     * @return void
+     */
+    function rewind() {
+        $this->iterator->rewind();
+    }
+
+    /**
+     * @link http://php.net/manual/en/iterator.valid.php
+     * @return boolean
+     */
+    function valid() {
+        return $this->iterator->valid();
+    }
+
+    /**
+     * @link https://bugs.php.net/bug.php?id=45684
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return mixed
+     * @throws TypeException
+     */
+    function key() {
+        if (!$this->iterator->valid()) {
+            return NULL;
+        }
+
+        /**
+         * @var Pair $pair
+         */
+        $pair = $this->iterator->current();
+
+        if (!($pair instanceof Pair)) {
+            throw new TypeException(
+                __CLASS__ . ' only works with a BinarySearchTreeIterator that returns pair objects as values'
+            );
+        }
+
+        return $pair->first();
     }
 
     /**
@@ -25,7 +67,10 @@ class SortedMapIterator implements CountableIterator {
      * @throws TypeException
      * @return mixed
      */
-    public function current() {
+    function current() {
+        if (!$this->iterator->valid()) {
+            return NULL;
+        }
         /**
          * @var Pair $pair
          */
@@ -44,45 +89,8 @@ class SortedMapIterator implements CountableIterator {
      * @link http://php.net/manual/en/iterator.next.php
      * @return void
      */
-    public function next() {
+    function next() {
         $this->iterator->next();
-    }
-
-    /**
-     * @link https://bugs.php.net/bug.php?id=45684
-     * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed
-     * @throws TypeException
-     */
-    public function key() {
-        /**
-         * @var Pair $pair
-         */
-        $pair = $this->iterator->current();
-
-        if (!($pair instanceof Pair)) {
-            throw new TypeException(
-                __CLASS__ . ' only works with a BinarySearchTreeIterator that returns pair objects as values'
-            );
-        }
-
-        return $pair->first();
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean
-     */
-    public function valid() {
-        return $this->iterator->valid();
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void
-     */
-    public function rewind() {
-        $this->iterator->rewind();
     }
 
 }

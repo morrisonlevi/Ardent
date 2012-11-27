@@ -2,8 +2,7 @@
 
 namespace Spl;
 
-use ArrayAccess,
-    Traversable;
+use ArrayAccess;
 
 interface Map extends ArrayAccess, Collection {
 
@@ -26,27 +25,11 @@ interface Map extends ArrayAccess, Collection {
     function insert($key, $value);
 
     /**
-     * @param Map $items
-     *
-     * @return void
-     * @throws TypeException when the Map does not include an item of the correct type.
-     */
-    function insertAll(Map $items);
-
-    /**
      * @param $key
      *
      * @return mixed
      * @throws TypeException when the $key is not the correct type.
      */
     function remove($key);
-
-    /**
-     * @param Traversable $keys
-     *
-     * @return mixed
-     * @throws TypeException when the Traversable includes an item with an incorrect type.
-     */
-    function removeAll(Traversable $keys);
 
 }

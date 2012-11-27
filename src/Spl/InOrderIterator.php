@@ -37,6 +37,10 @@ class InOrderIterator implements BinaryTreeIterator {
      * @return void
      */
     public function next() {
+        if (!$this->valid()) {
+            return;
+        }
+
         /**
          * @var BinaryTree $node
          */
