@@ -19,8 +19,18 @@ class LinkedListNode {
      */
     public $next;
 
-    public function __construct($value) {
+    function __construct($value) {
         $this->value = $value;
+    }
+
+    function __clone() {
+        $this->prev = $this->prev !== NULL
+            ? clone $this->prev
+            : NULL;
+
+        $this->next = $this->next !== NULL
+            ? clone $this->next
+            : NULL;
     }
 
 }
