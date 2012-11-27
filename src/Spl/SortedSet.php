@@ -11,7 +11,7 @@ class SortedSet implements Set {
      */
     private $bst;
 
-    public function __construct($comparator = NULL) {
+    function __construct($comparator = NULL) {
         $this->bst = new AvlTree($comparator);
     }
 
@@ -43,7 +43,7 @@ class SortedSet implements Set {
      * @link http://php.net/manual/en/countable.count.php
      * @return int
      */
-    public function count() {
+    function count() {
         return $this->bst->count();
     }
 
@@ -99,7 +99,7 @@ class SortedSet implements Set {
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return SortedSetIterator
      */
-    public function getIterator() {
+    function getIterator() {
         return new SortedSetIterator($this->bst->getIterator(), $this->count());
     }
 

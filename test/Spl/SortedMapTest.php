@@ -14,9 +14,12 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
      */
     function testOffsetSet() {
         $map = new SortedMap();
+        $this->assertCount(0, $map);
+
         $map[0] = 0;
         $map[1] = 1;
         $map[2] = 2;
+        $map[0] = 0;
 
         $this->assertCount(3, $map);
 
