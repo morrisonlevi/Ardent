@@ -284,12 +284,8 @@ class BinarySearchTree implements Collection {
     }
 
     function __clone() {
-        $tree = new BinarySearchTree();
-        $tree->size = $this->size;
-        $tree->root = $this->root === NULL
+        $this->root = $this->root === NULL
             ? NULL
             : clone $this->root;
-
-        return $tree;
     }
 }
