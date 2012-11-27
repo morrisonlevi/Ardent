@@ -7,12 +7,12 @@ use ArrayAccess;
 class LinkedList implements Seekable, ArrayAccess, Collection {
 
     /**
-     * @var LinkedListNode
+     * @var LinkedNode
      */
     private $head;
 
     /**
-     * @var LinkedListNode
+     * @var LinkedNode
      */
     private $tail;
 
@@ -22,7 +22,7 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
     private $size = 0;
 
     /**
-     * @var LinkedListNode
+     * @var LinkedNode
      */
     private $currentNode;
 
@@ -176,7 +176,7 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
      * @return void
      */
     function pushBack($object) {
-        $node = new LinkedListNode($object);
+        $node = new LinkedNode($object);
         $this->size++;
 
         if ($this->tail === NULL) {
@@ -227,7 +227,7 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
      * @throws FullException if the LinkedList is full.
      */
     function pushFront($value) {
-        $node = new LinkedListNode($value);
+        $node = new LinkedNode($value);
         $this->size++;
 
         if ($this->head === NULL) {
@@ -292,7 +292,7 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
 
         $this->__seek($offset);
 
-        $newNode = new LinkedListNode($value);
+        $newNode = new LinkedNode($value);
         $this->currentNode->next
             = $this->currentNode->next->prev
             = $newNode;
@@ -318,7 +318,7 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
 
         $this->__seek($offset);
 
-        $newNode = new LinkedListNode($value);
+        $newNode = new LinkedNode($value);
 
         $this->currentNode->prev
             = $this->currentNode->prev->next
@@ -508,7 +508,7 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
     }
 
 
-    private function removeNode(LinkedListNode $node, $offset) {
+    private function removeNode(LinkedNode $node, $offset) {
         $current = NULL;
 
         if ($node->next !== NULL) {

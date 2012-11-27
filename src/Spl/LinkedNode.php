@@ -2,7 +2,7 @@
 
 namespace Spl;
 
-class LinkedListNode {
+class LinkedNode {
 
     /**
      * @var mixed
@@ -10,12 +10,12 @@ class LinkedListNode {
     public $value;
 
     /**
-     * @var LinkedListNode
+     * @var LinkedNode
      */
     public $prev;
 
     /**
-     * @var LinkedListNode
+     * @var LinkedNode
      */
     public $next;
 
