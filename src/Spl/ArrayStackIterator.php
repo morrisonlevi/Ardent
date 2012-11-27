@@ -9,15 +9,24 @@ class ArrayStackIterator implements StackIterator {
      */
     private $stack;
 
+    /**
+     * @var int
+     */
+    private $key = NULL;
+
+    /**
+     * @param array $stack
+     */
     function __construct(array $stack) {
         $this->stack = $stack;
+        $this->rewind();
     }
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed
      */
-    public function current() {
+    function current() {
         return current($this->stack);
     }
 
@@ -25,27 +34,24 @@ class ArrayStackIterator implements StackIterator {
      * @link http://php.net/manual/en/iterator.next.php
      * @return void
      */
-    public function next() {
+    function next() {
         prev($this->stack);
+        $this->key++;
     }
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed
+     * @return int|null
      */
-    public function key() {
-        $count = count($this->stack);
-        if ($count === 0) {
-            return NULL;
-        }
-        return count($this->stack) - key($this->stack) - 1;
+    function key() {
+        return $this->key;
     }
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean
      */
-    public function valid() {
+    function valid() {
         return key($this->stack) !== NULL;
     }
 
@@ -53,8 +59,12 @@ class ArrayStackIterator implements StackIterator {
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void
      */
-    public function rewind() {
+    function rewind() {
         end($this->stack);
+
+        $this->key = count($this->stack) > 0
+            ? 0
+            : NULL;
     }
 
     function count() {

@@ -9,7 +9,7 @@ class ArrayStack implements Stack {
     /**
      * @return void
      */
-    public function clear() {
+    function clear() {
         $this->stack = array();
     }
 
@@ -19,14 +19,14 @@ class ArrayStack implements Stack {
      * @return bool
      * @throws TypeException when $object is not the correct type.
      */
-    public function contains($object) {
+    function contains($object) {
         return in_array($object, $this->stack);
     }
 
     /**
      * @return bool
      */
-    public function isEmpty() {
+    function isEmpty() {
         return count($this->stack) === 0;
     }
 
@@ -34,7 +34,7 @@ class ArrayStack implements Stack {
      * @link http://php.net/manual/en/countable.count.php
      * @return int
      */
-    public function count() {
+    function count() {
         return count($this->stack);
     }
 
@@ -45,7 +45,7 @@ class ArrayStack implements Stack {
      * @throws FullException if the Stack is full.
      * @return void
      */
-    public function pushBack($object) {
+    function pushBack($object) {
         array_push($this->stack, $object);
     }
 
@@ -53,7 +53,7 @@ class ArrayStack implements Stack {
      * @throws EmptyException if the Stack is empty.
      * @return mixed
      */
-    public function popBack() {
+    function popBack() {
         if (count($this->stack) === 0) {
             throw new EmptyException();
         }
@@ -66,7 +66,7 @@ class ArrayStack implements Stack {
      * @throws EmptyException if the Stack is empty.
      * @return mixed
      */
-    public function peekBack() {
+    function peekBack() {
         if (count($this->stack) === 0) {
             throw new EmptyException();
         }
