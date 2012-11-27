@@ -385,9 +385,7 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
      * @return void
      */
     function next() {
-        if ($this->isEmpty()) {
-            return;
-        } elseif ($this->currentNode !== NULL) {
+        if ($this->currentNode !== NULL) {
             $this->currentNode = $this->currentNode->next;
             $this->currentOffset++;
         }
@@ -397,9 +395,7 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
      * @return void
      */
     function prev() {
-        if ($this->isEmpty()) {
-            return;
-        } elseif ($this->currentNode !== NULL) {
+        if ($this->currentNode !== NULL) {
             $this->currentNode = $this->currentNode->prev;
             $this->currentOffset--;
         }

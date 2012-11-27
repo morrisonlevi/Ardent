@@ -14,13 +14,13 @@ class ArrayStack implements Stack {
     }
 
     /**
-     * @param $object
+     * @param $item
      *
      * @return bool
-     * @throws TypeException when $object is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
-    function contains($object) {
-        return in_array($object, $this->stack);
+    function contains($item) {
+        return in_array($item, $this->stack);
     }
 
     /**
@@ -41,7 +41,7 @@ class ArrayStack implements Stack {
     /**
      * @param mixed $object
      *
-     * @throws TypeException if $object is not the correct type.
+     * @throws TypeException if $item is not the correct type.
      * @throws FullException if the Stack is full.
      * @return void
      */
@@ -76,7 +76,7 @@ class ArrayStack implements Stack {
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return ArrayStackIterator
+     * @return StackIterator
      */
     function getIterator() {
         return new ArrayStackIterator($this->stack);

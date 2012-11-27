@@ -8,7 +8,7 @@ class SortedMap implements Map {
 
     private $avl;
 
-    public function __construct($comparator = NULL) {
+    function __construct($comparator = NULL) {
         if ($comparator === NULL) {
             $comparator = function ($a, $b) {
                 if ($a < $b) {
@@ -34,13 +34,13 @@ class SortedMap implements Map {
     }
 
     /**
-     * @param $object
+     * @param $item
      *
      * @return bool
-     * @throws TypeException when $object is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
-    function contains($object) {
-        return $this->avl->contains(new Pair($object, NULL));
+    function contains($item) {
+        return $this->avl->contains(new Pair($item, NULL));
     }
 
     /**
@@ -57,7 +57,7 @@ class SortedMap implements Map {
      *
      * @return boolean
      */
-    public function offsetExists($offset) {
+    function offsetExists($offset) {
         return $this->contains($offset);
     }
 
@@ -67,7 +67,7 @@ class SortedMap implements Map {
      * @return mixed
      * @throws KeyException
      */
-    public function offsetGet($offset) {
+    function offsetGet($offset) {
         if (!$this->contains($offset)) {
             throw new KeyException;
         }
@@ -82,7 +82,7 @@ class SortedMap implements Map {
      *
      * @return void
      */
-    public function offsetSet($offset, $value) {
+    function offsetSet($offset, $value) {
         $this->insert($offset, $value);
     }
 
@@ -93,7 +93,7 @@ class SortedMap implements Map {
      *
      * @return void
      */
-    public function offsetUnset($offset) {
+    function offsetUnset($offset) {
         $this->remove($offset);
     }
 
@@ -161,7 +161,7 @@ class SortedMap implements Map {
      * @link http://php.net/manual/en/countable.count.php
      * @return int
      */
-    public function count() {
+    function count() {
         return $this->avl->count();
     }
 
@@ -169,7 +169,7 @@ class SortedMap implements Map {
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return SortedMapIterator
      */
-    public function getIterator() {
+    function getIterator() {
         return new SortedMapIterator($this->avl->getIterator(), $this->avl->count());
     }
 }

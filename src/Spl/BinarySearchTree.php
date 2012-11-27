@@ -182,13 +182,13 @@ class BinarySearchTree implements Collection {
     }
 
     /**
-     * @param $object
+     * @param $item
      *
      * @return bool
-     * @throws TypeException when $object is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
-    function contains($object) {
-        return $this->containsNode($object, $this->root);
+    function contains($item) {
+        return $this->containsNode($item, $this->root);
     }
 
     protected function containsNode($element, BinaryTree $node = NULL) {

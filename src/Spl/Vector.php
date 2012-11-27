@@ -25,13 +25,13 @@ class Vector implements ArrayAccess, Collection {
     }
 
     /**
-     * @param $object
+     * @param $item
      *
      * @return bool
-     * @throws TypeException when $object is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
-    function contains($object) {
-        return in_array($object, $this->array);
+    function contains($item) {
+        return in_array($item, $this->array);
     }
 
     /**
@@ -178,7 +178,7 @@ class Vector implements ArrayAccess, Collection {
     /**
      * @param mixed $object
      *
-     * @throws TypeException if $object is the incorrect type for the Vector
+     * @throws TypeException if $item is the incorrect type for the Vector
      * @return void
      */
     function removeItem($object) {

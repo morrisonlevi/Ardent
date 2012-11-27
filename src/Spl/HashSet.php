@@ -21,7 +21,7 @@ class HashSet implements Set {
      *
      * @return \Spl\HashSet
      */
-    public function __construct($hashFunction = NULL) {
+    function __construct($hashFunction = NULL) {
         $this->hashFunction = $hashFunction ?: array($this, '__hash');
     }
 
@@ -51,19 +51,19 @@ class HashSet implements Set {
     /**
      * @return void
      */
-    public function clear() {
+    function clear() {
         $this->objects = array();
     }
 
     /**
-     * @param $object
+     * @param $item
      *
      * @return bool
      * @throws FunctionException when the hashing function returns an improper value.
-     * @throws TypeException when $object is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
-    public function contains($object) {
-        $hash = $this->hash($object);
+    function contains($item) {
+        $hash = $this->hash($item);
 
         if (!is_scalar($hash)) {
             throw new FunctionException(
@@ -77,7 +77,7 @@ class HashSet implements Set {
     /**
      * @return bool
      */
-    public function isEmpty() {
+    function isEmpty() {
         return $this->count() === 0;
     }
 
@@ -85,7 +85,7 @@ class HashSet implements Set {
      * @link http://php.net/manual/en/countable.count.php
      * @return int
      */
-    public function count() {
+    function count() {
         return count($this->objects);
     }
 
@@ -96,7 +96,7 @@ class HashSet implements Set {
      * @throws FunctionException when the hashing function returns an improper value.
      * @throws TypeException when $item is not the correct type.
      */
-    public function add($item) {
+    function add($item) {
         $hash = $this->hash($item);
 
         if (!is_scalar($hash)) {
@@ -114,7 +114,7 @@ class HashSet implements Set {
      * @return void
      * @throws TypeException when the Traversable includes an item with an incorrect type.
      */
-    public function addAll(Traversable $items) {
+    function addAll(Traversable $items) {
         foreach ($items as $item) {
             $this->add($item);
         }
@@ -127,7 +127,7 @@ class HashSet implements Set {
      * @throws FunctionException when the hashing function returns an improper value.
      * @throws TypeException when $item is not the correct type.
      */
-    public function remove($item) {
+    function remove($item) {
         $hash = $this->hash($item);
 
         if (!is_scalar($hash)) {
@@ -145,7 +145,7 @@ class HashSet implements Set {
      * @return mixed
      * @throws TypeException when the Traversable includes an item with an incorrect type.
      */
-    public function removeAll(Traversable $items) {
+    function removeAll(Traversable $items) {
         foreach ($items as $item) {
             $this->remove($item);
         }

@@ -22,12 +22,12 @@ use Countable,
 interface Collection extends Countable, IteratorAggregate /*, \Serializable  */ {
 
     /**
-     * @param $object
+     * @param $item
      *
      * @return bool
-     * @throws TypeException when $object is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
-    function contains($object);
+    function contains($item);
 
     /**
      * @return bool

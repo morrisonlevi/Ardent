@@ -23,13 +23,13 @@ class SortedSet implements Set {
     }
 
     /**
-     * @param $object
+     * @param $item
      *
      * @return bool
-     * @throws TypeException when $object is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
-    function contains($object) {
-        return $this->bst->contains($object);
+    function contains($item) {
+        return $this->bst->contains($item);
     }
 
     /**

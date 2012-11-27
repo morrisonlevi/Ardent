@@ -52,7 +52,7 @@ class ArrayQueue implements Queue {
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return ArrayQueueIterator
+     * @return QueueIterator
      */
     function getIterator() {
         return new ArrayQueueIterator($this->queue);
@@ -66,13 +66,13 @@ class ArrayQueue implements Queue {
     }
 
     /**
-     * @param $object
+     * @param $item
      *
      * @return bool
-     * @throws TypeException when $object is not the correct type.
+     * @throws TypeException when $item is not the correct type.
      */
-    function contains($object) {
-        return in_array($object, $this->queue);
+    function contains($item) {
+        return in_array($item, $this->queue);
     }
 
     /**
