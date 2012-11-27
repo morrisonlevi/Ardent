@@ -4,8 +4,10 @@ namespace Spl;
 
 class LinkedListIterator implements CountableSeekableIterator {
 
+    /**
+     * @var LinkedList
+     */
     private $list;
-    private $currentOffset;
 
     function __construct(LinkedList $list) {
         $this->list = $list;
@@ -16,53 +18,61 @@ class LinkedListIterator implements CountableSeekableIterator {
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed
      */
-    public function current() {
-        return $this->list->offsetGet($this->currentOffset);
+    function current() {
+        return $this->list->current();
     }
 
     /**
      * @link http://php.net/manual/en/iterator.next.php
      * @return void
      */
-    public function next() {
-        $this->currentOffset++;
+    function next() {
+        $this->list->next();
+    }
 
-        if ($this->currentOffset < $this->list->count()) {
-            $this->list->seek($this->currentOffset);
-        }
+    /**
+     * @return void
+     */
+    function prev() {
+        $this->list->prev();
     }
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
      * @return mixed
      */
-    public function key() {
-        return $this->currentOffset;
+    function key() {
+        return $this->list->key();
     }
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean
      */
-    public function valid() {
-        return $this->currentOffset < $this->list->count();
+    function valid() {
+        return $this->list->valid();
     }
 
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void
      */
-    public function rewind() {
-        if ($this->list->count() > 0) {
-            $this->list->seek($this->currentOffset = 0);
-        }
+    function rewind() {
+        $this->list->rewind();
+    }
+
+    /**
+     * @return void
+     */
+    function end() {
+        $this->list->end();
     }
 
     /**
      * @link http://php.net/manual/en/countable.count.php
      * @return int
      */
-    public function count() {
+    function count() {
         return $this->list->count();
     }
 

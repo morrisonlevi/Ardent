@@ -2,12 +2,6 @@
 
 namespace Spl;
 
-class LinkedListMock extends LinkedList {
-    public function getCurrentOffset() {
-        return parent::getCurrentOffset();
-    }
-}
-
 class CallableMock {
     function __invoke($a, $b) {
         return $a[0] == $b[0];
@@ -18,32 +12,32 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers \Spl\LinkedList::count
-     * @covers \Spl\LinkedList::getCurrentOffset
+     * @covers \Spl\LinkedList::key()
      * @covers \Spl\LinkedList::offsetSet
      * @covers \Spl\LinkedList::offsetGet
      * @covers \Spl\LinkedList::pushBack
      * @covers \Spl\LinkedList::__seek
      */
     function testOffsetGetAndSet() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
 
-        $list[] = 0;
-        $this->assertEquals(0, $list->getCurrentOffset());
+        $list->offsetSet(NULL, 0);
+        $this->assertEquals(0, $list->key());
         $this->assertCount(1, $list);
         $this->assertEquals(0, $list[0]);
 
-        $list[] = 1;
-        $this->assertEquals(1, $list->getCurrentOffset());
+        $list->offsetSet(NULL, 1);
+        $this->assertEquals(1, $list->key());
         $this->assertCount(2, $list);
         $this->assertEquals(0, $list[0]);
         $this->assertEquals(1, $list[1]);
 
-        $list[0] = 2;
-        $this->assertEquals(0, $list->getCurrentOffset());
+        $list->offsetSet(0, 2);
+        $this->assertEquals(0, $list->key());
         $this->assertCount(2, $list);
         $this->assertEquals(2, $list[0]);
         $this->assertEquals(1, $list[1]);
-        $this->assertEquals(1, $list->getCurrentOffset());
+        $this->assertEquals(1, $list->key());
     }
 
     /**
@@ -52,7 +46,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      */
     function testOffsetSetIndexException() {
         $list = new LinkedList();
-        $list[0] = 0;
+        $list->offsetSet(0, 0);
     }
 
     /**
@@ -61,7 +55,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      */
     function testOffsetGetIndexException() {
         $list = new LinkedList();
-        $list[0];
+        $list->offsetGet(0);
     }
 
     /**
@@ -69,7 +63,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      */
     function testOffsetUnsetNonExistent() {
         $list = new LinkedList();
-        unset($list[0]);
+        $list->offsetUnset(0);
     }
 
     /**
@@ -79,8 +73,8 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      */
     function testOffsetUnsetOneItem() {
         $list = new LinkedList();
-        $list[] = 0;
-        unset($list[0]);
+        $list->pushBack(0);
+        $list->offsetUnset(0);
 
         $this->assertCount(0, $list);
     }
@@ -91,14 +85,14 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::seek
      */
     function testOffsetUnsetHead() {
-        $list = new LinkedListMock();
-        $list[] = 0;
-        $list[] = 1;
-        unset($list[0]);
-        $this->assertEquals(0, $list->getCurrentOffset());
+        $list = new LinkedList();
+        $list->pushBack(0);
+        $list->pushBack(1);
+        $list->offsetUnset(0);
+        $this->assertEquals(0, $list->key());
 
         $this->assertCount(1, $list);
-        $this->assertEquals(1, $list[0]);
+        $this->assertEquals(1, $list->offsetGet(0));
     }
 
     /**
@@ -107,15 +101,15 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::seek
      */
     function testOffsetUnsetTail() {
-        $list = new LinkedListMock();
-        $list[] = 0;
-        $list[] = 1;
-        unset($list[1]);
+        $list = new LinkedList();
+        $list->pushBack(0);
+        $list->pushBack(1);
+        $list->offsetUnset(1);
 
-        $this->assertEquals(0, $list->getCurrentOffset());
+        $this->assertEquals(0, $list->key());
 
         $this->assertCount(1, $list);
-        $this->assertEquals(0, $list[0]);
+        $this->assertEquals(0, $list->offsetGet(0));
     }
 
     /**
@@ -124,17 +118,17 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::seek
      */
     function testOffsetUnsetMiddle() {
-        $list = new LinkedListMock();
-        $list[] = 0;
-        $list[] = 1;
-        $list[] = 2;
-        unset($list[1]);
+        $list = new LinkedList();
+        $list->pushBack(0);
+        $list->pushBack(1);
+        $list->pushBack(2);
+        $list->offsetUnset(1);
 
-        $this->assertEquals(1, $list->getCurrentOffset());
+        $this->assertEquals(1, $list->key());
 
         $this->assertCount(2, $list);
-        $this->assertEquals(0, $list[0]);
-        $this->assertEquals(2, $list[1]);
+        $this->assertEquals(0, $list->offsetGet(0));
+        $this->assertEquals(2, $list->offsetGet(1));
     }
 
     /**
@@ -142,12 +136,12 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::offsetExists
      */
     function testOffsetExists() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
 
         $this->assertFalse($list->offsetExists(0));
         $this->assertFalse($list->offsetExists(-1));
 
-        $list[] = 0;
+        $list->pushBack(0);
         $this->assertTrue($list->offsetExists(0));
 
     }
@@ -161,11 +155,11 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::pushBack
      */
     function testIsEmpty() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
 
         $this->assertTrue($list->isEmpty());
 
-        $list[] = 0;
+        $list->pushBack(0);
         $this->assertFalse($list->isEmpty());
 
         unset($list[0]);
@@ -180,18 +174,18 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::__equals
      */
     function testIndexOf() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
         $valueA = 0;
 
         $this->assertEquals(-1, $list->indexOf($valueA));
 
-        $list[] = $valueA;
+        $list->pushBack($valueA);
         $this->assertEquals(0, $list->indexOf($valueA));
 
         $valueB = 1;
         $this->assertEquals(-1, $list->indexOf($valueB));
 
-        $list[] = $valueB;
+        $list->pushBack($valueB);
 
         // reset the internal pointer so it actually searches the whole list.
 
@@ -208,7 +202,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::indexOf
      */
     function testIndexOfCallback() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
         $callback = $this->getMock(
             'Spl\\CallableMock',
             array('__invoke')
@@ -224,13 +218,13 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(-1, $list->indexOf($valueA, $callback));
 
-        $list[] = $valueA;
+        $list->pushBack($valueA);
         $this->assertEquals(0, $list->indexOf($valueA, $callback));
 
         $valueB = array(1);
         $this->assertEquals(-1, $list->indexOf($valueB, $callback));
 
-        $list[] = $valueB;
+        $list->pushBack($valueB);
 
         // reset the internal pointer so it actually searches the whole list.
 
@@ -256,7 +250,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertFalse($list->contains(0));
 
-        $list[] = 1;
+        $list->pushBack(1);
 
         $this->assertTrue($list->contains(1));
     }
@@ -274,12 +268,12 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertFalse($list->contains(0), $abs);
 
-        $list[] = 1;
+        $list->pushBack(1);
 
         $this->assertTrue($list->contains(1, $abs));
         $this->assertTrue($list->contains(-1, $abs));
 
-        $list[] = 2;
+        $list->pushBack(2);
         $list->seek(0);
         $this->assertTrue($list->contains(2, $abs));
         $this->assertTrue($list->contains(-2, $abs));
@@ -290,23 +284,23 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::__seek
      */
     function testSeek() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
 
-        $list[] = 0;
-        $this->assertEquals(0, $list->getCurrentOffset());
+        $list->pushBack(0);
+        $this->assertEquals(0, $list->key());
 
-        $list[] = 1;
-        $this->assertEquals(1, $list->getCurrentOffset());
+        $list->pushBack(1);
+        $this->assertEquals(1, $list->key());
 
-        $list[] = 2;
-        $this->assertEquals(2, $list->getCurrentOffset());
+        $list->pushBack(2);
+        $this->assertEquals(2, $list->key());
 
         $list->seek(1);
-        $this->assertEquals(1, $list->getCurrentOffset());
+        $this->assertEquals(1, $list->key());
 
         $list->seek(0);
         $list->seek(1);
-        $this->assertEquals(1, $list->getCurrentOffset());
+        $this->assertEquals(1, $list->key());
 
     }
 
@@ -315,7 +309,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \Spl\IndexException
      */
     function testSeekIndexException() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
         $list->seek(0);
     }
 
@@ -324,7 +318,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \Spl\TypeException
      */
     function testSeekTypeException() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
         $list->seek(array());
     }
 
@@ -333,8 +327,8 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::removeNode
      */
     function testPopFront() {
-        $list = new LinkedListMock();
-        $list[] = 0;
+        $list = new LinkedList();
+        $list->pushBack(0);
 
         $popped = $list->popFront();
 
@@ -342,8 +336,8 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $list);
         $this->assertTrue($list->isEmpty());
 
-        $list[] = 1;
-        $list[] = 2;
+        $list->pushBack(1);
+        $list->pushBack(2);
 
         $popped = $list->popFront();
 
@@ -357,7 +351,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \Spl\EmptyException
      */
     function testPopFrontEmpty() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
         $list->popFront();;
     }
 
@@ -366,8 +360,8 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::removeNode
      */
     function testPopBack() {
-        $list = new LinkedListMock();
-        $list[] = 0;
+        $list = new LinkedList();
+        $list->pushBack(0);
 
         $popped = $list->popBack();
 
@@ -375,8 +369,8 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $list);
         $this->assertTrue($list->isEmpty());
 
-        $list[] = 1;
-        $list[] = 2;
+        $list->pushBack(1);
+        $list->pushBack(2);
 
         $popped = $list->popBack();
 
@@ -390,7 +384,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \Spl\EmptyException
      */
     function testPopBackEmpty() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
         $list->popBack();;
     }
 
@@ -398,8 +392,8 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::peekFront
      */
     function testPeekFront() {
-        $list = new LinkedListMock();
-        $list[] = 0;
+        $list = new LinkedList();
+        $list->pushBack(0);
 
         $popped = $list->peekFront();
 
@@ -407,8 +401,8 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(1, $list);
         $this->assertFalse($list->isEmpty());
 
-        $list[] = 1;
-        $list[] = 2;
+        $list->pushBack(1);
+        $list->pushBack(2);
 
         $popped = $list->peekFront();
 
@@ -422,7 +416,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \Spl\EmptyException
      */
     function testPeekFrontEmpty() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
         $list->peekFront();
     }
 
@@ -431,8 +425,8 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::pushBack
      */
     function testPeekBack() {
-        $list = new LinkedListMock();
-        $list[] = 0;
+        $list = new LinkedList();
+        $list->pushBack(0);
 
         $popped = $list->peekBack();
 
@@ -440,8 +434,8 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(1, $list);
         $this->assertFalse($list->isEmpty());
 
-        $list[] = 1;
-        $list[] = 2;
+        $list->pushBack(1);
+        $list->pushBack(2);
 
         $popped = $list->peekBack();
 
@@ -455,7 +449,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \Spl\EmptyException
      */
     function testPeekBackEmpty() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
         $list->peekBack();
     }
 
@@ -465,7 +459,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::pushFront
      */
     function testPushFront() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
 
         $list->pushFront(0);
 
@@ -486,16 +480,16 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::insertAfter
      */
     function testInsertAfter() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
         $list->pushBack(0);
 
         $list->insertAfter(0, 2);
-        $this->assertEquals(0, $list->getCurrentOffset());
+        $this->assertEquals(0, $list->key());
         $this->assertEquals(0, $list->offsetGet(0));
         $this->assertEquals(2, $list->offsetGet(1));
 
         $list->insertAfter(0, 1);
-        $this->assertEquals(0, $list->getCurrentOffset());
+        $this->assertEquals(0, $list->key());
         $this->assertEquals(0, $list->offsetGet(0));
         $this->assertEquals(1, $list->offsetGet(1));
         $this->assertEquals(2, $list->offsetGet(2));
@@ -506,16 +500,16 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\LinkedList::insertBefore
      */
     function testInsertBefore() {
-        $list = new LinkedListMock();
+        $list = new LinkedList();
         $list->pushBack(2);
 
         $list->insertBefore(0, 0);
-        $this->assertEquals(1, $list->getCurrentOffset());
+        $this->assertEquals(1, $list->key());
         $this->assertEquals(0, $list->offsetGet(0));
         $this->assertEquals(2, $list->offsetGet(1));
 
         $list->insertBefore(1, 1);
-        $this->assertEquals(2, $list->getCurrentOffset());
+        $this->assertEquals(2, $list->key());
         $this->assertEquals(0, $list->offsetGet(0));
         $this->assertEquals(1, $list->offsetGet(1));
         $this->assertEquals(2, $list->offsetGet(2));
@@ -606,6 +600,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      * @depends testClone
      * @covers \Spl\LinkedList::__clone
      * @covers \Spl\LinkedList::getIterator
+     * @covers \Spl\LinkedListIterator::__construct
      */
     function testGetIterator() {
         $list = new LinkedList();
@@ -621,6 +616,128 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Spl\\LinkedListIterator', $iterator);
 
+    }
+
+    /**
+     * @covers \Spl\LinkedList::getIterator
+     * @covers \Spl\LinkedListIterator::__construct
+     * @covers \Spl\LinkedListIterator::rewind
+     * @covers \Spl\LinkedListIterator::valid
+     * @covers \Spl\LinkedListIterator::key
+     * @covers \Spl\LinkedListIterator::current
+     * @covers \Spl\LinkedListIterator::next
+     * @covers \Spl\LinkedListIterator::prev
+     * @covers \Spl\LinkedList::rewind
+     * @covers \Spl\LinkedList::valid
+     * @covers \Spl\LinkedList::key
+     * @covers \Spl\LinkedList::current
+     * @covers \Spl\LinkedList::next
+     * @covers \Spl\LinkedList::prev
+     */
+    function testIteratorForeach() {
+        $list = new LinkedList();
+        $list->pushBack(0);
+        $list->pushBack(1);
+        $list->pushBack(2);
+        $list->pushBack(3);
+
+        $expectedKey = 0;
+        $expectedValue = 0;
+
+        $iterator = $list->getIterator();
+        foreach ($iterator as $key => $value) {
+            $this->assertEquals($expectedKey++, $key);
+            $this->assertEquals($expectedValue++, $value);
+        }
+
+        $iterator->rewind();
+        $iterator->next();
+        $iterator->prev();
+        $this->assertEquals(0, $iterator->key());
+        $this->assertEquals(0, $iterator->current());
+
+        $iterator->next();
+
+        $iterator->next();
+        $iterator->prev();
+        $this->assertEquals(1, $iterator->key());
+        $this->assertEquals(1, $iterator->current());
+    }
+
+    function testIteratorEmpty() {
+        $list = new LinkedList();
+        $iterator = $list;
+
+        $iterator->rewind();
+        $this->assertFalse($iterator->valid());
+        $this->assertEquals(NULL, $iterator->key());
+        $this->assertEquals(NULL, $iterator->current());
+
+        $iterator->next();
+        $this->assertEquals(NULL, $iterator->key());
+        $this->assertEquals(NULL, $iterator->current());
+
+        $iterator->prev();
+        $this->assertEquals(NULL, $iterator->key());
+        $this->assertEquals(NULL, $iterator->current());
+    }
+
+    /**
+     * @covers \Spl\LinkedListIterator::key
+     * @covers \Spl\LinkedListIterator::current
+     * @covers \Spl\LinkedListIterator::seek
+     * @covers \Spl\LinkedListIterator::end
+     * @covers \Spl\LinkedList::key
+     * @covers \Spl\LinkedList::current
+     * @covers \Spl\LinkedList::seek
+     * @covers \Spl\LinkedList::end
+     */
+    function testIteratorSeek() {
+        $list = new LinkedList();
+        $list->pushBack(0);
+        $list->pushBack(1);
+        $list->pushBack(2);
+        $list->pushBack(3);
+
+        $iterator = $list->getIterator();
+
+        $iterator->seek(0);
+        $this->assertEquals(0, $iterator->key());
+        $this->assertEquals(0, $iterator->current());
+
+        $iterator->seek(2);
+        $this->assertEquals(2, $iterator->key());
+        $this->assertEquals(2, $iterator->current());
+
+        $iterator->seek(1);
+        $this->assertEquals(1, $iterator->key());
+        $this->assertEquals(1, $iterator->current());
+
+        $iterator->seek(3);
+        $this->assertEquals(3, $iterator->key());
+        $this->assertEquals(3, $iterator->current());
+
+        $iterator->rewind();
+        $iterator->end();
+        $this->assertEquals(3, $iterator->key());
+        $this->assertEquals(3, $iterator->current());
+    }
+
+    /**
+     * @covers \Spl\LinkedList::count
+     * @covers \Spl\LinkedListIterator::count
+     */
+    function testCount() {
+        $list = new LinkedList();
+        $iterator = $list->getIterator();
+        $this->assertCount(0, $list);
+        $this->assertCount(0, $iterator);
+
+
+        $list->pushBack(0);
+        $iterator = $list->getIterator();
+        $this->assertCount(1, $list);
+        $this->assertCount(1, $iterator);
     }
 
     /**

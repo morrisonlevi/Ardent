@@ -127,7 +127,7 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param int $offset
+     * @param int|NULL $offset
      * @param mixed $value
      * @return void
      * @throws IndexException
@@ -381,6 +381,84 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
     }
 
     /**
+     * @link http://php.net/manual/en/iterator.next.php
+     * @return void
+     */
+    function next() {
+        if ($this->isEmpty()) {
+            return;
+        } elseif ($this->currentNode !== NULL) {
+            $this->currentNode = $this->currentNode->next;
+            $this->currentOffset++;
+        }
+    }
+
+    /**
+     * @return void
+     */
+    function prev() {
+        if ($this->isEmpty()) {
+            return;
+        } elseif ($this->currentNode !== NULL) {
+            $this->currentNode = $this->currentNode->prev;
+            $this->currentOffset--;
+        }
+    }
+
+    /**
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return int If the structure is empty, this value is null
+     */
+    function key() {
+        if ($this->currentNode !== NULL) {
+            return $this->currentOffset;
+        }
+        return NULL;
+    }
+
+    /**
+     * @link http://php.net/manual/en/iterator.current.php
+     * @return mixed If the structure is empty this will return NULL
+     */
+    function current() {
+        if ($this->currentNode !== NULL) {
+            return $this->currentNode->value;
+        }
+        return NULL;
+    }
+
+    /**
+     * @link http://php.net/manual/en/iterator.current.php
+     * @return void
+     */
+    function rewind() {
+        $this->currentNode = $this->head;
+
+        if ($this->currentNode !== NULL) {
+            $this->currentOffset = 0;
+        }
+    }
+
+    /**
+     * @return void
+     */
+    function end() {
+        $this->currentNode = $this->tail;
+
+        if ($this->currentNode !== NULL) {
+            $this->currentOffset = $this->size - 1;
+        }
+    }
+
+    /**
+     * @link http://php.net/manual/en/iterator.valid.php
+     * @return bool
+     */
+    function valid() {
+        return $this->currentNode !== NULL;
+    }
+
+    /**
      * @param int $offset
      * @return void
      * @throws IndexException
@@ -475,10 +553,6 @@ class LinkedList implements Seekable, ArrayAccess, Collection {
      */
     private function __equals($a, $b) {
         return $a == $b;
-    }
-
-    protected function getCurrentOffset() {
-        return $this->currentOffset;
     }
 
 }
