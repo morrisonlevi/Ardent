@@ -103,6 +103,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers \Spl\Vector::append
+     * @covers \Spl\Vector::count
      */
     function testAppend() {
         $vector = new VectorMock;
@@ -356,15 +357,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Spl\Vector::getIterator
-     */
-    function testGetIterator() {
-        $iterator = $this->object->getIterator();
-
-        $this->assertInstanceOf('\\Spl\\VectorIterator', $iterator);
-    }
-
-    /**
      * @covers \Spl\Vector::map
      */
     function testMap() {
@@ -421,6 +413,113 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     function testApplyNotCallable() {
         $vector = new Vector();
         $vector->apply('happy_hour_is_not_callable');
+    }
+
+    /**
+     * @depends testAppend
+     * @covers \Spl\Vector::getIterator
+     * @covers \Spl\VectorIterator::__construct
+     * @covers \Spl\VectorIterator::rewind
+     * @covers \Spl\VectorIterator::valid
+     * @covers \Spl\VectorIterator::key
+     * @covers \Spl\VectorIterator::current
+     * @covers \Spl\VectorIterator::next
+     * @covers \Spl\VectorIterator::count
+     */
+    function testIterator() {
+        $this->object->append(0);
+        $this->object->append(1);
+        $this->object->append(2);
+        $this->object->append(3);
+
+
+        $iterator = $this->object->getIterator();
+        $this->assertInstanceOf('\\Spl\\VectorIterator', $iterator);
+        $this->assertCount(count($this->object), $iterator);
+
+        for ($i = 0; $i < count($this->object); $i++) {
+            $this->assertTrue($iterator->valid());
+            $this->assertEquals($i, $iterator->key());
+            $this->assertEquals($i, $iterator->current());
+
+            $iterator->next();
+        }
+
+        $this->assertFalse($iterator->valid());
+
+        $this->assertNull($iterator->key());
+        $this->assertNull($iterator->current());
+
+        $iterator->next();
+        $this->assertNull($iterator->key());
+        $this->assertNull($iterator->current());
+        $this->assertCount(count($this->object), $iterator);
+
+    }
+
+    /**
+     * @depends testIterator
+     * @covers \Spl\VectorIterator::seek
+     */
+    function testIteratorSeek() {
+        $this->object->append(0);
+        $this->object->append(1);
+        $this->object->append(2);
+        $this->object->append(3);
+
+        $iterator = $this->object->getIterator();
+
+        $iterator->seek(1);
+        $this->assertEquals(1, $iterator->key());
+        $this->assertEquals(1, $iterator->current());
+
+        $iterator->seek(3);
+        $this->assertEquals(3, $iterator->key());
+        $this->assertEquals(3, $iterator->current());
+
+        $iterator->seek(0);
+        $this->assertEquals(0, $iterator->key());
+        $this->assertEquals(0, $iterator->current());
+
+        $iterator->seek(2);
+        $this->assertEquals(2, $iterator->key());
+        $this->assertEquals(2, $iterator->current());
+
+        $iterator->seek(2);
+        $this->assertEquals(2, $iterator->key());
+        $this->assertEquals(2, $iterator->current());
+
+        $iterator->seek(1);
+        $this->assertEquals(1, $iterator->key());
+        $this->assertEquals(1, $iterator->current());
+
+        $iterator->seek(2);
+        $this->assertEquals(2, $iterator->key());
+        $this->assertEquals(2, $iterator->current());
+    }
+
+    /**
+     * @depends testIterator
+     * @covers \Spl\VectorIterator::seek
+     * @expectedException \Spl\IndexException
+     */
+    function testIteratorSeekNegative() {
+        $this->object->append(0);
+
+        $iterator = $this->object->getIterator();
+        $iterator->seek(-1);
+    }
+
+    /**
+     * @depends testIterator
+     * @covers \Spl\VectorIterator::seek
+     * @expectedException \Spl\IndexException
+     */
+    function testIteratorSeekBeyondEnd() {
+        $this->object->append(0);
+
+        $iterator = $this->object->getIterator();
+        $iterator->seek(1);
     }
 
 }
