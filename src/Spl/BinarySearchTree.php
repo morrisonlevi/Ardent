@@ -166,11 +166,12 @@ class BinarySearchTree implements Collection {
     }
 
     /**
-     * @abstract
-     * @return BinaryTree
+     * @return BinaryTree A copy of the current BinaryTree
      */
     function getRoot() {
-        return $this->root;
+        return $this->root !== NULL
+            ? clone $this->root
+            : NULL;
     }
 
     /**
