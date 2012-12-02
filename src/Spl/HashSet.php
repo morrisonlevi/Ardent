@@ -159,4 +159,24 @@ class HashSet implements Set {
         return new HashSetIterator($this->objects);
     }
 
+    /**
+     * @param Set $that
+     * @return HashSet
+     */
+    function difference(Set $that) {
+        $difference = new HashSet($this->hashFunction);
+
+        if ($that === $this) {
+            return $difference;
+        }
+
+        foreach ($this->objects as $object) {
+            if (!$that->contains($object)) {
+                $difference->add($object);
+            }
+        }
+
+        return $difference;
+    }
+
 }

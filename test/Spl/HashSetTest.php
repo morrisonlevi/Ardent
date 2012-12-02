@@ -30,7 +30,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      * @covers Spl\HashSet::__construct
      */
     function testConstructor() {
-        new HashSet(function($item){
+        new HashSet(function(){
             return 0;
         });
         new HashSet;
@@ -51,6 +51,9 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $set->expects($this->once())
             ->method('__hash');
 
+        /**
+         * @var \Spl\HashSetMock $set
+         */
         $set->hash($set);
     }
 
@@ -204,6 +207,107 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $obj = new HashSet(function($item) {return array($item);});
 
         $obj->remove($obj);
+    }
+
+    /**
+     * @depends testAdd
+     * @covers \Spl\HashSet::difference
+     */
+    function testDifferenceSelf() {
+        $a = new HashSet();
+        $a->add(0);
+        $a->add(1);
+        $a->add(2);
+        $a->add(3);
+
+        $diff = $a->difference($a);
+        $this->assertInstanceOf('Spl\\HashSet', $diff);
+        $this->assertNotSame($diff, $a);
+        $this->assertCount(0, $diff);
+    }
+
+    /**
+     * @depends testAdd
+     * @covers \Spl\HashSet::difference
+     */
+    function testDifferenceNone() {
+        $a = new HashSet();
+        $a->add(0);
+        $a->add(1);
+        $a->add(2);
+        $a->add(3);
+
+
+        $b = new HashSet();
+        $b->add(0);
+        $b->add(1);
+        $b->add(2);
+        $b->add(3);
+
+        $diff = $a->difference($b);
+        $this->assertInstanceOf('Spl\\HashSet', $diff);
+        $this->assertNotSame($diff, $a);
+        $this->assertNotSame($diff, $b);
+        $this->assertCount(0, $diff);
+    }
+
+    /**
+     * @depends testDifferenceNone
+     * @covers \Spl\HashSet::difference
+     */
+    function testDifferenceAll() {
+        $a = new HashSet();
+        $a->add(0);
+        $a->add(1);
+        $a->add(2);
+        $a->add(3);
+
+
+        $b = new HashSet();
+
+        $diff = $a->difference($b);
+        $this->assertCount(4, $diff);
+        $this->assertNotSame($diff, $a);
+        $this->assertNotSame($diff, $b);
+
+        for ($i = 0; $i < 4; $i++) {
+            $this->assertTrue($a->contains($i));
+        }
+    }
+
+    /**
+     * @depends testDifferenceNone
+     * @covers \Spl\HashSet::difference
+     */
+    function testDifferenceSome() {
+        $a = new HashSet();
+        $a->add(0);
+        $a->add(1);
+        $a->add(2);
+        $a->add(3);
+
+
+        $b = new HashSet();
+        $b->add(1);
+        $b->add(3);
+        $b->add(5);
+        $b->add(7);
+
+        $diff = $a->difference($b);
+        $this->assertCount(2, $diff);
+        $this->assertNotSame($diff, $a);
+        $this->assertNotSame($diff, $b);
+
+        $this->assertTrue($diff->contains(0));
+        $this->assertTrue($diff->contains(2));
+
+        $diff = $b->difference($a);
+        $this->assertCount(2, $diff);
+        $this->assertNotSame($diff, $a);
+        $this->assertNotSame($diff, $b);
+
+        $this->assertTrue($diff->contains(5));
+        $this->assertTrue($diff->contains(7));
     }
 
     /**

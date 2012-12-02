@@ -11,8 +11,16 @@ class SortedSet implements Set {
      */
     private $bst;
 
+    /**
+     * @var callable
+     */
+    private $comparator;
+
+    /**
+     * @param callable $comparator
+     */
     function __construct($comparator = NULL) {
-        $this->bst = new AvlTree($comparator);
+        $this->bst = new AvlTree($this->comparator = $comparator);
     }
 
     /**
@@ -101,6 +109,26 @@ class SortedSet implements Set {
      */
     function getIterator() {
         return new SortedSetIterator($this->bst->getIterator(), $this->count());
+    }
+
+    /**
+     * @param Set $that
+     * @return SortedSet
+     */
+    function difference(Set $that) {
+        $difference = new SortedSet($this->comparator);
+
+        if ($that === $this) {
+            return $difference;
+        }
+
+        foreach ($this->bst as $item) {
+            if (!$that->contains($item)) {
+                $difference->add($item);
+            }
+        }
+
+        return $difference;
     }
 
 }

@@ -139,6 +139,107 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testAdd
+     * @covers \Spl\SortedSet::difference
+     */
+    function testDifferenceSelf() {
+        $a = new SortedSet();
+        $a->add(0);
+        $a->add(1);
+        $a->add(2);
+        $a->add(3);
+
+        $diff = $a->difference($a);
+        $this->assertInstanceOf('Spl\\SortedSet', $diff);
+        $this->assertNotSame($diff, $a);
+        $this->assertCount(0, $diff);
+    }
+
+    /**
+     * @depends testAdd
+     * @covers \Spl\SortedSet::difference
+     */
+    function testDifferenceNone() {
+        $a = new SortedSet();
+        $a->add(0);
+        $a->add(1);
+        $a->add(2);
+        $a->add(3);
+
+
+        $b = new SortedSet();
+        $b->add(0);
+        $b->add(1);
+        $b->add(2);
+        $b->add(3);
+
+        $diff = $a->difference($b);
+        $this->assertInstanceOf('Spl\\SortedSet', $diff);
+        $this->assertNotSame($diff, $a);
+        $this->assertNotSame($diff, $b);
+        $this->assertCount(0, $diff);
+    }
+
+    /**
+     * @depends testDifferenceNone
+     * @covers \Spl\SortedSet::difference
+     */
+    function testDifferenceAll() {
+        $a = new SortedSet();
+        $a->add(0);
+        $a->add(1);
+        $a->add(2);
+        $a->add(3);
+
+
+        $b = new SortedSet();
+
+        $diff = $a->difference($b);
+        $this->assertCount(4, $diff);
+        $this->assertNotSame($diff, $a);
+        $this->assertNotSame($diff, $b);
+
+        for ($i = 0; $i < 4; $i++) {
+            $this->assertTrue($a->contains($i));
+        }
+    }
+
+    /**
+     * @depends testDifferenceNone
+     * @covers \Spl\SortedSet::difference
+     */
+    function testDifferenceSome() {
+        $a = new SortedSet();
+        $a->add(0);
+        $a->add(1);
+        $a->add(2);
+        $a->add(3);
+
+
+        $b = new SortedSet();
+        $b->add(1);
+        $b->add(3);
+        $b->add(5);
+        $b->add(7);
+
+        $diff = $a->difference($b);
+        $this->assertCount(2, $diff);
+        $this->assertNotSame($diff, $a);
+        $this->assertNotSame($diff, $b);
+
+        $this->assertTrue($diff->contains(0));
+        $this->assertTrue($diff->contains(2));
+
+        $diff = $b->difference($a);
+        $this->assertCount(2, $diff);
+        $this->assertNotSame($diff, $a);
+        $this->assertNotSame($diff, $b);
+
+        $this->assertTrue($diff->contains(5));
+        $this->assertTrue($diff->contains(7));
+    }
+
+    /**
+     * @depends testAdd
      * @covers \Spl\SortedSet::getIterator
      * @covers \Spl\SortedSetIterator::__construct
      * @covers \Spl\SortedSetIterator::count

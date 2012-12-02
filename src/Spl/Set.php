@@ -38,4 +38,10 @@ interface Set extends Collection {
      */
     function removeAll(Traversable $items);
 
+    /**
+     * @param Set $that
+     * @return Set
+     */
+    function difference(Set $that);
+
 }
