@@ -4,7 +4,7 @@ namespace Spl;
 
 use Traversable;
 
-class SortedSet implements Set {
+class SortedSet extends AbstractSet implements Set {
 
     /**
      * @var AvlTree
@@ -112,23 +112,10 @@ class SortedSet implements Set {
     }
 
     /**
-     * @param Set $that
      * @return SortedSet
      */
-    function difference(Set $that) {
-        $difference = new SortedSet($this->comparator);
-
-        if ($that === $this) {
-            return $difference;
-        }
-
-        foreach ($this->bst as $item) {
-            if (!$that->contains($item)) {
-                $difference->add($item);
-            }
-        }
-
-        return $difference;
+    protected function cloneEmpty() {
+        return new SortedSet($this->comparator);
     }
 
 }

@@ -4,7 +4,7 @@ namespace Spl;
 
 use Traversable;
 
-class HashSet implements Set {
+class HashSet extends AbstractSet implements Set {
 
     /**
      * @var array
@@ -160,23 +160,10 @@ class HashSet implements Set {
     }
 
     /**
-     * @param Set $that
      * @return HashSet
      */
-    function difference(Set $that) {
-        $difference = new HashSet($this->hashFunction);
-
-        if ($that === $this) {
-            return $difference;
-        }
-
-        foreach ($this->objects as $object) {
-            if (!$that->contains($object)) {
-                $difference->add($object);
-            }
-        }
-
-        return $difference;
+    protected function cloneEmpty() {
+        return new HashSet($this->hashFunction);
     }
 
 }
