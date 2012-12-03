@@ -163,7 +163,7 @@ class HashSet extends AbstractSet implements Set {
      * @return HashSet
      */
     protected function cloneEmpty() {
-        return new HashSet($this->hashFunction);
+        return new self($this->hashFunction);
     }
 
 }

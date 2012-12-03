@@ -115,7 +115,7 @@ class SortedSet extends AbstractSet implements Set {
      * @return SortedSet
      */
     protected function cloneEmpty() {
-        return new SortedSet($this->comparator);
+        return new self($this->comparator);
     }
 
 }

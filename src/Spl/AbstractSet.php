@@ -16,6 +16,9 @@ abstract class AbstractSet implements Set {
      * Creates a set that contains the items in the current set that are not
      * contained in the provided set.
      *
+     * Formally:
+     * A - B = {x : x ∈ A ∧ x ∉ B}
+     *
      * @param Set $that
      * @return Set
      */
@@ -33,6 +36,82 @@ abstract class AbstractSet implements Set {
         }
 
         return $difference;
+    }
+
+    /**
+     * Creates a new set that contains the items that are in current set that
+     * are also contained in the provided set.
+     *
+     * Formally:
+     * A ∩ B = {x : x ∈ A ∧ x ∈ B}
+     *
+     * @param Set $that
+     * @return Set
+     */
+    function intersection(Set $that) {
+        $intersection = $this->cloneEmpty();
+
+        foreach ($this as $item) {
+            if ($that->contains($item)) {
+                $intersection->add($item);
+            }
+        }
+
+        return $intersection;
+    }
+
+    /**
+     * Creates a new set which contains the items that exist in the provided
+     * set and do not exist in the current set.
+     *
+     * Formally:
+     * B \ A = {x: x ∈ A ∧ x ∉ B}
+     *
+     * @param Set $that
+     * @return Set
+     */
+    function relativeComplement(Set $that) {
+        $complement = $this->cloneEmpty();
+
+        if ($that === $this) {
+            return $complement;
+        }
+
+        foreach ($that as $item) {
+            if (!$this->contains($item)) {
+                $complement->add($item);
+            }
+        }
+
+        return $complement;
+    }
+
+    /**
+     * Creates a new set that contains the items of the current set and the
+     * items of the provided set.
+     *
+     * Formally:
+     * A ∪ B = {x: x ∈ A ∨ x ∈ B}
+     *
+     * @param Set $that
+     * @return Set
+     */
+    function union(Set $that) {
+        $union = $this->cloneEmpty();
+
+        foreach ($this as $item) {
+            $union->add($item);
+        }
+
+        if ($that === $this) {
+            return $union;
+        }
+
+        foreach ($that as $item) {
+            $union->add($item);
+        }
+
+        return $union;
     }
 
 }
