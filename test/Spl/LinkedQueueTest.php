@@ -137,10 +137,10 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
      */
     function testIteratorForeach() {
         $queue = new LinkedQueue();
-        $queue->pushBack(0);
         $queue->pushBack(1);
         $queue->pushBack(2);
         $queue->pushBack(3);
+        $queue->pushBack(4);
 
         $iterator = $queue->getIterator();
         $this->assertInstanceOf('Spl\\LinkedQueueIterator', $iterator);
@@ -148,7 +148,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(4, $iterator);
 
         $expectedKey = 0;
-        $expectedValue = 0;
+        $expectedValue = 1;
         $iterator->rewind();
 
         for ($i = 0; $i < 4; $i++) {

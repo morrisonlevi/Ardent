@@ -214,6 +214,10 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
                 return $a[0] == $b[0];
             }));
 
+        /**
+         * @var callable $callback
+         */
+
         $valueA = array(0);
 
         $this->assertEquals(-1, $list->indexOf($valueA, $callback));
@@ -694,33 +698,33 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      */
     function testIteratorSeek() {
         $list = new LinkedList();
-        $list->pushBack(0);
         $list->pushBack(1);
         $list->pushBack(2);
         $list->pushBack(3);
+        $list->pushBack(4);
 
         $iterator = $list->getIterator();
 
         $iterator->seek(0);
         $this->assertEquals(0, $iterator->key());
-        $this->assertEquals(0, $iterator->current());
+        $this->assertEquals(1, $iterator->current());
 
         $iterator->seek(2);
         $this->assertEquals(2, $iterator->key());
-        $this->assertEquals(2, $iterator->current());
+        $this->assertEquals(3, $iterator->current());
 
         $iterator->seek(1);
         $this->assertEquals(1, $iterator->key());
-        $this->assertEquals(1, $iterator->current());
+        $this->assertEquals(2, $iterator->current());
 
         $iterator->seek(3);
         $this->assertEquals(3, $iterator->key());
-        $this->assertEquals(3, $iterator->current());
+        $this->assertEquals(4, $iterator->current());
 
         $iterator->rewind();
         $iterator->end();
         $this->assertEquals(3, $iterator->key());
-        $this->assertEquals(3, $iterator->current());
+        $this->assertEquals(4, $iterator->current());
     }
 
     /**

@@ -143,10 +143,10 @@ class ArrayQueueTest extends \PHPUnit_Framework_TestCase {
      */
     function testIterator() {
         $queue = new ArrayQueue();
-        $queue->pushBack(0);
         $queue->pushBack(1);
         $queue->pushBack(2);
         $queue->pushBack(3);
+        $queue->pushBack(4);
 
         $iterator = $queue->getIterator();
 
@@ -154,14 +154,14 @@ class ArrayQueueTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertTrue($iterator->valid());
         $this->assertEquals(0, $iterator->key());
-        $this->assertEquals(0, $iterator->current());
+        $this->assertEquals(1, $iterator->current());
 
         $iterator->rewind();
 
         for ($i = 0; $i < count($queue); $i++) {
             $this->assertTrue($iterator->valid());
             $this->assertEquals($i, $iterator->key());
-            $this->assertEquals($i, $iterator->current());
+            $this->assertEquals($i + 1, $iterator->current());
             $iterator->next();
         }
 

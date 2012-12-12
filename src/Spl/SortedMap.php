@@ -86,7 +86,7 @@ class SortedMap implements Map {
      * @throws KeyException
      */
     function offsetGet($offset) {
-        if (!$this->contains($offset)) {
+        if (!$this->offsetExists($offset)) {
             throw new KeyException;
         }
 
@@ -124,13 +124,14 @@ class SortedMap implements Map {
      * @throws KeyException when the $key is not the correct type.
      */
     function get($key) {
-        if (!$this->contains($key)) {
+        if (!$this->offsetExists($key)) {
             throw new KeyException;
         }
+
         /**
          * @var Pair $pair
          */
-        $pair =  $this->avl->get(new Pair($key, NULL));
+        $pair = $this->avl->get(new Pair($key, NULL));
 
         return $pair->second();
     }

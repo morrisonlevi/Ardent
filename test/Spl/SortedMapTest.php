@@ -16,17 +16,18 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $map = new SortedMap();
         $this->assertCount(0, $map);
 
-        $map[0] = 0;
-        $map[1] = 1;
-        $map[2] = 2;
-        $map[0] = 0;
+        $map[0] = 1;
+        $map[1] = 2;
+        $map[2] = 3;
 
         $this->assertCount(3, $map);
 
         for ($i = 0; $i < $map->count(); $i++) {
-            $this->assertEquals($i, $map[$i]);
+            $actual = $map[$i];
+            $this->assertEquals($i + 1, $actual);
         }
 
+        $map[0] = 0;
         $this->assertCount(3, $map);
     }
 
@@ -189,10 +190,10 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
      */
     function testIterator() {
         $map = new SortedMap();
-        $map[0] = 0;
-        $map[1] = 1;
-        $map[2] = 2;
-        $map[3] = 3;
+        $map[0] = 1;
+        $map[2] = 3;
+        $map[3] = 4;
+        $map[1] = 2;
 
 
         $iterator = $map->getIterator();
@@ -206,7 +207,8 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
             $this->assertTrue($iterator->valid());
 
             $this->assertEquals($i, $iterator->key());
-            $this->assertEquals($map[$i], $iterator->current());
+            $expectedValue = $map[$i];
+            $this->assertEquals($expectedValue, $iterator->current());
 
             $iterator->next();
         }

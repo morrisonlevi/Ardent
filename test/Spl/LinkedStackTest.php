@@ -139,10 +139,10 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
      */
     function testIteratorForeach() {
         $stack = new LinkedStack();
-        $stack->pushBack(0);
         $stack->pushBack(1);
         $stack->pushBack(2);
         $stack->pushBack(3);
+        $stack->pushBack(4);
 
         $iterator = $stack->getIterator();
         $this->assertInstanceOf('Spl\\LinkedStackIterator', $iterator);
@@ -150,7 +150,7 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(4, $iterator);
 
         $expectedKey = 0;
-        $expectedValue = 3;
+        $expectedValue = 4;
         $iterator->rewind();
 
         for ($i = 0; $i < 4; $i++) {

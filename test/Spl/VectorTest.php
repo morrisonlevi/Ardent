@@ -427,10 +427,10 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\VectorIterator::count
      */
     function testIterator() {
-        $this->object->append(0);
         $this->object->append(1);
         $this->object->append(2);
         $this->object->append(3);
+        $this->object->append(4);
 
 
         $iterator = $this->object->getIterator();
@@ -440,7 +440,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         for ($i = 0; $i < count($this->object); $i++) {
             $this->assertTrue($iterator->valid());
             $this->assertEquals($i, $iterator->key());
-            $this->assertEquals($i, $iterator->current());
+            $this->assertEquals($i + 1, $iterator->current());
 
             $iterator->next();
         }
@@ -462,40 +462,40 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
      * @covers \Spl\VectorIterator::seek
      */
     function testIteratorSeek() {
-        $this->object->append(0);
         $this->object->append(1);
         $this->object->append(2);
         $this->object->append(3);
+        $this->object->append(4);
 
         $iterator = $this->object->getIterator();
 
         $iterator->seek(1);
         $this->assertEquals(1, $iterator->key());
-        $this->assertEquals(1, $iterator->current());
+        $this->assertEquals(2, $iterator->current());
 
         $iterator->seek(3);
         $this->assertEquals(3, $iterator->key());
-        $this->assertEquals(3, $iterator->current());
+        $this->assertEquals(4, $iterator->current());
 
         $iterator->seek(0);
         $this->assertEquals(0, $iterator->key());
-        $this->assertEquals(0, $iterator->current());
-
-        $iterator->seek(2);
-        $this->assertEquals(2, $iterator->key());
-        $this->assertEquals(2, $iterator->current());
-
-        $iterator->seek(2);
-        $this->assertEquals(2, $iterator->key());
-        $this->assertEquals(2, $iterator->current());
-
-        $iterator->seek(1);
-        $this->assertEquals(1, $iterator->key());
         $this->assertEquals(1, $iterator->current());
 
         $iterator->seek(2);
         $this->assertEquals(2, $iterator->key());
+        $this->assertEquals(3, $iterator->current());
+
+        $iterator->seek(2);
+        $this->assertEquals(2, $iterator->key());
+        $this->assertEquals(3, $iterator->current());
+
+        $iterator->seek(1);
+        $this->assertEquals(1, $iterator->key());
         $this->assertEquals(2, $iterator->current());
+
+        $iterator->seek(2);
+        $this->assertEquals(2, $iterator->key());
+        $this->assertEquals(3, $iterator->current());
     }
 
     /**
