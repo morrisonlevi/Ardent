@@ -29,7 +29,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $root->setRight(new BinaryTree(5));
 
         $this->reCalculateHeights($root);
-        $actualRoot = $this->object->getRoot();
+        $actualRoot = $this->object->getBinaryTree();
 
         $this->assertEquals($root, $actualRoot);
     }
@@ -50,7 +50,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $root->setRight(new BinaryTree(5));
 
         $this->reCalculateHeights($root);
-        $this->assertEquals($root, $this->object->getRoot());
+        $this->assertEquals($root, $this->object->getBinaryTree());
     }
 
     /**
@@ -95,7 +95,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $root->getRight()->setRight(new BinaryTree(9));
 
         $this->reCalculateHeights($root);
-        $actualRoot = $this->object->getRoot();
+        $actualRoot = $this->object->getBinaryTree();
         $this->assertEquals($root, $actualRoot);
 
     }
@@ -142,7 +142,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $root->getRight()->setRight(new BinaryTree(9));
 
         $this->reCalculateHeights($root);
-        $actualRoot = $this->object->getRoot();
+        $actualRoot = $this->object->getBinaryTree();
         $this->assertEquals($root, $actualRoot);
 
     }
@@ -170,7 +170,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->object->add(5);
         $this->object->remove(5);
 
-        $root = $this->object->getRoot();
+        $root = $this->object->getBinaryTree();
         $this->assertNull($root);
     }
 
@@ -194,7 +194,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $root->setRight(new BinaryTree(5));
         $this->reCalculateHeights($root);
 
-        $this->assertEquals($root, $this->object->getRoot());
+        $this->assertEquals($root, $this->object->getBinaryTree());
     }
 
     /**
@@ -220,7 +220,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $root->setRight(new BinaryTree(5));
         $this->reCalculateHeights($root);
 
-        $this->assertEquals($root, $this->object->getRoot());
+        $this->assertEquals($root, $this->object->getBinaryTree());
     }
 
     /**
@@ -246,7 +246,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $root->setRight(new BinaryTree(7));
         $this->reCalculateHeights($root);
 
-        $this->assertEquals($root, $this->object->getRoot());
+        $this->assertEquals($root, $this->object->getBinaryTree());
     }
 
     function testAddItemThatAlreadyExists() {
@@ -254,7 +254,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->object->add(4);
 
         $expectedRoot = new BinaryTree(4);
-        $actualRoot = $this->object->getRoot();
+        $actualRoot = $this->object->getBinaryTree();
 
         $this->reCalculateHeights($expectedRoot);
 
@@ -280,7 +280,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $root->setRight(new BinaryTree(5));
         $this->reCalculateHeights($root);
 
-        $this->assertEquals($root, $this->object->getRoot());
+        $this->assertEquals($root, $this->object->getBinaryTree());
     }
 
     /**
@@ -318,7 +318,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
         $this->reCalculateHeights($expectedRoot);
 
-        $actualRoot = $this->object->getRoot();
+        $actualRoot = $this->object->getBinaryTree();
 
         $this->assertEquals($expectedRoot, $actualRoot);
 
@@ -341,7 +341,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
         $this->reCalculateHeights($expectedRoot);
 
-        $actualRoot = $this->object->getRoot();
+        $actualRoot = $this->object->getBinaryTree();
 
         $this->assertEquals($expectedRoot, $actualRoot);
     }
@@ -365,7 +365,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
         $this->object->clear();
 
-        $this->assertNull($this->object->getRoot());
+        $this->assertNull($this->object->getBinaryTree());
         $this->assertEmpty($this->object->count());
     }
 
@@ -654,10 +654,10 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Spl\AvlTree::getRoot
+     * @covers \Spl\AvlTree::getBinaryTree
      */
-    function testGetRoot() {
-        $this->assertNull($this->object->getRoot());
+    function testGetBinaryTree() {
+        $this->assertNull($this->object->getBinaryTree());
     }
 
     function testConstructor() {
@@ -680,7 +680,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $root->setRight(new BinaryTree(3));
 
         $this->reCalculateHeights($root);
-        $this->assertEquals($root, $avl->getRoot());
+        $this->assertEquals($root, $avl->getBinaryTree());
     }
 
     /**

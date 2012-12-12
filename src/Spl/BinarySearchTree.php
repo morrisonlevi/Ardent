@@ -171,7 +171,7 @@ class BinarySearchTree implements Collection {
     /**
      * @return BinaryTree A copy of the current BinaryTree
      */
-    function getRoot() {
+    function getBinaryTree() {
         return $this->root !== NULL
             ? clone $this->root
             : NULL;
