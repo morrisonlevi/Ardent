@@ -12,7 +12,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers \Spl\LinkedList::count
-     * @covers \Spl\LinkedList::key()
+     * @covers \Spl\LinkedList::key
      * @covers \Spl\LinkedList::offsetSet
      * @covers \Spl\LinkedList::offsetGet
      * @covers \Spl\LinkedList::pushBack
