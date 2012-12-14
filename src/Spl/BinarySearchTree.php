@@ -204,12 +204,10 @@ class BinarySearchTree implements Collection {
 
         if ($comparisonResult < 0) {
             return $this->containsNode($element, $node->getLeft());
+        } elseif ($comparisonResult > 0) {
+            return $this->containsNode($element, $node->getRight());
         } else {
-            if ($comparisonResult > 0) {
-                return $this->containsNode($element, $node->getRight());
-            } else {
-                return TRUE;
-            }
+            return TRUE;
         }
 
     }
@@ -239,6 +237,7 @@ class BinarySearchTree implements Collection {
                 ? clone $this->root
                 : NULL
         );
+
         switch ($order) {
             case self::TRAVERSE_LEVEL_ORDER:
                 $iterator = new LevelOrderIterator($root);
@@ -259,24 +258,6 @@ class BinarySearchTree implements Collection {
 
         return $iterator;
 
-    }
-
-    /**
-     * @param int $order
-     * @param callable $callback
-     *
-     * @return void
-     */
-    function traverse($order, $callback) {
-        if ($this->root === NULL) {
-            return;
-        }
-
-        $iterator = $this->getIterator($order);
-
-        foreach ($iterator as $item) {
-            $callback($item);
-        }
     }
 
     /**

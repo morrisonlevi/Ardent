@@ -595,36 +595,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    function testTraverse() {
-        $sum = 0;
-        $callback = function($item) use (&$sum) {
-            $sum += $item;
-        };
-
-        $algorithms = array(
-            AvlTree::TRAVERSE_IN_ORDER,
-            AvlTree::TRAVERSE_PRE_ORDER,
-            AvlTree::TRAVERSE_POST_ORDER,
-            AvlTree::TRAVERSE_LEVEL_ORDER,
-        );
-
-        foreach ($algorithms as $algorithm) {
-            $this->object->traverse($algorithm, $callback);
-        }
-
-        $this->assertEquals(0, $sum);
-
-        $this->object->add(1);
-        $this->object->add(2);
-
-        foreach ($algorithms as $algorithm) {
-            $this->object->traverse($algorithm, $callback);
-        }
-
-        $this->assertEquals(12, $sum);
-
-    }
-
     /**
      * @covers \Spl\BinaryTree::getInOrderPredecessor
      */
