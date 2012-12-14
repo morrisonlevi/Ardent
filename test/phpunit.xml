@@ -6,7 +6,7 @@
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory>../src/Spl</directory>
+            <directory>../src/Ardent</directory>
         </whitelist>
     </filter>
 

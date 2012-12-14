@@ -9,7 +9,7 @@ this.
 
 ## Exceptions Hierarchy
 
-*Note: all exceptions extend `Spl\Exception`, which extends `\Exception`.*
+*Note: all exceptions extend `Ardent\Exception`, which extends `\Exception`.*
 
  - DomainException
  - FunctionException
