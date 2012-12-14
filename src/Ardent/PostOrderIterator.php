@@ -5,7 +5,7 @@ namespace Ardent;
 class PostOrderIterator implements BinaryTreeIterator {
 
     /**
-     * @var ArrayStack
+     * @var Stack
      */
     protected $stack;
 
@@ -25,7 +25,6 @@ class PostOrderIterator implements BinaryTreeIterator {
     protected $current;
 
     public function __construct(BinaryTree $root = NULL) {
-        $this->stack = new ArrayStack;
         $this->root = $root;
     }
 
@@ -48,9 +47,9 @@ class PostOrderIterator implements BinaryTreeIterator {
         if ($this->value !== NULL) {
             $right = $this->value->getRight();
             if ($right !== NULL) {
-                $this->stack->pushBack($right);
+                $this->stack->push($right);
             }
-            $this->stack->pushBack($this->value);
+            $this->stack->push($this->value);
             $this->value = $this->value->getLeft();
             $this->next();
             return;
@@ -62,12 +61,12 @@ class PostOrderIterator implements BinaryTreeIterator {
             return;
         }
 
-        $this->value = $this->stack->popBack();
+        $this->value = $this->stack->pop();
 
         $right = $this->value->getRight();
-        if ($right !== NULL && !$this->stack->isEmpty() && $right === $this->stack->peekBack()) {
-            $this->stack->popBack();
-            $this->stack->pushBack($this->value);
+        if ($right !== NULL && !$this->stack->isEmpty() && $right === $this->stack->peek()) {
+            $this->stack->pop();
+            $this->stack->push($this->value);
             $this->value = $right;
             $this->next();
         } else {
@@ -98,7 +97,7 @@ class PostOrderIterator implements BinaryTreeIterator {
      * @return void
      */
     public function rewind() {
-        $this->stack->clear();
+        $this->stack = new LinkedStack();
 
         $this->value = $this->root;
         $this->next();

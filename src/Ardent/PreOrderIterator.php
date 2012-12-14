@@ -5,7 +5,7 @@ namespace Ardent;
 class PreOrderIterator implements BinaryTreeIterator {
 
     /**
-     * @var ArrayStack
+     * @var Stack
      */
     protected $stack;
 
@@ -20,7 +20,6 @@ class PreOrderIterator implements BinaryTreeIterator {
     protected $value;
 
     public function __construct(BinaryTree $root = NULL) {
-        $this->stack = new ArrayStack;
         $this->root = $root;
     }
 
@@ -40,23 +39,23 @@ class PreOrderIterator implements BinaryTreeIterator {
         /**
          * @var BinaryTree $node
          */
-        $node = $this->stack->popBack();
+        $node = $this->stack->pop();
 
         $right = $node->getRight();
         if ($right !== NULL) {
-            $this->stack->pushBack($right);
+            $this->stack->push($right);
         }
 
         $left = $node->getLeft();
         if ($left !== NULL) {
-            $this->stack->pushBack($left);
+            $this->stack->push($left);
         }
 
         if ($this->stack->isEmpty()) {
             $this->value = NULL;
             return;
         }
-        $this->value = $this->stack->peekBack();
+        $this->value = $this->stack->peek();
 
     }
 
@@ -81,9 +80,9 @@ class PreOrderIterator implements BinaryTreeIterator {
      * @return void
      */
     public function rewind() {
-        $this->stack->clear();
+        $this->stack = new LinkedStack();
 
-        $this->stack->pushBack($this->root);
+        $this->stack->push($this->root);
 
         $this->value = $this->root;
     }

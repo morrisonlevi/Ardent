@@ -8,17 +8,17 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
      * @covers \Ardent\LinkedQueue::__construct
      * @covers \Ardent\LinkedQueue::count
      * @covers \Ardent\LinkedQueue::getLinkedList
-     * @covers \Ardent\LinkedQueue::pushBack
+     * @covers \Ardent\LinkedQueue::push
      */
     function testPushBack() {
         $queue = new LinkedQueue();
 
-        $queue->pushBack(0);
+        $queue->push(0);
         $this->assertCount(1, $queue);
         $list = $queue->getLinkedList();
         $this->assertEquals(0, $list->peekBack());
 
-        $queue->pushBack(1);
+        $queue->push(1);
         $this->assertCount(2, $queue);
         $list = $queue->getLinkedList();
         $this->assertEquals(0, $list->peekFront());
@@ -34,10 +34,10 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertFalse($queue->contains(0));
 
-        $queue->pushBack(0);
+        $queue->push(0);
         $this->assertTrue($queue->contains(0));
 
-        $queue->pushBack(1);
+        $queue->push(1);
         $this->assertTrue($queue->contains(0));
         $this->assertTrue($queue->contains(1));
 
@@ -52,33 +52,33 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $queue = new LinkedQueue();
         $this->assertTrue($queue->isEmpty());
 
-        $queue->pushBack(0);
+        $queue->push(0);
         $this->assertFalse($queue->isEmpty());
     }
 
     /**
-     * @covers \Ardent\LinkedQueue::peekFront
+     * @covers \Ardent\LinkedQueue::peek
      * @expectedException \Ardent\EmptyException
      */
     function testPeekFrontEmpty() {
         $queue = new LinkedQueue();
-        $queue->peekFront();
+        $queue->peek();
     }
 
     /**
      * @depends testPushBack
-     * @covers \Ardent\LinkedQueue::peekFront
+     * @covers \Ardent\LinkedQueue::peek
      */
     function testPeekFront() {
         $queue = new LinkedQueue();
-        $queue->pushBack(0);
+        $queue->push(0);
 
-        $this->assertEquals(0, $queue->peekFront());
+        $this->assertEquals(0, $queue->peek());
         $this->assertCount(1, $queue);
 
-        $queue->pushBack(1);
+        $queue->push(1);
 
-        $this->assertEquals(0, $queue->peekFront());
+        $this->assertEquals(0, $queue->peek());
         $this->assertCount(2, $queue);
 
         $list = $queue->getLinkedList();
@@ -87,29 +87,29 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedQueue::popFront
+     * @covers \Ardent\LinkedQueue::pop
      * @expectedException \Ardent\EmptyException
      */
     function testPopFrontEmpty() {
         $queue = new LinkedQueue();
-        $queue->popFront();
+        $queue->pop();
     }
 
     /**
      * @depends testPushBack
-     * @covers \Ardent\LinkedQueue::popFront
+     * @covers \Ardent\LinkedQueue::pop
      */
     function testPushFront() {
         $queue = new LinkedQueue();
-        $queue->pushBack(0);
+        $queue->push(0);
 
-        $this->assertEquals(0, $queue->popFront());
+        $this->assertEquals(0, $queue->pop());
         $this->assertCount(0, $queue);
 
-        $queue->pushBack(0);
-        $queue->pushBack(1);
+        $queue->push(0);
+        $queue->push(1);
 
-        $this->assertEquals(0, $queue->popFront());
+        $this->assertEquals(0, $queue->pop());
         $this->assertCount(1, $queue);
 
         $list = $queue->getLinkedList();
@@ -137,10 +137,10 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
      */
     function testIteratorForeach() {
         $queue = new LinkedQueue();
-        $queue->pushBack(1);
-        $queue->pushBack(2);
-        $queue->pushBack(3);
-        $queue->pushBack(4);
+        $queue->push(1);
+        $queue->push(2);
+        $queue->push(3);
+        $queue->push(4);
 
         $iterator = $queue->getIterator();
         $this->assertInstanceOf('Ardent\\LinkedQueueIterator', $iterator);

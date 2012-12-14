@@ -7,6 +7,14 @@ use ArrayAccess;
 interface Map extends ArrayAccess, Collection {
 
     /**
+     * @param $item
+     *
+     * @return bool
+     * @throws TypeException when $item is not the correct type.
+     */
+    function contains($item);
+
+    /**
      * @param $key
      *
      * @return mixed

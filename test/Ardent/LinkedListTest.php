@@ -327,7 +327,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::popFront
+     * @covers \Ardent\LinkedList::popBack
      * @covers \Ardent\LinkedList::removeNode
      */
     function testPopFront() {
@@ -351,7 +351,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::popFront
+     * @covers \Ardent\LinkedList::popBack
      * @expectedException \Ardent\EmptyException
      */
     function testPopFrontEmpty() {

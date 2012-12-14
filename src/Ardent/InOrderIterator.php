@@ -5,7 +5,7 @@ namespace Ardent;
 class InOrderIterator implements BinaryTreeIterator {
 
     /**
-     * @var ArrayStack
+     * @var Stack
      */
     protected $stack;
 
@@ -20,7 +20,6 @@ class InOrderIterator implements BinaryTreeIterator {
     protected $value;
 
     public function __construct(BinaryTree $root = NULL) {
-        $this->stack = new ArrayStack;
         $this->root = $root;
     }
 
@@ -44,13 +43,13 @@ class InOrderIterator implements BinaryTreeIterator {
         /**
          * @var BinaryTree $node
          */
-        $node = $this->stack->popBack();
+        $node = $this->stack->pop();
 
         $right = $node->getRight();
         if ($right !== NULL) {
             // left-most branch of the right side
             for ($left = $right; $left !== NULL; $left = $left->getLeft()) {
-                $this->stack->pushBack($left);
+                $this->stack->push($left);
             }
         }
 
@@ -58,7 +57,7 @@ class InOrderIterator implements BinaryTreeIterator {
             $this->value = NULL;
             return;
         }
-        $this->value = $this->stack->peekBack();
+        $this->value = $this->stack->peek();
 
     }
 
@@ -83,14 +82,14 @@ class InOrderIterator implements BinaryTreeIterator {
      * @return void
      */
     public function rewind() {
-        $this->stack->clear();
+        $this->stack = new LinkedStack();
 
         for ($current = $this->root; $current !== NULL; $current = $current->getLeft()) {
-            $this->stack->pushBack($current);
+            $this->stack->push($current);
         }
 
         if (!$this->stack->isEmpty()) {
-            $this->value = $this->stack->peekBack();
+            $this->value = $this->stack->peek();
         }
     }
 }

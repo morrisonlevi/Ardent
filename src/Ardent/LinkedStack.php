@@ -12,7 +12,7 @@ class LinkedStack implements Stack {
     function __construct() {
         $this->list = new LinkedList();
     }
-    
+
     /**
      * @param $item
      *
@@ -53,7 +53,7 @@ class LinkedStack implements Stack {
      * @throws FullException if the Stack is full.
      * @return void
      */
-    function pushBack($object) {
+    function push($object) {
         $this->list->pushBack($object);
     }
 
@@ -61,7 +61,7 @@ class LinkedStack implements Stack {
      * @throws EmptyException if the Stack is empty.
      * @return mixed
      */
-    function popBack() {
+    function pop() {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
@@ -73,7 +73,7 @@ class LinkedStack implements Stack {
      * @throws EmptyException if the Stack is empty.
      * @return mixed
      */
-    function peekBack() {
+    function peek() {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }

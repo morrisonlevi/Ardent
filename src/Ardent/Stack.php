@@ -11,18 +11,18 @@ interface Stack extends Collection {
      * @throws FullException if the Stack is full.
      * @return void
      */
-    function pushBack($object);
+    function push($object);
 
     /**
      * @throws EmptyException if the Stack is empty.
      * @return mixed
      */
-    function popBack();
+    function pop();
 
     /**
      * @throws EmptyException if the Stack is empty.
      * @return mixed
      */
-    function peekBack();
+    function peek();
 
 }

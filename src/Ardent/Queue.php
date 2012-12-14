@@ -10,17 +10,17 @@ interface Queue extends Collection {
      * @throws FullException if the Queue is full.
      * @throws TypeException when $item is not the correct type.
      */
-    function pushBack($item);
+    function push($item);
 
     /**
      * @return mixed
      * @throws EmptyException if the Queue is empty.
      */
-    function popFront();
+    function pop();
 
     /**
      * @return mixed
      * @throws EmptyException if the Queue is empty.
      */
-    function peekFront();
+    function peek();
 }

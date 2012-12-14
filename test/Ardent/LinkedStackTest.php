@@ -8,17 +8,17 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
      * @covers \Ardent\LinkedStack::__construct
      * @covers \Ardent\LinkedStack::count
      * @covers \Ardent\LinkedStack::getLinkedList
-     * @covers \Ardent\LinkedStack::pushBack
+     * @covers \Ardent\LinkedStack::push
      */
     function testPushBack() {
         $stack = new LinkedStack();
 
-        $stack->pushBack(0);
+        $stack->push(0);
         $this->assertCount(1, $stack);
         $list = $stack->getLinkedList();
         $this->assertEquals(0, $list->peekBack());
 
-        $stack->pushBack(1);
+        $stack->push(1);
         $this->assertCount(2, $stack);
         $list = $stack->getLinkedList();
         $this->assertEquals(0, $list->peekFront());
@@ -34,10 +34,10 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertFalse($stack->contains(0));
 
-        $stack->pushBack(0);
+        $stack->push(0);
         $this->assertTrue($stack->contains(0));
 
-        $stack->pushBack(1);
+        $stack->push(1);
         $this->assertTrue($stack->contains(0));
         $this->assertTrue($stack->contains(1));
 
@@ -52,33 +52,33 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
         $stack = new LinkedStack();
         $this->assertTrue($stack->isEmpty());
 
-        $stack->pushBack(0);
+        $stack->push(0);
         $this->assertFalse($stack->isEmpty());
     }
 
     /**
-     * @covers \Ardent\LinkedStack::peekBack
+     * @covers \Ardent\LinkedStack::peek
      * @expectedException \Ardent\EmptyException
      */
     function testPeekBackEmpty() {
         $stack = new LinkedStack();
-        $stack->peekBack();
+        $stack->peek();
     }
 
     /**
      * @depends testPushBack
-     * @covers \Ardent\LinkedStack::peekBack
+     * @covers \Ardent\LinkedStack::peek
      */
     function testPeekBack() {
         $stack = new LinkedStack();
-        $stack->pushBack(0);
+        $stack->push(0);
 
-        $this->assertEquals(0, $stack->peekBack());
+        $this->assertEquals(0, $stack->peek());
         $this->assertCount(1, $stack);
 
-        $stack->pushBack(1);
+        $stack->push(1);
 
-        $this->assertEquals(1, $stack->peekBack());
+        $this->assertEquals(1, $stack->peek());
         $this->assertCount(2, $stack);
 
         $list = $stack->getLinkedList();
@@ -87,34 +87,34 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedStack::popBack
+     * @covers \Ardent\LinkedStack::pop
      * @expectedException \Ardent\EmptyException
      */
     function testPopBackEmpty() {
         $stack = new LinkedStack();
-        $stack->popBack();
+        $stack->pop();
     }
 
     /**
      * @depends testPushBack
-     * @covers \Ardent\LinkedStack::popBack
+     * @covers \Ardent\LinkedStack::pop
      */
     function testPopBack() {
         $stack = new LinkedStack();
-        $stack->pushBack(0);
+        $stack->push(0);
 
-        $popped = $stack->popBack();
+        $popped = $stack->pop();
         $this->count(0, $stack);
         $this->assertEquals(0, $popped);
 
-        $stack->pushBack(0);
-        $stack->pushBack(1);
+        $stack->push(0);
+        $stack->push(1);
         $this->count(2, $stack);
 
-        $popped = $stack->popBack();
+        $popped = $stack->pop();
         $this->assertEquals(1, $popped);
 
-        $popped = $stack->popBack();
+        $popped = $stack->pop();
         $this->assertEquals(0, $popped);
     }
 
@@ -139,10 +139,10 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
      */
     function testIteratorForeach() {
         $stack = new LinkedStack();
-        $stack->pushBack(1);
-        $stack->pushBack(2);
-        $stack->pushBack(3);
-        $stack->pushBack(4);
+        $stack->push(1);
+        $stack->push(2);
+        $stack->push(3);
+        $stack->push(4);
 
         $iterator = $stack->getIterator();
         $this->assertInstanceOf('Ardent\\LinkedStackIterator', $iterator);

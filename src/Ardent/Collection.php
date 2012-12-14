@@ -22,14 +22,6 @@ use Countable,
 interface Collection extends Countable, IteratorAggregate /*, \Serializable  */ {
 
     /**
-     * @param $item
-     *
-     * @return bool
-     * @throws TypeException when $item is not the correct type.
-     */
-    function contains($item);
-
-    /**
      * @return bool
      */
     function isEmpty();

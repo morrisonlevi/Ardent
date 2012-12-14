@@ -44,7 +44,7 @@ class LinkedQueue implements Queue {
      * @throws FullException if the Queue is full.
      * @throws TypeException when $item is not the correct type.
      */
-    function pushBack($item) {
+    function push($item) {
         $this->list->pushBack($item);
     }
 
@@ -52,7 +52,7 @@ class LinkedQueue implements Queue {
      * @return mixed
      * @throws EmptyException if the Queue is empty.
      */
-    function popFront() {
+    function pop() {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
@@ -63,7 +63,7 @@ class LinkedQueue implements Queue {
      * @return mixed
      * @throws EmptyException if the Queue is empty.
      */
-    function peekFront() {
+    function peek() {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
