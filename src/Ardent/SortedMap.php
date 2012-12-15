@@ -18,7 +18,7 @@ class SortedMap implements Map {
     }
 
     function compareKeys(Pair $a, Pair $b) {
-        return call_user_func($this->comparator, $a->first(), $b->first());
+        return call_user_func($this->comparator, $a->first, $b->first);
     }
 
     function compareStandard($a, $b) {
@@ -53,7 +53,7 @@ class SortedMap implements Map {
             /**
              * @var Pair $pair
              */
-            if (call_user_func($callback, $pair->second(), $item) === 0) {
+            if (call_user_func($callback, $pair->second, $item) === 0) {
                 return TRUE;
             }
         }
@@ -133,7 +133,7 @@ class SortedMap implements Map {
          */
         $pair = $this->avl->get(new Pair($key, NULL));
 
-        return $pair->second();
+        return $pair->second;
     }
 
     /**

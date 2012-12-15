@@ -5,29 +5,25 @@ namespace Ardent;
 class LinkedQueue implements Queue {
 
     /**
-     * @var LinkedList
+     * @var Pair
      */
-    private $list;
-
-    function __construct() {
-        $this->list = new LinkedList();
-    }
+    private $head;
 
     /**
-     * @param $item
-     *
-     * @return bool
-     * @throws TypeException when $item is not the correct type.
+     * @var Pair
      */
-    function contains($item) {
-        return $this->list->contains($item);
-    }
+    private $tail;
+
+    /**
+     * @var int
+     */
+    private $size = 0;
 
     /**
      * @return bool
      */
     function isEmpty()  {
-        return $this->list->isEmpty();
+        return $this->head === NULL;
     }
 
     /**
@@ -35,7 +31,23 @@ class LinkedQueue implements Queue {
      * @return QueueIterator
      */
     function getIterator() {
-        return new LinkedQueueIterator(clone $this->list);
+
+        return new LinkedQueueIterator($this->size, $this->clonePair($this->head));
+    }
+
+    private function clonePair(Pair $pair = NULL) {
+        if ($pair === NULL) {
+            return NULL;
+        }
+
+        $new = new Pair($pair->first, $pair->second);
+        for ($current = $new; $current->second !== NULL; $current = $current->second) {
+            $current->second = new Pair(
+                $current->second->first,
+                $current->second->second
+            );
+        }
+        return $new;
     }
 
     /**
@@ -45,7 +57,15 @@ class LinkedQueue implements Queue {
      * @throws TypeException when $item is not the correct type.
      */
     function push($item) {
-        $this->list->pushBack($item);
+        $pair = new Pair($item, NULL);
+
+        if ($this->tail !== NULL) {
+            $this->tail = $this->tail->second = $pair;
+        } else {
+            $this->head = $this->tail = $pair;
+        }
+
+        $this->size++;
     }
 
     /**
@@ -56,7 +76,11 @@ class LinkedQueue implements Queue {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
-        return $this->list->popFront();
+        $item = $this->head->first;
+        $this->head = $this->head->second;
+        $this->size--;
+
+        return $item;
     }
 
     /**
@@ -67,7 +91,7 @@ class LinkedQueue implements Queue {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
-        return $this->list->peekFront();
+        return $this->head->first;
     }
 
     /**
@@ -75,14 +99,7 @@ class LinkedQueue implements Queue {
      * @return int
      */
     function count() {
-        return $this->list->count();
-    }
-
-    /**
-     * @return LinkedList A copy of the queue as a LinkedList
-     */
-    function getLinkedList() {
-        return clone $this->list;
+        return $this->size;
     }
 
 }

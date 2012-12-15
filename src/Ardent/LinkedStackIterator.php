@@ -25,10 +25,10 @@ class LinkedStackIterator implements StackIterator {
     private $top;
 
     /**
-     * @param Pair $top
      * @param int $count
+     * @param Pair $top
      */
-    function __construct(Pair $top = NULL, $count) {
+    function __construct($count, Pair $top = NULL) {
         $this->pair = $this->top = $top;
         $this->count = $count;
     }
@@ -68,7 +68,7 @@ class LinkedStackIterator implements StackIterator {
         if ($this->pair === NULL) {
             return NULL;
         }
-        return $this->pair->first();
+        return $this->pair->first;
     }
 
     /**
@@ -80,7 +80,7 @@ class LinkedStackIterator implements StackIterator {
             $this->key = NULL;
             return;
         }
-        $this->pair = $this->pair->second();
+        $this->pair = $this->pair->second;
         $this->key++;
     }
 

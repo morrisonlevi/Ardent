@@ -111,6 +111,7 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers \Ardent\LinkedStack::clonePair
      * @covers \Ardent\LinkedStack::getIterator
      */
     function testGetIteratorEmpty() {
@@ -120,6 +121,7 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers \Ardent\LinkedStack::clonePair
      * @covers \Ardent\LinkedStack::getIterator
      * @covers \Ardent\LinkedStackIterator::__construct
      * @covers \Ardent\LinkedStackIterator::rewind

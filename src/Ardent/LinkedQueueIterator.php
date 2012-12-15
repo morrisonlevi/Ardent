@@ -4,14 +4,32 @@ namespace Ardent;
 
 class LinkedQueueIterator implements QueueIterator {
 
+
+    private $count = 0;
+
     /**
-     * @var LinkedList
+     * @var Pair
      */
-    private $list;
-    
-    function __construct(LinkedList $list) {
-        $this->list = $list;
-        $this->list->rewind();
+    private $head;
+
+    /**
+     * @var Pair
+     */
+    private $current;
+
+    /**
+     * @var int
+     */
+    private $key = NULL;
+
+    /**
+     * @param int $count
+     * @param Pair $head
+     */
+    function __construct($count, Pair $head = NULL) {
+        $this->head = $head;
+        $this->count = $count;
+        $this->rewind();
     }
     
     /**
@@ -19,7 +37,10 @@ class LinkedQueueIterator implements QueueIterator {
      * @return mixed Can return any type.
      */
     function current() {
-        return $this->list->current();
+        if ($this->current === NULL) {
+            return NULL;
+        }
+        return $this->current->first;
     }
 
     /**
@@ -27,7 +48,12 @@ class LinkedQueueIterator implements QueueIterator {
      * @return void 
      */
     function next() {
-        $this->list->next();
+        if ($this->current === NULL) {
+            $this->key = NULL;
+            return;
+        }
+        $this->current = $this->current->second;
+        $this->key++;
     }
 
     /**
@@ -35,7 +61,7 @@ class LinkedQueueIterator implements QueueIterator {
      * @return mixed 
      */
     function key() {
-        return $this->list->key();
+        return $this->key;
     }
 
     /**
@@ -43,7 +69,7 @@ class LinkedQueueIterator implements QueueIterator {
      * @return boolean 
      */
     function valid() {
-        return $this->list->valid();
+        return $this->current !== NULL;
     }
 
     /**
@@ -51,7 +77,11 @@ class LinkedQueueIterator implements QueueIterator {
      * @return void 
      */
     function rewind() {
-        $this->list->rewind();
+        $this->current = $this->head;
+
+        $this->key = $this->head !== NULL
+            ? 0
+            : NULL;
     }
 
     /**
@@ -59,7 +89,7 @@ class LinkedQueueIterator implements QueueIterator {
      * @return int 
      */
     function count() {
-        return $this->list->count();
+        return $this->count;
     }
 
 }

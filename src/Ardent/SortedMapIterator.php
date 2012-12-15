@@ -59,7 +59,7 @@ class SortedMapIterator implements MapIterator {
             );
         }
 
-        return $pair->first();
+        return $pair->first;
     }
 
     /**
@@ -82,7 +82,7 @@ class SortedMapIterator implements MapIterator {
             );
         }
 
-        return $pair->second();
+        return $pair->second;
     }
 
     /**

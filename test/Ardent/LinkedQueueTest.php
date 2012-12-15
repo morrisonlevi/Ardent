@@ -5,127 +5,129 @@ namespace Ardent;
 class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * @covers \Ardent\LinkedQueue::__construct
      * @covers \Ardent\LinkedQueue::count
-     * @covers \Ardent\LinkedQueue::getLinkedList
+     * @covers \Ardent\LinkedQueue::isEmpty
      * @covers \Ardent\LinkedQueue::push
      */
-    function testPushBack() {
+    function testPushOne() {
         $queue = new LinkedQueue();
-
-        $queue->push(0);
-        $this->assertCount(1, $queue);
-        $list = $queue->getLinkedList();
-        $this->assertEquals(0, $list->peekBack());
-
-        $queue->push(1);
-        $this->assertCount(2, $queue);
-        $list = $queue->getLinkedList();
-        $this->assertEquals(0, $list->peekFront());
-        $this->assertEquals(1, $list->peekBack());
-    }
-
-    /**
-     * @depends testPushBack
-     * @covers \Ardent\LinkedQueue::contains
-     */
-    function testContains() {
-        $queue = new LinkedQueue();
-
-        $this->assertFalse($queue->contains(0));
-
-        $queue->push(0);
-        $this->assertTrue($queue->contains(0));
-
-        $queue->push(1);
-        $this->assertTrue($queue->contains(0));
-        $this->assertTrue($queue->contains(1));
-
-        $this->assertFalse($queue->contains(-1));
-    }
-
-    /**
-     * @depends testPushBack
-     * @covers \Ardent\LinkedQueue::isEmpty
-     */
-    function testIsEmpty() {
-        $queue = new LinkedQueue();
+        $this->assertCount(0, $queue);
         $this->assertTrue($queue->isEmpty());
 
         $queue->push(0);
+        $this->assertCount(1, $queue);
         $this->assertFalse($queue->isEmpty());
+    }
+
+    /**
+     * @depends testPushOne
+     * @covers \Ardent\LinkedQueue::count
+     * @covers \Ardent\LinkedQueue::isEmpty
+     * @covers \Ardent\LinkedQueue::peek
+     * @covers \Ardent\LinkedQueue::push
+     */
+    function testPeekOne() {
+        $queue = new LinkedQueue();
+        $queue->push(1);
+        $this->assertCount(1, $queue);
+        $this->assertFalse($queue->isEmpty());
+
+        $peek = $queue->peek();
+        $this->assertCount(1, $queue);
+        $this->assertFalse($queue->isEmpty());
+        $this->assertEquals(1, $peek);
+    }
+
+    /**
+     * @depends testPeekOne
+     * @covers \Ardent\LinkedQueue::count
+     * @covers \Ardent\LinkedQueue::isEmpty
+     * @covers \Ardent\LinkedQueue::pop
+     * @covers \Ardent\LinkedQueue::push
+     */
+    function testPopOne() {
+        $queue = new LinkedQueue();
+        $queue->push(1);
+        $this->assertCount(1, $queue);
+        $this->assertFalse($queue->isEmpty());
+
+        $pop = $queue->pop();
+        $this->assertCount(0, $queue);
+        $this->assertTrue($queue->isEmpty());
+        $this->assertEquals(1, $pop);
+    }
+
+    /**
+     * @depends testPopOne
+     */
+    function testMultiplePushPeekPop() {
+        $queue = new LinkedQueue();
+        $queue->push(1);
+        $queue->push(3);
+        $queue->push(5);
+
+        $peek = $queue->peek();
+        $this->assertEquals(1, $peek);
+        $this->assertCount(3, $queue);
+        $this->assertFalse($queue->isEmpty());
+
+        $pop = $queue->pop();
+        $this->assertEquals(1, $pop);
+        $this->assertCount(2, $queue);
+        $this->assertFalse($queue->isEmpty());
+
+        $peek = $queue->peek();
+        $this->assertEquals(3, $peek);
+        $this->assertCount(2, $queue);
+        $this->assertFalse($queue->isEmpty());
+
+        $pop = $queue->pop();
+        $this->assertEquals(3, $pop);
+        $this->assertCount(1, $queue);
+        $this->assertFalse($queue->isEmpty());
+
+        $peek = $queue->peek();
+        $this->assertEquals(5, $peek);
+        $this->assertCount(1, $queue);
+        $this->assertFalse($queue->isEmpty());
+
+        $pop = $queue->pop();
+        $this->assertEquals(5, $pop);
+        $this->assertCount(0, $queue);
+        $this->assertTrue($queue->isEmpty());
     }
 
     /**
      * @covers \Ardent\LinkedQueue::peek
      * @expectedException \Ardent\EmptyException
      */
-    function testPeekFrontEmpty() {
+    function testPeekEmpty() {
         $queue = new LinkedQueue();
         $queue->peek();
     }
 
     /**
-     * @depends testPushBack
-     * @covers \Ardent\LinkedQueue::peek
-     */
-    function testPeekFront() {
-        $queue = new LinkedQueue();
-        $queue->push(0);
-
-        $this->assertEquals(0, $queue->peek());
-        $this->assertCount(1, $queue);
-
-        $queue->push(1);
-
-        $this->assertEquals(0, $queue->peek());
-        $this->assertCount(2, $queue);
-
-        $list = $queue->getLinkedList();
-        $this->assertEquals(0, $list->peekFront());
-        $this->assertEquals(1, $list->peekBack());
-    }
-
-    /**
      * @covers \Ardent\LinkedQueue::pop
      * @expectedException \Ardent\EmptyException
      */
-    function testPopFrontEmpty() {
+    function testPopEmpty() {
         $queue = new LinkedQueue();
         $queue->pop();
     }
 
     /**
-     * @depends testPushBack
-     * @covers \Ardent\LinkedQueue::pop
-     */
-    function testPushFront() {
-        $queue = new LinkedQueue();
-        $queue->push(0);
-
-        $this->assertEquals(0, $queue->pop());
-        $this->assertCount(0, $queue);
-
-        $queue->push(0);
-        $queue->push(1);
-
-        $this->assertEquals(0, $queue->pop());
-        $this->assertCount(1, $queue);
-
-        $list = $queue->getLinkedList();
-        $this->assertEquals(1, $list->peekFront());
-    }
-
-    /**
+     * @covers \Ardent\LinkedQueue::clonePair
      * @covers \Ardent\LinkedQueue::getIterator
      */
     function testGetIteratorEmpty() {
         $queue = new LinkedQueue();
         $iterator = $queue->getIterator();
-        $this->assertInstanceOf('Ardent\\QueueIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\LinkedQueueIterator', $iterator);
     }
 
     /**
+     * @depends testMultiplePushPeekPop
+     * @covers \Ardent\LinkedQueue::clonePair
      * @covers \Ardent\LinkedQueue::getIterator
      * @covers \Ardent\LinkedQueueIterator::__construct
      * @covers \Ardent\LinkedQueueIterator::rewind

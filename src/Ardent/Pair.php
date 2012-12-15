@@ -4,21 +4,13 @@ namespace Ardent;
 
 class Pair {
 
-    protected $first;
+    public $first;
 
-    protected $second;
+    public $second;
 
-    public function __construct($first, $second) {
+    function __construct($first, $second) {
         $this->first = $first;
         $this->second = $second;
-    }
-
-    public function first() {
-        return $this->first;
-    }
-
-    public function second() {
-        return $this->second;
     }
 
 }
