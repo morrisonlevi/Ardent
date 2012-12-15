@@ -5,117 +5,109 @@ namespace Ardent;
 class LinkedStackTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * @covers \Ardent\LinkedStack::__construct
      * @covers \Ardent\LinkedStack::count
-     * @covers \Ardent\LinkedStack::getLinkedList
+     * @covers \Ardent\LinkedStack::isEmpty
      * @covers \Ardent\LinkedStack::push
      */
-    function testPushBack() {
-        $stack = new LinkedStack();
-
-        $stack->push(0);
-        $this->assertCount(1, $stack);
-        $list = $stack->getLinkedList();
-        $this->assertEquals(0, $list->peekBack());
-
-        $stack->push(1);
-        $this->assertCount(2, $stack);
-        $list = $stack->getLinkedList();
-        $this->assertEquals(0, $list->peekFront());
-        $this->assertEquals(1, $list->peekBack());
-    }
-
-    /**
-     * @depends testPushBack
-     * @covers \Ardent\LinkedStack::contains
-     */
-    function testContains() {
-        $stack = new LinkedStack();
-
-        $this->assertFalse($stack->contains(0));
-
-        $stack->push(0);
-        $this->assertTrue($stack->contains(0));
-
-        $stack->push(1);
-        $this->assertTrue($stack->contains(0));
-        $this->assertTrue($stack->contains(1));
-
-        $this->assertFalse($stack->contains(-1));
-    }
-
-    /**
-     * @depends testPushBack
-     * @covers \Ardent\LinkedStack::isEmpty
-     */
-    function testIsEmpty() {
+    function testPushOne() {
         $stack = new LinkedStack();
         $this->assertTrue($stack->isEmpty());
+        $this->assertCount(0, $stack);
 
         $stack->push(0);
         $this->assertFalse($stack->isEmpty());
+        $this->assertCount(1, $stack);
+    }
+
+    /**
+     * @depends testPushOne
+     * @covers \Ardent\LinkedStack::peek
+     * @covers \Ardent\LinkedStack::push
+     */
+    function testPeekOne() {
+        $stack = new LinkedStack();
+        $stack->push(1);
+
+        $item = $stack->peek();
+        $this->assertEquals(1, $item);
+        $this->assertFalse($stack->isEmpty());
+        $this->assertCount(1, $stack);
+    }
+
+    /**
+     * @depends testPushOne
+     * @covers \Ardent\LinkedStack::pop
+     * @covers \Ardent\LinkedStack::push
+     */
+    function testPopOne() {
+        $stack = new LinkedStack();
+        $stack->push(1);
+
+        $item = $stack->pop();
+        $this->assertEquals(1, $item);
+        $this->assertTrue($stack->isEmpty());
+        $this->assertCount(0, $stack);
+    }
+
+    /**
+     * @depends testPopOne
+     */
+    function testMultiplePushPeekPop() {
+        $stack = new LinkedStack();
+        $stack->push(1);
+        $stack->push(3);
+        $stack->push(5);
+
+        $this->assertCount(3, $stack);
+        $this->assertFalse($stack->isEmpty());
+
+        $peek = $stack->peek();
+        $this->assertEquals(5, $peek);
+        $this->assertCount(3, $stack);
+        $this->assertFalse($stack->isEmpty());
+
+        $pop = $stack->pop();
+        $this->assertEquals(5, $pop);
+        $this->assertCount(2, $stack);
+        $this->assertFalse($stack->isEmpty());
+
+        $peek = $stack->peek();
+        $this->assertEquals(3, $peek);
+        $this->assertCount(2, $stack);
+        $this->assertFalse($stack->isEmpty());
+
+        $pop = $stack->pop();
+        $this->assertEquals(3, $pop);
+        $this->assertCount(1, $stack);
+        $this->assertFalse($stack->isEmpty());
+
+        $peek = $stack->peek();
+        $this->assertEquals(1, $peek);
+        $this->assertCount(1, $stack);
+        $this->assertFalse($stack->isEmpty());
+
+        $pop = $stack->pop();
+        $this->assertEquals(1, $pop);
+        $this->assertCount(0, $stack);
+        $this->assertTrue($stack->isEmpty());
     }
 
     /**
      * @covers \Ardent\LinkedStack::peek
      * @expectedException \Ardent\EmptyException
      */
-    function testPeekBackEmpty() {
+    function testPeekEmpty() {
         $stack = new LinkedStack();
         $stack->peek();
     }
 
     /**
-     * @depends testPushBack
-     * @covers \Ardent\LinkedStack::peek
-     */
-    function testPeekBack() {
-        $stack = new LinkedStack();
-        $stack->push(0);
-
-        $this->assertEquals(0, $stack->peek());
-        $this->assertCount(1, $stack);
-
-        $stack->push(1);
-
-        $this->assertEquals(1, $stack->peek());
-        $this->assertCount(2, $stack);
-
-        $list = $stack->getLinkedList();
-        $this->assertEquals(0, $list->peekFront());
-        $this->assertEquals(1, $list->peekBack());
-    }
-
-    /**
      * @covers \Ardent\LinkedStack::pop
      * @expectedException \Ardent\EmptyException
      */
-    function testPopBackEmpty() {
+    function testPopEmpty() {
         $stack = new LinkedStack();
         $stack->pop();
-    }
-
-    /**
-     * @depends testPushBack
-     * @covers \Ardent\LinkedStack::pop
-     */
-    function testPopBack() {
-        $stack = new LinkedStack();
-        $stack->push(0);
-
-        $popped = $stack->pop();
-        $this->count(0, $stack);
-        $this->assertEquals(0, $popped);
-
-        $stack->push(0);
-        $stack->push(1);
-        $this->count(2, $stack);
-
-        $popped = $stack->pop();
-        $this->assertEquals(1, $popped);
-
-        $popped = $stack->pop();
-        $this->assertEquals(0, $popped);
     }
 
     /**

@@ -5,18 +5,32 @@ namespace Ardent;
 class LinkedStackIterator implements StackIterator {
 
     /**
-     * @var LinkedList
+     * @var int
      */
-    private $list;
+    private $count = 0;
 
     /**
      * @var int
      */
     private $key = NULL;
 
-    function __construct(LinkedList $list) {
-        $this->list = $list;
-        $this->rewind();
+    /**
+     * @var Pair
+     */
+    private $pair;
+
+    /**
+     * @var Pair
+     */
+    private $top;
+
+    /**
+     * @param Pair $top
+     * @param int $count
+     */
+    function __construct(Pair $top = NULL, $count) {
+        $this->pair = $this->top = $top;
+        $this->count = $count;
     }
 
     /**
@@ -24,9 +38,8 @@ class LinkedStackIterator implements StackIterator {
      * @return void
      */
     function rewind() {
-        $this->list->end();
-
-        if ($this->list->count() > 0 ) {
+        $this->pair = $this->top;
+        if ($this->pair !== NULL) {
             $this->key = 0;
         }
     }
@@ -36,7 +49,7 @@ class LinkedStackIterator implements StackIterator {
      * @return boolean
      */
     function valid() {
-        return $this->list->valid();
+        return $this->pair !== NULL;
     }
 
     /**
@@ -52,7 +65,10 @@ class LinkedStackIterator implements StackIterator {
      * @return mixed
      */
     function current() {
-        return $this->list->current();
+        if ($this->pair === NULL) {
+            return NULL;
+        }
+        return $this->pair->first();
     }
 
     /**
@@ -60,10 +76,12 @@ class LinkedStackIterator implements StackIterator {
      * @return void
      */
     function next() {
-        $this->list->prev();
-        $this->key = $this->list->key() === NULL
-            ? NULL
-            : $this->key + 1;
+        if ($this->pair === NULL) {
+            $this->key = NULL;
+            return;
+        }
+        $this->pair = $this->pair->second();
+        $this->key++;
     }
 
     /**
@@ -71,7 +89,7 @@ class LinkedStackIterator implements StackIterator {
      * @return int
      */
     function count() {
-        return $this->list->count();
+        return $this->count;
     }
 
 }

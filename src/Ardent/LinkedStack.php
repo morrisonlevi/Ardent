@@ -5,29 +5,20 @@ namespace Ardent;
 class LinkedStack implements Stack {
 
     /**
-     * @var LinkedList
+     * @var Pair
      */
-    private $list;
-    
-    function __construct() {
-        $this->list = new LinkedList();
-    }
+    private $top;
 
     /**
-     * @param $item
-     *
-     * @return bool
-     * @throws TypeException when $item is not the correct type.
+     * @var int
      */
-    function contains($item) {
-        return $this->list->contains($item);
-    }
+    private $count;
 
     /**
      * @return bool
      */
     function isEmpty() {
-        return $this->list->isEmpty();
+        return $this->top === NULL;
     }
 
     /**
@@ -35,7 +26,7 @@ class LinkedStack implements Stack {
      * @return StackIterator
      */
     function getIterator() {
-        return new LinkedStackIterator(clone $this->list);
+        return new LinkedStackIterator($this->top, $this->count);
     }
 
     /**
@@ -43,7 +34,7 @@ class LinkedStack implements Stack {
      * @return int
      */
     function count() {
-        return $this->list->count();
+        return $this->count;
     }
 
     /**
@@ -54,7 +45,8 @@ class LinkedStack implements Stack {
      * @return void
      */
     function push($object) {
-        $this->list->pushBack($object);
+        $this->top = new Pair($object, $this->top);
+        $this->count++;
     }
 
     /**
@@ -66,7 +58,11 @@ class LinkedStack implements Stack {
             throw new EmptyException;
         }
 
-        return $this->list->popBack();
+        $top = $this->top;
+        $this->top = $top->second();
+
+        $this->count--;
+        return $top->first();
     }
 
     /**
@@ -78,14 +74,7 @@ class LinkedStack implements Stack {
             throw new EmptyException;
         }
 
-        return $this->list->peekBack();
-    }
-
-    /**
-     * @return LinkedList A copy of the stack as a LinkedList
-     */
-    function getLinkedList() {
-        return clone $this->list;
+        return $this->top->first();
     }
 
 }
