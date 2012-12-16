@@ -24,8 +24,45 @@ class PostOrderIterator implements BinaryTreeIterator {
      */
     protected $current;
 
+    /**
+     * @var int
+     */
+    protected $key = NULL;
+
     public function __construct(BinaryTree $root = NULL) {
         $this->root = $root;
+    }
+
+    /**
+     * @link http://php.net/manual/en/iterator.rewind.php
+     * @return void
+     */
+    public function rewind() {
+        $this->stack = new LinkedStack();
+
+        $this->value = $this->root;
+        $this->next();
+        $this->key = $this->root === NULL
+            ? NULL
+            : 0;
+    }
+
+    /**
+     * @link http://php.net/manual/en/iterator.valid.php
+     * @return boolean
+     */
+    public function valid() {
+        return $this->current !== NULL;
+    }
+
+    /**
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return NULL
+     */
+    public function key() {
+        return $this->current !== NULL
+            ? $this->key
+            : NULL;
     }
 
     /**
@@ -57,6 +94,7 @@ class PostOrderIterator implements BinaryTreeIterator {
 
         if ($this->stack->isEmpty()) {
             $this->current = $this->value;
+            $this->key++;
             $this->value = NULL;
             return;
         }
@@ -71,35 +109,9 @@ class PostOrderIterator implements BinaryTreeIterator {
             $this->next();
         } else {
             $this->current = $this->value;
+            $this->key++;
             $this->value = NULL;
         }
-
     }
 
-    /**
-     * @link http://php.net/manual/en/iterator.key.php
-     * @return NULL
-     */
-    public function key() {
-        return NULL; //no keys in a tree . . .
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean
-     */
-    public function valid() {
-        return $this->current !== NULL;
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void
-     */
-    public function rewind() {
-        $this->stack = new LinkedStack();
-
-        $this->value = $this->root;
-        $this->next();
-    }
 }

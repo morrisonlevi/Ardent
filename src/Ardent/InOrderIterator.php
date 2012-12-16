@@ -15,6 +15,11 @@ class InOrderIterator implements BinaryTreeIterator {
     protected $root;
 
     /**
+     * @var int
+     */
+    protected $key = NULL;
+
+    /**
      * @var BinaryTree
      */
     protected $value;
@@ -37,6 +42,7 @@ class InOrderIterator implements BinaryTreeIterator {
      */
     public function next() {
         if (!$this->valid()) {
+            $this->key = NULL;
             return;
         }
 
@@ -59,14 +65,15 @@ class InOrderIterator implements BinaryTreeIterator {
         }
         $this->value = $this->stack->peek();
 
+        $this->key++;
     }
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return NULL
+     * @return int|NULL
      */
     public function key() {
-        return NULL; //no keys in a tree . . .
+        return $this->key;
     }
 
     /**
@@ -90,6 +97,7 @@ class InOrderIterator implements BinaryTreeIterator {
 
         if (!$this->stack->isEmpty()) {
             $this->value = $this->stack->peek();
+            $this->key = 0;
         }
     }
 }

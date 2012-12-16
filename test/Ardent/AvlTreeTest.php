@@ -586,8 +586,10 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
         foreach ($iterators as $algorithm => $iterator) {
             $actualSequence = array();
-            foreach ($iterator as $item) {
+            $expectedKey = 0;
+            foreach ($iterator as $key => $item) {
                 $actualSequence[] = $item;
+                $this->assertEquals($expectedKey++, $key);
             }
 
             $this->assertEquals($expectedSequences[$algorithm], $actualSequence);
