@@ -89,9 +89,10 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $list = new LinkedList();
         $list->pushBack(0);
         $list->pushBack(1);
+
         $list->offsetUnset(0);
         $this->assertEquals(0, $list->key());
-
+        $this->assertEquals(1, $list->current());
         $this->assertCount(1, $list);
         $this->assertEquals(1, $list->offsetGet(0));
     }
@@ -104,14 +105,14 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
      */
     function testOffsetUnsetTail() {
         $list = new LinkedList();
-        $list->pushBack(0);
         $list->pushBack(1);
+        $list->pushBack(2);
+
         $list->offsetUnset(1);
-
         $this->assertEquals(0, $list->key());
-
+        $this->assertEquals(1, $list->current());
         $this->assertCount(1, $list);
-        $this->assertEquals(0, $list->offsetGet(0));
+        $this->assertEquals(1, $list->offsetGet(0));
     }
 
     /**
@@ -123,15 +124,15 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     function testOffsetUnsetMiddle() {
         $list = new LinkedList();
         $list->pushBack(0);
-        $list->pushBack(1);
         $list->pushBack(2);
+        $list->pushBack(4);
+
         $list->offsetUnset(1);
-
         $this->assertEquals(1, $list->key());
-
+        $this->assertEquals(4, $list->current());
         $this->assertCount(2, $list);
         $this->assertEquals(0, $list->offsetGet(0));
-        $this->assertEquals(2, $list->offsetGet(1));
+        $this->assertEquals(4, $list->offsetGet(1));
     }
 
     /**
