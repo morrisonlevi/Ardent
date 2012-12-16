@@ -7,8 +7,10 @@ use IteratorIterator,
 
 class LazyCallbackIterator extends IteratorIterator {
 
-    protected $hasBeenLoaded;
-    protected $data;
+    /**
+     * @var array
+     */
+    protected $args;
 
     /**
      * @var callable
@@ -16,15 +18,21 @@ class LazyCallbackIterator extends IteratorIterator {
     protected $callback;
 
     /**
-     * @var array
+     * @var mixed
      */
-    protected $args;
+    protected $data;
+
+    /**
+     * @var bool
+     */
+    protected $hasBeenLoaded;
 
     /**
      * @param Traversable $iterator
      * @param callable $callback Callback has the signature ($key, $value,...)
+     * @param mixed... $varargs A variable amount of arguments you wish to pass
      */
-    public function __construct(Traversable $iterator, $callback) {
+    public function __construct(Traversable $iterator, $callback, $varargs = NULL) {
         parent::__construct($iterator);
         $this->callback = $callback;
 
@@ -34,16 +42,10 @@ class LazyCallbackIterator extends IteratorIterator {
         $this->args[1] = NULL;
     }
 
-    function next() {
-        parent::next();
-        $this->hasBeenLoaded = FALSE;
-    }
-
     function current() {
         if (!$this->hasBeenLoaded) {
             $this->args[0] = $this->key();
             $this->args[1] = parent::current();
-
             $this->data = call_user_func_array(
                 $this->callback,
                 $this->args
@@ -51,9 +53,12 @@ class LazyCallbackIterator extends IteratorIterator {
 
             $this->hasBeenLoaded = TRUE;
         }
-
         return $this->data;
+    }
 
+    function next() {
+        parent::next();
+        $this->hasBeenLoaded = FALSE;
     }
 
 }
