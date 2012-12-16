@@ -80,6 +80,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @depends testOffsetGetAndSet
      * @covers \Ardent\LinkedList::offsetUnset
      * @covers \Ardent\LinkedList::removeNode
      * @covers \Ardent\LinkedList::seek
@@ -96,6 +97,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @depends testOffsetGetAndSet
      * @covers \Ardent\LinkedList::offsetUnset
      * @covers \Ardent\LinkedList::removeNode
      * @covers \Ardent\LinkedList::seek
@@ -113,6 +115,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @depends testOffsetGetAndSet
      * @covers \Ardent\LinkedList::offsetUnset
      * @covers \Ardent\LinkedList::removeNode
      * @covers \Ardent\LinkedList::seek
@@ -246,21 +249,31 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @depends testIndexOf
+     * @depends testOffsetUnsetOneItem
      * @covers \Ardent\LinkedList::contains
      */
     function testContains() {
         $list = new LinkedList();
-
         $this->assertFalse($list->contains(0));
 
         $list->pushBack(1);
-
         $this->assertTrue($list->contains(1));
+        $this->assertFalse($list->contains(0));
+
+        $list->offsetUnset(0);
+        $this->assertFalse($list->contains(1));
+
+        $list->pushBack(0);
+        $list->pushBack(2);
+        $list->pushBack(4);
+
+        for ($i = 0; $i < 2; $i++) {
+            $this->assertTrue($list->contains($i * 2));
+        }
     }
 
     /**
-     * @depends testIndexOf
+     * @depends testOffsetGetAndSet
      * @covers \Ardent\LinkedList::contains
      */
     function testContainsCallback() {
@@ -290,21 +303,29 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     function testSeek() {
         $list = new LinkedList();
 
-        $list->pushBack(0);
-        $this->assertEquals(0, $list->key());
-
         $list->pushBack(1);
-        $this->assertEquals(1, $list->key());
+        $this->assertEquals(0, $list->key());
+        $this->assertEquals(1, $list->current());
 
         $list->pushBack(2);
+        $this->assertEquals(1, $list->key());
+        $this->assertEquals(2, $list->current());
+
+        $list->pushBack(3);
         $this->assertEquals(2, $list->key());
+        $this->assertEquals(3, $list->current());
 
         $list->seek(1);
         $this->assertEquals(1, $list->key());
+        $this->assertEquals(2, $list->current());
 
         $list->seek(0);
+        $this->assertEquals(0, $list->key());
+        $this->assertEquals(1, $list->current());
+
         $list->seek(1);
         $this->assertEquals(1, $list->key());
+        $this->assertEquals(2, $list->current());
 
     }
 
