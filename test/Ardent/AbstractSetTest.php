@@ -87,6 +87,56 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($diff->contains(7));
     }
 
+    function testSymmetricDifference() {
+        $a = new HashSet();
+        $a->add(0);
+        $a->add(1);
+        $a->add(3);
+        $a->add(5);
+        $a->add(6);
+
+        $b = new HashSet();
+        $b->add(0);
+        $b->add(2);
+        $b->add(4);
+        $b->add(6);
+
+        $c = new HashSet();
+        $c->add(1);
+        $c->add(3);
+        $c->add(5);
+        $c->add(2);
+        $c->add(4);
+
+        $difference = $a->symmetricDifference($b);
+        foreach ($difference as $item) {
+            $this->assertTrue(
+                $c->contains($item),
+                "Symmetric difference failed: had '$item' but should not have"
+            );
+        }
+        foreach ($c as $item) {
+            $this->assertTrue(
+                $difference->contains($item),
+                "Symmetric difference failed: should have contained '$item'"
+            );
+        }
+
+        $difference = $b->symmetricDifference($a);
+        foreach ($difference as $item) {
+            $this->assertTrue(
+                $c->contains($item),
+                "Symmetric difference failed: had '$item' but should not have"
+            );
+        }
+        foreach ($c as $item) {
+            $this->assertTrue(
+                $difference->contains($item),
+                "Symmetric difference failed: should have contained '$item'"
+            );
+        }
+    }
+
     /**
      * @covers \Ardent\AbstractSet::intersection
      */

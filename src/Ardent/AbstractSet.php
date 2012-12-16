@@ -39,6 +39,27 @@ abstract class AbstractSet implements Set {
     }
 
     /**
+     * Creates the set that contains the items in the current set that are not
+     * contained in the provided set, as well as items that are in the
+     * provided set that are not in the current set.
+     *
+     * Formally:
+     * A ⊖ B = {x : x ∈ (A \ B) ∨ (B \ A)}
+     *
+     * @param Set $that
+     * @return Set
+     */
+    function symmetricDifference(Set $that) {
+        $difference = $this->difference($that);
+        foreach ($that as $item) {
+            if (!$this->contains($item)) {
+                $difference->add($item);
+            }
+        }
+        return $difference;
+    }
+
+    /**
      * Creates a new set that contains the items that are in current set that
      * are also contained in the provided set.
      *
