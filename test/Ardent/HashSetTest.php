@@ -74,16 +74,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Ardent\HashSet::addAll
-     */
-    function testAddAll() {
-        $items = array(0, '0', 1, 'one', new StdClass, fopen(__FILE__, 'r'), array());
-
-        $this->object->addAll(new ArrayIterator($items));
-        $this->assertCount(count($items) - 1, $this->object);
-    }
-
-    /**
      * @covers Ardent\HashSet::remove
      * @depends testAdd
      */
@@ -100,19 +90,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $this->object->remove($item);
 
         $this->assertCount(1, $this->object);
-    }
-
-    /**
-     * @covers Ardent\HashSet::removeAll
-     */
-    function testRemoveAll() {
-        $items = array(0, 1, 'one', new StdClass, fopen(__FILE__, 'r'), array());
-        $this->object->addAll(new ArrayIterator($items));
-
-        $removeItems = array('0', 'one');
-        $this->object->removeAll(new ArrayIterator($removeItems));
-
-        $this->assertCount(count($items) - 2, $this->object);
     }
 
     /**

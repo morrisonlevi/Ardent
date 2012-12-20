@@ -23,28 +23,12 @@ interface Set extends Collection {
     function add($item);
 
     /**
-     * @param Traversable $items
-     *
-     * @return void
-     * @throws TypeException when the Traversable includes an item with an incorrect type.
-     */
-    function addAll(Traversable $items);
-
-    /**
      * @param $item
      *
      * @return void
      * @throws TypeException when $item is not the correct type.
      */
     function remove($item);
-
-    /**
-     * @param Traversable $items
-     *
-     * @return mixed
-     * @throws TypeException when the Traversable includes an item with an incorrect type.
-     */
-    function removeAll(Traversable $items);
 
     /**
      * Creates a set that contains the items in the current set that are not

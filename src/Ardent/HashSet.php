@@ -109,18 +109,6 @@ class HashSet extends AbstractSet implements Set {
     }
 
     /**
-     * @param Traversable $items
-     *
-     * @return void
-     * @throws TypeException when the Traversable includes an item with an incorrect type.
-     */
-    function addAll(Traversable $items) {
-        foreach ($items as $item) {
-            $this->add($item);
-        }
-    }
-
-    /**
      * @param $item
      *
      * @return void
@@ -137,18 +125,6 @@ class HashSet extends AbstractSet implements Set {
         }
 
         unset($this->objects[$hash]);
-    }
-
-    /**
-     * @param Traversable $items
-     *
-     * @return mixed
-     * @throws TypeException when the Traversable includes an item with an incorrect type.
-     */
-    function removeAll(Traversable $items) {
-        foreach ($items as $item) {
-            $this->remove($item);
-        }
     }
 
     /**

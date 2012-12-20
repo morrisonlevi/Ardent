@@ -102,44 +102,6 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @depends testContains
-     * @covers \Ardent\SortedSet::addAll
-     */
-    function testAddAll() {
-        $set = new SortedSet();
-        $set->add(-1);
-        $toAdd = new ArrayIterator(array(0,1,2,3,3,2,1,0));
-
-        $set->addAll($toAdd);
-
-        $this->assertCount(5, $set);
-
-        for ($i = -1; $i < 4; $i++) {
-            $this->assertTrue($set->contains($i));
-        }
-    }
-
-    /**
-     * @depends testRemove
-     * @covers \Ardent\SortedSet::removeAll
-     */
-    function testRemoveAll() {
-        $set = new SortedSet();
-
-        for ($i = 0; $i < 4; $i++) {
-            $set->add($i);
-        }
-
-        $set->removeAll(new ArrayIterator(array(1, 3)));
-
-        $this->assertCount(2, $set);
-        $this->assertTrue($set->contains(0));
-        $this->assertTrue($set->contains(2));
-        $this->assertFalse($set->contains(1));
-        $this->assertFalse($set->contains(3));
-    }
-
-    /**
      * @depends testAdd
      * @covers \Ardent\SortedSet::cloneEmpty
      * @covers \Ardent\SortedSet::difference

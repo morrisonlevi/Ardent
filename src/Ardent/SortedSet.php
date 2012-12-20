@@ -68,19 +68,6 @@ class SortedSet extends AbstractSet implements Set {
 
     /**
      *
-     * @param Traversable $items
-     *
-     * @return void
-     * @throws TypeException when the Traversable includes an item of the incorrect type.
-     */
-    function addAll(Traversable $items) {
-        foreach ($items as $item) {
-            $this->bst->add($item);
-        }
-    }
-
-    /**
-     *
      * @param $item
      *
      * @return void
@@ -88,19 +75,6 @@ class SortedSet extends AbstractSet implements Set {
      */
     function remove($item) {
         $this->bst->remove($item);
-    }
-
-    /**
-     *
-     * @param Traversable $items
-     *
-     * @return mixed
-     * @throws TypeException when the Traversable includes an item with an incorrect type.
-     */
-    function removeAll(Traversable $items) {
-        foreach ($items as $item) {
-            $this->bst->remove($item);
-        }
     }
 
     /**
