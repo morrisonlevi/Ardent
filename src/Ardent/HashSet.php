@@ -2,8 +2,6 @@
 
 namespace Ardent;
 
-use Traversable;
-
 class HashSet extends AbstractSet implements Set {
 
     /**
@@ -14,7 +12,7 @@ class HashSet extends AbstractSet implements Set {
     /**
      * @var callable
      */
-    protected $hashFunction = NULL;
+    private $hashFunction = NULL;
 
     /**
      * @param callable $hashFunction
@@ -22,7 +20,9 @@ class HashSet extends AbstractSet implements Set {
      * @return \Ardent\HashSet
      */
     function __construct($hashFunction = NULL) {
-        $this->hashFunction = $hashFunction ?: array($this, '__hash');
+        $this->hashFunction = is_callable($hashFunction)
+            ? $hashFunction
+            : array($this, 'hash');
     }
 
     /**
@@ -30,7 +30,7 @@ class HashSet extends AbstractSet implements Set {
      *
      * @return string
      */
-    protected function __hash($item) {
+    function hash($item) {
         if (is_object($item)) {
             return spl_object_hash($item);
         } elseif (is_scalar($item)) {
@@ -42,10 +42,6 @@ class HashSet extends AbstractSet implements Set {
         }
 
         return '0';
-    }
-
-    protected function hash($item) {
-        return call_user_func($this->hashFunction, $item);
     }
 
     /**
@@ -63,7 +59,7 @@ class HashSet extends AbstractSet implements Set {
      * @throws TypeException when $item is not the correct type.
      */
     function contains($item) {
-        $hash = $this->hash($item);
+        $hash = call_user_func($this->hashFunction, $item);
 
         if (!is_scalar($hash)) {
             throw new FunctionException(
@@ -97,7 +93,7 @@ class HashSet extends AbstractSet implements Set {
      * @throws TypeException when $item is not the correct type.
      */
     function add($item) {
-        $hash = $this->hash($item);
+        $hash = call_user_func($this->hashFunction, $item);
 
         if (!is_scalar($hash)) {
             throw new FunctionException(
@@ -116,7 +112,7 @@ class HashSet extends AbstractSet implements Set {
      * @throws TypeException when $item is not the correct type.
      */
     function remove($item) {
-        $hash = $this->hash($item);
+        $hash = call_user_func($this->hashFunction, $item);
 
         if (!is_scalar($hash)) {
             throw new FunctionException(

@@ -15,14 +15,12 @@ class HashMap implements Map {
      * @param callable $hashingFunction
      */
     function __construct($hashingFunction = NULL) {
-        $this->hashFunction = $hashingFunction ?: array($this, '__hash');
+        $this->hashFunction = is_callable($hashingFunction)
+            ? $hashingFunction
+            : array($this, 'hash');
     }
 
-    protected function hash($item) {
-        return call_user_func($this->hashFunction, $item);
-    }
-
-    protected function __hash($item) {
+    function hash($item) {
         if (is_object($item)) {
             return spl_object_hash($item);
         } elseif (is_scalar($item)) {
@@ -57,7 +55,7 @@ class HashMap implements Map {
      * @return boolean
      */
     function offsetExists($offset) {
-        return array_key_exists($this->hash($offset), $this->storage);
+        return array_key_exists(call_user_func($this->hashFunction, $offset), $this->storage);
     }
 
     /**
@@ -67,7 +65,7 @@ class HashMap implements Map {
      * @throws KeyException
      */
     function offsetGet($offset) {
-        $hash = $this->hash($offset);
+        $hash = call_user_func($this->hashFunction, $offset);
         if (!array_key_exists($hash, $this->storage)) {
             throw new KeyException;
         }
@@ -93,6 +91,10 @@ class HashMap implements Map {
         $this->remove($offset);
     }
 
+    function areEqual($a, $b) {
+        return $a == $b;
+    }
+
     /**
      * @param $item
      * @param callable $comparator function($a, $b) returns bool
@@ -101,9 +103,9 @@ class HashMap implements Map {
      * @throws TypeException when $item is not the correct type.
      */
     function contains($item, $comparator = NULL) {
-        $compare = $comparator ?: function($a, $b) {
-            return $a === $b;
-        };
+        $compare = is_callable($comparator)
+            ? $comparator
+            : array($this, 'areEqual');
 
         $storage = $this->storage;
         for (reset($storage); key($storage) !== NULL; next($storage)) {
@@ -126,7 +128,7 @@ class HashMap implements Map {
      * @throws TypeException when the $key is not the correct type.
      */
     function get($key) {
-        $hash = $this->hash($key);
+        $hash = call_user_func($this->hashFunction, $key);
         if (!array_key_exists($hash, $this->storage)) {
             throw new KeyException;
         }
@@ -141,7 +143,7 @@ class HashMap implements Map {
      * @throws TypeException when the $key or $value is not the correct type.
      */
     function insert($key, $value) {
-        $this->storage[$this->hash($key)] = new Pair($key, $value);
+        $this->storage[call_user_func($this->hashFunction, $key)] = new Pair($key, $value);
     }
 
     /**
@@ -151,7 +153,7 @@ class HashMap implements Map {
      * @throws TypeException when the $key is not the correct type.
      */
     function remove($key) {
-        $hash = $this->hash($key);
+        $hash = call_user_func($this->hashFunction, $key);
         if (array_key_exists($hash, $this->storage)) {
             unset($this->storage[$hash]);
         }

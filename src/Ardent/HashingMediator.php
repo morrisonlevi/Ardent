@@ -18,7 +18,7 @@ class HashingMediator implements Mediator {
      * @throws TypeException if $callable is not callable.
      * @return void
      */
-    public function addListener($event, $callable) {
+    function addListener($event, $callable) {
         if (!is_callable($callable)) {
             throw new TypeException();
         }
@@ -31,14 +31,14 @@ class HashingMediator implements Mediator {
      *
      * @return void
      */
-    public function removeListener($event, $callable) {
+    function removeListener($event, $callable) {
         if (!is_callable($callable)) {
             return; // no harm in removing something that does not exist
         }
         unset($this->events[$event][$this->hash($callable)]);
     }
 
-    protected function hash($callable) {
+    function hash($callable) {
         if (is_string($callable)) {
             return $callable;
         }
@@ -56,14 +56,14 @@ class HashingMediator implements Mediator {
      *
      * @return void
      */
-    public function removeListenersForEvent($event) {
+    function removeListenersForEvent($event) {
         $this->events[$event] = array();
     }
 
     /**
      * @return void
      */
-    public function removeAllListeners() {
+    function removeAllListeners() {
         $this->events = array();
     }
 
@@ -72,7 +72,7 @@ class HashingMediator implements Mediator {
      *
      * @return void
      */
-    public function notify($event) {
+    function notify($event) {
         if (empty($this->events[$event])) {
             return;
         }

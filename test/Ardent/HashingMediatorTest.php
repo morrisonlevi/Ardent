@@ -32,9 +32,6 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
         $this->intercessor = new HashingMediatorHelper();
     }
 
-    /**
-     * @covers Ardent\HashingMediator::addListener
-     */
     function testAddListener() {
         $this->intercessor->addListener('error', function() {
 
@@ -45,16 +42,12 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\HashingMediator::addListener
      * @expectedException \Ardent\TypeException
      */
     function testAddListenerException() {
         $this->intercessor->addListener('error', 'notCallable');
     }
 
-    /**
-     * @covers Ardent\HashingMediator::removeListener
-     */
     function testRemoveListener() {
         $fn = function(){};
         $events =& $this->intercessor->getEvents();
@@ -65,16 +58,10 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $events['error']);
     }
 
-    /**
-     * @covers Ardent\HashingMediator::removeListener
-     */
     function testRemoveListenerInvalidCallable() {
         $this->intercessor->removeListener('error', 'notCallable');
     }
 
-    /**
-     * @covers Ardent\HashingMediator::removeListenersForEvent
-     */
     function testRemoveListenersForEvent() {
         $fnA = function(){};
         $fnB = function(){};
@@ -87,9 +74,6 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $events['error']);
     }
 
-    /**
-     * @covers Ardent\HashingMediator::removeAllListeners
-     */
     function testRemoveAllListeners() {
         $fn = function(){};
         $events =& $this->intercessor->getEvents();
@@ -101,9 +85,6 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $events);
     }
 
-    /**
-     * @covers Ardent\HashingMediator::notify
-     */
     function testNotify() {
         $fnA = $this->getMock(
             'Ardent\\CallableStub',
@@ -133,9 +114,6 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
         $this->intercessor->notify('nonExistentEvent');
     }
 
-    /**
-     * @covers Ardent\HashingMediator::hash
-     */
     function testHash() {
         $invokableObject = new CallableStub();
         $callables = array(
