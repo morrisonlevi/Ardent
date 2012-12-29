@@ -28,17 +28,24 @@ class BinarySearchTree implements Collection {
      * @param callable $comparator
      */
     function __construct($comparator = NULL) {
-        $this->comparator = $comparator !== NULL
+        $this->comparator = is_callable($comparator)
             ? $comparator
-            : function($a, $b) {
-                if ($a < $b) {
-                    return -1;
-                } elseif ($b < $a) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            };
+            : array($this, 'compare');
+    }
+
+    /**
+     * @param $a
+     * @param $b
+     * @return int
+     */
+    function compare($a, $b) {
+        if ($a < $b) {
+            return -1;
+        } elseif ($b < $a) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     /**
