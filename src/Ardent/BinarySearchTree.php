@@ -144,10 +144,12 @@ class BinarySearchTree implements Collection {
     /**
      * @param $element
      *
-     * @return mixed|null the element or NULL if it wasn't found.
+     * @return mixed
+     * @throws LookupException
      */
     function get($element) {
         $node = $this->root;
+
         while ($node !== NULL) {
             $comparisonResult = call_user_func($this->comparator, $element, $node->getValue());
 
@@ -159,7 +161,8 @@ class BinarySearchTree implements Collection {
                 return $node->getValue();
             }
         }
-        return NULL;
+
+        throw new LookupException;
     }
 
     /**

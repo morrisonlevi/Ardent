@@ -320,8 +320,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testGet() {
-        $this->assertNull($this->object->get(1));
-
         $this->object->add(1);
         $this->assertEquals(1, $this->object->get(1));
     }
@@ -330,14 +328,29 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->object->add(2);
         $this->object->add(3);
         $this->assertEquals(3, $this->object->get(3));
-        $this->assertNull($this->object->get(1));
     }
 
     function testGetLeftSubTree() {
         $this->object->add(2);
         $this->object->add(1);
         $this->assertEquals(1, $this->object->get(1));
-        $this->assertNull($this->object->get(3));
+    }
+
+    /**
+     * @expectedException \Ardent\LookupException
+     */
+    function testGetMissingGreaterThan() {
+        $this->object->add(2);
+
+        $this->object->get(3);
+    }
+
+    /**
+     * @expectedException \Ardent\LookupException
+     */
+    function testGetMissingSmallerThan() {
+        $this->object->add(2);
+        $this->object->get(1);
     }
 
     function testIsEmpty() {
