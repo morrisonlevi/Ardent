@@ -8,10 +8,10 @@ class AvlTree extends BinarySearchTree {
      * @param $element
      * @param BinaryTree $node
      *
-     * @return null|BinaryTree
+     * @return BinaryTree
      */
-    protected function addNode($element, BinaryTree $node = NULL) {
-        return $this->balance(parent::addNode($element, $node));
+    protected function __add($element, BinaryTree $node = NULL) {
+        return $this->balance(parent::__add($element, $node));
     }
 
     /**
@@ -20,14 +20,14 @@ class AvlTree extends BinarySearchTree {
      *
      * @return BinaryTree
      */
-    protected function removeNode($element, BinaryTree $node = NULL) {
-        return $this->balance(parent::removeNode($element, $node));
+    protected function __remove($element, BinaryTree $node = NULL) {
+        return $this->balance(parent::__remove($element, $node));
     }
 
     /**
      * @param BinaryTree $node
      *
-     * @return null|BinaryTree
+     * @return BinaryTree
      */
     protected function balance(BinaryTree $node = NULL) {
         if ($node === NULL) {

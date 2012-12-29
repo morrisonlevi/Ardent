@@ -13,12 +13,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->object = new AvlTree();
     }
 
-    /**
-     * @covers \Ardent\AvlTree::add
-     * @covers \Ardent\AvlTree::balance
-     * @covers \Ardent\AvlTree::rotateLeft
-     * @covers \Ardent\AvlTree::rotateSingleLeft
-     */
     function testCaseRightRight() {
         $this->object->add(3);
         $this->object->add(4);
@@ -34,12 +28,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($root, $actualRoot);
     }
 
-    /**
-     * @covers \Ardent\AvlTree::add
-     * @covers \Ardent\AvlTree::balance
-     * @covers \Ardent\AvlTree::rotateRight
-     * @covers \Ardent\AvlTree::rotateSingleRight
-     */
     function testCaseLeftLeft() {
         $this->object->add(5);
         $this->object->add(4);
@@ -53,13 +41,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($root, $this->object->getBinaryTree());
     }
 
-    /**
-     * @covers \Ardent\AvlTree::add
-     * @covers \Ardent\AvlTree::balance
-     * @covers \Ardent\AvlTree::rotateRight
-     * @covers \Ardent\AvlTree::rotateSingleLeft
-     * @covers \Ardent\AvlTree::rotateSingleRight
-     */
     function testCaseLeftRight() {
         $this->object->add(5);
         $this->object->add(1);
@@ -100,13 +81,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @covers \Ardent\AvlTree::add
-     * @covers \Ardent\AvlTree::balance
-     * @covers \Ardent\AvlTree::rotateLeft
-     * @covers \Ardent\AvlTree::rotateSingleLeft
-     * @covers \Ardent\AvlTree::rotateSingleRight
-     */
     function testCaseRightLeft() {
         $this->object->add(5);
         $this->object->add(1);
@@ -147,25 +121,10 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @covers \Ardent\AvlTree::remove
-     * @covers \Ardent\AvlTree::removeNode
-     * @covers \Ardent\BinarySearchTree::removeNode
-     * @covers \Ardent\AvlTree::deleteNode
-     */
     function testRemoveNonExistingItem() {
         $this->object->remove(1);
     }
 
-    /**
-     * @covers \Ardent\AvlTree::balance
-     * @covers \Ardent\AvlTree::remove
-     * @covers \Ardent\AvlTree::removeNode
-     * @covers \Ardent\BinarySearchTree::removeNode
-     * @covers \Ardent\AvlTree::deleteNode
-     * @covers \Ardent\BinaryTree::isLeaf
-     * @covers \Ardent\BinaryTree::hasOnlyOneChild
-     */
     function testRemoveRootBasic() {
         $this->object->add(5);
         $this->object->remove(5);
@@ -175,11 +134,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\AvlTree::remove
-     * @covers \Ardent\AvlTree::removeNode
-     * @covers \Ardent\BinarySearchTree::removeNode
-     * @covers \Ardent\AvlTree::deleteNode
-     * @covers \Ardent\BinaryTree::isLeaf
      * @depends testCaseRightRight
      * @depends testCaseLeftLeft
      */
@@ -198,12 +152,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\AvlTree::remove
-     * @covers \Ardent\AvlTree::removeNode
-     * @covers \Ardent\BinarySearchTree::removeNode
-     * @covers \Ardent\AvlTree::deleteNode
-     * @covers \Ardent\BinaryTree::setValue
-     * @covers \Ardent\BinaryTree::hasOnlyOneChild
      * @depends testCaseRightRight
      * @depends testCaseLeftLeft
      */
@@ -224,12 +172,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\AvlTree::remove
-     * @covers \Ardent\AvlTree::removeNode
-     * @covers \Ardent\BinarySearchTree::removeNode
-     * @covers \Ardent\AvlTree::deleteNode
-     * @covers \Ardent\BinaryTree::setValue
-     * @covers \Ardent\BinaryTree::hasOnlyOneChild
      * @depends testCaseRightRight
      * @depends testCaseLeftLeft
      */
@@ -262,13 +204,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @covers \Ardent\AvlTree::remove
-     * @covers \Ardent\AvlTree::removeNode
-     * @covers \Ardent\BinarySearchTree::removeNode
-     * @covers \Ardent\AvlTree::deleteNode
-     * @covers \Ardent\BinaryTree::setValue
-     */
     function testRemoveWithBothChildren() {
         $this->object->add(4);
         $this->object->add(3);
@@ -283,12 +218,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($root, $this->object->getBinaryTree());
     }
 
-    /**
-     * @covers \Ardent\AvlTree::remove
-     * @covers \Ardent\AvlTree::removeNode
-     * @covers \Ardent\AvlTree::deleteNode
-     * @covers \Ardent\BinaryTree::setValue
-     */
     function testRemoveWhereInOrderPredecessorHasChild() {
         //          5
         //        /    \
@@ -369,10 +298,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEmpty($this->object->count());
     }
 
-    /**
-     * @covers \Ardent\AvlTree::contains
-     * @covers \Ardent\AvlTree::containsNode
-     */
     function testContains() {
         $this->assertFalse($this->object->contains(1));
 
@@ -380,10 +305,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->contains(1));
     }
 
-    /**
-     * @covers \Ardent\AvlTree::contains
-     * @covers \Ardent\AvlTree::containsNode
-     */
     function testContainsRightSubTree() {
         $this->object->add(2);
         $this->object->add(3);
@@ -391,10 +312,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($this->object->contains(1));
     }
 
-    /**
-     * @covers \Ardent\AvlTree::contains
-     * @covers \Ardent\AvlTree::containsNode
-     */
     function testContainsLeftSubTree() {
         $this->object->add(2);
         $this->object->add(1);
@@ -402,9 +319,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($this->object->contains(3));
     }
 
-    /**
-     * @covers \Ardent\AvlTree::get
-     */
     function testGet() {
         $this->assertNull($this->object->get(1));
 
@@ -412,10 +326,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $this->object->get(1));
     }
 
-    /**
-     * @covers \Ardent\AvlTree::get
-     * @covers \Ardent\AvlTree::getNode
-     */
     function testGetRightSubTree() {
         $this->object->add(2);
         $this->object->add(3);
@@ -423,10 +333,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($this->object->get(1));
     }
 
-    /**
-     * @covers \Ardent\AvlTree::get
-     * @covers \Ardent\AvlTree::getNode
-     */
     function testGetLeftSubTree() {
         $this->object->add(2);
         $this->object->add(1);
@@ -434,9 +340,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($this->object->get(3));
     }
 
-    /**
-     * @covers \Ardent\AvlTree::isEmpty
-     */
     function testIsEmpty() {
         $this->assertTrue($this->object->isEmpty());
 
@@ -597,9 +500,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @covers \Ardent\BinaryTree::getInOrderPredecessor
-     */
     function testGetInOrderPredecessorBasic() {
         $root = new BinaryTree(5);
         $inOrderPredecessor = new BinaryTree(2);
@@ -609,10 +509,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($inOrderPredecessor, $root->getInOrderPredecessor());
     }
 
-
-    /**
-     * @covers \Ardent\BinaryTree::getInOrderPredecessor
-     */
     function testGetInOrderPredecessorWithLeftNodeHavingRightSubTree() {
         $root = new BinaryTree(5);
         $left = new BinaryTree(2);
@@ -625,9 +521,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($inOrderPredecessor, $root->getInOrderPredecessor());
     }
 
-    /**
-     * @covers \Ardent\AvlTree::getBinaryTree
-     */
     function testGetBinaryTree() {
         $this->assertNull($this->object->getBinaryTree());
     }
@@ -655,10 +548,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($root, $avl->getBinaryTree());
     }
 
-    /**
-     * @covers \Ardent\BinaryTree::__clone
-     * @covers \Ardent\BinarySearchTree::__clone
-     */
     function test__clone() {
         $avl = new AvlTree();
         $avl->add(1);
@@ -672,4 +561,5 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(3, $copy);
         $this->assertCount(4, $avl);
     }
+
 }
