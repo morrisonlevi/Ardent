@@ -102,7 +102,7 @@ class BinarySearchTree implements Collection {
 
         if ($comparisonResult < 0) {
             $node->setLeft($this->__remove($element, $node->getLeft()));
-        } else if ($comparisonResult > 0) {
+        } elseif ($comparisonResult > 0) {
             $node->setRight($this->__remove($element, $node->getRight()));
         } else {
             //remove the element
