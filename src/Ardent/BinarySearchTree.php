@@ -125,11 +125,8 @@ class BinarySearchTree implements Collection {
 
         if ($node->hasOnlyOneChild()) {
             $this->size--;
-            $right = $node->getRight();
 
-            $newNode = $right !== NULL
-                ? $right
-                : $node->getLeft();
+            $newNode = $node->getRight() ?: $node->getLeft();
 
             unset($node);
             return $newNode;
