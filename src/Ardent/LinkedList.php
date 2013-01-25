@@ -134,7 +134,7 @@ class LinkedList implements ArrayAccess, Collection {
      */
     function offsetSet($offset, $value) {
         if ($offset === NULL) {
-            $this->pushBack($value);
+            $this->push($value);
             return;
         }
 
@@ -175,7 +175,7 @@ class LinkedList implements ArrayAccess, Collection {
      * @throws FullException if the LinkedList is full.
      * @return void
      */
-    function pushBack($object) {
+    function push($object) {
         $node = new LinkedNode($object);
         $this->size++;
 
@@ -199,7 +199,7 @@ class LinkedList implements ArrayAccess, Collection {
      * @return mixed
      * @throws EmptyException if the LinkedList is empty.
      */
-    function popFront() {
+    function shift() {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
@@ -226,7 +226,7 @@ class LinkedList implements ArrayAccess, Collection {
      * @return void
      * @throws FullException if the LinkedList is full.
      */
-    function pushFront($value) {
+    function unshift($value) {
         $node = new LinkedNode($value);
         $this->size++;
 
@@ -249,7 +249,7 @@ class LinkedList implements ArrayAccess, Collection {
      * @throws EmptyException if the LinkedList is empty.
      * @return mixed
      */
-    function popBack(){
+    function pop(){
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
@@ -284,7 +284,7 @@ class LinkedList implements ArrayAccess, Collection {
         }
 
         if ($offset == $this->size - 1) {
-            $this->pushBack($value);
+            $this->push($value);
             $this->currentNode = $this->tail->prev;
             $this->currentOffset = $this->size - 2;
             return;
@@ -310,7 +310,7 @@ class LinkedList implements ArrayAccess, Collection {
         }
 
         if ($offset == 0) {
-            $this->pushFront($value);
+            $this->unshift($value);
             $this->currentNode = $this->head->next;
             $this->currentOffset = 1;
             return;
@@ -534,7 +534,7 @@ class LinkedList implements ArrayAccess, Collection {
         $this->__seek($start);
 
         for ($node = $this->currentNode, $i = $start; $i < $finish; $i++, $node = $node->next) {
-            $that->pushBack($node->value);
+            $that->push($node->value);
         }
 
         return $that;

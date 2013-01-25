@@ -2,9 +2,6 @@
 
 namespace Ardent;
 
-use Countable,
-    IteratorAggregate;
-
 /**
  * A collection is countable and has an external iterator. The one helper
  * method is `isEmpty` which is a frequently used method.
@@ -14,7 +11,7 @@ use Countable,
  * only for custom serializing. If the extension ever moves to PECL then the
  * structures will implement Serializable.
  */
-interface Collection extends Countable, IteratorAggregate /*, \Serializable  */ {
+interface Collection extends \Countable, \IteratorAggregate /*, \Serializable  */ {
 
     /**
      * @return bool

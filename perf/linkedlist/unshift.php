@@ -34,7 +34,7 @@ for ($i = 0; $i < ITERATIONS; $i++) {
     $ardent = new Ardent\LinkedList();
     $start = microtime(true);
     for ($j = 0; $j < SIZE; $j++) {
-        $ardent->pushFront($j);
+        $ardent->unshift($j);
     }
     $stop = microtime(true);
     $runtimes[] = $stop - $start;
