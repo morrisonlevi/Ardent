@@ -4,7 +4,7 @@ namespace Ardent;
 
 class HashMapIterator implements MapIterator {
 
-    protected $storage = array();
+    protected $storage = [];
 
     function __construct(array $storage) {
         $this->storage = $storage;

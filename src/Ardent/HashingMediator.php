@@ -9,7 +9,7 @@ namespace Ardent;
  */
 class HashingMediator implements Mediator {
 
-    protected $events = array();
+    protected $events = [];
 
     /**
      * @param string $event
@@ -50,14 +50,14 @@ class HashingMediator implements Mediator {
      * @return void
      */
     function removeListenersForEvent($event) {
-        $this->events[$event] = array();
+        $this->events[$event] = [];
     }
 
     /**
      * @return void
      */
     function removeAllListeners() {
-        $this->events = array();
+        $this->events = [];
     }
 
     /**

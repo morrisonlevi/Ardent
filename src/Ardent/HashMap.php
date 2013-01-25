@@ -4,7 +4,7 @@ namespace Ardent;
 
 class HashMap implements Map {
 
-    private $storage = array();
+    private $storage = [];
 
     /**
      * @var callable
@@ -15,7 +15,7 @@ class HashMap implements Map {
      * @param callable $hashingFunction
      */
     function __construct(callable $hashingFunction = NULL) {
-        $this->hashFunction = $hashingFunction ?: array($this, 'hash');
+        $this->hashFunction = $hashingFunction ?: [$this, 'hash'];
     }
 
     function hash($item) {
@@ -101,7 +101,7 @@ class HashMap implements Map {
      * @throws TypeException when $item is not the correct type.
      */
     function contains($item, callable $comparator = NULL) {
-        $compare = $comparator ?: array($this, 'areEqual');
+        $compare = $comparator ?: [$this, 'areEqual'];
 
         $storage = $this->storage;
         for (reset($storage); key($storage) !== NULL; next($storage)) {

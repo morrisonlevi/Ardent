@@ -7,7 +7,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
     /**
      * @var array
      */
-    protected $queue = array();
+    protected $queue = [];
 
     /**
      * @var BinaryTree
@@ -30,7 +30,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
      * @return void
      */
     public function rewind() {
-        $this->queue = array($this->root);
+        $this->queue = [$this->root];
         $this->value = $this->root;
         $this->key = $this->root === NULL
             ? NULL

@@ -28,7 +28,7 @@ class BinarySearchTree implements Collection {
      * @param callable $comparator
      */
     function __construct(callable $comparator = NULL) {
-        $this->comparator = $comparator ?: array($this, 'compare');
+        $this->comparator = $comparator ?: [$this, 'compare'];
     }
 
     /**

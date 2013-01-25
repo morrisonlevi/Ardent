@@ -67,7 +67,7 @@ class LinkedList implements ArrayAccess, Collection {
             return -1;
         }
 
-        $areEqual = $callback ?: array($this, '__equals');
+        $areEqual = $callback ?: [$this, '__equals'];
 
         if (call_user_func($areEqual, $this->currentNode->value, $value)) {
             return $this->currentOffset;

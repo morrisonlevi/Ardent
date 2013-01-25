@@ -7,7 +7,7 @@ class HashSet extends AbstractSet implements Set {
     /**
      * @var array
      */
-    private $objects = array();
+    private $objects = [];
 
     /**
      * @var callable
@@ -20,7 +20,7 @@ class HashSet extends AbstractSet implements Set {
      * @return \Ardent\HashSet
      */
     function __construct(callable $hashFunction = NULL) {
-        $this->hashFunction = $hashFunction ?: array($this, 'hash');
+        $this->hashFunction = $hashFunction ?: [$this, 'hash'];
     }
 
     /**
@@ -46,7 +46,7 @@ class HashSet extends AbstractSet implements Set {
      * @return void
      */
     function clear() {
-        $this->objects = array();
+        $this->objects = [];
     }
 
     /**

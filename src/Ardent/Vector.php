@@ -6,7 +6,7 @@ use ArrayAccess;
 
 class Vector implements ArrayAccess, Collection {
 
-    protected $array = array();
+    protected $array = [];
 
     /**
      * @param mixed,... $varargs
@@ -20,7 +20,7 @@ class Vector implements ArrayAccess, Collection {
      * @return void
      */
     function clear() {
-        $this->array = array();
+        $this->array = [];
         $this->cache = NULL;
     }
 
