@@ -265,16 +265,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\Vector::filter
-     * @expectedException \Ardent\TypeException
-     */
-    function testFilterNotCallable() {
-        $vector = new Vector();
-        $vector->append(0);
-        $vector->filter('happy_hour_is_not_callable');
-    }
-
-    /**
      * @depends testGet
      * @covers \Ardent\Vector::slice
      */
@@ -378,15 +368,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\Vector::map
-     * @expectedException \Ardent\TypeException
-     */
-    function testMapNotCallable() {
-        $vector = new Vector();
-        $vector->map('happy_hour_is_not_callable');
-    }
-
-    /**
      * @covers \Ardent\Vector::apply
      */
     function testApply() {
@@ -405,14 +386,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         for ($i = 0; $i < $size; $i++) {
             $this->assertEquals($doubleValue($i), $vector[$i]);
         }
-    }
-    /**
-     * @covers \Ardent\Vector::apply
-     * @expectedException \Ardent\TypeException
-     */
-    function testApplyNotCallable() {
-        $vector = new Vector();
-        $vector->apply('happy_hour_is_not_callable');
     }
 
     /**

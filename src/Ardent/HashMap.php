@@ -14,10 +14,8 @@ class HashMap implements Map {
     /**
      * @param callable $hashingFunction
      */
-    function __construct($hashingFunction = NULL) {
-        $this->hashFunction = is_callable($hashingFunction)
-            ? $hashingFunction
-            : array($this, 'hash');
+    function __construct(callable $hashingFunction = NULL) {
+        $this->hashFunction = $hashingFunction ?: array($this, 'hash');
     }
 
     function hash($item) {
@@ -102,10 +100,8 @@ class HashMap implements Map {
      * @return bool
      * @throws TypeException when $item is not the correct type.
      */
-    function contains($item, $comparator = NULL) {
-        $compare = is_callable($comparator)
-            ? $comparator
-            : array($this, 'areEqual');
+    function contains($item, callable $comparator = NULL) {
+        $compare = $comparator ?: array($this, 'areEqual');
 
         $storage = $this->storage;
         for (reset($storage); key($storage) !== NULL; next($storage)) {

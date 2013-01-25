@@ -19,7 +19,7 @@ class SortedSet extends AbstractSet implements Set {
     /**
      * @param callable $comparator
      */
-    function __construct($comparator = NULL) {
+    function __construct(callable $comparator = NULL) {
         $this->bst = new AvlTree($this->comparator = $comparator);
     }
 

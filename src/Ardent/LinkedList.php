@@ -49,7 +49,7 @@ class LinkedList implements ArrayAccess, Collection {
      * @return bool
      * @throws TypeException when $object is not the correct type.
      */
-    function contains($value, $callback = NULL) {
+    function contains($value, callable $callback = NULL) {
         if ($this->head === NULL) {
             return FALSE;
         }
@@ -62,7 +62,7 @@ class LinkedList implements ArrayAccess, Collection {
      * @param callable $callback [optional]
      * @return int
      */
-    function indexOf($value, $callback = NULL) {
+    function indexOf($value, callable $callback = NULL) {
         if ($this->head === NULL) {
             return -1;
         }

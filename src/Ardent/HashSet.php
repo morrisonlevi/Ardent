@@ -19,10 +19,8 @@ class HashSet extends AbstractSet implements Set {
      *
      * @return \Ardent\HashSet
      */
-    function __construct($hashFunction = NULL) {
-        $this->hashFunction = is_callable($hashFunction)
-            ? $hashFunction
-            : array($this, 'hash');
+    function __construct(callable $hashFunction = NULL) {
+        $this->hashFunction = $hashFunction ?: array($this, 'hash');
     }
 
     /**

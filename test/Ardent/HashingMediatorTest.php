@@ -41,13 +41,6 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(1, $events['error']);
     }
 
-    /**
-     * @expectedException \Ardent\TypeException
-     */
-    function testAddListenerException() {
-        $this->intercessor->addListener('error', 'notCallable');
-    }
-
     function testRemoveListener() {
         $fn = function(){};
         $events =& $this->intercessor->getEvents();
@@ -56,10 +49,6 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
         $this->intercessor->removeListener('error', $fn);
 
         $this->assertCount(0, $events['error']);
-    }
-
-    function testRemoveListenerInvalidCallable() {
-        $this->intercessor->removeListener('error', 'notCallable');
     }
 
     function testRemoveListenersForEvent() {

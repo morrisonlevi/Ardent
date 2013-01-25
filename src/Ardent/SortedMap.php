@@ -45,8 +45,8 @@ class SortedMap implements Map {
      * @return bool
      * @throws TypeException when $item is not the correct type.
      */
-    function contains($item, $callback = NULL) {
-        if ($callback === NULL) {
+    function contains($item, callable $callback = NULL) {
+        if (!isset($callback)) {
             $callback = array($this, 'compareStandard');
         }
         foreach ($this->avl as $pair) {
