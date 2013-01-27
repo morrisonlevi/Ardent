@@ -2,14 +2,9 @@
 
 namespace Ardent;
 
-/**
- * HashingMediator enforces that a specific instance of a listener can only be
- * attached to the same event once, minus an edge case or two that are not
- * worth fussing over.
- */
-class HashingMediator implements Mediator {
+class ConditionalMediator implements Mediator {
 
-    protected $events = [];
+    private $events = [];
 
     /**
      * @param string $event
@@ -18,7 +13,7 @@ class HashingMediator implements Mediator {
      * @return void
      */
     function addListener($event, callable $callable) {
-        $this->events[$event][$this->hash($callable)] = $callable;
+        $this->events[$event][] = $callable;
     }
 
     /**
@@ -28,20 +23,18 @@ class HashingMediator implements Mediator {
      * @return void
      */
     function removeListener($event, callable $callable) {
-        unset($this->events[$event][$this->hash($callable)]);
-    }
+        if (empty($this->events[$event])) {
+            return;
+        }
 
-    function hash(callable $callable) {
-        if (is_string($callable)) {
-            return $callable;
-        }
-        if (is_array($callable)) {
-            if (is_object($callable[0])) {
-                return spl_object_hash($callable[0]) . $callable[1];
+        $count = count($event);
+        for ($i = 0; $i < $count; $i++) {
+            if ($this->events[$event][$i] == $callable) {
+                array_splice($this->events[$event], $i, 1);
+                return;
             }
-            return "{$callable[0]}::{$callable[1]}";
         }
-        return spl_object_hash($callable);
+
     }
 
     /**
@@ -69,12 +62,13 @@ class HashingMediator implements Mediator {
         if (empty($this->events[$event])) {
             return;
         }
-        
-        $args = func_get_args();
-        array_shift($args);
+
+        $args = array_slice(func_get_args(), 1);
 
         foreach ($this->events[$event] as $listener) {
-            call_user_func_array($listener, $args);
+            if (!call_user_func_array($listener, $args)) {
+                break;
+            }
         }
     }
 
@@ -88,7 +82,7 @@ class HashingMediator implements Mediator {
     function getListeners($event) {
         $eventExists = array_key_exists($event, $this->events);
         if ($eventExists && is_array($this->events[$event])) {
-            return array_values($this->events[$event]);
+            return $this->events[$event];
         }
         return [];
     }

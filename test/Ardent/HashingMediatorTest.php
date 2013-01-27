@@ -1,15 +1,6 @@
 <?php
 namespace Ardent;
 
-class HashingMediatorHelper extends HashingMediator {
-    public function &getEvents() {
-        return $this->events;
-    }
-
-    public function hash($callable) {
-        return parent::hash($callable);
-    }
-}
 
 class CallableStub {
     function __invoke(){}
@@ -24,54 +15,52 @@ function doNothing() {
 class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * @var HashingMediatorHelper
+     * @var HashingMediator
      */
     protected $intercessor;
 
     protected function setUp() {
-        $this->intercessor = new HashingMediatorHelper();
+        $this->intercessor = new HashingMediator();
     }
 
     function testAddListener() {
-        $this->intercessor->addListener('error', function() {
+        $this->intercessor->addListener('do', $doNothing = function() {
 
         });
 
-        $events = $this->intercessor->getEvents();
-        $this->assertCount(1, $events['error']);
+        $expected = [$doNothing];
+        $actual = $this->intercessor->getListeners('do');
+        $this->assertEquals($expected, $actual);
     }
 
     function testRemoveListener() {
         $fn = function(){};
-        $events =& $this->intercessor->getEvents();
-        $events['error'][$this->intercessor->hash($fn)] = $fn;
+        $this->intercessor->addListener('do', $fn);
+        $this->intercessor->removeListener('do', $fn);
 
-        $this->intercessor->removeListener('error', $fn);
-
-        $this->assertCount(0, $events['error']);
+        $this->assertEmpty($this->intercessor->getListeners('do'));
     }
 
-    function testRemoveListenersForEvent() {
-        $fnA = function(){};
-        $fnB = function(){};
-        $events =& $this->intercessor->getEvents();
-        $events['error'][$this->intercessor->hash($fnA)] = $fnA;
-        $events['error'][$this->intercessor->hash($fnB)] = $fnB;
+    function testRemoveEvent() {
+        $fn = 'str_rot13';
 
-        $this->intercessor->removeListenersForEvent('error');
+        $this->intercessor->addListener('do', $fn);
+        $this->intercessor->addListener('hast', $fn);
+        $this->intercessor->removeEvent('do');
 
-        $this->assertCount(0, $events['error']);
+        $expected = ['hast'];
+        $actual = $this->intercessor->getEvents();
+        $this->assertEquals($expected, $actual);
     }
 
-    function testRemoveAllListeners() {
-        $fn = function(){};
-        $events =& $this->intercessor->getEvents();
-        $events['error'][$this->intercessor->hash($fn)] = $fn;
-        $events['test'][$this->intercessor->hash($fn)] = $fn;
+    function testClear() {
+        $this->intercessor->addListener('do', 'str_rot13');
 
-        $this->intercessor->removeAllListeners();
+        $this->intercessor->clear();
 
-        $this->assertCount(0, $events);
+        $expected = [];
+        $actual = $this->intercessor->getEvents();
+        $this->assertEquals($expected, $actual);
     }
 
     function testNotify() {
@@ -83,9 +72,8 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
             'Ardent\\CallableStub',
             array('__invoke')
         );
-        $events =& $this->intercessor->getEvents();
-        $events['test'][$this->intercessor->hash($fnA)] = $fnA;
-        $events['test'][$this->intercessor->hash($fnB)] = $fnB;
+        $this->intercessor->addListener('do', $fnA);
+        $this->intercessor->addListener('do', $fnB);
 
         $paramA = 1;
         $paramB = new \StdClass();
@@ -98,8 +86,7 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
             ->method('__invoke')
             ->with($this->equalTo($paramA), $this->equalTo($paramB));
 
-        $this->intercessor->notify('test', $paramA, $paramB);
-
+        $this->intercessor->notify('do', $paramA, $paramB);
         $this->intercessor->notify('nonExistentEvent');
     }
 
@@ -132,6 +119,38 @@ class HashingMediatorTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals($expectedHashes, $actualHashes);
         $this->assertEquals($expectedHashes['arrayCallableA'], $expectedHashes['arrayCallableB']);
+    }
+
+    /**
+     * @test
+     */
+    function getEventListenersWithNonExistentEventReturnsEmptyArray() {
+        $listeners = $this->intercessor->getListeners('non-existent');
+        $this->assertTrue(is_array($listeners));
+        $this->assertEmpty($listeners);
+    }
+
+    function testGetEventListeners() {
+        $this->intercessor->addListener('do', 'strtolower');
+        $this->intercessor->addListener('do', 'base64_encode');
+
+        $expectedListeners = ['strtolower', 'base64_encode'];
+        $actualListeners = $this->intercessor->getListeners('do');
+        $this->assertEquals($expectedListeners, $actualListeners);
+    }
+
+    function testGetEventsEmpty() {
+        $expected = [];
+        $actual = $this->intercessor->getEvents();
+        $this->assertEquals($expected, $actual);
+    }
+
+    function testGetEvents() {
+        $this->intercessor->addListener('do', 'str_rot13');
+
+        $expected = ['do'];
+        $actual = $this->intercessor->getEvents();
+        $this->assertEquals($expected, $actual);
     }
 
 }
