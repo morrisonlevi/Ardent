@@ -5,41 +5,30 @@ namespace Ardent;
 use IteratorIterator,
     Traversable;
 
-class LazyCallbackIterator extends IteratorIterator {
+class MappingIterator extends IteratorIterator {
 
-    /**
-     * @var array
-     */
-    protected $args;
+    protected $args = [];
 
     /**
      * @var callable
      */
     protected $callback;
 
-    /**
-     * @var mixed
-     */
     protected $data;
 
-    /**
-     * @var bool
-     */
-    protected $hasBeenLoaded;
+    protected $hasBeenLoaded = FALSE;
 
     /**
      * @param Traversable $iterator
      * @param callable $callback Callback has the signature ($key, $value,...)
-     * @param mixed... $varargs A variable amount of arguments you wish to pass
+     * @param array $args An array of arguments that will be passed to the callback. They will not be passed as an array
+     *                    but the values of the array.
      */
-    public function __construct(Traversable $iterator, callable $callback, $varargs = NULL) {
+    public function __construct(Traversable $iterator, callable $callback, array $args = []) {
         parent::__construct($iterator);
         $this->callback = $callback;
 
-        // args[0] and [1] will be used for $key and $value, respectively
-        $this->args = func_get_args();
-        $this->args[0] = NULL;
-        $this->args[1] = NULL;
+        $this->args = array_merge([NULL, NULL], $args);
     }
 
     function current() {
