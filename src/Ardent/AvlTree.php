@@ -65,12 +65,17 @@ class AvlTree extends BinarySearchTree {
 
         if ($diff < 0) {
             // Left-Right case
-            $root->setLeft($this->rotateSingleLeft($leftNode));
-            return $this->rotateSingleRight($root);
-        } else {
-            // Left-Left case
-            return $this->rotateSingleRight($root);
+            $pivot = $leftNode->getRight();
+            $leftNode->setRight($pivot->getLeft());
+            $pivot->setLeft($leftNode);
+            $root->setLeft($pivot);
         }
+
+        $pivot = $root->getLeft();
+        $root->setLeft($pivot->getRight());
+        $pivot->setRight($root);
+
+        return $pivot;
     }
 
     /**
@@ -85,35 +90,17 @@ class AvlTree extends BinarySearchTree {
 
         $diff = $leftHeight - $rightHeight;
 
-        if ($diff < 0) {
-            // Right-Right case
-            return $this->rotateSingleLeft($root);
-        } else {
+        if ($diff >= 0) {
             // Right-Left case
-            $root->setRight($this->rotateSingleRight($rightNode));
-            return $this->rotateSingleLeft($root);
+
+            $pivot = $rightNode->getLeft();
+            $rightNode->setLeft($pivot->getRight());
+            $pivot->setRight($rightNode);
+
+            $root->setRight($pivot);
         }
-    }
 
-    /**
-     * @param BinaryTree $root
-     *
-     * @return BinaryTree
-     */
-    protected function rotateSingleRight(BinaryTree $root) {
-        $pivot = $root->getLeft();
-        $root->setLeft($pivot->getRight());
-        $pivot->setRight($root);
 
-        return $pivot;
-    }
-
-    /**
-     * @param BinaryTree $root
-     *
-     * @return BinaryTree
-     */
-    protected function rotateSingleLeft(BinaryTree $root) {
         $pivot = $root->getRight();
         $root->setRight($pivot->getLeft());
         $pivot->setLeft($root);
