@@ -33,6 +33,19 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testOffsetSet
+     */
+    function testOffsetSetAlreadySet() {
+        $map = new SortedMap();
+        $map[1] = 1;
+        $map[1] = 0;
+
+        $expected = 0;
+        $actual = $map[1];
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @depends testOffsetSet
      * @covers \Ardent\SortedMap::offsetUnset
      * @covers \Ardent\SortedMap::remove
      */

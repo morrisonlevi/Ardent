@@ -72,6 +72,8 @@ class BinarySearchTree implements Collection {
             $node->setLeft($this->addRecursive($element, $node->getLeft()));
         } elseif ($comparisonResult > 0) {
             $node->setRight($this->addRecursive($element, $node->getRight()));
+        } else {
+            $node->setValue($element);
         }
 
         return $node;
