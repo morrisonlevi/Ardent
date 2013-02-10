@@ -91,4 +91,28 @@ interface Set extends Collection {
      */
     function union(Set $that);
 
+    /**
+     * @param Set $that
+     * @return bool
+     */
+    function isSubsetOf(Set $that);
+
+    /**
+     * @param Set $that
+     * @return bool
+     */
+    function isStrictSubsetOf(Set $that);
+
+    /**
+     * @param Set $that
+     * @return bool
+     */
+    function isSupersetOf(Set $that);
+
+    /**
+     * @param Set $that
+     * @return mixed
+     */
+    function isStrictSupersetOf(Set $that);
+
 }

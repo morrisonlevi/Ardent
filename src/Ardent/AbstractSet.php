@@ -135,4 +135,53 @@ abstract class AbstractSet implements Set {
         return $union;
     }
 
+    /**
+     * @param Set $that
+     * @return bool
+     */
+    function isSubsetOf(Set $that) {
+        if ($this === $that) {
+            return TRUE;
+        }
+
+        return self::subset($this, $that);
+    }
+
+    /**
+     * @param Set $that
+     * @return bool
+     */
+    function isStrictSubsetOf(Set $that) {
+        if ($this === $that) {
+            return FALSE;
+        }
+
+        return self::subset($this, $that) && !self::subset($that, $this);
+    }
+
+    /**
+     * @param Set $that
+     * @return bool
+     */
+    function isSupersetOf(Set $that) {
+        return $that->isSubsetOf($this);
+    }
+
+    /**
+     * @param Set $that
+     * @return mixed
+     */
+    function isStrictSupersetOf(Set $that) {
+        return $that->isStrictSubsetOf($this);
+    }
+
+    private static function subset(Set $a, Set $b) {
+        foreach ($a as $item) {
+            if (!$b->contains($item)) {
+                return FALSE;
+            }
+        }
+        return TRUE;
+    }
+
 }

@@ -303,4 +303,121 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testSubsetEmpty() {
+        $a = new HashSet();
+        $b = new HashSet();
+
+        $this->assertTrue($a->isSubsetOf($b));
+        $this->assertTrue($b->isSubsetOf($a));
+    }
+
+    function testSubsetSelfEmpty() {
+        $a = new HashSet();
+        $this->assertTrue($a->isSubsetOf($a));
+    }
+
+    function testSubsetSelfNonEmpty() {
+        $a = new HashSet();
+        $a->add(0);
+        $this->assertTrue($a->isSubsetOf($a));
+    }
+
+    function testSubset() {
+        $a = new HashSet();
+
+        $b = new HashSet();
+        $b->add(0);
+
+        $this->assertTrue($a->isSubsetOf($b));
+
+        $a->add(0);
+        $this->assertTrue($a->isSubsetOf($b));
+    }
+
+    function testNotSubset() {
+        $a = new HashSet();
+
+        $b = new HashSet();
+        $b->add(0);
+
+        $this->assertFalse($b->isSubsetOf($a));
+    }
+
+    function testStrictSubsetSelfEmpty() {
+        $a = new HashSet();
+        $this->assertFalse($a->isStrictSubsetOf($a));
+    }
+
+    function testStrictSubsetSelfNonEmpty() {
+        $a = new HashSet();
+        $a->add(0);
+        $this->assertFalse($a->isStrictSubsetOf($a));
+    }
+
+    function testStrictSubsetEmpty() {
+        $a = new HashSet();
+        $b = new HashSet();
+        $this->assertFalse($a->isStrictSubsetOf($b));
+        $this->assertFalse($b->isStrictSubsetOf($a));
+    }
+
+
+    function testSupersetEmpty() {
+        $a = new HashSet();
+        $b = new HashSet();
+
+        $this->assertTrue($a->isSupersetOf($b));
+        $this->assertTrue($b->isSupersetOf($a));
+    }
+
+    function testSupersetSelfEmpty() {
+        $a = new HashSet();
+        $this->assertTrue($a->isSupersetOf($a));
+    }
+
+    function testSupersetSelfNonEmpty() {
+        $a = new HashSet();
+        $a->add(0);
+        $this->assertTrue($a->isSupersetOf($a));
+    }
+
+    function testSuperset() {
+        $a = new HashSet();
+
+        $b = new HashSet();
+        $b->add(0);
+
+        $this->assertTrue($b->isSupersetOf($a));
+
+        $a->add(0);
+        $this->assertTrue($b->isSupersetOf($a));
+    }
+
+    function testNotSuperset() {
+        $a = new HashSet();
+
+        $b = new HashSet();
+        $b->add(0);
+
+        $this->assertFalse($a->isSupersetOf($b));
+    }
+
+    function testStrictSupersetSelfEmpty() {
+        $a = new HashSet();
+        $this->assertFalse($a->isStrictSupersetOf($a));
+    }
+
+    function testStrictSupersetSelfNonEmpty() {
+        $a = new HashSet();
+        $a->add(0);
+        $this->assertFalse($a->isStrictSupersetOf($a));
+    }
+
+    function testStrictSupersetEmpty() {
+        $a = new HashSet();
+        $b = new HashSet();
+        $this->assertFalse($a->isStrictSupersetOf($b));
+        $this->assertFalse($b->isStrictSupersetOf($a));
+    }
+
 }
