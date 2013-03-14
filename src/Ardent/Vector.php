@@ -48,7 +48,7 @@ class Vector implements ArrayAccess, Collection {
      *
      * @return boolean
      */
-    public function offsetExists($offset) {
+    function offsetExists($offset) {
         return $offset >= 0 && $offset < $this->count();
     }
 
@@ -61,7 +61,7 @@ class Vector implements ArrayAccess, Collection {
      * @throws TypeException
      * @return mixed
      */
-    public function offsetGet($offset) {
+    function offsetGet($offset) {
         return $this->get($offset);
     }
 
@@ -75,7 +75,7 @@ class Vector implements ArrayAccess, Collection {
      * @throws TypeException
      * @return void
      */
-    public function offsetSet($offset, $value) {
+    function offsetSet($offset, $value) {
         if ($offset === NULL) {
             $this->append($value);
             return;
@@ -90,7 +90,7 @@ class Vector implements ArrayAccess, Collection {
      *
      * @return void
      */
-    public function offsetUnset($offset) {
+    function offsetUnset($offset) {
         $this->remove($offset);
     }
 
@@ -98,7 +98,7 @@ class Vector implements ArrayAccess, Collection {
      * @link http://php.net/manual/en/countable.count.php
      * @return int
      */
-    public function count() {
+    function count() {
         return count($this->array);
     }
 
