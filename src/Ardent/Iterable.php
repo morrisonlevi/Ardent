@@ -3,7 +3,7 @@
 namespace Ardent;
 
 
-interface Iterable extends \Countable, \Iterator {
+interface Iterable extends CountableIterator {
 
     /**
      * @param callable $callback

@@ -219,15 +219,9 @@ class IteratorIterable implements Iterable {
      * @return int
      */
     function count() {
-        if ($this->inner instanceof \Countable) {
-            return $this->inner->count();
-        } else {
-            $i = 0;
-            for ($this->rewind(); $this->valid(); $this->next()) {
-                $i++;
-            }
-            return $i;
-        }
+        return $this->inner instanceof \Countable
+            ? $this->inner->count()
+            : iterator_count($this);
     }
 
 }
