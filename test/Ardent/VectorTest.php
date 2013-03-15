@@ -100,6 +100,24 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $this->object);
     }
 
+    function testAppendAll() {
+        $data = [0, 2, 4, 6];
+        $traversable = new \ArrayIterator($data);
+
+        $vector = new VectorMock;
+        $vector->append(0);
+        $vector->appendAll($traversable);
+        $this->assertCount(5, $vector);
+
+        $i = 0;
+        $expect = [0, 0, 2, 4, 6];
+        foreach ($vector as $key => $value) {
+            $this->assertEquals($i, $key);
+            $this->assertEquals($expect[$i], $value);
+            $i++;
+        }
+        $this->assertEquals(count($expect), $i);
+    }
 
     /**
      * @covers \Ardent\Vector::append

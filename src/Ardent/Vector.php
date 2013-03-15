@@ -17,6 +17,17 @@ class Vector implements ArrayAccess, Collection {
     }
 
     /**
+     * @param \Traversable $traversable
+     * @return void
+     */
+    function appendAll(\Traversable $traversable) {
+        foreach ($traversable as $item) {
+            $this->array[] = $item;
+        }
+        $this->cache = NULL;
+    }
+
+    /**
      * @return void
      */
     function clear() {
