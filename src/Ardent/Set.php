@@ -2,6 +2,8 @@
 
 namespace Ardent;
 
+use Ardent\Exception\TypeException;
+
 interface Set extends Collection, \IteratorAggregate {
 
     /**

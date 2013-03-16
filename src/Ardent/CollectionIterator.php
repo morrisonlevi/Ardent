@@ -2,6 +2,8 @@
 
 namespace Ardent;
 
+use Ardent\Iterator\IteratorToCollectionAdapter;
+
 trait CollectionIterator /* implements Collection */ {
 
     /**
@@ -9,7 +11,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return Collection
      */
     function each(callable $callback) {
-        return (new IteratorIterable($this))->each($callback);
+        return (new IteratorToCollectionAdapter($this))->each($callback);
     }
 
     /**
@@ -17,7 +19,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return bool
      */
     function every(callable $f) {
-        return (new IteratorIterable($this))->every($f);
+        return (new IteratorToCollectionAdapter($this))->every($f);
     }
 
     /**
@@ -25,7 +27,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return Collection
      */
     function map(callable $map) {
-        return (new IteratorIterable($this))->map($map);
+        return (new IteratorToCollectionAdapter($this))->map($map);
     }
 
     /**
@@ -33,7 +35,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return Collection
      */
     function where(callable $filter) {
-        return (new IteratorIterable($this))->where($filter);
+        return (new IteratorToCollectionAdapter($this))->where($filter);
     }
 
     /**
@@ -41,7 +43,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return bool
      */
     function contains(callable $compare) {
-        return (new IteratorIterable($this))->contains($compare);
+        return (new IteratorToCollectionAdapter($this))->contains($compare);
     }
 
     /**
@@ -49,7 +51,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return string
      */
     function join($separator) {
-        return (new IteratorIterable($this))->join($separator);
+        return (new IteratorToCollectionAdapter($this))->join($separator);
     }
 
     /**
@@ -57,7 +59,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return Collection
      */
     function limit($n) {
-        return (new IteratorIterable($this))->limit($n);
+        return (new IteratorToCollectionAdapter($this))->limit($n);
     }
 
     /**
@@ -65,7 +67,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return mixed
      */
     function max(callable $compare = NULL) {
-        return (new IteratorIterable($this))->max($compare);
+        return (new IteratorToCollectionAdapter($this))->max($compare);
     }
 
     /**
@@ -73,7 +75,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return mixed
      */
     function min(callable $compare = NULL) {
-        return (new IteratorIterable($this))->min($compare);
+        return (new IteratorToCollectionAdapter($this))->min($compare);
     }
 
     /**
@@ -81,7 +83,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return bool
      */
     function none(callable $f) {
-        return (new IteratorIterable($this))->none($f);
+        return (new IteratorToCollectionAdapter($this))->none($f);
     }
 
     /**
@@ -90,7 +92,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return mixed
      */
     function reduce($initialValue, callable $combine) {
-        return (new IteratorIterable($this))
+        return (new IteratorToCollectionAdapter($this))
             ->reduce($initialValue, $combine);
     }
 
@@ -99,7 +101,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return Collection
      */
     function skip($n) {
-        return (new IteratorIterable($this))->skip($n);
+        return (new IteratorToCollectionAdapter($this))->skip($n);
     }
 
     /**
@@ -108,7 +110,7 @@ trait CollectionIterator /* implements Collection */ {
      * @return Collection
      */
     function slice($start, $count) {
-        return (new IteratorIterable($this))
+        return (new IteratorToCollectionAdapter($this))
             ->slice($start, $count);
     }
 

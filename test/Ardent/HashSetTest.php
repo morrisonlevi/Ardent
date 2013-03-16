@@ -104,7 +104,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Ardent\FunctionException
+     * @expectedException \Ardent\Exception\FunctionException
      */
     function testContainsException() {
         $obj = new HashSet(function($item) {return array($item);});
@@ -113,7 +113,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Ardent\FunctionException
+     * @expectedException \Ardent\Exception\FunctionException
      */
     function testAddException() {
         $obj = new HashSet(function($item) {return array($item);});
@@ -122,7 +122,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Ardent\FunctionException
+     * @expectedException \Ardent\Exception\FunctionException
      */
     function testRemoveException() {
         $obj = new HashSet(function($item) {return array($item);});
@@ -150,7 +150,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $set = new HashSet();
 
         $iterator = $set->getIterator();
-        $this->assertInstanceOf('Ardent\\HashSetIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\Iterator\\HashSetIterator', $iterator);
         $this->assertCount(0, $iterator);
         $this->assertFalse($iterator->valid());
         $iterator->rewind();
@@ -168,7 +168,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $set->add(0);
 
         $iterator = $set->getIterator();
-        $this->assertInstanceOf('Ardent\\HashSetIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\Iterator\\HashSetIterator', $iterator);
         $this->assertCount(count($set), $iterator);
 
         $this->assertTrue($iterator->valid());

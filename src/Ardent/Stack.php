@@ -2,6 +2,10 @@
 
 namespace Ardent;
 
+use Ardent\Exception\EmptyException;
+use Ardent\Exception\FullException;
+use Ardent\Exception\TypeException;
+
 interface Stack extends \IteratorAggregate, Collection {
 
     /**

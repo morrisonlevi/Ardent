@@ -4,11 +4,6 @@ namespace Ardent;
 
 class LinkedStackTest extends \PHPUnit_Framework_TestCase {
 
-    /**
-     * @covers \Ardent\LinkedStack::count
-     * @covers \Ardent\LinkedStack::isEmpty
-     * @covers \Ardent\LinkedStack::push
-     */
     function testPushOne() {
         $stack = new LinkedStack();
         $this->assertTrue($stack->isEmpty());
@@ -21,8 +16,6 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testPushOne
-     * @covers \Ardent\LinkedStack::peek
-     * @covers \Ardent\LinkedStack::push
      */
     function testPeekOne() {
         $stack = new LinkedStack();
@@ -36,8 +29,6 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testPushOne
-     * @covers \Ardent\LinkedStack::pop
-     * @covers \Ardent\LinkedStack::push
      */
     function testPopOne() {
         $stack = new LinkedStack();
@@ -93,8 +84,7 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedStack::peek
-     * @expectedException \Ardent\EmptyException
+     * @expectedException \Ardent\Exception\EmptyException
      */
     function testPeekEmpty() {
         $stack = new LinkedStack();
@@ -102,35 +92,19 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedStack::pop
-     * @expectedException \Ardent\EmptyException
+     * @expectedException \Ardent\Exception\EmptyException
      */
     function testPopEmpty() {
         $stack = new LinkedStack();
         $stack->pop();
     }
 
-    /**
-     * @covers \Ardent\LinkedStack::clonePair
-     * @covers \Ardent\LinkedStack::getIterator
-     */
     function testGetIteratorEmpty() {
         $stack = new LinkedStack();
         $iterator = $stack->getIterator();
-        $this->assertInstanceOf('Ardent\\StackIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\Iterator\\StackIterator', $iterator);
     }
 
-    /**
-     * @covers \Ardent\LinkedStack::clonePair
-     * @covers \Ardent\LinkedStack::getIterator
-     * @covers \Ardent\LinkedStackIterator::__construct
-     * @covers \Ardent\LinkedStackIterator::rewind
-     * @covers \Ardent\LinkedStackIterator::valid
-     * @covers \Ardent\LinkedStackIterator::key
-     * @covers \Ardent\LinkedStackIterator::current
-     * @covers \Ardent\LinkedStackIterator::next
-     * @covers \Ardent\LinkedStackIterator::count
-     */
     function testIteratorForeach() {
         $stack = new LinkedStack();
         $stack->push(1);
@@ -139,7 +113,7 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
         $stack->push(4);
 
         $iterator = $stack->getIterator();
-        $this->assertInstanceOf('Ardent\\LinkedStackIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\Iterator\\LinkedStackIterator', $iterator);
 
         $this->assertCount(4, $iterator);
 

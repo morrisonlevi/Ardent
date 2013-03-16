@@ -2,6 +2,10 @@
 
 namespace Ardent;
 
+use Ardent\Exception\KeyException;
+use Ardent\Exception\TypeException;
+use Ardent\Iterator\SortedMapIterator;
+
 class SortedMap implements Map {
 
     use CollectionStructure;

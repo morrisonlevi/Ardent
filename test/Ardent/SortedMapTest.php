@@ -2,6 +2,9 @@
 
 namespace Ardent;
 
+use Ardent\Iterator\InOrderIterator;
+use Ardent\Iterator\SortedMapIterator;
+
 class SortedMapTest extends \PHPUnit_Framework_TestCase {
 
     function testOffsetSet() {
@@ -64,7 +67,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Ardent\KeyException
+     * @expectedException \Ardent\Exception\KeyException
      */
     function testOffsetGetNotSetKey() {
         $map = new SortedMap();
@@ -72,7 +75,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Ardent\KeyException
+     * @expectedException \Ardent\Exception\KeyException
      */
     function testGetNotSetKey() {
         $map = new SortedMap();
@@ -82,7 +85,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
     /**
      * @depends testOffsetSet
      * @depends testOffsetUnset
-     * @expectedException \Ardent\KeyException
+     * @expectedException \Ardent\Exception\KeyException
      */
     function testOffsetGetUnsetKey() {
         $map = new SortedMap();
@@ -94,7 +97,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
     /**
      * @depends testOffsetSet
      * @depends testOffsetUnset
-     * @expectedException \Ardent\KeyException
+     * @expectedException \Ardent\Exception\KeyException
      */
     function testGetUnsetKey() {
         $map = new SortedMap();
@@ -187,7 +190,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
 
         $iterator = $map->getIterator();
 
-        $this->assertInstanceOf('Ardent\\SortedMapIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\Iterator\\SortedMapIterator', $iterator);
         $this->assertCount(count($map), $iterator);
 
         $iterator->rewind();
@@ -214,7 +217,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Ardent\TypeException
+     * @expectedException \Ardent\Exception\TypeException
      */
     function testBadIteratorKey() {
         $tree = new BinaryTree(0);
@@ -226,7 +229,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Ardent\TypeException
+     * @expectedException \Ardent\Exception\TypeException
      */
     function testBadIteratorCurrent() {
         $tree = new BinaryTree(0);

@@ -2,6 +2,14 @@
 
 namespace Ardent;
 
+use Ardent\Exception\LookupException;
+use Ardent\Exception\TypeException;
+use Ardent\Iterator\BinaryTreeIterator;
+use Ardent\Iterator\InOrderIterator;
+use Ardent\Iterator\LevelOrderIterator;
+use Ardent\Iterator\PostOrderIterator;
+use Ardent\Iterator\PreOrderIterator;
+
 class BinarySearchTree implements \IteratorAggregate, Collection {
 
     use CollectionStructure;

@@ -2,6 +2,9 @@
 
 namespace Ardent;
 
+use Ardent\Exception\IndexException;
+use Ardent\Exception\TypeException;
+use Ardent\Iterator\VectorIterator;
 use ArrayAccess;
 
 class Vector implements ArrayAccess, \IteratorAggregate, Collection {

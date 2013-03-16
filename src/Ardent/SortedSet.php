@@ -2,6 +2,8 @@
 
 namespace Ardent;
 
+use Ardent\Exception\TypeException;
+use Ardent\Iterator\SortedSetIterator;
 use Traversable;
 
 class SortedSet extends AbstractSet implements Set {

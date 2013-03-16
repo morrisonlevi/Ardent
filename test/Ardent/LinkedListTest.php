@@ -10,14 +10,6 @@ class CallableMock {
 
 class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
-    /**
-     * @covers \Ardent\LinkedList::count
-     * @covers \Ardent\LinkedList::key
-     * @covers \Ardent\LinkedList::offsetSet
-     * @covers \Ardent\LinkedList::offsetGet
-     * @covers \Ardent\LinkedList::push
-     * @covers \Ardent\LinkedList::__seek
-     */
     function testOffsetGetAndSet() {
         $list = new LinkedList();
 
@@ -41,8 +33,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::offsetSet
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testOffsetSetIndexException() {
         $list = new LinkedList();
@@ -50,17 +41,13 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::offsetGet
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testOffsetGetIndexException() {
         $list = new LinkedList();
         $list->offsetGet(0);
     }
 
-    /**
-     * @covers \Ardent\LinkedList::offsetUnset
-     */
     function testOffsetUnsetNonExistent() {
         $list = new LinkedList();
         $list->offsetUnset(0);
@@ -68,8 +55,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testOffsetGetAndSet
-     * @covers \Ardent\LinkedList::offsetUnset
-     * @covers \Ardent\LinkedList::removeNode
      */
     function testOffsetUnsetOneItem() {
         $list = new LinkedList();
@@ -81,9 +66,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testOffsetGetAndSet
-     * @covers \Ardent\LinkedList::offsetUnset
-     * @covers \Ardent\LinkedList::removeNode
-     * @covers \Ardent\LinkedList::seek
      */
     function testOffsetUnsetHead() {
         $list = new LinkedList();
@@ -99,9 +81,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testOffsetGetAndSet
-     * @covers \Ardent\LinkedList::offsetUnset
-     * @covers \Ardent\LinkedList::removeNode
-     * @covers \Ardent\LinkedList::seek
      */
     function testOffsetUnsetTail() {
         $list = new LinkedList();
@@ -117,9 +96,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testOffsetGetAndSet
-     * @covers \Ardent\LinkedList::offsetUnset
-     * @covers \Ardent\LinkedList::removeNode
-     * @covers \Ardent\LinkedList::seek
      */
     function testOffsetUnsetMiddle() {
         $list = new LinkedList();
@@ -137,7 +113,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testOffsetGetAndSet
-     * @covers \Ardent\LinkedList::offsetExists
      */
     function testOffsetExists() {
         $list = new LinkedList();
@@ -153,10 +128,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     /**
      * @depends testOffsetGetAndSet
      * @depends testOffsetUnsetOneItem
-     * @covers \Ardent\LinkedList::isEmpty
-     * @covers \Ardent\LinkedList::offsetUnset
-     * @covers \Ardent\LinkedList::offsetSet
-     * @covers \Ardent\LinkedList::push
      */
     function testIsEmpty() {
         $list = new LinkedList();
@@ -174,8 +145,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testOffsetGetAndSet
-     * @covers \Ardent\LinkedList::indexOf
-     * @covers \Ardent\LinkedList::__equals
      */
     function testIndexOf() {
         $list = new LinkedList();
@@ -203,7 +172,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testOffsetGetAndSet
-     * @covers \Ardent\LinkedList::indexOf
      */
     function testIndexOfCallback() {
         $list = new LinkedList();
@@ -295,10 +263,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($list->containsItem(-2, $abs));
     }
 
-    /**
-     * @covers \Ardent\LinkedList::seek
-     * @covers \Ardent\LinkedList::__seek
-     */
     function testSeek() {
         $list = new LinkedList();
 
@@ -329,8 +293,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::seek
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testSeekIndexException() {
         $list = new LinkedList();
@@ -338,18 +301,13 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::seek
-     * @expectedException \Ardent\TypeException
+     * @expectedException \Ardent\Exception\TypeException
      */
     function testSeekTypeException() {
         $list = new LinkedList();
         $list->seek(array());
     }
 
-    /**
-     * @covers \Ardent\LinkedList::shift
-     * @covers \Ardent\LinkedList::removeNode
-     */
     function testshift() {
         $list = new LinkedList();
         $list->push(0);
@@ -371,18 +329,13 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::shift
-     * @expectedException \Ardent\EmptyException
+     * @expectedException \Ardent\Exception\EmptyException
      */
     function testshiftEmpty() {
         $list = new LinkedList();
         $list->shift();
     }
 
-    /**
-     * @covers \Ardent\LinkedList::pop
-     * @covers \Ardent\LinkedList::removeNode
-     */
     function testpop() {
         $list = new LinkedList();
         $list->push(0);
@@ -404,17 +357,13 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::pop
-     * @expectedException \Ardent\EmptyException
+     * @expectedException \Ardent\Exception\EmptyException
      */
     function testpopEmpty() {
         $list = new LinkedList();
         $list->pop();;
     }
 
-    /**
-     * @covers \Ardent\LinkedList::peekFront
-     */
     function testPeekFront() {
         $list = new LinkedList();
         $list->push(0);
@@ -436,18 +385,13 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::peekFront
-     * @expectedException \Ardent\EmptyException
+     * @expectedException \Ardent\Exception\EmptyException
      */
     function testPeekFrontEmpty() {
         $list = new LinkedList();
         $list->peekFront();
     }
 
-    /**
-     * @covers \Ardent\LinkedList::peekBack
-     * @covers \Ardent\LinkedList::push
-     */
     function testPeekBack() {
         $list = new LinkedList();
         $list->push(0);
@@ -469,8 +413,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::peekBack
-     * @expectedException \Ardent\EmptyException
+     * @expectedException \Ardent\Exception\EmptyException
      */
     function testPeekBackEmpty() {
         $list = new LinkedList();
@@ -480,7 +423,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     /**
      * @depends testPeekBack
      * @depends testPeekFront
-     * @covers \Ardent\LinkedList::unshift
      */
     function testunshift() {
         $list = new LinkedList();
@@ -500,9 +442,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($list->isEmpty());
     }
 
-    /**
-     * @covers \Ardent\LinkedList::insertAfter
-     */
     function testInsertAfter() {
         $list = new LinkedList();
         $list->push(0);
@@ -521,7 +460,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testOffsetGetAndSet
-     * @covers \Ardent\LinkedList::insertBefore
      */
     function testInsertBefore() {
         $list = new LinkedList();
@@ -540,8 +478,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::insertAfter
-     * @expectedException \Ardent\EmptyException
+     * @expectedException \Ardent\Exception\EmptyException
      */
     function testInsertAfterEmpty() {
         $list = new LinkedList();
@@ -549,8 +486,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::insertBefore
-     * @expectedException \Ardent\EmptyException
+     * @expectedException \Ardent\Exception\EmptyException
      */
     function testInsertBeforeEmpty() {
         $list = new LinkedList();
@@ -558,8 +494,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::insertAfter
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testInsertAfterNegativeIndex() {
         $list = new LinkedList();
@@ -568,8 +503,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::insertAfter
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testInsertAfterOverMaxIndex() {
         $list = new LinkedList();
@@ -578,8 +512,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::insertBefore
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testInsertBeforeNegativeIndex() {
         $list = new LinkedList();
@@ -588,8 +521,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedList::insertBefore
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testInsertBeforeOverMaxIndex() {
         $list = new LinkedList();
@@ -599,8 +531,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testOffsetGetAndSet
-     * @covers \Ardent\LinkedList::__clone
-     * @covers \Ardent\LinkedList::copyRange
      */
     function testClone() {
         $list = new LinkedList();
@@ -622,42 +552,23 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testClone
-     * @covers \Ardent\LinkedList::__clone
-     * @covers \Ardent\LinkedList::getIterator
-     * @covers \Ardent\LinkedListIterator::__construct
      */
     function testGetIterator() {
         $list = new LinkedList();
 
         $iterator = $list->getIterator();
 
-        $this->assertInstanceOf('Ardent\\LinkedListIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\Iterator\\LinkedListIterator', $iterator);
 
         $size = 5;
         for ($i = 0; $i < $size; $i++) {
             $list->push($i);
         }
 
-        $this->assertInstanceOf('Ardent\\LinkedListIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\Iterator\\LinkedListIterator', $iterator);
 
     }
 
-    /**
-     * @covers \Ardent\LinkedList::getIterator
-     * @covers \Ardent\LinkedListIterator::__construct
-     * @covers \Ardent\LinkedListIterator::rewind
-     * @covers \Ardent\LinkedListIterator::valid
-     * @covers \Ardent\LinkedListIterator::key
-     * @covers \Ardent\LinkedListIterator::current
-     * @covers \Ardent\LinkedListIterator::next
-     * @covers \Ardent\LinkedListIterator::prev
-     * @covers \Ardent\LinkedList::rewind
-     * @covers \Ardent\LinkedList::valid
-     * @covers \Ardent\LinkedList::key
-     * @covers \Ardent\LinkedList::current
-     * @covers \Ardent\LinkedList::next
-     * @covers \Ardent\LinkedList::prev
-     */
     function testIteratorForeach() {
         $list = new LinkedList();
         $list->push(0);
@@ -706,16 +617,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(NULL, $iterator->current());
     }
 
-    /**
-     * @covers \Ardent\LinkedListIterator::key
-     * @covers \Ardent\LinkedListIterator::current
-     * @covers \Ardent\LinkedListIterator::seek
-     * @covers \Ardent\LinkedListIterator::end
-     * @covers \Ardent\LinkedList::key
-     * @covers \Ardent\LinkedList::current
-     * @covers \Ardent\LinkedList::seek
-     * @covers \Ardent\LinkedList::end
-     */
     function testIteratorSeek() {
         $list = new LinkedList();
         $list->push(1);
@@ -747,10 +648,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(4, $iterator->current());
     }
 
-    /**
-     * @covers \Ardent\LinkedList::count
-     * @covers \Ardent\LinkedListIterator::count
-     */
     function testCount() {
         $list = new LinkedList();
         $iterator = $list->getIterator();
@@ -762,162 +659,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $iterator = $list->getIterator();
         $this->assertCount(1, $list);
         $this->assertCount(1, $iterator);
-    }
-
-    /**
-     * @covers \Ardent\LinkedList::slice
-     */
-    function testSliceNoCount() {
-        $list = new LinkedList();
-        $size = 10;
-        for ($i = 0; $i < $size; $i++) {
-            $list->push($i);
-        }
-
-        $slice = $list->slice(0);
-        $this->assertInstanceOf('\\Ardent\\LinkedList', $slice);
-        $this->assertCount(10, $slice);
-
-        for ($i = $size - 1; $i >= 0; $i--) {
-            $value = $slice->pop($i);
-            $this->assertEquals($i, $value);
-        }
-
-        $slice = $list->slice(5);
-        $this->assertInstanceOf('\\Ardent\\LinkedList', $slice);
-        $this->assertCount(5, $slice);
-
-        for ($i = 0; $i < 5; $i++) {
-            $value = $slice->offsetGet($i);
-            $this->assertEquals($i + 5, $value);
-        }
-    }
-
-    /**
-     * @covers \Ardent\LinkedList::slice
-     */
-    function testSliceNormal() {
-        $list = new LinkedList();
-        $size = 10;
-        for ($i = 0; $i < $size; $i++) {
-            $list->push($i);
-        }
-
-        $slice = $list->slice(5, 2);
-        $this->assertInstanceOf('\\Ardent\\LinkedList', $slice);
-        $this->assertCount(2, $slice);
-
-        for ($i = 0; $i < 2; $i++) {
-            $value = $slice->offsetGet($i);
-            $this->assertEquals($i + 5, $value);
-        }
-
-    }
-
-    /**
-     * @covers \Ardent\LinkedList::slice
-     */
-    function testSliceCountOvershoots() {
-        $list = new LinkedList();
-        $size = 10;
-        for ($i = 0; $i < $size; $i++) {
-            $list->push($i);
-        }
-
-        $slice = $list->slice(0, $size + 1);
-        $this->assertInstanceOf('\\Ardent\\LinkedList', $slice);
-        $this->assertCount(10, $slice);
-
-        for ($i = 0; $i < 10; $i++) {
-            $value = $slice->offsetGet($i);
-            $this->assertEquals($i, $value);
-        }
-
-    }
-
-    /**
-     * @covers \Ardent\LinkedList::slice
-     */
-    function testSliceNegativeCountOvershoots() {
-        $list = new LinkedList();
-        $size = 10;
-        for ($i = 0; $i < $size; $i++) {
-            $list->push($i);
-        }
-
-        $slice = $list->slice(0, (-1 * ($size + 1)));
-        $this->assertInstanceOf('\\Ardent\\LinkedList', $slice);
-        $this->assertCount(0, $slice);
-
-    }
-
-    /**
-     * @covers \Ardent\LinkedList::slice
-     */
-    function testSliceNegativeStartNoCount() {
-        $list = new LinkedList();
-        $size = 10;
-        for ($i = 0; $i < $size; $i++) {
-            $list->push($i);
-        }
-
-        $slice = $list->slice(-3);
-        $this->assertInstanceOf('\\Ardent\\LinkedList', $slice);
-        $this->assertCount(3, $slice);
-
-        for ($i = 0; $i < 3; $i++) {
-            $value = $slice->offsetGet($i);
-            $this->assertEquals($i + 7, $value);
-        }
-    }
-
-    /**
-     * @covers \Ardent\LinkedList::slice
-     * @expectedException \Ardent\EmptyException
-     */
-    function testSliceEmpty() {
-        $list = new LinkedList();
-        $list->slice(0);
-    }
-
-    /**
-     * @covers \Ardent\LinkedList::slice
-     * @expectedException \Ardent\TypeException
-     */
-    function testSliceNonIntegerStart() {
-        $list = new LinkedList();
-        $list->push(0);
-        $list->slice(array());
-    }
-
-    /**
-     * @covers \Ardent\LinkedList::slice
-     * @expectedException \Ardent\TypeException
-     */
-    function testSliceNonIntegerCount() {
-        $list = new LinkedList();
-        $list->push(0);
-        $list->slice(0, array());
-    }
-
-    /**
-     * @covers \Ardent\LinkedList::slice
-     * @expectedException \Ardent\IndexException
-     */
-    function testSliceStartGreaterThanMax() {
-        $list = new LinkedList();
-        $list->push(0);
-        $list->slice(1);
-    }
-
-    /**
-     * @covers \Ardent\LinkedList::slice
-     * @expectedException \Ardent\IndexException
-     */
-    function testSliceStartLessThanNegativeMax() {
-        $list = new LinkedList();
-        $list->push(0);
-        $list->slice(-2);
     }
 
 }

@@ -2,6 +2,8 @@
 
 namespace Ardent;
 
+use Ardent\Iterator\SlicingIterator;
+
 interface Collection extends \Countable, \Traversable {
 
     /**
@@ -84,7 +86,7 @@ interface Collection extends \Countable, \Traversable {
     /**
      * @param int $start
      * @param int $count
-     * @return SlicingIterable
+     * @return SlicingIterator
      */
     function slice($start, $count);
 

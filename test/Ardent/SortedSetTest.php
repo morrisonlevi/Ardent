@@ -109,7 +109,7 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
     function testIteratorEmpty() {
         $set = new SortedSet();
         $iterator = $set->getIterator();
-        $this->assertInstanceOf('Ardent\\SortedSetIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\Iterator\\SortedSetIterator', $iterator);
         $this->assertCount(0, $iterator);
     }
 
@@ -124,7 +124,7 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
         $set->add(6);
 
         $iterator = $set->getIterator();
-        $this->assertInstanceOf('Ardent\\SortedSetIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\Iterator\\SortedSetIterator', $iterator);
         $this->assertCount(4, $iterator);
 
         $iterator->rewind();

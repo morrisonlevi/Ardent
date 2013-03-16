@@ -2,6 +2,10 @@
 
 namespace Ardent;
 
+use Ardent\Exception\FunctionException;
+use Ardent\Exception\TypeException;
+use Ardent\Iterator\HashSetIterator;
+
 class HashSet extends AbstractSet implements Set {
 
     use CollectionStructure;

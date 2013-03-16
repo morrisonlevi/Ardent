@@ -4,11 +4,6 @@ namespace Ardent;
 
 class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
 
-    /**
-     * @covers \Ardent\LinkedQueue::count
-     * @covers \Ardent\LinkedQueue::isEmpty
-     * @covers \Ardent\LinkedQueue::push
-     */
     function testPushOne() {
         $queue = new LinkedQueue();
         $this->assertCount(0, $queue);
@@ -21,10 +16,6 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testPushOne
-     * @covers \Ardent\LinkedQueue::count
-     * @covers \Ardent\LinkedQueue::isEmpty
-     * @covers \Ardent\LinkedQueue::peek
-     * @covers \Ardent\LinkedQueue::push
      */
     function testPeekOne() {
         $queue = new LinkedQueue();
@@ -40,10 +31,6 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testPeekOne
-     * @covers \Ardent\LinkedQueue::count
-     * @covers \Ardent\LinkedQueue::isEmpty
-     * @covers \Ardent\LinkedQueue::pop
-     * @covers \Ardent\LinkedQueue::push
      */
     function testPopOne() {
         $queue = new LinkedQueue();
@@ -98,8 +85,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedQueue::peek
-     * @expectedException \Ardent\EmptyException
+     * @expectedException \Ardent\Exception\EmptyException
      */
     function testPeekEmpty() {
         $queue = new LinkedQueue();
@@ -107,35 +93,21 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\LinkedQueue::pop
-     * @expectedException \Ardent\EmptyException
+     * @expectedException \Ardent\Exception\EmptyException
      */
     function testPopEmpty() {
         $queue = new LinkedQueue();
         $queue->pop();
     }
 
-    /**
-     * @covers \Ardent\LinkedQueue::clonePair
-     * @covers \Ardent\LinkedQueue::getIterator
-     */
     function testGetIteratorEmpty() {
         $queue = new LinkedQueue();
         $iterator = $queue->getIterator();
-        $this->assertInstanceOf('Ardent\\LinkedQueueIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\Iterator\\LinkedQueueIterator', $iterator);
     }
 
     /**
      * @depends testMultiplePushPeekPop
-     * @covers \Ardent\LinkedQueue::clonePair
-     * @covers \Ardent\LinkedQueue::getIterator
-     * @covers \Ardent\LinkedQueueIterator::__construct
-     * @covers \Ardent\LinkedQueueIterator::rewind
-     * @covers \Ardent\LinkedQueueIterator::valid
-     * @covers \Ardent\LinkedQueueIterator::key
-     * @covers \Ardent\LinkedQueueIterator::current
-     * @covers \Ardent\LinkedQueueIterator::next
-     * @covers \Ardent\LinkedQueueIterator::count
      */
     function testIteratorForeach() {
         $queue = new LinkedQueue();
@@ -145,7 +117,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $queue->push(4);
 
         $iterator = $queue->getIterator();
-        $this->assertInstanceOf('Ardent\\LinkedQueueIterator', $iterator);
+        $this->assertInstanceOf('Ardent\\Iterator\\LinkedQueueIterator', $iterator);
 
         $this->assertCount(4, $iterator);
 
@@ -167,4 +139,5 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($iterator->current());
 
     }
+
 }

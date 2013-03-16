@@ -5,7 +5,7 @@ namespace Ardent;
 class HashMapTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * @expectedException \Ardent\KeyException
+     * @expectedException \Ardent\Exception\KeyException
      */
     function testGetException() {
         $map = new HashMap();
@@ -13,7 +13,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Ardent\KeyException
+     * @expectedException \Ardent\Exception\KeyException
      */
     function testOffsetGetException() {
         $map = new HashMap();
@@ -196,7 +196,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
     function testIteratorEmpty() {
         $map = new HashMap();
         $iterator = $map->getIterator();
-        $this->assertInstanceOf('\\Ardent\\HashMapIterator', $iterator);
+        $this->assertInstanceOf('\\Ardent\\Iterator\\HashMapIterator', $iterator);
         $this->assertCount(0, $iterator);
 
         $iterator->rewind();

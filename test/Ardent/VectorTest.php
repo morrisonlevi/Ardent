@@ -67,7 +67,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers \Ardent\Vector::offsetGet
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testOffsetGetOutOfBoundsException() {
         $this->object[0];
@@ -75,7 +75,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers \Ardent\Vector::offsetGet
-     * @expectedException \Ardent\TypeException
+     * @expectedException \Ardent\Exception\TypeException
      */
     function testOffsetGetTypeException() {
 
@@ -154,7 +154,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers \Ardent\Vector::get
-     * @expectedException \Ardent\TypeException
+     * @expectedException \Ardent\Exception\TypeException
      */
     function testGetNonInteger() {
         $vector = new Vector();
@@ -163,7 +163,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers \Ardent\Vector::get
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testGetNonExistentOffset() {
         $vector = new Vector();
@@ -186,7 +186,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers \Ardent\Vector::set
-     * @expectedException \Ardent\TypeException
+     * @expectedException \Ardent\Exception\TypeException
      */
     function testSetNonInteger() {
         $vector = new Vector();
@@ -195,7 +195,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers \Ardent\Vector::set
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testSetNonExistentOffset() {
         $vector = new Vector();
@@ -228,7 +228,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers \Ardent\Vector::remove
-     * @expectedException \Ardent\TypeException
+     * @expectedException \Ardent\Exception\TypeException
      */
     function testRemoveNonInteger() {
         $vector = new Vector();
@@ -359,7 +359,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     function testLimit() {
         $vector = new Vector(0);
         $this->assertInstanceOf(
-            'Ardent\\LimitingIterable',
+            'Ardent\\Iterator\\LimitingIterator',
             $vector->limit(0)
         );
     }
@@ -387,7 +387,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     function testMap() {
         $vector = new Vector(0);
         $this->assertInstanceOf(
-            'Ardent\\MappingIterable',
+            'Ardent\\Iterator\\MappingIterator',
             $vector->map(function() {})
         );
     }
@@ -437,13 +437,13 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     function testSlice() {
         $vector = new Vector(0, 5);
         $slicer = $vector->slice(0, 1);
-        $this->assertInstanceOf('Ardent\\SlicingIterable', $slicer);
+        $this->assertInstanceOf('Ardent\\Iterator\\SlicingIterator', $slicer);
     }
 
     function testSkip() {
         $vector = new Vector([0]);
         $this->assertInstanceOf(
-            'Ardent\\SkippingIterable',
+            'Ardent\\Iterator\\SkippingIterator',
             $vector->skip(0)
         );
     }
@@ -451,14 +451,11 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     function testWhere() {
         $vector = new Vector(0);
         $this->assertInstanceOf(
-            'Ardent\\FilteringIterable',
+            'Ardent\\Iterator\\FilteringIterator',
             $vector->where(function () {})
         );
     }
 
-    /**
-     * @covers \Ardent\Vector::toArray
-     */
     function testToArray() {
         $emptyArray = $this->object->toArray();
         $this->assertTrue(is_array($emptyArray));
@@ -473,9 +470,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(3, $notEmptyArray);
     }
 
-    /**
-     * @covers \Ardent\Vector::apply
-     */
     function testApply() {
         $vector = new Vector(0, 1, 2, 3);
         $size = $vector->count();
@@ -496,14 +490,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testAppend
-     * @covers \Ardent\Vector::getIterator
-     * @covers \Ardent\VectorIterator::__construct
-     * @covers \Ardent\VectorIterator::rewind
-     * @covers \Ardent\VectorIterator::valid
-     * @covers \Ardent\VectorIterator::key
-     * @covers \Ardent\VectorIterator::current
-     * @covers \Ardent\VectorIterator::next
-     * @covers \Ardent\VectorIterator::count
      */
     function testIterator() {
         $this->object->append(1);
@@ -513,7 +499,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
 
         $iterator = $this->object->getIterator();
-        $this->assertInstanceOf('\\Ardent\\VectorIterator', $iterator);
+        $this->assertInstanceOf('\\Ardent\\Iterator\\VectorIterator', $iterator);
         $this->assertCount(count($this->object), $iterator);
 
         for ($i = 0; $i < count($this->object); $i++) {
@@ -538,7 +524,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testIterator
-     * @covers \Ardent\VectorIterator::seek
      */
     function testIteratorSeek() {
         $this->object->append(1);
@@ -579,8 +564,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testIterator
-     * @covers \Ardent\VectorIterator::seek
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testIteratorSeekNegative() {
         $this->object->append(0);
@@ -591,8 +575,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testIterator
-     * @covers \Ardent\VectorIterator::seek
-     * @expectedException \Ardent\IndexException
+     * @expectedException \Ardent\Exception\IndexException
      */
     function testIteratorSeekBeyondEnd() {
         $this->object->append(0);

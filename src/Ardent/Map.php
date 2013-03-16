@@ -2,6 +2,8 @@
 
 namespace Ardent;
 
+use Ardent\Exception\KeyException;
+use Ardent\Exception\TypeException;
 use ArrayAccess;
 
 interface Map extends ArrayAccess, \IteratorAggregate, Collection {

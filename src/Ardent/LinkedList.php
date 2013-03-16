@@ -2,6 +2,11 @@
 
 namespace Ardent;
 
+use Ardent\Exception\EmptyException;
+use Ardent\Exception\FullException;
+use Ardent\Exception\IndexException;
+use Ardent\Exception\TypeException;
+use Ardent\Iterator\LinkedListIterator;
 use ArrayAccess;
 
 class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
@@ -331,57 +336,6 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
         $this->currentOffset++;
         $this->size++;
 
-    }
-
-    /**
-     * @param int $start
-     * @param int $count
-     * @return LinkedList
-     * @throws EmptyException
-     * @throws IndexException
-     * @throws TypeException
-     */
-    function slice($start, $count = NULL) {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
-        if (filter_var($start, FILTER_VALIDATE_INT) === FALSE) {
-            throw new TypeException(
-                'Argument 1 of LinkedList::slice must be an integer'
-            );
-        }
-        if ($count !== NULL && filter_var($count, FILTER_VALIDATE_INT) === FALSE) {
-            throw new TypeException(
-                'If used, argument 2 of LinkedList::slice must be an integer'
-            );
-        }
-        if ($start >= $this->size) {
-            throw new IndexException(
-                'Argument 1 of LinkedList::slice cannot be greater than or equal to the list size'
-            );
-        }
-        if ($start < (-1 * $this->size)) {
-            throw new IndexException(
-                'Argument 1 of LinkedList::slice cannot be smaller than the lists negative size'
-            );
-        }
-
-        if ($start < 0) {
-            // add because start is a negative number
-            $start = $this->size + $start;
-        }
-
-        $stop = $start + $count;
-
-        if ($count < 0) {
-            //add because $count is negative
-            $stop = $this->size + $count;
-        } elseif ($count === NULL || $stop > $this->size) {
-            $stop = $this->size;
-        }
-
-
-        return $this->copyRange($start, $stop);
     }
 
     /**

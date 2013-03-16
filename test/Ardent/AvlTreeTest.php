@@ -352,7 +352,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Ardent\LookupException
+     * @expectedException \Ardent\Exception\LookupException
      */
     function testGetMissingGreaterThan() {
         $object = new AvlTree();
@@ -362,7 +362,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Ardent\LookupException
+     * @expectedException \Ardent\Exception\LookupException
      */
     function testGetMissingSmallerThan() {
         $object = new AvlTree();
@@ -374,7 +374,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $object = new AvlTree();
         $iterator = $object->getIterator();
 
-        $this->assertInstanceOf('\\Ardent\\InOrderIterator', $iterator);
+        $this->assertInstanceOf('\\Ardent\\Iterator\\InOrderIterator', $iterator);
     }
 
     function testEmptyTreeIterators() {
@@ -391,7 +391,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
             /**
              * @var \Iterator $iterator
              */
-            $this->assertInstanceOf("\\Ardent\\{$algorithm}Iterator", $iterator);
+            $this->assertInstanceOf("\\Ardent\\Iterator\\{$algorithm}Iterator", $iterator);
 
             $iterator->rewind();
             $this->assertFalse($iterator->valid());
