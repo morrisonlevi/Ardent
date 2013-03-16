@@ -4,7 +4,9 @@ namespace Ardent;
 
 use ArrayAccess;
 
-class LinkedList implements ArrayAccess, Collection {
+class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
+
+    use CollectionStructure;
 
     /**
      * @var LinkedNode
@@ -41,7 +43,6 @@ class LinkedList implements ArrayAccess, Collection {
         $this->currentNode = $that->currentNode;
         $this->currentOffset = $that->currentOffset;
     }
-
     /**
      * @param mixed $value
      * @param callable $callback [optional]
@@ -49,7 +50,7 @@ class LinkedList implements ArrayAccess, Collection {
      * @return bool
      * @throws TypeException when $object is not the correct type.
      */
-    function contains($value, callable $callback = NULL) {
+    function containsItem($value, callable $callback = NULL) {
         if ($this->head === NULL) {
             return FALSE;
         }
@@ -58,7 +59,7 @@ class LinkedList implements ArrayAccess, Collection {
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @param callable $callback [optional]
      * @return int
      */
@@ -67,15 +68,18 @@ class LinkedList implements ArrayAccess, Collection {
             return -1;
         }
 
-        $areEqual = $callback ?: [$this, '__equals'];
+        /**
+         * @var callable $callback
+         */
+        $callback = $callback ?: [$this, '__equals'];
 
-        if (call_user_func($areEqual, $this->currentNode->value, $value)) {
+        if ($callback($value, $this->currentNode->value)) {
             return $this->currentOffset;
         }
 
         $offset = 0;
         for ($node = $this->head; $node !== NULL; $node = $node->next, $offset++) {
-            if (call_user_func($areEqual, $value, $node->value)) {
+            if ($callback($value, $node->value)) {
                 $this->currentOffset = $offset;
                 $this->currentNode = $node;
                 return $offset;

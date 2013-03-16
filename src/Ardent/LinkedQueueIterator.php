@@ -4,6 +4,7 @@ namespace Ardent;
 
 class LinkedQueueIterator implements QueueIterator {
 
+    use CollectionIterator;
 
     private $count = 0;
 

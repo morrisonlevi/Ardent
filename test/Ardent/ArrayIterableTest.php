@@ -21,6 +21,16 @@ class ArrayIterableTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(count($array), $iterator);
     }
 
+    function testisEmptyTrue() {
+        $iterator = new ArrayIterable([]);
+        $this->assertTrue($iterator->isEmpty());
+    }
+
+    function testisEmptyFalse() {
+        $iterator = new ArrayIterable([1]);
+        $this->assertFalse($iterator->isEmpty());
+    }
+
     function testIteration() {
         $array = [0, 2, 4, 8];
         $iterator = new ArrayIterable($array);
@@ -220,6 +230,27 @@ class ArrayIterableTest extends \PHPUnit_Framework_TestCase {
         $iterator = new ArrayIterable([0, 5]);
         $max = $iterator->reduce(-5, 'max');
         $this->assertEquals(5, $max);
+    }
+
+    function testSeek() {
+        $iterator = new ArrayIterable([0, 5, 2, 6]);
+        $iterator->rewind();
+
+        $iterator->seek(3);
+        $this->assertEquals(6, $iterator->current());
+
+        $iterator->seek(1);
+        $this->assertEquals(5, $iterator->current());
+
+        $iterator->seek(2);
+        $this->assertEquals(2, $iterator->current());
+
+        $iterator->seek(0);
+        $this->assertEquals(0, $iterator->current());
+
+        $iterator->seek(3);
+        $this->assertEquals(6, $iterator->current());
+
     }
 
     function testSlice() {

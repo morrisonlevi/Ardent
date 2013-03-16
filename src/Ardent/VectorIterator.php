@@ -2,7 +2,9 @@
 
 namespace Ardent;
 
-class VectorIterator implements CountableSeekableIterator {
+class VectorIterator implements CountableSeekableIterator, Collection {
+
+    use CollectionIterator;
 
     /**
      * @var Vector

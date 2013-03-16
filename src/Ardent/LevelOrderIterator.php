@@ -4,6 +4,8 @@ namespace Ardent;
 
 class LevelOrderIterator implements BinaryTreeIterator {
 
+    use CollectionIterator;
+
     /**
      * @var array
      */

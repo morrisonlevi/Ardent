@@ -2,7 +2,7 @@
 
 namespace Ardent;
 
-interface Stack extends Collection {
+interface Stack extends \IteratorAggregate, Collection {
 
     /**
      * @param mixed $object

@@ -4,6 +4,8 @@ namespace Ardent;
 
 class SortedMapIterator implements MapIterator {
 
+    use CollectionIterator;
+
     /**
      * @var BinaryTreeIterator
      */

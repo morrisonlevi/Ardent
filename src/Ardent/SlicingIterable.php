@@ -9,7 +9,7 @@ class SlicingIterable extends IteratorIterable {
 
     private $used = 0;
 
-    function __construct(Iterable $iterable, $start, $count) {
+    function __construct(Collection $iterable, $start, $count) {
         parent::__construct($iterable);
         $this->start = $start;
         $this->count = $count;

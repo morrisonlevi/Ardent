@@ -9,7 +9,7 @@ class SkippingIterable extends IteratorIterable {
      */
     private $n;
 
-    function __construct(Iterable $iterable, $n) {
+    function __construct(Collection $iterable, $n) {
         parent::__construct($iterable);
         $this->n = $n;
     }

@@ -6,6 +6,8 @@ use Traversable;
 
 class SortedSet extends AbstractSet implements Set {
 
+    use CollectionStructure;
+
     /**
      * @var AvlTree
      */
@@ -30,14 +32,8 @@ class SortedSet extends AbstractSet implements Set {
         $this->bst->clear();
     }
 
-    /**
-     * @param $item
-     *
-     * @return bool
-     * @throws TypeException when $item is not the correct type.
-     */
-    function contains($item) {
-        return $this->bst->contains($item);
+    function containsItem($item) {
+        return $this->bst->containsItem($item);
     }
 
     /**

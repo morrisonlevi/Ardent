@@ -4,6 +4,9 @@ namespace Ardent;
 
 class LinkedStackIterator implements StackIterator {
 
+    use CollectionIterator;
+
+
     /**
      * @var int
      */

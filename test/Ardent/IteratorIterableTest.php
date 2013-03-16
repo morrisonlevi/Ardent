@@ -98,6 +98,16 @@ class IteratorIterableTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(1, $iterator);
     }
 
+    function testIsEmptyTrue() {
+        $iterator = new IteratorIterable(new \EmptyIterator());
+        $this->assertTrue($iterator->isEmpty());
+    }
+
+    function testIsEmptyFalse() {
+        $iterator = new IteratorIterable(new \ArrayIterator([1]));
+        $this->assertFalse($iterator->isEmpty());
+    }
+
     function testJoinEmpty() {
         $iterator = new IteratorIterable(new ArrayIterable([]));
         $this->assertEquals('', $iterator->join(','));

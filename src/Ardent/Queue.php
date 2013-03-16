@@ -2,7 +2,8 @@
 
 namespace Ardent;
 
-interface Queue extends Collection {
+interface Queue extends \IteratorAggregate, Collection {
+
     /**
      * @param $item
      *
@@ -23,4 +24,5 @@ interface Queue extends Collection {
      * @throws EmptyException if the Queue is empty.
      */
     function peek();
+
 }

@@ -251,31 +251,29 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testOffsetUnsetOneItem
-     * @covers \Ardent\LinkedList::contains
      */
     function testContains() {
         $list = new LinkedList();
-        $this->assertFalse($list->contains(0));
+        $this->assertFalse($list->containsItem(0));
 
         $list->push(1);
-        $this->assertTrue($list->contains(1));
-        $this->assertFalse($list->contains(0));
+        $this->assertTrue($list->containsItem(1));
+        $this->assertFalse($list->containsItem(0));
 
         $list->offsetUnset(0);
-        $this->assertFalse($list->contains(1));
+        $this->assertFalse($list->containsItem(1));
 
         $list->push(0);
         $list->push(2);
         $list->push(4);
 
         for ($i = 0; $i < 2; $i++) {
-            $this->assertTrue($list->contains($i * 2));
+            $this->assertTrue($list->containsItem($i * 2));
         }
     }
 
     /**
      * @depends testOffsetGetAndSet
-     * @covers \Ardent\LinkedList::contains
      */
     function testContainsCallback() {
         $list = new LinkedList();
@@ -284,17 +282,17 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
             return abs($a) == abs($b);
         };
 
-        $this->assertFalse($list->contains(0), $abs);
+        $this->assertFalse($list->containsItem(0), $abs);
 
         $list->push(1);
 
-        $this->assertTrue($list->contains(1, $abs));
-        $this->assertTrue($list->contains(-1, $abs));
+        $this->assertTrue($list->containsItem(1, $abs));
+        $this->assertTrue($list->containsItem(-1, $abs));
 
         $list->push(2);
         $list->seek(0);
-        $this->assertTrue($list->contains(2, $abs));
-        $this->assertTrue($list->contains(-2, $abs));
+        $this->assertTrue($list->containsItem(2, $abs));
+        $this->assertTrue($list->containsItem(-2, $abs));
     }
 
     /**

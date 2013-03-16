@@ -4,6 +4,8 @@ namespace Ardent;
 
 class LinkedQueue implements Queue {
 
+    use CollectionStructure;
+
     /**
      * @var Pair
      */

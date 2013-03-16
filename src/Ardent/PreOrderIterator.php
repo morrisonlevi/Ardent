@@ -4,6 +4,8 @@ namespace Ardent;
 
 class PreOrderIterator implements BinaryTreeIterator {
 
+    use CollectionIterator;
+
     /**
      * @var Stack
      */

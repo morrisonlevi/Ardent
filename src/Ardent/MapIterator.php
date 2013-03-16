@@ -2,6 +2,6 @@
 
 namespace Ardent;
 
-interface MapIterator extends CountableIterator {
+interface MapIterator extends CountableIterator, Collection {
 
 }

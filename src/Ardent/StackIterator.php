@@ -2,6 +2,6 @@
 
 namespace Ardent;
 
-interface StackIterator extends CountableIterator {
+interface StackIterator extends CountableIterator, Collection {
 
 }

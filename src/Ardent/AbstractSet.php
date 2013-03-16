@@ -30,7 +30,7 @@ abstract class AbstractSet implements Set {
         }
 
         foreach ($this as $item) {
-            if (!$that->contains($item)) {
+            if (!$that->containsItem($item)) {
                 $difference->add($item);
             }
         }
@@ -52,7 +52,7 @@ abstract class AbstractSet implements Set {
     function symmetricDifference(Set $that) {
         $difference = $this->difference($that);
         foreach ($that as $item) {
-            if (!$this->contains($item)) {
+            if (!$this->containsItem($item)) {
                 $difference->add($item);
             }
         }
@@ -73,7 +73,7 @@ abstract class AbstractSet implements Set {
         $intersection = $this->cloneEmpty();
 
         foreach ($this as $item) {
-            if ($that->contains($item)) {
+            if ($that->containsItem($item)) {
                 $intersection->add($item);
             }
         }
@@ -99,7 +99,7 @@ abstract class AbstractSet implements Set {
         }
 
         foreach ($that as $item) {
-            if (!$this->contains($item)) {
+            if (!$this->containsItem($item)) {
                 $complement->add($item);
             }
         }
@@ -177,7 +177,7 @@ abstract class AbstractSet implements Set {
 
     private static function subset(Set $a, Set $b) {
         foreach ($a as $item) {
-            if (!$b->contains($item)) {
+            if (!$b->containsItem($item)) {
                 return FALSE;
             }
         }

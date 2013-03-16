@@ -4,6 +4,8 @@ namespace Ardent;
 
 class HashSetIterator implements SetIterator {
 
+    use CollectionIterator;
+
     /**
      * @var array
      */

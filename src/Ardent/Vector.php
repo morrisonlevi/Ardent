@@ -4,7 +4,9 @@ namespace Ardent;
 
 use ArrayAccess;
 
-class Vector implements ArrayAccess, Collection {
+class Vector implements ArrayAccess, \IteratorAggregate, Collection {
+
+    use CollectionStructure;
 
     protected $array = [];
 
@@ -33,16 +35,6 @@ class Vector implements ArrayAccess, Collection {
     function clear() {
         $this->array = [];
         $this->cache = NULL;
-    }
-
-    /**
-     * @param $item
-     *
-     * @return bool
-     * @throws TypeException when $item is not the correct type.
-     */
-    function contains($item) {
-        return in_array($item, $this->array);
     }
 
     /**
@@ -203,71 +195,6 @@ class Vector implements ArrayAccess, Collection {
     }
 
     /**
-     * @param int $startIndex
-     * @param int $numberOfItemsToExtract [optional] If not provided, it will extract all items after the $startIndex.
-     *
-     * @return Vector
-     * @throws EmptyException
-     * @throws IndexException when $startIndex >= count() or $startIndex < (-1 * count())
-     * @throws TypeException when $startIndex or $numberOfItemsToExtract are not integers.
-     */
-    function slice($startIndex, $numberOfItemsToExtract = NULL) {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
-        if (filter_var($startIndex, FILTER_VALIDATE_INT) === FALSE) {
-            throw new TypeException;
-        }
-        if ($numberOfItemsToExtract !== NULL && filter_var($numberOfItemsToExtract, FILTER_VALIDATE_INT) === FALSE) {
-            throw new TypeException;
-        }
-
-        if ($startIndex >= $this->count() || $startIndex < (-1 * $this->count())) {
-            throw new IndexException;
-        }
-
-        $slice = new Vector;
-
-        $slice->array = array_slice($this->array, $startIndex, $numberOfItemsToExtract);
-
-        return $slice;
-    }
-
-    /**
-     * Filters elements of the vector using a callback function.
-     *
-     * @param callable $callable bool function($value, $key = NULL)
-     * @return Vector
-     */
-    function filter(callable $callable) {
-
-        $vector = new Vector;
-
-        foreach ($this->array as $i => $item) {
-            if (call_user_func($callable, $item, $i)) {
-                $vector->array[] = $item;
-            }
-        }
-
-        return $vector;
-    }
-
-    /**
-     * Creates a new vector with the result of calling $callable on each item.
-     *
-     * @param callable $callable mixed function($value, $key = NULL)
-     * @return Vector
-     */
-    function map(callable $callable) {
-
-        $vector = new Vector;
-
-        $vector->array = array_map($callable, $this->array);
-
-        return $vector;
-    }
-
-    /**
      * Applies $callable to each item in the vector.
      *
      * @param callable $callable function($value, $key = NULL)
@@ -280,13 +207,6 @@ class Vector implements ArrayAccess, Collection {
         }
 
         $this->cache = NULL;
-    }
-
-    /**
-     * @return array
-     */
-    function toArray() {
-        return iterator_to_array($this->getIterator());
     }
 
     /**

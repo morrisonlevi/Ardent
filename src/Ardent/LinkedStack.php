@@ -4,6 +4,8 @@ namespace Ardent;
 
 class LinkedStack implements Stack {
 
+    use CollectionStructure;
+
     /**
      * @var Pair
      */

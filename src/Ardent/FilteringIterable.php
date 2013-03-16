@@ -17,7 +17,7 @@ class FilteringIterable extends IteratorIterable {
      */
     private $valid;
 
-    function __construct(Iterable $iterator, callable $filter) {
+    function __construct(Collection $iterator, callable $filter) {
         parent::__construct($iterator);
         $this->filter = $filter;
     }

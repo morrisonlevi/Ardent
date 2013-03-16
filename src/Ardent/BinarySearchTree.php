@@ -2,7 +2,9 @@
 
 namespace Ardent;
 
-class BinarySearchTree implements Collection {
+class BinarySearchTree implements \IteratorAggregate, Collection {
+
+    use CollectionStructure;
 
     const TRAVERSE_IN_ORDER = 1;
     const TRAVERSE_LEVEL_ORDER = 2;
@@ -188,7 +190,7 @@ class BinarySearchTree implements Collection {
      * @return bool
      * @throws TypeException when $item is not the correct type.
      */
-    function contains($item) {
+    function containsItem($item) {
         $node = $this->root;
         while ($node !== NULL) {
             $comparisonResult = call_user_func($this->comparator, $item, $node->getValue());

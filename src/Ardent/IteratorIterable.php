@@ -3,7 +3,9 @@
 namespace Ardent;
 
 
-class IteratorIterable implements Iterable {
+class IteratorIterable implements CountableIterator, Collection {
+
+    use CollectionIterator;
 
     /**
      * @var \Iterator
@@ -12,6 +14,10 @@ class IteratorIterable implements Iterable {
 
     function __construct(\Iterator $Iterator) {
         $this->inner = $Iterator;
+    }
+
+    function isEmpty() {
+        return $this->count() === 0;
     }
 
     /**
@@ -78,7 +84,7 @@ class IteratorIterable implements Iterable {
 
     /**
      * @param callable $map
-     * @return Iterable
+     * @return Collection
      */
     function map(callable $map) {
         return new MappingIterable($this, $map);
@@ -86,7 +92,7 @@ class IteratorIterable implements Iterable {
 
     /**
      * @param callable $filter
-     * @return Iterable
+     * @return Collection
      */
     function where(callable $filter) {
         return new FilteringIterable($this, $filter);
@@ -123,7 +129,7 @@ class IteratorIterable implements Iterable {
 
     /**
      * @param int $n
-     * @return Iterable
+     * @return Collection
      */
     function limit($n) {
         return new LimitingIterable($this, $n);
@@ -191,7 +197,7 @@ class IteratorIterable implements Iterable {
 
     /**
      * @param int $n
-     * @return Iterable
+     * @return Collection
      */
     function skip($n) {
         return new SkippingIterable($this, $n);
@@ -200,7 +206,7 @@ class IteratorIterable implements Iterable {
     /**
      * @param int $start
      * @param int $count
-     * @return Iterable
+     * @return Collection
      */
     function slice($start, $count) {
         return new SlicingIterable($this, $start, $count);
@@ -214,10 +220,6 @@ class IteratorIterable implements Iterable {
         return iterator_to_array($this, $preserveKeys);
     }
 
-    /**
-     * @link http://php.net/manual/en/countable.count.php
-     * @return int
-     */
     function count() {
         return $this->inner instanceof \Countable
             ? $this->inner->count()

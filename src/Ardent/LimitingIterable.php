@@ -12,10 +12,10 @@ class LimitingIterable extends IteratorIterable {
     private $used = 0;
 
     /**
-     * @param Iterable $iterable
+     * @param Collection $iterable
      * @param int $n
      */
-    function __construct(Iterable $iterable, $n) {
+    function __construct(Collection $iterable, $n) {
         parent::__construct($iterable);
         $this->n = $n;
     }

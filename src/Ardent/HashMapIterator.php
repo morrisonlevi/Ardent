@@ -4,6 +4,8 @@ namespace Ardent;
 
 class HashMapIterator implements MapIterator {
 
+    use CollectionIterator;
+
     protected $storage = [];
 
     function __construct(array $storage) {

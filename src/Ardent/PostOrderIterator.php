@@ -4,6 +4,8 @@ namespace Ardent;
 
 class PostOrderIterator implements BinaryTreeIterator {
 
+    use CollectionIterator;
+
     /**
      * @var Stack
      */

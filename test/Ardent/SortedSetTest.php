@@ -4,11 +4,6 @@ namespace Ardent;
 
 class SortedSetTest extends \PHPUnit_Framework_TestCase {
 
-    /**
-     * @covers \Ardent\SortedSet::add
-     * @covers \Ardent\SortedSet::count
-     * @covers \Ardent\SortedSet::__construct
-     */
     function testAdd() {
         $set = new SortedSet();
         $this->assertCount(0, $set);
@@ -25,7 +20,6 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testAdd
-     * @covers \Ardent\SortedSet::remove
      */
     function testRemove() {
         $set = new SortedSet();
@@ -44,33 +38,29 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testRemove
-     * @covers \Ardent\SortedSet::add
-     * @covers \Ardent\SortedSet::contains
-     * @covers \Ardent\SortedSet::remove
      */
     function testContains() {
         $set = new SortedSet();
-        $this->assertFalse($set->contains(0));
-        $this->assertFalse($set->contains(-1));
-        $this->assertFalse($set->contains(1));
+        $this->assertFalse($set->containsItem(0));
+        $this->assertFalse($set->containsItem(-1));
+        $this->assertFalse($set->containsItem(1));
 
         $set->add(0);
         $set->add(-1);
         $set->add(1);
-        $this->assertTrue($set->contains(0));
-        $this->assertTrue($set->contains(-1));
-        $this->assertTrue($set->contains(1));
+        $this->assertTrue($set->containsItem(0));
+        $this->assertTrue($set->containsItem(-1));
+        $this->assertTrue($set->containsItem(1));
 
         $set->remove(0);
-        $this->assertFalse($set->contains(0));
-        $this->assertTrue($set->contains(-1));
-        $this->assertTrue($set->contains(1));
+        $this->assertFalse($set->containsItem(0));
+        $this->assertTrue($set->containsItem(-1));
+        $this->assertTrue($set->containsItem(1));
 
     }
 
     /**
      * @depends testRemove
-     * @covers \Ardent\SortedSet::isEmpty
      */
     function testIsEmpty() {
         $set = new SortedSet();
@@ -86,7 +76,6 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testIsEmpty
-     * @covers \Ardent\SortedSet::clear
      */
     function testClear() {
         $set = new SortedSet();
@@ -103,8 +92,6 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testAdd
-     * @covers \Ardent\SortedSet::cloneEmpty
-     * @covers \Ardent\SortedSet::difference
      */
     function testDifferenceSelf() {
         $a = new SortedSet();
@@ -118,10 +105,6 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testAdd
-     * @covers \Ardent\SortedSet::getIterator
-     * @covers \Ardent\SortedSetIterator::__construct
-     * @covers \Ardent\SortedSetIterator::count
-     * @covers \Ardent\SortedSetIterator::rewind
      */
     function testIteratorEmpty() {
         $set = new SortedSet();
@@ -132,14 +115,6 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testIteratorEmpty
-     * @covers \Ardent\SortedSet::getIterator
-     * @covers \Ardent\SortedSetIterator::__construct
-     * @covers \Ardent\SortedSetIterator::count
-     * @covers \Ardent\SortedSetIterator::rewind
-     * @covers \Ardent\SortedSetIterator::valid
-     * @covers \Ardent\SortedSetIterator::key
-     * @covers \Ardent\SortedSetIterator::current
-     * @covers \Ardent\SortedSetIterator::next
      */
     function testIterator() {
         $set = new SortedSet();

@@ -9,7 +9,7 @@ class MappingIterable extends IteratorIterable {
      */
     private $mapper;
 
-    function __construct(Iterable $iterator, callable $map) {
+    function __construct(Collection $iterator, callable $map) {
         parent::__construct($iterator);
         $this->mapper = $map;
     }

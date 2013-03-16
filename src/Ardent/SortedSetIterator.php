@@ -4,6 +4,8 @@ namespace Ardent;
 
 class SortedSetIterator implements CountableIterator {
 
+    use CollectionIterator;
+
     private $key = 0;
 
     function __construct(BinaryTreeIterator $iterator, $size) {

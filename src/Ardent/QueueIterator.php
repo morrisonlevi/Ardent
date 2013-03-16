@@ -2,6 +2,6 @@
 
 namespace Ardent;
 
-interface QueueIterator extends CountableIterator {
+interface QueueIterator extends CountableIterator, Collection {
 
 }

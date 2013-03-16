@@ -2,17 +2,7 @@
 
 namespace Ardent;
 
-use Traversable;
-
-interface Set extends Collection {
-
-    /**
-     * @param $item
-     *
-     * @return bool
-     * @throws TypeException when $item is not the correct type.
-     */
-    function contains($item);
+interface Set extends Collection, \IteratorAggregate {
 
     /**
      * @param $item
@@ -21,6 +11,12 @@ interface Set extends Collection {
      * @throws TypeException when $item is not the correct type.
      */
     function add($item);
+
+    /**
+     * @param mixed $item
+     * @return bool
+     */
+    function containsItem($item);
 
     /**
      * @param $item

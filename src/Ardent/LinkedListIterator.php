@@ -2,7 +2,9 @@
 
 namespace Ardent;
 
-class LinkedListIterator implements CountableSeekableIterator {
+class LinkedListIterator implements CountableSeekableIterator, Collection {
+
+    use CollectionIterator;
 
     /**
      * @var LinkedList

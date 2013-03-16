@@ -2,20 +2,96 @@
 
 namespace Ardent;
 
-/**
- * A collection is countable and has an external iterator. The one helper
- * method is `isEmpty` which is a frequently used method.
- *
- * Note that Collection does not extend Serializable. This is because all
- * objects can be serialized and unserialized by PHP, and the interface is used
- * only for custom serializing. If the extension ever moves to PECL then the
- * structures will implement Serializable.
- */
-interface Collection extends \Countable, \IteratorAggregate /*, \Serializable  */ {
+interface Collection extends \Countable, \Traversable {
 
     /**
      * @return bool
      */
     function isEmpty();
+
+    /**
+     * @param callable $callback
+     */
+    function each(callable $callback);
+
+    /**
+     * @param callable $f
+     * @return bool
+     */
+    function every(callable $f);
+
+    /**
+     * @param callable $map
+     * @return Collection
+     */
+    function map(callable $map);
+
+    /**
+     * @param callable $filter
+     * @return Collection
+     */
+    function where(callable $filter);
+
+    /**
+     * @param callable $compare
+     * @return bool
+     */
+    function contains(callable $compare);
+
+    /**
+     * @param string $separator
+     * @return string
+     */
+    function join($separator);
+
+    /**
+     * @param int $n
+     * @return Collection
+     */
+    function limit($n);
+
+    /**
+     * @param callable $compare
+     * @return mixed
+     */
+    function max(callable $compare = NULL);
+
+    /**
+     * @param callable $compare
+     * @return mixed
+     */
+    function min(callable $compare = NULL);
+
+    /**
+     * @param callable $f
+     * @return bool
+     */
+    function none(callable $f);
+
+    /**
+     * @param $initialValue
+     * @param callable $combine
+     * @return mixed
+     */
+    function reduce($initialValue, callable $combine);
+
+    /**
+     * @param int $n
+     * @return Collection
+     */
+    function skip($n);
+
+    /**
+     * @param int $start
+     * @param int $count
+     * @return SlicingIterable
+     */
+    function slice($start, $count);
+
+    /**
+     * @param bool $preserveKeys
+     * @return array
+     */
+    function toArray($preserveKeys = FALSE);
 
 }
