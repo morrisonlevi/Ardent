@@ -5,10 +5,6 @@ namespace Ardent\Iterator;
 
 use Ardent\Collection;
 use Ardent\CollectionIterator;
-use Ardent\Iterator\LimitingIterator;
-use Ardent\Iterator\MappingIterator;
-use Ardent\Iterator\SkippingIterator;
-use Ardent\Iterator\SlicingIterator;
 
 class IteratorToCollectionAdapter implements CountableIterator, Collection {
 
