@@ -31,7 +31,7 @@ class PreOrderIterator implements BinaryTreeIterator {
      */
     protected $key = NULL;
 
-    public function __construct(BinaryTree $root = NULL) {
+    function __construct(BinaryTree $root = NULL) {
         $this->root = $root;
     }
 
@@ -39,7 +39,7 @@ class PreOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void
      */
-    public function rewind() {
+    function rewind() {
         $this->stack = new LinkedStack();
         $this->stack->push($this->root);
 
@@ -54,7 +54,7 @@ class PreOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean
      */
-    public function valid() {
+    function valid() {
         return $this->value !== NULL;
     }
 
@@ -62,7 +62,7 @@ class PreOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.key.php
      * @return int|NULL
      */
-    public function key() {
+    function key() {
         return $this->key;
     }
 
@@ -70,7 +70,7 @@ class PreOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed
      */
-    public function current() {
+    function current() {
         return $this->value->getValue();
     }
 
@@ -78,7 +78,7 @@ class PreOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.next.php
      * @return void
      */
-    public function next() {
+    function next() {
         /**
          * @var BinaryTree $node
          */
@@ -100,6 +100,16 @@ class PreOrderIterator implements BinaryTreeIterator {
         }
         $this->value = $this->stack->peek();
         $this->key++;
+    }
+
+    /**
+     * The runtime performance of count is O(n), not the usual constant time.
+     *
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int
+     */
+    function count() {
+        return iterator_count($this);
     }
 
 }

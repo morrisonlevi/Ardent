@@ -32,7 +32,7 @@ class InOrderIterator implements BinaryTreeIterator {
      */
     protected $value;
 
-    public function __construct(BinaryTree $root = NULL) {
+    function __construct(BinaryTree $root = NULL) {
         $this->root = $root;
     }
 
@@ -40,7 +40,7 @@ class InOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed
      */
-    public function current() {
+    function current() {
         return $this->value->getValue();
     }
 
@@ -48,7 +48,7 @@ class InOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.next.php
      * @return void
      */
-    public function next() {
+    function next() {
         if (!$this->valid()) {
             $this->key = NULL;
             return;
@@ -80,7 +80,7 @@ class InOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.key.php
      * @return int|NULL
      */
-    public function key() {
+    function key() {
         return $this->key;
     }
 
@@ -88,7 +88,7 @@ class InOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean
      */
-    public function valid() {
+    function valid() {
         return $this->value !== NULL;
     }
 
@@ -96,7 +96,7 @@ class InOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void
      */
-    public function rewind() {
+    function rewind() {
         $this->stack = new LinkedStack();
 
         for ($current = $this->root; $current !== NULL; $current = $current->getLeft()) {
@@ -108,4 +108,15 @@ class InOrderIterator implements BinaryTreeIterator {
             $this->key = 0;
         }
     }
+
+    /**
+     * The runtime performance of count is O(n), not the usual constant time.
+     *
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int
+     */
+    function count() {
+        return iterator_count($this);
+    }
+
 }

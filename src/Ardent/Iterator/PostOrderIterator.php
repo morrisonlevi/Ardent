@@ -36,7 +36,7 @@ class PostOrderIterator implements BinaryTreeIterator {
      */
     protected $key = NULL;
 
-    public function __construct(BinaryTree $root = NULL) {
+    function __construct(BinaryTree $root = NULL) {
         $this->root = $root;
     }
 
@@ -44,7 +44,7 @@ class PostOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void
      */
-    public function rewind() {
+    function rewind() {
         $this->stack = new LinkedStack();
 
         $this->value = $this->root;
@@ -58,7 +58,7 @@ class PostOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean
      */
-    public function valid() {
+    function valid() {
         return $this->current !== NULL;
     }
 
@@ -66,7 +66,7 @@ class PostOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.key.php
      * @return NULL
      */
-    public function key() {
+    function key() {
         return $this->current !== NULL
             ? $this->key
             : NULL;
@@ -76,7 +76,7 @@ class PostOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed
      */
-    public function current() {
+    function current() {
         return $this->current->getValue();
     }
 
@@ -84,7 +84,7 @@ class PostOrderIterator implements BinaryTreeIterator {
      * @link http://php.net/manual/en/iterator.next.php
      * @return void
      */
-    public function next() {
+    function next() {
         /**
          * @var BinaryTree $node
          */
@@ -119,6 +119,16 @@ class PostOrderIterator implements BinaryTreeIterator {
             $this->key++;
             $this->value = NULL;
         }
+    }
+
+    /**
+     * The runtime performance of count is O(n), not the usual constant time.
+     *
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int
+     */
+    function count() {
+        return iterator_count($this);
     }
 
 }
