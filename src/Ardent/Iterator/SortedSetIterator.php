@@ -4,7 +4,7 @@ namespace Ardent\Iterator;
 
 use Ardent\CollectionIterator;
 
-class SortedSetIterator implements CountableIterator {
+class SortedSetIterator implements SetIterator {
 
     use CollectionIterator;
 
