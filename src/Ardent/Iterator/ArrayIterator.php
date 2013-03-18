@@ -4,7 +4,6 @@ namespace Ardent\Iterator;
 
 use Ardent\Collection;
 use Ardent\CollectionIterator;
-use Ardent\Iterator\CountableSeekableIterator;
 
 class ArrayIterator implements CountableSeekableIterator, Collection {
 
@@ -15,8 +14,11 @@ class ArrayIterator implements CountableSeekableIterator, Collection {
      */
     private $inner;
 
+    private $count;
+
     function __construct(array $array) {
         $this->inner = new \ArrayIterator($array);
+        $this->count = count($array);
     }
     /**
      * @link http://php.net/manual/en/iterator.current.php
@@ -65,6 +67,10 @@ class ArrayIterator implements CountableSeekableIterator, Collection {
      */
     function seek($position) {
         $this->inner->seek($position);
+    }
+
+    function count() {
+        return $this->count;
     }
 
 }
