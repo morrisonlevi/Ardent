@@ -1,15 +1,12 @@
 <?php
 
 namespace Ardent\Iterator;
-
-use Ardent\Collection;
-use Ardent\CollectionIterator;
 use Ardent\Exception\IndexException;
 use Ardent\Vector;
 
-class VectorIterator implements CountableSeekableIterator, Collection {
+class VectorIterator implements CountableSeekableIterator, \Ardent\Collection {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     /**
      * @var Vector

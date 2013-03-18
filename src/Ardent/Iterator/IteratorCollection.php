@@ -1,17 +1,14 @@
 <?php
 
-namespace Ardent;
+namespace Ardent\Iterator;
 
-use Ardent\Iterator\IteratorToCollectionAdapter;
-
-trait CollectionIterator /* implements Collection */ {
+trait IteratorCollection /* implements \Ardent\Collection */ {
 
     /**
      * @param callable $callback
-     * @return Collection
      */
     function each(callable $callback) {
-        return (new IteratorToCollectionAdapter($this))->each($callback);
+        (new IteratorToCollectionAdapter($this))->each($callback);
     }
 
     /**
@@ -24,7 +21,7 @@ trait CollectionIterator /* implements Collection */ {
 
     /**
      * @param callable $map
-     * @return Collection
+     * @return \Ardent\Collection
      */
     function map(callable $map) {
         return (new IteratorToCollectionAdapter($this))->map($map);
@@ -32,7 +29,7 @@ trait CollectionIterator /* implements Collection */ {
 
     /**
      * @param callable $filter
-     * @return Collection
+     * @return \Ardent\Collection
      */
     function where(callable $filter) {
         return (new IteratorToCollectionAdapter($this))->where($filter);
@@ -56,7 +53,7 @@ trait CollectionIterator /* implements Collection */ {
 
     /**
      * @param int $n
-     * @return Collection
+     * @return \Ardent\Collection
      */
     function limit($n) {
         return (new IteratorToCollectionAdapter($this))->limit($n);
@@ -98,7 +95,7 @@ trait CollectionIterator /* implements Collection */ {
 
     /**
      * @param int $n
-     * @return Collection
+     * @return \Ardent\Collection
      */
     function skip($n) {
         return (new IteratorToCollectionAdapter($this))->skip($n);
@@ -107,7 +104,7 @@ trait CollectionIterator /* implements Collection */ {
     /**
      * @param int $start
      * @param int $count
-     * @return Collection
+     * @return \Ardent\Collection
      */
     function slice($start, $count) {
         return (new IteratorToCollectionAdapter($this))

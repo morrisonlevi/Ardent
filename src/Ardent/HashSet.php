@@ -8,7 +8,7 @@ use Ardent\Iterator\HashSetIterator;
 
 class HashSet extends AbstractSet implements Set {
 
-    use CollectionStructure;
+    use StructureCollection;
 
     /**
      * @var array

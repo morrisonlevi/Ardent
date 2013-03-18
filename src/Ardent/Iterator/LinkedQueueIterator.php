@@ -2,12 +2,11 @@
 
 namespace Ardent\Iterator;
 
-use Ardent\CollectionIterator;
 use Ardent\Pair;
 
 class LinkedQueueIterator implements QueueIterator {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     private $count = 0;
 

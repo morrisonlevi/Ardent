@@ -2,13 +2,11 @@
 
 namespace Ardent\Iterator;
 
-
 use Ardent\Collection;
-use Ardent\CollectionIterator;
 
 class IteratorToCollectionAdapter implements CountableIterator, Collection {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     /**
      * @var \Iterator

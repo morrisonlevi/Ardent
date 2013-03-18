@@ -2,12 +2,11 @@
 
 namespace Ardent\Iterator;
 
-use Ardent\CollectionIterator;
 use Ardent\Pair;
 
 class HashMapIterator implements MapIterator {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     protected $storage = [];
 

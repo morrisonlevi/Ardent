@@ -2,11 +2,9 @@
 
 namespace Ardent\Iterator;
 
-use Ardent\CollectionIterator;
-
 class HashSetIterator implements SetIterator {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     /**
      * @var array

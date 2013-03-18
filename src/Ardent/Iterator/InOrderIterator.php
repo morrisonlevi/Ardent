@@ -4,13 +4,12 @@ namespace Ardent\Iterator;
 
 
 use Ardent\BinaryTree;
-use Ardent\CollectionIterator;
 use Ardent\LinkedStack;
 use Ardent\Stack;
 
 class InOrderIterator implements BinaryTreeIterator {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     /**
      * @var Stack

@@ -8,7 +8,7 @@ use Ardent\Iterator\SortedMapIterator;
 
 class SortedMap implements Map {
 
-    use CollectionStructure;
+    use StructureCollection;
 
     private $avl;
 

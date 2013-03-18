@@ -3,13 +3,12 @@
 namespace Ardent\Iterator;
 
 use Ardent\BinaryTree;
-use Ardent\CollectionIterator;
 use Ardent\LinkedStack;
 use Ardent\Stack;
 
 class PreOrderIterator implements BinaryTreeIterator {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     /**
      * @var Stack

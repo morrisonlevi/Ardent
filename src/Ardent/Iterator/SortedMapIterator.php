@@ -2,13 +2,12 @@
 
 namespace Ardent\Iterator;
 
-use Ardent\CollectionIterator;
 use Ardent\Pair;
 use Ardent\Exception\TypeException;
 
 class SortedMapIterator implements MapIterator {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     /**
      * @var BinaryTreeIterator

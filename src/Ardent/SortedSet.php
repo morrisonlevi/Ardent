@@ -8,7 +8,7 @@ use Traversable;
 
 class SortedSet extends AbstractSet implements Set {
 
-    use CollectionStructure;
+    use StructureCollection;
 
     /**
      * @var AvlTree

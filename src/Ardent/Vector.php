@@ -9,7 +9,7 @@ use ArrayAccess;
 
 class Vector implements ArrayAccess, \IteratorAggregate, Collection {
 
-    use CollectionStructure;
+    use StructureCollection;
 
     protected $array = [];
 

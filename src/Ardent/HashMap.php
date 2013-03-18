@@ -8,7 +8,7 @@ use Ardent\Iterator\HashMapIterator;
 
 class HashMap implements Map {
 
-    use CollectionStructure;
+    use StructureCollection;
 
     private $storage = [];
 

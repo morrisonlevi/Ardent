@@ -12,7 +12,7 @@ use Ardent\Iterator\PreOrderIterator;
 
 class BinarySearchTree implements \IteratorAggregate, Collection {
 
-    use CollectionStructure;
+    use StructureCollection;
 
     const TRAVERSE_IN_ORDER = 1;
     const TRAVERSE_LEVEL_ORDER = 2;

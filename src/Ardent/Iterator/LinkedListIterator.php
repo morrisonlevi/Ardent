@@ -2,13 +2,11 @@
 
 namespace Ardent\Iterator;
 
-use Ardent\Collection;
-use Ardent\CollectionIterator;
 use Ardent\LinkedList;
 
-class LinkedListIterator implements CountableSeekableIterator, Collection {
+class LinkedListIterator implements CountableSeekableIterator, \Ardent\Collection {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     /**
      * @var LinkedList

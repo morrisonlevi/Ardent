@@ -10,7 +10,7 @@ use Ardent\Iterator\StackIterator;
 
 class LinkedStack implements Stack {
 
-    use CollectionStructure;
+    use StructureCollection;
 
     /**
      * @var Pair

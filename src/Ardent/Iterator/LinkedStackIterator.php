@@ -2,12 +2,11 @@
 
 namespace Ardent\Iterator;
 
-use Ardent\CollectionIterator;
 use Ardent\Pair;
 
 class LinkedStackIterator implements StackIterator {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
 
     /**

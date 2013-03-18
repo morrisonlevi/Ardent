@@ -10,7 +10,7 @@ use Ardent\Iterator\QueueIterator;
 
 class LinkedQueue implements Queue {
 
-    use CollectionStructure;
+    use StructureCollection;
 
     /**
      * @var Pair

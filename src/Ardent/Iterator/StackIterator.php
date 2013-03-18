@@ -2,8 +2,6 @@
 
 namespace Ardent\Iterator;
 
-use Ardent\Collection;
-
-interface StackIterator extends CountableIterator, Collection {
+interface StackIterator extends CountableIterator, \Ardent\Collection {
 
 }

@@ -2,8 +2,6 @@
 
 namespace Ardent\Iterator;
 
-use Ardent\Collection;
-
-interface MapIterator extends CountableIterator, Collection {
+interface MapIterator extends CountableIterator, \Ardent\Collection {
 
 }

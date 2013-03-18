@@ -4,7 +4,7 @@ namespace Ardent;
 
 use Ardent\Iterator\IteratorToCollectionAdapter;
 
-trait CollectionStructure /* implements Collection */ {
+trait StructureCollection /* implements Collection */ {
 
     /**
      * @return \Iterator

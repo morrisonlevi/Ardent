@@ -3,11 +3,10 @@
 namespace Ardent\Iterator;
 
 use Ardent\BinaryTree;
-use Ardent\CollectionIterator;
 
 class LevelOrderIterator implements BinaryTreeIterator {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     /**
      * @var array

@@ -11,7 +11,7 @@ use ArrayAccess;
 
 class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
 
-    use CollectionStructure;
+    use StructureCollection;
 
     /**
      * @var LinkedNode

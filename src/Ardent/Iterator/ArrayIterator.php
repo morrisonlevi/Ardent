@@ -3,11 +3,10 @@
 namespace Ardent\Iterator;
 
 use Ardent\Collection;
-use Ardent\CollectionIterator;
 
 class ArrayIterator implements CountableSeekableIterator, Collection {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     /**
      * @var \ArrayIterator

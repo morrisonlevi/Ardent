@@ -2,11 +2,9 @@
 
 namespace Ardent\Iterator;
 
-use Ardent\CollectionIterator;
-
 class SortedSetIterator implements SetIterator {
 
-    use CollectionIterator;
+    use IteratorCollection;
 
     private $key = 0;
 
