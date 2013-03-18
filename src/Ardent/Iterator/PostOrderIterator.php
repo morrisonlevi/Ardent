@@ -121,14 +121,4 @@ class PostOrderIterator implements BinaryTreeIterator {
         }
     }
 
-    /**
-     * The runtime performance of count is O(n), not the usual constant time.
-     *
-     * @link http://php.net/manual/en/countable.count.php
-     * @return int
-     */
-    function count() {
-        return iterator_count($this);
-    }
-
 }

@@ -377,6 +377,19 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('\\Ardent\\Iterator\\InOrderIterator', $iterator);
     }
 
+    /**
+     * @depends testDefaultIterator
+     */
+    function testIteratorCount() {
+        $object = new AvlTree();
+        $object->add(0);
+        $object->add(4);
+        $object->add(2);
+        $object->add(3);
+        $iterator = $object->getIterator();
+        $this->assertCount(4, $iterator);
+    }
+
     function testEmptyTreeIterators() {
         $object = new AvlTree();
 
