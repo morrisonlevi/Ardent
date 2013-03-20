@@ -4,7 +4,7 @@ While developing and helping others develop PHP applications I noticed the trend
 
 ### How can I help?
 
-The best way to help is to use the library and [submit issues](https://github.com/morrisonlevi/PHP-Datastructures/issues) when you find them. As of right now, every line in the library has been executed in an unit test.  The quality of some of these tests is poor and there are still bugs lurking around.
+The best way to help is to use the library and [submit issues](https://github.com/morrisonlevi/Ardent/issues) when you find them. As of right now, every line in the library has been executed in a unit test.  The quality of some of these tests is poor and there are still bugs lurking around.
 
 ##### Can you add X structure?
 
@@ -12,7 +12,7 @@ Maybe. Open an issue and mark it as a feature request and I'll look into it.
 
 ### Roadmap
 
-There is no roadmap for this project. I work on it when I find something in my daily coding that could benefit this library. A few associates of mine also use this (unstable) repository and suggest changes. I intend to release version 1.0.0 when it has been successfully used in multiple projects and can commit to a stable api. Until then, minor versions will be tagged as they are deemed helpful. Once released, this project will follow [semantic versioning](http://semver.org).
+There is no roadmap for this project. I work on it when I find something in my daily coding that could benefit this library. A few associates of mine also use this (unstable) repository and suggest changes. I intend to release version 1.0.0 when it has been successfully used in multiple projects and can commit to a stable API. Until then, minor versions will be tagged as they are deemed helpful. Once released, this project will follow [semantic versioning](http://semver.org).
 
 #### Why not use the existing Standard PHP Library?
 
