@@ -46,8 +46,7 @@ class Trie implements \Countable {
         $currentLevel['data'] = $value;
     }
 
-
-    function search($key) {
+    function offsetExists($key) {
         if ($key === NULL) {
             return FALSE;
         }
@@ -63,6 +62,18 @@ class Trie implements \Countable {
             $currentLevel =& $currentLevel['children'][$segment];
         }
         return array_key_exists('data', $currentLevel);
+    }
+
+    function offsetGet($key) {
+        $currentLevel =& $this->root;
+
+        $data = $this->split($key);
+
+        foreach ($data as $segment) {
+            $currentLevel =& $currentLevel['children'][$segment];
+        }
+
+        return $currentLevel['data'];
     }
 
     function count() {
