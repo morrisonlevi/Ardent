@@ -11,7 +11,7 @@ use Ardent\Exception\KeyException;
  * This class is highly experimental. DO NOT USE! This comment will be removed
  * when it is no longer considered harmful.
  */
-class Trie implements \Countable {
+class Trie implements \Countable, \ArrayAccess {
 
     private $root = [];
     private $size = 0;
@@ -76,6 +76,34 @@ class Trie implements \Countable {
         return $currentLevel['data'];
     }
 
+    function offsetUnset($key) {
+        $currentLevel =& $this->root;
+        $data = $this->split($key);
+        foreach ($data as $segment) {
+            if (!isset($currentLevel['children'][$segment])) {
+                break;
+            }
+            $currentLevel =& $currentLevel['children'][$segment];
+        }
+        unset($currentLevel['data']);
+    }
+
+    function offsetMatch($key, callable $keyToSegment, callable $onSuccess, callable $onFailure) {
+        $currentLevel =& $this->root;
+        $data = $this->split($key);
+        foreach ($data as $segmentKey) {
+            $segment = $keyToSegment($segmentKey);
+            if (!isset($currentLevel['children'][$segment])) {
+                $onFailure();
+            }
+            $currentLevel =& $currentLevel['children'][$segment];
+        }
+        if (!array_key_exists('data', $currentLevel)) {
+            $onFailure();
+        }
+        $onSuccess($currentLevel['data']);
+    }
+
     function count() {
         return $this->size;
     }
@@ -87,5 +115,4 @@ class Trie implements \Countable {
     }
 
 }
-
 
