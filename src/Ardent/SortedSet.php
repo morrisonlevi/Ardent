@@ -2,9 +2,9 @@
 
 namespace Ardent;
 
-use Ardent\Exception\TypeException;
-use Ardent\Iterator\SortedSetIterator;
-use Traversable;
+use Ardent\Exception\EmptyException,
+    Ardent\Exception\TypeException,
+    Ardent\Iterator\SortedSetIterator;
 
 class SortedSet extends AbstractSet implements Set {
 
@@ -73,6 +73,22 @@ class SortedSet extends AbstractSet implements Set {
      */
     function remove($item) {
         $this->bst->remove($item);
+    }
+
+    /** 
+     * @return mixed
+     * @throws EmptyException when the tree is empty
+     */
+    function findFirst() {
+        return $this->bst->findFirst();
+    }   
+
+    /** 
+     * @return mixed
+     * @throws EmptyException when the tree is empty
+     */
+    function findLast() {
+        return $this->bst->findLast();
     }
 
     /**

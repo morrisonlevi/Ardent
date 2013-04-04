@@ -45,6 +45,22 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @expectedException \Ardent\Exception\EmptyException
+     */
+    function testFindFirstEmpty() {
+        $tree = new AvlTree();
+        $tree->findFirst();
+    }
+
+    /**
+     * @expectedException \Ardent\Exception\EmptyException
+     */
+    function testFindLastEmpty() {
+        $tree = new AvlTree();
+        $tree->findLast();
+    }
+
+    /**
      * @test
      */
     function caseLeftLeftBalances() {

@@ -104,6 +104,74 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @expectedException \Ardent\Exception\EmptyException
+     */
+    function testFindFirstEmpty() {
+        $set = new SortedSet();
+        $set->findFirst();
+    }
+
+    /**
+     * @depends testAdd
+     */
+    function testFindFirstRoot() {
+        $set = new SortedSet();
+        $set->add(1);
+
+        $expected = 1;
+        $actual = $set->findFirst();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @depends testAdd
+     */
+    function testFindFirst() {
+        $set = new SortedSet();
+        $set->add(2);
+        $set->add(1);
+        $set->add(3);
+
+        $expected = 1;
+        $actual = $set->findFirst();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @expectedException \Ardent\Exception\EmptyException
+     */
+    function testFindLastEmpty() {
+        $set = new SortedSet();
+        $set->findLast();
+    }
+
+    /**
+     * @depends testAdd
+     */
+    function testFindLastRoot() {
+        $set = new SortedSet();
+        $set->add(1);
+
+        $expected = 1;
+        $actual = $set->findLast();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @depends testAdd
+     */
+    function testFindLast() {
+        $set = new SortedSet();
+        $set->add(2);
+        $set->add(1);
+        $set->add(3);
+
+        $expected = 3;
+        $actual = $set->findLast();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
      * @depends testAdd
      */
     function testIteratorEmpty() {

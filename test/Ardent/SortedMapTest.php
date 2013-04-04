@@ -2,8 +2,8 @@
 
 namespace Ardent;
 
-use Ardent\Iterator\InOrderIterator;
-use Ardent\Iterator\SortedMapIterator;
+use Ardent\Iterator\InOrderIterator,
+    Ardent\Iterator\SortedMapIterator;
 
 class SortedMapTest extends \PHPUnit_Framework_TestCase {
 
@@ -117,6 +117,22 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $map[0] = 1;
         $this->assertFalse($map->containsItem(0));
         $this->assertTrue($map->containsItem(1));
+    }
+
+    /**
+     * @expectedException \Ardent\Exception\EmptyException
+     */
+    function testFindFirstEmpty() {
+        $map = new SortedMap();
+        $map->findFirst();
+    }
+
+    /**
+     * @expectedException \Ardent\Exception\EmptyException
+     */
+    function testFindLastEmpty() {
+        $map = new SortedMap();
+        $map->findLast();
     }
 
     /**

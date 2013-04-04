@@ -2,13 +2,14 @@
 
 namespace Ardent;
 
-use Ardent\Exception\LookupException;
-use Ardent\Exception\TypeException;
-use Ardent\Iterator\BinaryTreeIterator;
-use Ardent\Iterator\InOrderIterator;
-use Ardent\Iterator\LevelOrderIterator;
-use Ardent\Iterator\PostOrderIterator;
-use Ardent\Iterator\PreOrderIterator;
+use Ardent\Exception\EmptyException,
+    Ardent\Exception\LookupException,
+    Ardent\Exception\TypeException,
+    Ardent\Iterator\BinaryTreeIterator,
+    Ardent\Iterator\InOrderIterator,
+    Ardent\Iterator\LevelOrderIterator,
+    Ardent\Iterator\PostOrderIterator,
+    Ardent\Iterator\PreOrderIterator;
 
 class BinarySearchTree implements \IteratorAggregate, Collection {
 
@@ -213,6 +214,36 @@ class BinarySearchTree implements \IteratorAggregate, Collection {
         }
 
         return FALSE;
+    }
+
+    /**
+     * @return mixed
+     * @throws EmptyException when the tree is empty
+     */
+    function findFirst() {
+        if ($this->root === NULL) {
+            throw new EmptyException();
+        }
+        $node = $this->root;
+        while (($left = $node->getLeft()) !== NULL) {
+            $node = $left;
+        }
+        return $node->getValue();
+    }
+
+    /**
+     * @return mixed
+     * @throws EmptyException when the tree is empty
+     */
+    function findLast() {
+        if ($this->root === NULL) {
+            throw new EmptyException();
+        }
+        $node = $this->root;
+        while (($right = $node->getRight()) !== NULL) {
+            $node = $right;
+        }
+        return $node->getValue();
     }
 
     /**
