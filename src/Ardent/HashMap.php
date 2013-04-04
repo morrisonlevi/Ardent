@@ -2,9 +2,9 @@
 
 namespace Ardent;
 
-use Ardent\Exception\KeyException;
-use Ardent\Exception\TypeException;
-use Ardent\Iterator\HashMapIterator;
+use Ardent\Exception\KeyException,
+    Ardent\Exception\TypeException,
+    Ardent\Iterator\HashMapIterator;
 
 class HashMap implements Map {
 
