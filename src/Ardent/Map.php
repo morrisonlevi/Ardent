@@ -18,6 +18,9 @@ interface Map extends ArrayAccess, \IteratorAggregate, Collection {
     function get($key);
 
     /**
+     * Note that if the key is considered equal to an already existing key in
+     * the map that it's value will be replaced with the new one.
+     *
      * @param $key
      * @param mixed $value
      *
