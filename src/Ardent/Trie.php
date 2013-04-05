@@ -22,10 +22,10 @@ class Trie implements \Countable, \ArrayAccess {
     private $split;
 
     /**
-     * @param callable $split function($key) returns an array of segments
+     * @param callable $split function(string $key) returns an array of segments
      */
-    function __construct(callable $split = NULL) {
-        $this->split = $split ?: 'str_split';
+    function __construct(callable $split) {
+        $this->split = $split;
     }
 
     function offsetSet($key, $value) {
