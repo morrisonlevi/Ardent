@@ -15,10 +15,17 @@ class Trie implements \Countable, \ArrayAccess {
 
     private $root = [];
     private $size = 0;
-    private $separator = '';
 
-    function __construct($separator = '') {
-        $this->separator = $separator;
+    /**
+     * @var callable
+     */
+    private $split;
+
+    /**
+     * @param callable $split function($key) returns an array of segments
+     */
+    function __construct(callable $split = NULL) {
+        $this->split = $split ?: 'str_split';
     }
 
     function offsetSet($key, $value) {
@@ -28,7 +35,7 @@ class Trie implements \Countable, \ArrayAccess {
 
         $currentLevel =& $this->root;
 
-        $data = $this->split($key);
+        $data = call_user_func($this->split, $key);
 
         foreach ($data as $segment) {
             if (!isset($currentLevel['children'][$segment])) {
@@ -53,7 +60,7 @@ class Trie implements \Countable, \ArrayAccess {
 
         $currentLevel =& $this->root;
 
-        $data = $this->split($key);
+        $data = call_user_func($this->split, $key);
 
         foreach ($data as $segment) {
             if (!isset($currentLevel['children'][$segment])) {
@@ -67,7 +74,7 @@ class Trie implements \Countable, \ArrayAccess {
     function offsetGet($key) {
         $currentLevel =& $this->root;
 
-        $data = $this->split($key);
+        $data = call_user_func($this->split, $key);
 
         foreach ($data as $segment) {
             $currentLevel =& $currentLevel['children'][$segment];
@@ -78,7 +85,7 @@ class Trie implements \Countable, \ArrayAccess {
 
     function offsetUnset($key) {
         $currentLevel =& $this->root;
-        $data = $this->split($key);
+        $data = call_user_func($this->split, $key);
         foreach ($data as $segment) {
             if (!isset($currentLevel['children'][$segment])) {
                 break;
@@ -90,8 +97,9 @@ class Trie implements \Countable, \ArrayAccess {
 
     function offsetMatch($key, callable $keyToSegment, callable $onSuccess, callable $onFailure) {
         $currentLevel =& $this->root;
-        $data = $this->split($key);
+        $data = call_user_func($this->split, $key);
         foreach ($data as $segmentKey) {
+            /** @var mixed $segment */
             $segment = $keyToSegment($segmentKey);
             if (!isset($currentLevel['children'][$segment])) {
                 $onFailure();
@@ -106,12 +114,6 @@ class Trie implements \Countable, \ArrayAccess {
 
     function count() {
         return $this->size;
-    }
-
-    private function split($key) {
-        return $this->separator === ''
-            ? str_split($key)
-            : explode($this->separator, $key);
     }
 
 }
