@@ -1,6 +1,6 @@
-# Redefining PHP's Standard Library: A Focus on Object-Oriented Code
+# Redefining PHP's Standard Library: A Focus on Object-Oriented Programming
 
-While developing and helping others develop PHP applications I noticed the trend to use PHP's arrays in nearly every task. Arrays in PHP are useful but they aren't well suited to object-oriented code since they are not objects. I made this library to try to make writing object-oriented code easier for everyone.
+While developing and helping others develop PHP applications I noticed the trend to use PHP's arrays in nearly every task. Arrays in PHP are useful but they aren't well suited to object-oriented programming since they are not objects. I made this library to try to make writing object-oriented code easier for everyone.
 
 ## Requirements
 
