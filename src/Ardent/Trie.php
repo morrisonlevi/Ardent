@@ -28,6 +28,11 @@ class Trie implements \Countable, \ArrayAccess {
         $this->split = $split;
     }
 
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @throws Exception\KeyException
+     */
     function offsetSet($key, $value) {
         if ($key === NULL) {
             throw new KeyException('NULL is not allowed as a Trie key');
@@ -53,6 +58,10 @@ class Trie implements \Countable, \ArrayAccess {
         $currentLevel['data'] = $value;
     }
 
+    /**
+     * @param string $key
+     * @return bool
+     */
     function offsetExists($key) {
         if ($key === NULL) {
             return FALSE;
@@ -71,6 +80,10 @@ class Trie implements \Countable, \ArrayAccess {
         return array_key_exists('data', $currentLevel);
     }
 
+    /**
+     * @param string $key
+     * @return mixed
+     */
     function offsetGet($key) {
         $currentLevel =& $this->root;
 
@@ -83,6 +96,9 @@ class Trie implements \Countable, \ArrayAccess {
         return $currentLevel['data'];
     }
 
+    /**
+     * @param string $key
+     */
     function offsetUnset($key) {
         $currentLevel =& $this->root;
         $data = call_user_func($this->split, $key);
@@ -95,6 +111,12 @@ class Trie implements \Countable, \ArrayAccess {
         unset($currentLevel['data']);
     }
 
+    /**
+     * @param string $key
+     * @param callable $keyToSegment function(string $key) returns string to use for matching purposes.
+     * @param callable $onSuccess function($value) returns void
+     * @param callable $onFailure function() returns void
+     */
     function offsetMatch($key, callable $keyToSegment, callable $onSuccess, callable $onFailure) {
         $currentLevel =& $this->root;
         $data = call_user_func($this->split, $key);
