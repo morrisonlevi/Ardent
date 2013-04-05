@@ -46,12 +46,12 @@ class LimitingIterator extends IteratorToCollectionAdapter {
         return $this->used < $this->n && $this->inner->valid();
     }
 
+    /**
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int
+     */
     function count() {
-        $i = 0;
-        for ($this->rewind(); $this->valid(); $this->next()) {
-            $i++;
-        }
-        return $i;
+        return iterator_count($this);
     }
 
 }
