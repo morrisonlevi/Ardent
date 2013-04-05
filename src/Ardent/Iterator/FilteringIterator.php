@@ -81,11 +81,7 @@ class FilteringIterator extends IteratorToCollectionAdapter {
      * @return int
      */
     function count() {
-        $i = 0;
-        for ($this->rewind(); $this->valid(); $this->next()) {
-            $i++;
-        }
-        return $i;
+        return iterator_count($this);
     }
 
 }
