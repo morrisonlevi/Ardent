@@ -33,12 +33,8 @@ class AvlTree extends BinarySearchTree {
         if ($node === NULL) {
             return NULL;
         }
-        $node->recalculateHeight();
 
-        $leftHeight = $this->getHeight($node->getLeft());
-        $rightHeight = $this->getHeight($node->getRight());
-
-        $diff = $leftHeight - $rightHeight;
+        $diff = $node->getLeftHeight() - $node->getRightHeight();
 
         if ($diff < -1) {
             // right side is taller
@@ -58,8 +54,8 @@ class AvlTree extends BinarySearchTree {
      */
     protected function rotateRight(BinaryTree $root) {
         $leftNode = $root->getLeft();
-        $leftHeight = $this->getHeight($leftNode->getLeft());
-        $rightHeight = $this->getHeight($leftNode->getRight());
+        $leftHeight = $leftNode->getLeftHeight();
+        $rightHeight = $leftNode->getRightHeight();
 
         $diff = $leftHeight - $rightHeight;
 
@@ -85,18 +81,14 @@ class AvlTree extends BinarySearchTree {
      */
     protected function rotateLeft(BinaryTree $root) {
         $rightNode = $root->getRight();
-        $leftHeight = $this->getHeight($rightNode->getLeft());
-        $rightHeight = $this->getHeight($rightNode->getRight());
 
-        $diff = $leftHeight - $rightHeight;
+        $diff = $rightNode->getLeftHeight() - $rightNode->getRightHeight();
 
         if ($diff >= 0) {
             // Right-Left case
-
             $pivot = $rightNode->getLeft();
             $rightNode->setLeft($pivot->getRight());
             $pivot->setRight($rightNode);
-
             $root->setRight($pivot);
         }
 
@@ -106,19 +98,6 @@ class AvlTree extends BinarySearchTree {
         $pivot->setLeft($root);
 
         return $pivot;
-    }
-
-    /**
-     * @param BinaryTree $node
-     *
-     * @return int
-     */
-    private function getHeight(BinaryTree $node = NULL) {
-        if ($node === NULL) {
-            return 0;
-        }
-
-        return $node->getHeight();
     }
 
 }

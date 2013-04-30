@@ -22,7 +22,7 @@ class BinaryTree {
     /**
      * @var int
      */
-    protected $height = 0;
+    protected $height = 1;
 
     /**
      * @param mixed $value
@@ -67,19 +67,21 @@ class BinaryTree {
      * @return int
      */
     function getHeight() {
-        return $this->height + 1;
+        return $this->height;
     }
 
     /**
-     * @param BinaryTree $node
      * @return int
      */
-    protected function getNodeHeight(BinaryTree $node = NULL) {
-        if ($node === NULL) {
-            return 0;
-        }
+    function getLeftHeight() {
+        return $this->left === NULL ? 0 : $this->left->getHeight();
+    }
 
-        return $node->getHeight();
+    /**
+     * @return int
+     */
+    function getRightHeight() {
+        return $this->right === NULL ? 0 : $this->right->getHeight();
     }
 
     /**
@@ -98,33 +100,19 @@ class BinaryTree {
     }
 
     function recalculateHeight() {
-        $this->height = max($this->getNodeHeight($this->left), $this->getNodeHeight($this->right));
+        $this->height = max($this->getLeftHeight(), $this->getRightHeight()) + 1;
     }
 
     /**
-     * @return bool
-     */
-    function isLeaf() {
-        return $this->left === NULL && $this->right === NULL;
-    }
-
-    /**
-     * @return bool
-     */
-    function hasOnlyOneChild() {
-        return ($this->left === NULL && $this->right !== NULL)
-            || ($this->left !== NULL && $this->right === NULL);
-    }
-
-    /**
+     * Note that this function is only safe to call when it has a predecessor.
      * @return BinaryTree
      */
     function getInOrderPredecessor() {
-
-        for ($current = $this->getLeft(); $current->getRight() !== NULL; $current = $current->getRight()) ;
-
+        $current = $this->getLeft();
+        while ($current->getRight() !== NULL) {
+            $current = $current->getRight();
+        }
         return $current;
-
     }
 
     function __clone() {

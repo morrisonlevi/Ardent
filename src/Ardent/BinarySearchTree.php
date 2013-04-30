@@ -129,27 +129,31 @@ class BinarySearchTree implements \IteratorAggregate, Collection {
      * @return BinaryTree
      */
     protected function deleteNode(BinaryTree $node) {
-        if ($node->isLeaf()) {
+        $left = $node->getLeft();
+        $right = $node->getRight();
+        if ($left === NULL) {
             $this->size--;
-            return NULL;
+            if ($right === NULL) {
+                // left and right empty
+                return NULL;
+            } else {
+                // left empty, right is not
+                unset($node);
+                return $right;
+            }
+        } else {
+            if ($right === NULL) {
+                // right empty, left is not
+                unset($node);
+                return $left;
+            } else {
+                // neither is empty
+                $value = $node->getInOrderPredecessor()->getValue();
+                $node->setLeft($this->removeRecursive($value, $node->getLeft()));
+                $node->setValue($value);
+                return $node;
+            }
         }
-
-        if ($node->hasOnlyOneChild()) {
-            $this->size--;
-
-            $newNode = $node->getRight() ?: $node->getLeft();
-
-            unset($node);
-            return $newNode;
-        }
-
-        $value = $node->getInOrderPredecessor()->getValue();
-
-        $node->setLeft($this->removeRecursive($value, $node->getLeft()));
-
-        $node->setValue($value);
-
-        return $node;
     }
 
     /**
