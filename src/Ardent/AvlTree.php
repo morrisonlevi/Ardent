@@ -4,6 +4,7 @@ namespace Ardent;
 
 use Ardent\Exception\EmptyException,
     Ardent\Exception\LookupException,
+    Ardent\Exception\StateException,
     Ardent\Exception\TypeException,
     Ardent\Iterator\BinaryTreeIterator,
     Ardent\Iterator\InOrderIterator,
@@ -381,6 +382,18 @@ class AvlTree implements BinarySearchTree {
         $pivot->setLeft($root);
 
         return $pivot;
+    }
+
+    /**
+     * @param callable $f
+     * @return mixed
+     * @throws StateException when the tree is not empty
+     */
+    function setCompare(callable $f) {
+        if ($this->root !== NULL) {
+            throw new StateException('Cannot set compare function when the BinarySearchTree is not empty');
+        }
+        $this->comparator = $f;
     }
 
 }

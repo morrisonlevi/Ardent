@@ -5,13 +5,14 @@ namespace Ardent;
 use Ardent\Exception\EmptyException,
     Ardent\Exception\TypeException,
     Ardent\Iterator\SortedSetIterator;
+use Ardent\Exception\StateException;
 
 class SortedSet extends AbstractSet implements Set {
 
     use StructureCollection;
 
     /**
-     * @var AvlTree
+     * @var BinarySearchTree
      */
     private $bst;
 
@@ -22,9 +23,23 @@ class SortedSet extends AbstractSet implements Set {
 
     /**
      * @param callable $comparator
+     * @param BinarySearchTree $tree
+     * @throws \Ardent\Exception\StateException
      */
-    function __construct(callable $comparator = NULL) {
-        $this->bst = new AvlTree($this->comparator = $comparator);
+    function __construct(callable $comparator = NULL, BinarySearchTree $tree = NULL) {
+        if ($tree !== NULL) {
+            if (!$tree->isEmpty()) {
+                throw new StateException(
+                    'The BinarySearchTree provided to SortedSet was not empty'
+                );
+            }
+            $this->bst = $tree;
+            if ($comparator !== NULL) {
+                $tree->setCompare($comparator);
+            }
+        } else {
+            $this->bst = new SplayTree($comparator);
+        }
     }
 
     /**

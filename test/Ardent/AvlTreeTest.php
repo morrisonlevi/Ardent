@@ -52,12 +52,67 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->findFirst();
     }
 
+    function testFindFirst() {
+        $tree = new AvlTree();
+        $tree->add(1);
+        $tree->add(0);
+        $tree->add(2);
+        $tree->add(-1);
+
+        $expected = -1;
+        $actual = $tree->findFirst();
+        $this->assertEquals($expected, $actual);
+    }
+
     /**
      * @expectedException \Ardent\Exception\EmptyException
      */
     function testFindLastEmpty() {
         $tree = new AvlTree();
         $tree->findLast();
+    }
+
+    function testFindLast() {
+        $tree = new AvlTree();
+        $tree->add(1);
+        $tree->add(0);
+        $tree->add(2);
+
+        $expected = 2;
+        $actual = $tree->findLast();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @expectedException \Ardent\Exception\StateException
+     */
+    function testSetCompareException() {
+        $tree = new AvlTree();
+        $tree->add(1);
+        $tree->setCompare('max');
+    }
+
+    function testSetCompare() {
+        $tree = new AvlTree();
+        $tree->setCompare(function($a, $b) {
+            if ($a < $b) {
+                return 1;
+            } elseif ($b < $a) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+        $tree->add(1);
+        $tree->add(2);
+        $tree->add(0);
+
+        $binary = $tree->toBinaryTree();
+        $this->assertInstanceOf('Ardent\\BinaryTree', $binary);
+        $this->assertNotNull($binary->getLeft());
+        $this->assertEquals(2, $binary->getLeft()->getValue());
+        $this->assertNotNull($binary->getRight());
+        $this->assertEquals(0, $binary->getRight()->getValue());
     }
 
     /**

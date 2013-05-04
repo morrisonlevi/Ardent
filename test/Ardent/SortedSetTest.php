@@ -215,4 +215,40 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($iterator->current());
     }
 
+    /**
+     * @depends testAdd
+     */
+    function test__construct() {
+        $set = new SortedSet(NULL, new AvlTree());
+        // assert?
+
+        $set = new SortedSet(function($a, $b){
+            if ($a < $b) {
+                return 1;
+            } elseif ($b < $a) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }, new AvlTree());
+
+        $set->add(1);
+        $set->add(0);
+        $set->add(2);
+
+        $expected = [2, 1, 0];
+        $actual = $set->toArray();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @expectedException \Ardent\Exception\StateException
+     */
+    function test__constructException() {
+        $tree = new SplayTree();
+        $tree->add(1);
+
+        $set = new SortedSet(NULL, $tree);
+    }
+
 }

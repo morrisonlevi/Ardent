@@ -2,9 +2,9 @@
 
 namespace Ardent;
 
-
 use Ardent\Exception\EmptyException,
     Ardent\Exception\LookupException,
+    Ardent\Exception\StateException,
     Ardent\Exception\TypeException,
     Ardent\Iterator\BinaryTreeIterator;
 
@@ -14,6 +14,13 @@ interface BinarySearchTree extends \IteratorAggregate, Collection {
     const TRAVERSE_LEVEL_ORDER = 2;
     const TRAVERSE_PRE_ORDER = 3;
     const TRAVERSE_POST_ORDER = 4;
+
+    /**
+     * @param callable $f
+     * @return mixed
+     * @throws StateException when the tree is not empty
+     */
+    function setCompare(callable $f);
 
     /**
      * @param $a
