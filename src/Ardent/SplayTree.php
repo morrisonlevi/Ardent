@@ -60,17 +60,14 @@ class SplayTree implements BinarySearchTree {
             return NULL;
         }
         $n = $this->root;
-        loop: {
+        while ($n !== NULL) {
+
             $comparisonResult = call_user_func($this->comparator, $element, $n->value);
-
-            if ($comparisonResult < 0 && $n->left !== NULL) {
-                    $n = $n->left;
-                    goto loop;
-
-            } elseif ($comparisonResult > 0 && $n->right !== NULL) {
-                    $n = $n->right;
-                    goto loop;
-            } elseif ($comparisonResult == 0) {
+            if ($comparisonResult < 0) {
+                $n = $n->left;
+            } elseif ($comparisonResult > 0) {
+                $n = $n->right;
+            } else {
                 $this->splay($n);
                 return $n;
             }
@@ -352,6 +349,5 @@ class SplayTree implements BinarySearchTree {
         }
         $this->comparator = $f;
     }
-
 
 }
