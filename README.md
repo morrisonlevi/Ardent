@@ -1,6 +1,6 @@
 # Redefining PHP's Standard Library: A Focus on Object-Oriented Programming
 
-While developing and helping others develop PHP applications I noticed the trend to use PHP's arrays in nearly every task. Arrays in PHP are useful but they aren't well suited to object-oriented programming since they are not objects. I made this library to try to make writing object-oriented code easier for everyone.
+While developing and helping others develop PHP applications I noticed the trend to use PHP's arrays in nearly every task. Arrays in PHP are useful but they aren't well suited to object-oriented programming since they are not objects. I made this library to make writing object-oriented code easier.
 
 ## Requirements
 
@@ -29,4 +29,4 @@ Maybe. Open an issue and mark it as a feature request and I'll look into it.
 
 ## Why not use the existing Standard PHP Library?
 
-The current Standard PHP Library (SPL) has many problems, some of which are documented in an [RFC regarding the SPL](https://wiki.php.net/rfc/spl-improvements).  I won't go into them here, but I felt I needed to give at least some reasoning for not using it.
+The current Standard PHP Library (SPL) has many problems, some of which are documented in an [unfinished RFC regarding the SPL](https://wiki.php.net/rfc/spl-improvements).  I won't go into them here, but I felt I needed to give at least some reasoning for not using it.
