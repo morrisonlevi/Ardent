@@ -21,7 +21,7 @@ There is no roadmap for this project. I work on it when I find something in my d
 
 The best way to help is to use the library and [submit issues](https://github.com/morrisonlevi/Ardent/issues) when you find them. As of right now, every line in the library has been executed in a unit test\*.  The quality of some of these tests is poor and there are still bugs lurking around.
 
-\*  *Except the Trie class which is undergoing the designing phase. Please do not use the Trie structure.*
+\*  *Except the Trie and SplayTree classes which are experimental structures.*
 
 ##### Can you add X structure?
 
