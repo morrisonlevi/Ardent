@@ -29,7 +29,6 @@ class Vector implements ArrayAccess, \IteratorAggregate, Collection {
         foreach ($traversable as $item) {
             $this->array[] = $item;
         }
-        $this->cache = NULL;
     }
 
     /**
@@ -37,7 +36,6 @@ class Vector implements ArrayAccess, \IteratorAggregate, Collection {
      */
     function clear() {
         $this->array = [];
-        $this->cache = NULL;
     }
 
     /**
@@ -116,8 +114,6 @@ class Vector implements ArrayAccess, \IteratorAggregate, Collection {
      */
     function append($item) {
         $this->array[] = $item;
-
-        $this->cache = NULL;
     }
 
     /**
@@ -157,8 +153,6 @@ class Vector implements ArrayAccess, \IteratorAggregate, Collection {
         }
 
         $this->array[$index] = $item;
-
-        $this->cache = NULL;
     }
 
     /**
@@ -177,8 +171,6 @@ class Vector implements ArrayAccess, \IteratorAggregate, Collection {
         }
 
         array_splice($this->array, $index, 1);
-
-        $this->cache = NULL;
     }
 
     /**
@@ -193,8 +185,6 @@ class Vector implements ArrayAccess, \IteratorAggregate, Collection {
             return;
         }
         array_splice($this->array, $index, 1);
-
-        $this->cache = NULL;
     }
 
     /**
@@ -204,27 +194,17 @@ class Vector implements ArrayAccess, \IteratorAggregate, Collection {
      * @return void
      */
     function apply(callable $callable) {
-
         foreach ($this->array as $i => $value) {
             $this->array[$i] = call_user_func($callable, $value, $i);
         }
-
-        $this->cache = NULL;
     }
-
-    /**
-     * @var Vector
-     */
-    private $cache = NULL;
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return VectorIterator
      */
     function getIterator() {
-        $this->cache = $this->cache ?: clone $this;
-
-        return new VectorIterator($this->cache);
+        return new VectorIterator(clone $this);
     }
 
 }

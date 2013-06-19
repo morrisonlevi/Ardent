@@ -523,6 +523,15 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @depends testAppend
+     */
+    function testEqual() {
+        $a = new Vector(0, 1, 2);
+        $b = new Vector(0, 1, 2);
+        $this->assertEquals($a, $b);
+    }
+
+    /**
      * @depends testIterator
      */
     function testIteratorSeek() {
