@@ -163,15 +163,13 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $actual);
     }
 
-    function testFoo() {
+    function testRemove() {
         $tree = new SplayTree();
-
-        for ($i = 0; $i < 100; $i++) {
-            $tree->add($i);
-        }
-
-        $tree->containsItem(50);
-        $tree->get(50);
+        $tree->add(1);
+        $tree->add(0);
+        $tree->remove(0);
+        $this->assertCount(1, $tree);
+        $this->assertTrue($tree->containsItem(1));
     }
 
 }
