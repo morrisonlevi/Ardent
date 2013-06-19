@@ -532,35 +532,6 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException \Ardent\Exception\EmptyException
      */
-    function testHeadEmpty() {
-        $list = new LinkedList();
-        $list->head();
-    }
-
-    /**
-     * @depends testShift
-     */
-    function testHead() {
-        $list = new LinkedList();
-        $expected = [];
-        for ($i = 0; $i < 3; $i++) {
-            if ($i < 2) {
-                $expected[] = $i;
-            }
-            $list->push($i);
-        }
-
-        $head = $list->head();
-        $this->assertCount(2, $head);
-        for ($i = 0; $i < 2; $i++) {
-            $actual = $head->shift();
-            $this->assertEquals($expected[$i], $actual);
-        }
-    }
-
-    /**
-     * @expectedException \Ardent\Exception\EmptyException
-     */
     function testTailEmpty() {
         $list = new LinkedList();
         $list->tail();

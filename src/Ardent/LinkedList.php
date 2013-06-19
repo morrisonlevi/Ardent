@@ -525,20 +525,4 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
         return $that;
     }
 
-    /**
-     * Return all elements except the last one of a list, which must be non-empty.
-     * @return LinkedList
-     * @throws Exception\EmptyException
-     */
-    function head() {
-        if ($this->tail === NULL) {
-            throw new EmptyException;
-        }
-        $that = new LinkedList();
-        for ($n = $this->tail->prev; $n !== NULL; $n = $n->prev) {
-            $that->unshift($n->value);
-        }
-        return $that;
-    }
-
 }
