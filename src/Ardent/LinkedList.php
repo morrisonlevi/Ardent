@@ -518,8 +518,11 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
         if ($this->head === NULL) {
             throw new EmptyException;
         }
-        return $this->copyRange(1, $this->size);
-
+        $that = new LinkedList();
+        for ($n = $this->head->next; $n !== NULL; $n = $n->next) {
+            $that->push($n->value);
+        }
+        return $that;
     }
 
     /**
