@@ -308,7 +308,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $list->seek(array());
     }
 
-    function testshift() {
+    function testShift() {
         $list = new LinkedList();
         $list->push(0);
 
@@ -364,11 +364,11 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $list->pop();;
     }
 
-    function testPeekFront() {
+    function testFirst() {
         $list = new LinkedList();
         $list->push(0);
 
-        $popped = $list->peekFront();
+        $popped = $list->first();
 
         $this->assertEquals(0, $popped);
         $this->assertCount(1, $list);
@@ -377,7 +377,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $list->push(1);
         $list->push(2);
 
-        $popped = $list->peekFront();
+        $popped = $list->first();
 
         $this->assertEquals(0, $popped);
         $this->assertCount(3, $list);
@@ -387,16 +387,16 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException \Ardent\Exception\EmptyException
      */
-    function testPeekFrontEmpty() {
+    function testFirstEmpty() {
         $list = new LinkedList();
-        $list->peekFront();
+        $list->first();
     }
 
-    function testPeekBack() {
+    function testLast() {
         $list = new LinkedList();
         $list->push(0);
 
-        $popped = $list->peekBack();
+        $popped = $list->last();
 
         $this->assertEquals(0, $popped);
         $this->assertCount(1, $list);
@@ -405,7 +405,7 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $list->push(1);
         $list->push(2);
 
-        $popped = $list->peekBack();
+        $popped = $list->last();
 
         $this->assertEquals(2, $popped);
         $this->assertCount(3, $list);
@@ -415,29 +415,29 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException \Ardent\Exception\EmptyException
      */
-    function testPeekBackEmpty() {
+    function testLastEmpty() {
         $list = new LinkedList();
-        $list->peekBack();
+        $list->last();
     }
 
     /**
-     * @depends testPeekBack
-     * @depends testPeekFront
+     * @depends testLast
+     * @depends testFirst
      */
-    function testunshift() {
+    function testUnshift() {
         $list = new LinkedList();
 
         $list->unshift(0);
 
-        $this->assertEquals(0, $list->peekFront());
+        $this->assertEquals(0, $list->first());
         $this->assertCount(1, $list);
         $this->assertFalse($list->isEmpty());
 
         $list->unshift(1);
         $list->unshift(2);
 
-        $this->assertEquals(2, $list->peekFront(0));
-        $this->assertEquals(0, $list->peekBack(0));
+        $this->assertEquals(2, $list->first(0));
+        $this->assertEquals(0, $list->last(0));
         $this->assertCount(3, $list);
         $this->assertFalse($list->isEmpty());
     }
@@ -527,6 +527,64 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $list = new LinkedList();
         $list->push(0);
         $list->insertBefore(1, 0);
+    }
+
+    /**
+     * @expectedException \Ardent\Exception\EmptyException
+     */
+    function testHeadEmpty() {
+        $list = new LinkedList();
+        $list->head();
+    }
+
+    /**
+     * @depends testShift
+     */
+    function testHead() {
+        $list = new LinkedList();
+        $expected = [];
+        for ($i = 0; $i < 3; $i++) {
+            if ($i < 2) {
+                $expected[] = $i;
+            }
+            $list->push($i);
+        }
+
+        $head = $list->head();
+        $this->assertCount(2, $head);
+        for ($i = 0; $i < 2; $i++) {
+            $actual = $head->shift();
+            $this->assertEquals($expected[$i], $actual);
+        }
+    }
+
+    /**
+     * @expectedException \Ardent\Exception\EmptyException
+     */
+    function testTailEmpty() {
+        $list = new LinkedList();
+        $list->tail();
+    }
+
+    /**
+     * @depends testShift
+     */
+    function testTail() {
+        $list = new LinkedList();
+        $expected = [];
+        for ($i = 0; $i < 3; $i++) {
+            if ($i > 0) {
+                $expected[] = $i;
+            }
+            $list->push($i);
+        }
+
+        $head = $list->tail();
+        $this->assertCount(2, $head);
+        for ($i = 0; $i < 2; $i++) {
+            $actual = $head->shift();
+            $this->assertEquals($expected[$i], $actual);
+        }
     }
 
     /**

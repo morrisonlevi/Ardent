@@ -222,7 +222,7 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
      * @return mixed
      * @throws EmptyException if the LinkedList is empty.
      */
-    function peekFront() {
+    function first() {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
@@ -276,7 +276,7 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
      * @throws EmptyException if the LinkedList is empty.
      * @return mixed
      */
-    function peekBack(){
+    function last(){
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
@@ -507,6 +507,35 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
      */
     private function __equals($a, $b) {
         return $a == $b;
+    }
+
+    /**
+     * Extract the elements after the first of a list, which must be non-empty.
+     * @return LinkedList
+     * @throws Exception\EmptyException
+     */
+    function tail() {
+        if ($this->head === NULL) {
+            throw new EmptyException;
+        }
+        return $this->copyRange(1, $this->size);
+
+    }
+
+    /**
+     * Return all elements except the last one of a list, which must be non-empty.
+     * @return LinkedList
+     * @throws Exception\EmptyException
+     */
+    function head() {
+        if ($this->tail === NULL) {
+            throw new EmptyException;
+        }
+        $that = new LinkedList();
+        for ($n = $this->tail->prev; $n !== NULL; $n = $n->prev) {
+            $that->unshift($n->value);
+        }
+        return $that;
     }
 
 }
