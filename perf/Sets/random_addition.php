@@ -4,7 +4,6 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 $avl = new \Ardent\AvlTree();
 $splay = new \Ardent\SplayTree();
-$numeric = new \Ardent\SortedNumericSet();
 $array = [];
 
 $start = microtime(TRUE);
@@ -29,14 +28,6 @@ for ($i = 0; $i < $max; $i++) {
 }
 $stop = microtime(TRUE);
 printf("SplaySet:\t%d random additions took %fs.\n", $max, $stop - $start);
-
-$start = microtime(TRUE);
-for ($i = 0; $i < $max; $i++) {
-    $numeric->add($a[$i]);
-}
-$numeric->count(); // force sorting
-$stop = microtime(TRUE);
-printf("NumericSet:\t%d random additions took %fs.\n", $max, $stop - $start);
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {

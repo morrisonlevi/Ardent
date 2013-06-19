@@ -1,2 +1,4 @@
 .idea/
 vendor/
+!vendor/autoload.php
+test/coverage/

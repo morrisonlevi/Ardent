@@ -4,7 +4,6 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 $avl = new \Ardent\AvlTree();
 $splay = new \Ardent\SplayTree();
-$numeric = new \Ardent\SortedNumericSet();
 $array = [];
 
 $start = microtime(TRUE);
@@ -17,7 +16,6 @@ for ($i = 0; $i < $max; $i++) {
     $a[] = $array[] = $rand = mt_rand();
     $avl->add($rand);
     $splay->add($rand);
-    $numeric->add($rand);
 }
 $array = array_unique($array, SORT_NUMERIC);
 sort($array, SORT_NUMERIC);
@@ -41,13 +39,6 @@ for ($i = 0; $i < $contains; $i++) {
 }
 $stop = microtime(TRUE);
 printf("SplaySet:\t%d random contains on size %d took %fs.\n", $contains, $max, $stop - $start);
-
-$start = microtime(TRUE);
-for ($i = 0; $i < $contains; $i++) {
-    $numeric->containsItem($b[$i]);
-}
-$stop = microtime(TRUE);
-printf("NumericSet:\t%d random contains on size %d took %fs.\n", $contains, $max, $stop - $start);
 
 
 $start = microtime(TRUE);

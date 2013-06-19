@@ -52,16 +52,11 @@ class SplayTree implements BinarySearchTree {
 
     /**
      * @param $element
-     * @param SplayNode $node
+     * @param SplayNode $n
      * @return SplayNode|null
      */
-    protected function find($element, $node) {
-        if ($node === NULL) {
-            return NULL;
-        }
-        $n = $this->root;
+    protected function find($element, $n) {
         while ($n !== NULL) {
-
             $comparisonResult = call_user_func($this->comparator, $element, $n->value);
             if ($comparisonResult < 0) {
                 $n = $n->left;
@@ -118,27 +113,30 @@ class SplayTree implements BinarySearchTree {
 
     protected function splay(SplayNode $n) {
         while ($n->parent !== NULL) {
-            if (!$n->parent->parent) {
-                if ($n->parent->left == $n) {
-                    $this->rotateRight($n->parent);
+            $parent = $n->parent;
+            $grandparent = $parent->parent;
+            if (!$grandparent) {
+                if ($parent->left == $n) {
+                    $this->rotateRight($parent);
                 } else {
-                    $this->rotateLeft($n->parent);
+                    $this->rotateLeft($parent);
                 }
-            } elseif ($n->parent->left == $n && $n->parent->parent->left == $n->parent) {
-                $this->rotateRight($n->parent->parent);
-                $this->rotateRight($n->parent);
-                
-            } elseif ($n->parent->right == $n && $n->parent->parent->right == $n->parent) {
-                $this->rotateLeft($n->parent->parent);
-                $this->rotateLeft($n->parent);
-                
-            } elseif ($n->parent->left == $n && $n->parent->parent->right == $n->parent) {
-                $this->rotateRight($n->parent);
-                $this->rotateLeft($n->parent);
-                
+            } elseif ($parent->left == $n) {
+                if ($grandparent->left == $parent) {
+                    $this->rotateRight($grandparent);
+                    $this->rotateRight($n->parent); // $n->parent !== $parent
+                } elseif ($grandparent->right == $parent) {
+                    $this->rotateRight($parent);
+                    $this->rotateLeft($n->parent); // $n->parent !== $parent
+                }
+
+            } elseif ($parent->right == $n && $grandparent->right == $parent) {
+                $this->rotateLeft($grandparent);
+                $this->rotateLeft($n->parent); // $n->parent !== $parent
+
             } else {
-                $this->rotateLeft($n->parent);
-                $this->rotateRight($n->parent);
+                $this->rotateLeft($parent);
+                $this->rotateRight($n->parent); // $n->parent !== $parent
             }
         }
     }

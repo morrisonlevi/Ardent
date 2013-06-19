@@ -106,8 +106,20 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $object = new SplayTree();
         $this->assertFalse($object->containsItem(1));
 
+        $object->add(0);
+        $this->assertFalse($object->containsItem(1));
+
+        $object->add(2);
+        $this->assertFalse($object->containsItem(1));
+
         $object->add(1);
         $this->assertTrue($object->containsItem(1));
+
+        $expected = new BinaryTree(1);
+        $expected->setLeft(new BinaryTree(0));
+        $expected->setRight(new BinaryTree(2));
+        $actual = $object->toBinaryTree();
+        $this->assertEquals($expected, $actual);
     }
 
     function testFindLast() {
@@ -149,6 +161,17 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $expected = 1;
         $actual = $tree->get(1);
         $this->assertEquals($expected, $actual);
+    }
+
+    function testFoo() {
+        $tree = new SplayTree();
+
+        for ($i = 0; $i < 100; $i++) {
+            $tree->add($i);
+        }
+
+        $tree->containsItem(50);
+        $tree->get(50);
     }
 
 }

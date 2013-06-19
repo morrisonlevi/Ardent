@@ -4,7 +4,6 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 $avl = new \Ardent\AvlTree();
 $splay = new \Ardent\SplayTree();
-$numeric = new \Ardent\SortedNumericSet();
 $array = [];
 
 $start = microtime(TRUE);
@@ -16,7 +15,6 @@ for ($i = 0; $i < $max; $i++) {
     $a[] = $rand = mt_rand();
     $avl->add($rand);
     $splay->add($rand);
-    $numeric->add($rand);
     $array[] = $rand;
 }
 $array = array_unique($array, SORT_NUMERIC);
@@ -27,21 +25,14 @@ for ($i = 0; $i < $max; $i++) {
     $avl->remove($a[$i]);
 }
 $stop = microtime(TRUE);
-printf("AvlSet:   \t%d random removals took %fs.\n", $max, $stop - $start);
+printf("AvlSet:   \t%d ordered removals took %fs.\n", $max, $stop - $start);
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
     $splay->remove($a[$i]);
 }
 $stop = microtime(TRUE);
-printf("SplaySet:\t%d random removals took %fs.\n", $max, $stop - $start);
-
-$start = microtime(TRUE);
-for ($i = 0; $i < $max; $i++) {
-    $numeric->remove($a[$i]);
-}
-$stop = microtime(TRUE);
-printf("NumericSet:\t%d random removals took %fs.\n", $max, $stop - $start);
+printf("SplaySet:\t%d ordered removals took %fs.\n", $max, $stop - $start);
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
@@ -49,4 +40,4 @@ for ($i = 0; $i < $max; $i++) {
     unset($array[$index]);
 }
 $stop = microtime(TRUE);
-printf("Array:   \t%d random removals took %fs.\n", $max, $stop - $start);
+printf("Array:   \t%d ordered removals took %fs.\n", $max, $stop - $start);
