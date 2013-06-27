@@ -123,4 +123,17 @@ class LinkedQueue implements Queue {
         return FALSE;
     }
 
+    /**
+     * @param mixed $compare
+     * @return bool
+     */
+    function containsItem($item) {
+        for ($n = $this->head; $n !== NULL; $n = $n->second) {
+            if ($item == $n->first) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+
 }
