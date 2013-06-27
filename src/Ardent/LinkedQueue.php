@@ -110,4 +110,17 @@ class LinkedQueue implements Queue {
         return $this->size;
     }
 
+    /**
+     * @param callable $compare
+     * @return bool
+     */
+    function contains(callable $compare) {
+        for ($n = $this->head; $n !== NULL; $n = $n->second) {
+            if ($compare($n->first)) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+
 }

@@ -140,4 +140,27 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * @depends testPopOne
+     */
+    function testContains() {
+        $equalsZero = function($item) {
+            return $item === 0;
+        };
+        $queue = new LinkedQueue();
+        $this->assertFalse($queue->contains($equalsZero));
+
+        $queue->push(1);
+        $this->assertFalse($queue->contains($equalsZero));
+
+        $queue->push(0);
+        $this->assertTrue($queue->contains($equalsZero));
+
+        $queue->pop();
+        $this->assertTrue($queue->contains($equalsZero));
+
+        $queue->pop();
+        $this->assertFalse($queue->contains($equalsZero));
+    }
+
 }
