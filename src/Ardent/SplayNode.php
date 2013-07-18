@@ -9,11 +9,6 @@ class SplayNode {
     /**
      * @var SplayNode
      */
-    public $parent;
-
-    /**
-     * @var SplayNode
-     */
     public $left;
 
     /**
@@ -21,9 +16,8 @@ class SplayNode {
      */
     public $right;
 
-    function __construct($value, SplayNode $parent = NULL) {
+    function __construct($value) {
         $this->value = $value;
-        $this->parent = $parent;
     }
 
 }

@@ -152,6 +152,15 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->get(1);
     }
 
+    /**
+     * @expectedException \Ardent\Exception\LookupException
+     */
+    function testGetExceptionB() {
+        $tree = new SplayTree();
+        $tree->add(0);
+        $tree->get(1);
+    }
+
     function testGet() {
         $tree = new SplayTree();
         $tree->add(0);
@@ -170,6 +179,80 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->remove(0);
         $this->assertCount(1, $tree);
         $this->assertTrue($tree->containsItem(1));
+    }
+
+    function testRemoveNonExistent() {
+        $tree = new SplayTree();
+        $tree->remove(0);
+
+        $tree->add(1);
+        $tree->remove(0);
+
+        $this->assertCount(1, $tree);
+        $this->assertFalse($tree->isEmpty());
+
+    }
+
+    function testGetIterator() {
+        $tree = new SplayTree();
+        $iterator = $tree->getIterator();
+        $this->assertInstanceOf('\Ardent\Iterator\InOrderIterator', $iterator);
+    }
+
+    function testGetIterator_InOrderIterator() {
+        $tree = new SplayTree();
+        $iterator = $tree->getIterator($tree::TRAVERSE_IN_ORDER);
+        $this->assertInstanceOf('\Ardent\Iterator\InOrderIterator', $iterator);
+    }
+
+    function testGetIterator_LevelOrderIterator() {
+        $tree = new SplayTree();
+        $iterator = $tree->getIterator($tree::TRAVERSE_LEVEL_ORDER);
+        $this->assertInstanceOf('\Ardent\Iterator\LevelOrderIterator', $iterator);
+    }
+
+    function testGetIterator_PostOrderIterator() {
+        $tree = new SplayTree();
+        $iterator = $tree->getIterator($tree::TRAVERSE_POST_ORDER);
+        $this->assertInstanceOf('\Ardent\Iterator\PostOrderIterator', $iterator);
+    }
+
+    function testGetIterator_PreOrderIterator() {
+        $tree = new SplayTree();
+        $iterator = $tree->getIterator($tree::TRAVERSE_PRE_ORDER);
+        $this->assertInstanceOf('\Ardent\Iterator\PreOrderIterator', $iterator);
+    }
+
+    function testSetCompare() {
+        $tree = new SplayTree();
+        $tree->setCompare(function($a, $b) {
+            if ($a < $b) {
+                return 1;
+            } elseif ($b < $a) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+
+        for ($i = 0; $i < 3; $i++) {
+            $tree->add($i);
+        }
+        $bt = $tree->toBinaryTree();
+        $this->assertEquals(2, $bt->getValue());
+        $this->assertEquals(1, $bt->getRight()->getValue());
+        $this->assertEquals(0, $bt->getRight()->getRight()->getValue());
+    }
+
+    /**
+     * @expectedException \Ardent\Exception\StateException
+     */
+    function testSetCompareNotEmpty() {
+        $tree = new SplayTree();
+        $tree->add(0);
+        $tree->setCompare(function($a, $b) {
+
+        });
     }
 
 }

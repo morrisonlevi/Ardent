@@ -8,26 +8,29 @@ $array = [];
 
 $start = microtime(TRUE);
 $stop = microtime(TRUE);
-$max = 1000;
+$max = 10000;
 
 $a = [];
 for ($i = 0; $i < $max; $i++) {
     $a[] = mt_rand();
 }
 
+
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
     $avl->add($a[$i]);
 }
 $stop = microtime(TRUE);
-printf("AvlSet:  \t%d random additions took %fs.\n", $max, $stop - $start);
+printf("AvlTree:  \t%d random additions took %fs.\n", $max, $stop - $start);
+
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
     $splay->add($a[$i]);
 }
 $stop = microtime(TRUE);
-printf("SplaySet:\t%d random additions took %fs.\n", $max, $stop - $start);
+printf("SplayTree:\t%d random additions took %fs.\n", $max, $stop - $start);
+
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {

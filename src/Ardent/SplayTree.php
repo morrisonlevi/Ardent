@@ -12,23 +12,34 @@ use Ardent\Exception\EmptyException,
     Ardent\Iterator\PreOrderIterator;
 
 class SplayTree implements BinarySearchTree {
-
     use StructureCollection;
 
     /**
      * @var SplayNode
      */
     private $root;
-
-    private $size = 0;
-
     /**
      * @var callable
      */
     private $comparator;
+    private $header;
+    private $size = 0;
 
     function __construct(callable $comparator = NULL) {
-        $this->comparator = $comparator ?: [$this, 'compare'];
+        $this->comparator = $comparator ? : [$this, 'compare'];
+        $this->header = new SplayNode(null);
+    }
+
+    /**
+     * @param callable $f
+     * @return mixed
+     * @throws StateException when the tree is not empty
+     */
+    function setCompare(callable $f) {
+        if ($this->root !== NULL) {
+            throw new Exception\StateException;
+        }
+        $this->comparator = $f;
     }
 
     /**
@@ -46,262 +57,204 @@ class SplayTree implements BinarySearchTree {
         }
     }
 
-    function containsItem($element) {
-        return $this->find($element, $this->root) !== NULL;
+    function toBinaryTree() {
+        return $this->copyNode($this->root);
     }
 
-    /**
-     * @param $element
-     * @param SplayNode $n
-     * @return SplayNode|null
-     */
-    protected function find($element, $n) {
-        while ($n !== NULL) {
-            $comparisonResult = call_user_func($this->comparator, $element, $n->value);
-            if ($comparisonResult < 0) {
-                $n = $n->left;
-            } elseif ($comparisonResult > 0) {
-                $n = $n->right;
-            } else {
-                $this->splay($n);
-                return $n;
-            }
+    private function copyNode(SplayNode $n = NULL) {
+        if ($n === NULL) {
+            return NULL;
         }
-        return NULL;
+        $new = new BinaryTree($n->value);
+        $new->setLeft($this->copyNode($n->left));
+        $new->setRight($this->copyNode($n->right));
+        return $new;
     }
 
     /**
-     * @param mixed $element
-     *
-     * Goto is the best solution here as any loop structure in PHP will add at least one more comparison and probably
-     * a another jump as well. Additionally, it's still pretty readable, so I have no qualms about it *at all*.
+     * Insert into the tree.
+     * @param mixed $value the item to insert.
+     * @return void
      */
-    function add($element) {
-
-        if ($this->root === NULL) {
-            $this->root = new SplayNode($element);
+    function add($value) {
+        $n = null;
+        if ($this->root == null) {
+            $this->root = new SplayNode($value);
             $this->size++;
             return;
         }
-        $n = $this->root;
-        loop: {
-            $comparisonResult = call_user_func($this->comparator, $element, $n->value);
+        $this->splay($value);
+        if (($c = call_user_func($this->comparator, $value, $this->root->value)) === 0) {
+            $this->root->value = $value;
+            return;
+        }
+        $n = new SplayNode($value);
+        $this->size++;
+        if ($c < 0) {
+            $n->left = $this->root->left;
+            $n->right = $this->root;
+            $this->root->left = null;
+        }
+        else {
+            $n->right = $this->root->right;
+            $n->left = $this->root;
+            $this->root->right = null;
+        }
+        $this->root = $n;
+    }
 
-            if ($comparisonResult < 0) {
-                if ($n->left !== NULL) {
-                    $n = $n->left;
-                    goto loop;
-                } else {
-                    $n = $n->left = new SplayNode($element, $n);
-                    $this->size++;
-                }
+    private function splay($value) {
+        $l = null;
+        $r = null;
+        $t = null;
+        $y = null;
 
-            } elseif ($comparisonResult > 0) {
-                if ($n->right !== NULL) {
-                    $n = $n->right;
-                    goto loop;
-                } else {
-                    $n = $n->right = new SplayNode($element, $n);
-                    $this->size++;
+        $l = $r = $this->header;
+        $t = $this->root;
+        $this->header->left = $this->header->right = null;
+        for (; ;) {
+            if (call_user_func($this->comparator, $value, $t->value) < 0) {
+                if ($t->left == null) {
+                    break;
                 }
-            } else {
-                $n->value = $element;
+                if (call_user_func($this->comparator, $value, $t->left->value) < 0) {
+                    $y = $t->left; /* rotate right */
+                    $t->left = $y->right;
+                    $y->right = $t;
+                    $t = $y;
+                    if ($t->left == null) {
+                        break;
+                    }
+                }
+                $r->left = $t; /* link right */
+                $r = $t;
+                $t = $t->left;
+            }
+            else if (call_user_func($this->comparator, $value, $t->value) > 0) {
+                if ($t->right == null) {
+                    break;
+                }
+                if (call_user_func($this->comparator, $value, $t->right->value) > 0) {
+                    $y = $t->right; /* rotate left */
+                    $t->right = $y->left;
+                    $y->left = $t;
+                    $t = $y;
+                    if ($t->right == null) {
+                        break;
+                    }
+                }
+                $l->right = $t; /* link left */
+                $l = $t;
+                $t = $t->right;
+            }
+            else {
+                break;
             }
         }
-        $this->splay($n);
-    }
-
-    protected function splay(SplayNode $n) {
-        while ($n->parent !== NULL) {
-            $parent = $n->parent;
-            $grandparent = $parent->parent;
-            if (!$grandparent) {
-                if ($parent->left == $n) {
-                    $this->rotateRight($parent);
-                } else {
-                    $this->rotateLeft($parent);
-                }
-            } elseif ($parent->left == $n) {
-                if ($grandparent->left == $parent) {
-                    $this->rotateRight($grandparent);
-                    $this->rotateRight($n->parent); // $n->parent !== $parent
-                } elseif ($grandparent->right == $parent) {
-                    $this->rotateRight($parent);
-                    $this->rotateLeft($n->parent); // $n->parent !== $parent
-                }
-
-            } elseif ($parent->right == $n && $grandparent->right == $parent) {
-                $this->rotateLeft($grandparent);
-                $this->rotateLeft($n->parent); // $n->parent !== $parent
-
-            } else {
-                $this->rotateLeft($parent);
-                $this->rotateRight($n->parent); // $n->parent !== $parent
-            }
-        }
-    }
-
-    protected function rotateRight(SplayNode $x) {
-        $y = $x->left;
-        $x->left = $y->right;
-        if ($y->right) {
-            $y->right->parent = $x;
-        }
-        $y->parent = $x->parent;
-        if (!$x->parent) {
-            $this->root = $y;
-        } elseif ($x == $x->parent->left) {
-            $x->parent->left = $y;
-        } else {
-            $x->parent->right = $y;
-        }
-        $y->right = $x;
-        $x->parent = $y;
-    }
-
-    protected function rotateLeft(SplayNode $x) {
-        $y = $x->right;
-        $x->right = $y->left;
-        if ($y->left) {
-            $y->left->parent = $x;
-        }
-        $y->parent = $x->parent;
-        if (!$x->parent) {
-            $this->root = $y;
-        } elseif ($x == $x->parent->left) {
-            $x->parent->left = $y;
-        } else {
-            $x->parent->right = $y;
-        }
-        $y->left = $x;
-        $x->parent = $y;
+        $l->right = $t->left; /* assemble */
+        $r->left = $t->right;
+        $t->left = $this->header->right;
+        $t->right = $this->header->left;
+        $this->root = $t;
     }
 
     /**
-     * @return BinaryTree
+     * Remove from the tree.
+     * @param mixed $value the item to remove.
      */
-    function toBinaryTree() {
-        if ($this->root !== NULL) {
-            return $this->convertSplayNodeToBinaryTree($this->root);
+    function remove($value) {
+        if ($this->root === NULL) {
+            return;
         }
-        return NULL;
+        $this->splay($value);
+        if (call_user_func($this->comparator, $value, $this->root->value) !== 0) {
+            return;
+        }
+        // Now delete the $this->root
+        $this->size--;
+        if ($this->root->left == null) {
+            $this->root = $this->root->right;
+        }
+        else {
+            $x = $this->root->right;
+            $this->root = $this->root->left;
+            $this->splay($value);
+            $this->root->right = $x;
+        }
     }
 
     /**
-     * @param SplayNode $splay
-     * @return BinaryTree
+     * Find the smallest item in the tree.
      */
-    private function convertSplayNodeToBinaryTree(SplayNode $splay) {
-        $tree = new BinaryTree($splay->value);
-        if ($splay->left) {
-            $tree->setLeft($this->convertSplayNodeToBinaryTree($splay->left));
+    function findFirst() {
+        $x = $this->root;
+        if ($this->root == null) {
+            throw new EmptyException;
         }
-        if ($splay->right) {
-            $tree->setRight($this->convertSplayNodeToBinaryTree($splay->right));
+        while ($x->left != null) {
+            $x = $x->left;
         }
-        return $tree;
+        $this->splay($x->value);
+        return $x->value;
     }
 
     /**
-     * @link http://php.net/manual/en/countable.count.php
-     * @return int
+     * Find the largest item in the tree.
      */
+    function findLast() {
+        $x = $this->root;
+        if ($this->root == null) {
+            throw new EmptyException;
+        }
+        while ($x->right != null) {
+            $x = $x->right;
+        }
+        $this->splay($x->value);
+        return $x->value;
+    }
+
+    /**
+     * Find an item in the tree.
+     */
+    function get($value) {
+        if ($this->root == null) {
+            throw new LookupException;
+        }
+        $this->splay($value);
+        if (call_user_func($this->comparator, $this->root->value, $value) !== 0) {
+            throw new LookupException;
+        }
+        return $this->root->value;
+    }
+
+    /**
+     * @param $item
+     * @return bool
+     */
+    function containsItem($item) {
+        if ($this->root == null) {
+            return FALSE;
+        }
+        $this->splay($item);
+        return call_user_func($this->comparator, $this->root->value, $item) === 0;
+    }
+
+    /**
+     * Test if the tree is logically empty.
+     * @return bool true if empty, false otherwise.
+     */
+    function isEmpty() {
+        return $this->root == null;
+    }
+
     function count() {
         return $this->size;
     }
 
-    /**
-     * @return mixed
-     * @throws EmptyException when the tree is empty
-     */
-    function findFirst() {
-        if ($this->root === NULL) {
-            throw new EmptyException();
-        }
-        $n = $this->root;
-        while ($n->left !== NULL) {
-            $n = $n->left;
-        }
-        $this->splay($n);
-        return $n->value;
-    }
-
-    /**
-     * @return mixed
-     * @throws EmptyException when the tree is empty
-     */
-    function findLast() {
-        if ($this->root === NULL) {
-            throw new EmptyException();
-        }
-        $n = $this->findMax($this->root);
-        return $n->value;
-    }
-
-    private function findMax(SplayNode $n) {
-        while ($n->right !== NULL) {
-            $n = $n->right;
-        }
-        $this->splay($n);
-        return $n;
-    }
-
-    /**
-     * @param mixed $element
-     */
-    function remove($element) {
-        $n = $this->find($element, $this->root);
-        if ($n === NULL) {
-            return;
-        }
-
-        $left = $n->left;
-        $right = $n->right;
-        if ($left === NULL) {
-            $this->root = $right;
-            if ($right !== NULL) {
-                $right->parent = NULL;
-            }
-
-        } else {
-            $left->parent = NULL;
-            $this->root = $this->findMax($left);
-            $this->root->right = $right;
-            if ($right !== NULL) {
-                $right->parent = $this->root;
-            }
-        }
-        $this->size--;
-
-    }
-
-    /**
-     * @param $element
-     *
-     * @return mixed
-     * @throws LookupException
-     */
-    function get($element) {
-        $n = $this->find($element, $this->root);
-        if ($n === NULL) {
-            throw new LookupException;
-        }
-        return $n->value;
-    }
-
-    /**
-     * @return void
-     */
     function clear() {
         $this->root = NULL;
+        $this->header = new SplayNode(null);
         $this->size = 0;
-    }
-
-    /**
-     * @return bool
-     */
-    function isEmpty() {
-        return $this->root === NULL;
     }
 
     /**
@@ -310,10 +263,7 @@ class SplayTree implements BinarySearchTree {
      * @return BinaryTreeIterator
      */
     function getIterator($order = self::TRAVERSE_IN_ORDER) {
-        $iterator = NULL;
-
-        $root = $this->toBinaryTree();
-
+        $root = $this->copyNode($this->root);
         switch ($order) {
             case self::TRAVERSE_LEVEL_ORDER:
                 $iterator = new LevelOrderIterator($root);
@@ -333,19 +283,6 @@ class SplayTree implements BinarySearchTree {
         }
 
         return $iterator;
-
-    }
-
-    /**
-     * @param callable $f
-     * @return mixed
-     * @throws StateException when the tree is not empty
-     */
-    function setCompare(callable $f) {
-        if ($this->root !== NULL) {
-            throw new StateException('Cannot set compare function when the BinarySearchTree is not empty');
-        }
-        $this->comparator = $f;
     }
 
 }

@@ -21,7 +21,7 @@ class SortedMap implements Map {
     function __construct($comparator = NULL) {
         $this->comparator = $comparator ?: [$this, 'compareStandard'];
 
-        $this->avl = new AvlTree([$this, 'compareKeys']);
+        $this->avl = new SplayTree([$this, 'compareKeys']);
     }
 
     function compareKeys(Pair $a, Pair $b) {

@@ -20,19 +20,22 @@ for ($i = 0; $i < $max; $i++) {
 $array = array_unique($array, SORT_NUMERIC);
 sort($array, SORT_NUMERIC);
 
+
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
     $avl->remove($a[$i]);
 }
 $stop = microtime(TRUE);
-printf("AvlSet:   \t%d ordered removals took %fs.\n", $max, $stop - $start);
+printf("AvlTree:   \t%d ordered removals took %fs.\n", $max, $stop - $start);
+
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
     $splay->remove($a[$i]);
 }
 $stop = microtime(TRUE);
-printf("SplaySet:\t%d ordered removals took %fs.\n", $max, $stop - $start);
+printf("SplayTree:\t%d ordered removals took %fs.\n", $max, $stop - $start);
+
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {

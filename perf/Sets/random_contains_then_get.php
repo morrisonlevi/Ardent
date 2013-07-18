@@ -8,14 +8,19 @@ $array = [];
 
 $start = microtime(TRUE);
 $stop = microtime(TRUE);
-$max = 1000;
+$max = 10000;
 
 $a = [];
 for ($i = 0; $i < $max; $i++) {
-    $a[] = $array[] = $rand = mt_rand();
-    $avl->add($rand);
-    $splay->add($rand);
+    $array[] = $i;
+    $avl->add($i);
+    $splay->add($i);
 }
+
+for ($i = 0; $i < $max; $i++) {
+    $a[] = array_rand($array);
+}
+
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
@@ -25,7 +30,8 @@ for ($i = 0; $i < $max; $i++) {
     }
 }
 $stop = microtime(TRUE);
-printf("AvlSet:  \t%d contains then gets took %fs.\n", $max, $stop - $start);
+printf("AvlTree:  \t%d contains then gets took %fs.\n", $max, $stop - $start);
+
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
@@ -35,7 +41,8 @@ for ($i = 0; $i < $max; $i++) {
     }
 }
 $stop = microtime(TRUE);
-printf("SplaySet:\t%d contains then gets took %fs.\n", $max, $stop - $start);
+printf("SplayTree:\t%d contains then gets took %fs.\n", $max, $stop - $start);
+
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {

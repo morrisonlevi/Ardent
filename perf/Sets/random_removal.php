@@ -26,14 +26,16 @@ for ($i = 0; $i < $max; $i++) {
     $avl->remove($a[$i]);
 }
 $stop = microtime(TRUE);
-printf("AvlSet:   \t%d random removals took %fs.\n", $max, $stop - $start);
+printf("AvlTree:   \t%d random removals took %fs.\n", $max, $stop - $start);
+
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
     $splay->remove($a[$i]);
 }
 $stop = microtime(TRUE);
-printf("SplaySet:\t%d random removals took %fs.\n", $max, $stop - $start);
+printf("SplayTree:\t%d random removals took %fs.\n", $max, $stop - $start);
+
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
