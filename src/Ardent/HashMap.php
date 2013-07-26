@@ -115,7 +115,7 @@ class HashMap implements Map {
      * @return bool
      * @throws TypeException when $item is not the correct type.
      */
-    function containsItem($item, callable $comparator = NULL) {
+    function contains($item, callable $comparator = NULL) {
         $compare = $comparator ?: [$this, 'areEqual'];
 
         $storage = $this->storage;

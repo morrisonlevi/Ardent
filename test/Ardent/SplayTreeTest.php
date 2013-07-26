@@ -104,16 +104,16 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
 
     function testContains() {
         $object = new SplayTree();
-        $this->assertFalse($object->containsItem(1));
+        $this->assertFalse($object->contains(1));
 
         $object->add(0);
-        $this->assertFalse($object->containsItem(1));
+        $this->assertFalse($object->contains(1));
 
         $object->add(2);
-        $this->assertFalse($object->containsItem(1));
+        $this->assertFalse($object->contains(1));
 
         $object->add(1);
-        $this->assertTrue($object->containsItem(1));
+        $this->assertTrue($object->contains(1));
 
         $expected = new BinaryTree(1);
         $expected->setLeft(new BinaryTree(0));
@@ -178,7 +178,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(0);
         $tree->remove(0);
         $this->assertCount(1, $tree);
-        $this->assertTrue($tree->containsItem(1));
+        $this->assertTrue($tree->contains(1));
     }
 
     function testRemoveNonExistent() {

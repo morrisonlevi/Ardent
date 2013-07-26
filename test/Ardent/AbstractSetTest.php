@@ -48,7 +48,7 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertNotSame($diff, $b);
 
         for ($i = 0; $i < 4; $i++) {
-            $this->assertTrue($a->containsItem($i));
+            $this->assertTrue($a->contains($i));
         }
     }
 
@@ -75,16 +75,16 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertNotSame($diff, $a);
         $this->assertNotSame($diff, $b);
 
-        $this->assertTrue($diff->containsItem(0));
-        $this->assertTrue($diff->containsItem(2));
+        $this->assertTrue($diff->contains(0));
+        $this->assertTrue($diff->contains(2));
 
         $diff = $b->difference($a);
         $this->assertCount(2, $diff);
         $this->assertNotSame($diff, $a);
         $this->assertNotSame($diff, $b);
 
-        $this->assertTrue($diff->containsItem(5));
-        $this->assertTrue($diff->containsItem(7));
+        $this->assertTrue($diff->contains(5));
+        $this->assertTrue($diff->contains(7));
     }
 
     function testSymmetricDifference() {
@@ -111,13 +111,13 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $difference = $a->symmetricDifference($b);
         foreach ($difference as $item) {
             $this->assertTrue(
-                $c->containsItem($item),
+                $c->contains($item),
                 "Symmetric difference failed: had '$item' but should not have"
             );
         }
         foreach ($c as $item) {
             $this->assertTrue(
-                $difference->containsItem($item),
+                $difference->contains($item),
                 "Symmetric difference failed: should have contained '$item'"
             );
         }
@@ -125,13 +125,13 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $difference = $b->symmetricDifference($a);
         foreach ($difference as $item) {
             $this->assertTrue(
-                $c->containsItem($item),
+                $c->contains($item),
                 "Symmetric difference failed: had '$item' but should not have"
             );
         }
         foreach ($c as $item) {
             $this->assertTrue(
-                $difference->containsItem($item),
+                $difference->contains($item),
                 "Symmetric difference failed: should have contained '$item'"
             );
         }
@@ -205,14 +205,14 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $intersection = $a->intersection($b);
         $this->assertInstanceOf('Ardent\\HashSet', $intersection);
         $this->assertCount(2, $intersection);
-        $this->assertTrue($intersection->containsItem(1));
-        $this->assertTrue($intersection->containsItem(3));
+        $this->assertTrue($intersection->contains(1));
+        $this->assertTrue($intersection->contains(3));
 
         $intersection = $b->intersection($a);
         $this->assertInstanceOf('Ardent\\HashSet', $intersection);
         $this->assertCount(2, $intersection);
-        $this->assertTrue($intersection->containsItem(1));
-        $this->assertTrue($intersection->containsItem(3));
+        $this->assertTrue($intersection->contains(1));
+        $this->assertTrue($intersection->contains(3));
 
     }
 
@@ -247,12 +247,12 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $complement = $a->relativeComplement($b);
         $this->assertInstanceOf('Ardent\\HashSet', $complement);
         $this->assertCount(1, $complement);
-        $this->assertTrue($complement->containsItem(1));
+        $this->assertTrue($complement->contains(1));
 
         $complement = $b->relativeComplement($a);
         $this->assertInstanceOf('Ardent\\HashSet', $complement);
         $this->assertCount(1, $complement);
-        $this->assertTrue($complement->containsItem(4));
+        $this->assertTrue($complement->contains(4));
     }
 
     /**
@@ -290,7 +290,7 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(4, $union);
 
         for ($i = 1; $i <= 4; $i++) {
-            $this->assertTrue($union->containsItem($i));
+            $this->assertTrue($union->contains($i));
         }
 
         $union = $b->union($a);
@@ -298,7 +298,7 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(4, $union);
 
         for ($i = 1; $i <= 4; $i++) {
-            $this->assertTrue($union->containsItem($i));
+            $this->assertTrue($union->contains($i));
         }
 
     }

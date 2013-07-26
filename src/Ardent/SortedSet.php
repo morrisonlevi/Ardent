@@ -49,8 +49,8 @@ class SortedSet extends AbstractSet implements Set {
         $this->bst->clear();
     }
 
-    function containsItem($item) {
-        return $this->bst->containsItem($item);
+    function contains($item) {
+        return $this->bst->contains($item);
     }
 
     /**

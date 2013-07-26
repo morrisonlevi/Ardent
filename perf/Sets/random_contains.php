@@ -29,7 +29,7 @@ for ($i = 0; $i < $contains; $i++) {
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $contains; $i++) {
-    $avl->containsItem($b[$i]);
+    $avl->contains($b[$i]);
 }
 $stop = microtime(TRUE);
 printf("AvlTree:   \t%d random contains on size %d took %fs.\n", $contains, $max, $stop - $start);
@@ -37,7 +37,7 @@ printf("AvlTree:   \t%d random contains on size %d took %fs.\n", $contains, $max
 
 $start = microtime(TRUE);
 for ($i = 0; $i < $contains; $i++) {
-    $splay->containsItem($b[$i]);
+    $splay->contains($b[$i]);
 }
 $stop = microtime(TRUE);
 printf("SplayTree:\t%d random contains on size %d took %fs.\n", $contains, $max, $stop - $start);

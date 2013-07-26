@@ -231,7 +231,7 @@ class SplayTree implements BinarySearchTree {
      * @param $item
      * @return bool
      */
-    function containsItem($item) {
+    function contains($item) {
         if ($this->root == null) {
             return FALSE;
         }

@@ -204,7 +204,7 @@ class AvlTree implements BinarySearchTree {
      * @return bool
      * @throws TypeException when $item is not the correct type.
      */
-    function containsItem($item) {
+    function contains($item) {
         $node = $this->root;
         while ($node !== NULL) {
             $comparisonResult = call_user_func($this->comparator, $item, $node->getValue());

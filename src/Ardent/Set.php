@@ -21,7 +21,7 @@ interface Set extends Collection, \IteratorAggregate {
      * @param mixed $item
      * @return bool
      */
-    function containsItem($item);
+    function contains($item);
 
     /**
      * @param $item

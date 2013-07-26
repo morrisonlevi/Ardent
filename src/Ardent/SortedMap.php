@@ -52,7 +52,7 @@ class SortedMap implements Map {
      * @return bool
      * @throws TypeException when $item is not the correct type.
      */
-    function containsItem($item, callable $callback = NULL) {
+    function contains($item, callable $callback = NULL) {
         if ($callback === NULL) {
             $callback = [$this, 'compareStandard'];
         }
@@ -99,7 +99,7 @@ class SortedMap implements Map {
      * @return bool
      */
     function offsetExists($offset) {
-        return $this->avl->containsItem(new Pair($offset, NULL));
+        return $this->avl->contains(new Pair($offset, NULL));
     }
 
     /**

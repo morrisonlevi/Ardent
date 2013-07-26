@@ -112,11 +112,11 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
     function testContains() {
         $map = new SortedMap();
 
-        $this->assertFalse($map->containsItem(0));
+        $this->assertFalse($map->contains(0));
 
         $map[0] = 1;
-        $this->assertFalse($map->containsItem(0));
-        $this->assertTrue($map->containsItem(1));
+        $this->assertFalse($map->contains(0));
+        $this->assertTrue($map->contains(1));
     }
 
     /**

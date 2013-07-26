@@ -25,7 +25,7 @@ for ($i = 0; $i < $max; $i++) {
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
     $element = $a[$i];
-    if ($avl->containsItem($element)) {
+    if ($avl->contains($element)) {
         $avl->get($element);
     }
 }
@@ -36,7 +36,7 @@ printf("AvlTree:  \t%d contains then gets took %fs.\n", $max, $stop - $start);
 $start = microtime(TRUE);
 for ($i = 0; $i < $max; $i++) {
     $element = $a[$i];
-    if ($splay->containsItem($element)) {
+    if ($splay->contains($element)) {
         $splay->get($element);
     }
 }

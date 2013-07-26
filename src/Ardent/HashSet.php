@@ -36,7 +36,7 @@ class HashSet extends AbstractSet implements Set {
      * @throws FunctionException when the hashing function returns an improper value.
      * @throws TypeException when $item is not the correct type.
      */
-    function containsItem($item) {
+    function contains($item) {
         $hash = call_user_func($this->hashFunction, $item);
 
         if (!is_scalar($hash)) {

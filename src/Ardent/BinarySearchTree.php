@@ -63,7 +63,7 @@ interface BinarySearchTree extends \IteratorAggregate, Collection {
      * @return bool
      * @throws TypeException when $item is not the correct type.
      */
-    function containsItem($item);
+    function contains($item);
 
     /**
      * @return mixed

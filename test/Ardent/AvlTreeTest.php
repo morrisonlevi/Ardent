@@ -380,26 +380,26 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
     function testContains() {
         $object = new AvlTree();
-        $this->assertFalse($object->containsItem(1));
+        $this->assertFalse($object->contains(1));
 
         $object->add(1);
-        $this->assertTrue($object->containsItem(1));
+        $this->assertTrue($object->contains(1));
     }
 
     function testContainsRightSubTree() {
         $object = new AvlTree();
         $object->add(2);
         $object->add(3);
-        $this->assertTrue($object->containsItem(3));
-        $this->assertFalse($object->containsItem(1));
+        $this->assertTrue($object->contains(3));
+        $this->assertFalse($object->contains(1));
     }
 
     function testContainsLeftSubTree() {
         $object = new AvlTree();
         $object->add(2);
         $object->add(1);
-        $this->assertTrue($object->containsItem(1));
-        $this->assertFalse($object->containsItem(3));
+        $this->assertTrue($object->contains(1));
+        $this->assertFalse($object->contains(3));
     }
 
     function testGet() {

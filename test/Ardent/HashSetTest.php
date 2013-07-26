@@ -59,37 +59,37 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      */
     function testContains() {
         $scalar = 0;
-        $this->assertFalse($this->object->containsItem($scalar));
+        $this->assertFalse($this->object->contains($scalar));
         $this->object->add($scalar);
-        $this->assertTrue($this->object->containsItem($scalar));
-        $this->assertTrue($this->object->containsItem('0'));
+        $this->assertTrue($this->object->contains($scalar));
+        $this->assertTrue($this->object->contains('0'));
 
         $object = new StdClass();
-        $this->assertFalse($this->object->containsItem($object));
+        $this->assertFalse($this->object->contains($object));
         $this->object->add($object);
-        $this->assertTrue($this->object->containsItem($object));
+        $this->assertTrue($this->object->contains($object));
 
         $resource = fopen(__FILE__, 'r');
-        $this->assertFalse($this->object->containsItem($resource));
+        $this->assertFalse($this->object->contains($resource));
         $this->object->add($resource);
-        $this->assertTrue($this->object->containsItem($resource));
+        $this->assertTrue($this->object->contains($resource));
         fclose($resource);
 
         $emptyArray = array();
-        $this->assertFalse($this->object->containsItem($emptyArray));
+        $this->assertFalse($this->object->contains($emptyArray));
         $this->object->add($emptyArray);
-        $this->assertTrue($this->object->containsItem($emptyArray));
+        $this->assertTrue($this->object->contains($emptyArray));
 
         $array = array(0, 1);
-        $this->assertFalse($this->object->containsItem($array));
+        $this->assertFalse($this->object->contains($array));
         $this->object->add($array);
-        $this->assertTrue($this->object->containsItem($array));
+        $this->assertTrue($this->object->contains($array));
 
         $null = NULL;
 
-        $this->assertFalse($this->object->containsItem($null));
+        $this->assertFalse($this->object->contains($null));
         $this->object->add($null);
-        $this->assertTrue($this->object->containsItem($null));
+        $this->assertTrue($this->object->contains($null));
 
     }
 
@@ -109,7 +109,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
     function testContainsException() {
         $obj = new HashSet(function($item) {return array($item);});
 
-        $obj->containsItem($obj);
+        $obj->contains($obj);
     }
 
     /**
@@ -187,7 +187,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
             $this->assertTrue($iterator->valid());
 
             $this->assertEquals($i, $iterator->key());
-            $this->assertFalse($usedValues->containsItem($iterator->current()));
+            $this->assertFalse($usedValues->contains($iterator->current()));
             $usedValues->add($iterator->current());
 
             $iterator->next();

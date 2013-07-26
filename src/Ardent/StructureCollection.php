@@ -47,8 +47,8 @@ trait StructureCollection /* implements Collection */ {
      * @param callable $compare
      * @return bool
      */
-    function contains(callable $compare) {
-        return (new IteratorToCollectionAdapter($this->getIterator()))->contains($compare);
+    function any(callable $compare) {
+        return (new IteratorToCollectionAdapter($this->getIterator()))->any($compare);
     }
 
     /**

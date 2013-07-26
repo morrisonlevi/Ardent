@@ -114,7 +114,7 @@ class LinkedQueue implements Queue {
      * @param callable $compare
      * @return bool
      */
-    function contains(callable $compare) {
+    function any(callable $compare) {
         for ($n = $this->head; $n !== NULL; $n = $n->second) {
             if ($compare($n->first)) {
                 return TRUE;
@@ -127,7 +127,7 @@ class LinkedQueue implements Queue {
      * @param mixed $compare
      * @return bool
      */
-    function containsItem($item) {
+    function contains($item) {
         for ($n = $this->head; $n !== NULL; $n = $n->second) {
             if ($item == $n->first) {
                 return TRUE;

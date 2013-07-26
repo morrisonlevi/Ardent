@@ -39,8 +39,8 @@ trait IteratorCollection /* implements \Ardent\Collection */ {
      * @param callable $compare
      * @return bool
      */
-    function contains(callable $compare) {
-        return (new IteratorToCollectionAdapter($this))->contains($compare);
+    function any(callable $compare) {
+        return (new IteratorToCollectionAdapter($this))->any($compare);
     }
 
     /**

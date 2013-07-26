@@ -29,17 +29,17 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers \Ardent\Vector::contains
+     * @covers \Ardent\Vector::any
      */
-    function testContains() {
-        $contains1 = function ($item) {
+    function testAny() {
+        $any1 = function ($item) {
            return $item == 1;
         };
-        $this->assertFalse($this->object->contains($contains1));
+        $this->assertFalse($this->object->any($any1));
 
         $this->object->append(1);
 
-        $this->assertTrue($this->object->contains($contains1));
+        $this->assertTrue($this->object->any($any1));
     }
 
     /**
@@ -267,37 +267,37 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($map, $vector->toArray(TRUE));
     }
 
-    function testContainsEmpty() {
+    function testAnyEmpty() {
         $vector = new Vector();
-        $this->assertFalse($vector->contains(function () {
+        $this->assertFalse($vector->any(function () {
             return TRUE;
         }));
     }
 
-    function testContainsFalse() {
+    function testAnyFalse() {
         $vector = new Vector(1, 2, 3, 4, 5);
-        $this->assertFalse($vector->contains(function ($val) {
+        $this->assertFalse($vector->any(function ($val) {
             return $val === 0;
         }));
     }
 
-    function testContainsFirst() {
+    function testAnyFirst() {
         $vector = new Vector(1, 2, 3, 4, 5);
-        $this->assertTrue($vector->contains(function ($val) {
+        $this->assertTrue($vector->any(function ($val) {
             return $val === 1;
         }));
     }
 
-    function testContainsMiddle() {
+    function testAnyMiddle() {
         $vector = new Vector(1, 2, 3, 4, 5);
-        $this->assertTrue($vector->contains(function ($val) {
+        $this->assertTrue($vector->any(function ($val) {
             return $val === 3;
         }));
     }
 
-    function testContainsLast() {
+    function testAnyLast() {
         $vector = new Vector(1, 2, 3, 4, 5);
-        $this->assertTrue($vector->contains(function ($val) {
+        $this->assertTrue($vector->any(function ($val) {
             return $val === 5;
         }));
     }

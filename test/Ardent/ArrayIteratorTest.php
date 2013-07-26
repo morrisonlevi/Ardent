@@ -67,37 +67,37 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($map, $iterator->toArray(TRUE));
     }
 
-    function testContainsEmpty() {
+    function testAnyEmpty() {
         $iterator = new ArrayIterator([]);
-        $this->assertFalse($iterator->contains(function () {
+        $this->assertFalse($iterator->any(function () {
             return TRUE;
         }));
     }
 
-    function testContainsFalse() {
+    function testAnyFalse() {
         $iterator = new ArrayIterator([1, 2, 3, 4, 5]);
-        $this->assertFalse($iterator->contains(function ($val) {
+        $this->assertFalse($iterator->any(function ($val) {
             return $val === 0;
         }));
     }
 
-    function testContainsFirst() {
+    function testAnyFirst() {
         $iterator = new ArrayIterator([1, 2, 3, 4, 5]);
-        $this->assertTrue($iterator->contains(function ($val) {
+        $this->assertTrue($iterator->any(function ($val) {
             return $val === 1;
         }));
     }
 
-    function testContainsMiddle() {
+    function testAnyMiddle() {
         $iterator = new ArrayIterator([1, 2, 3, 4, 5]);
-        $this->assertTrue($iterator->contains(function ($val) {
+        $this->assertTrue($iterator->any(function ($val) {
             return $val === 3;
         }));
     }
 
-    function testContainsLast() {
+    function testAnyLast() {
         $iterator = new ArrayIterator([1, 2, 3, 4, 5]);
-        $this->assertTrue($iterator->contains(function ($val) {
+        $this->assertTrue($iterator->any(function ($val) {
             return $val === 5;
         }));
     }

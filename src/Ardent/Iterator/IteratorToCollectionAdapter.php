@@ -103,7 +103,7 @@ class IteratorToCollectionAdapter implements CountableIterator, Collection {
      * @param callable $compare
      * @return bool
      */
-    function contains(callable $compare) {
+    function any(callable $compare) {
         foreach ($this as $value) {
             if ($compare($value)) {
                 return TRUE;

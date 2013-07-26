@@ -71,7 +71,7 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
         $inner = new ArrayIterator($array);
         $iterator = new IteratorToCollectionAdapter($inner);
 
-        $this->assertFalse($iterator->contains(function ($value) {
+        $this->assertFalse($iterator->any(function ($value) {
             return $value === NULL;
         }));
     }
@@ -81,7 +81,7 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
         $inner = new ArrayIterator($array);
         $iterator = new IteratorToCollectionAdapter($inner);
 
-        $this->assertTrue($iterator->contains(function ($value) {
+        $this->assertTrue($iterator->any(function ($value) {
             return $value === 3;
         }));
     }

@@ -38,7 +38,7 @@ interface Collection extends \Countable, \Traversable {
      * @param callable $compare
      * @return bool
      */
-    function contains(callable $compare);
+    function any(callable $compare);
 
     /**
      * @param string $separator

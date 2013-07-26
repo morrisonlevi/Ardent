@@ -143,44 +143,44 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
     /**
      * @depends testPopOne
      */
-    function testContains() {
+    function testAny() {
         $equalsZero = function($item) {
             return $item === 0;
         };
         $queue = new LinkedQueue();
-        $this->assertFalse($queue->contains($equalsZero));
+        $this->assertFalse($queue->any($equalsZero));
 
         $queue->push(1);
-        $this->assertFalse($queue->contains($equalsZero));
+        $this->assertFalse($queue->any($equalsZero));
 
         $queue->push(0);
-        $this->assertTrue($queue->contains($equalsZero));
+        $this->assertTrue($queue->any($equalsZero));
 
         $queue->pop();
-        $this->assertTrue($queue->contains($equalsZero));
+        $this->assertTrue($queue->any($equalsZero));
 
         $queue->pop();
-        $this->assertFalse($queue->contains($equalsZero));
+        $this->assertFalse($queue->any($equalsZero));
     }
 
     /**
      * @depends testPopOne
      */
-    function testContainsItem() {
+    function testContains() {
         $queue = new LinkedQueue();
-        $this->assertFalse($queue->containsItem(0));
+        $this->assertFalse($queue->contains(0));
 
         $queue->push(1);
-        $this->assertFalse($queue->containsItem(0));
+        $this->assertFalse($queue->contains(0));
 
         $queue->push(0);
-        $this->assertTrue($queue->containsItem(0));
+        $this->assertTrue($queue->contains(0));
 
         $queue->pop();
-        $this->assertTrue($queue->containsItem(0));
+        $this->assertTrue($queue->contains(0));
 
         $queue->pop();
-        $this->assertFalse($queue->containsItem(0));
+        $this->assertFalse($queue->contains(0));
     }
 
 }
