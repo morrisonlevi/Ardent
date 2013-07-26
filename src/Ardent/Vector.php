@@ -9,8 +9,6 @@ use ArrayAccess;
 
 class Vector implements ArrayAccess, \IteratorAggregate, Collection {
 
-    use StructureCollection;
-
     protected $array = [];
 
     /**
@@ -110,7 +108,6 @@ class Vector implements ArrayAccess, \IteratorAggregate, Collection {
      * @param $item
      *
      * @return void
-     * @throws TypeException when $item is not the correct type.
      */
     function append($item) {
         $this->array[] = $item;
@@ -200,11 +197,187 @@ class Vector implements ArrayAccess, \IteratorAggregate, Collection {
     }
 
     /**
+     * @param callable $callback function($value, $key = NULL)
+     */
+    function each(callable $callback) {
+        foreach ($this->array as $i => $value) {
+            $callback($value, $i);
+        }
+    }
+
+    /**
+     * @param callable $map
+     * @return Vector
+     */
+    function map(callable $map) {
+        $vector = new self();
+        foreach ($this->array as $key => $value) {
+            $vector->array[] = $map($value, $key);
+        }
+        return $vector;
+    }
+
+    /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return VectorIterator
      */
     function getIterator() {
         return new VectorIterator(clone $this);
+    }
+
+    /**
+     * @param int $n
+     * @return Collection
+     */
+    function limit($n) {
+        $v = new Vector();
+        $v->array = array_slice($this->array, 0, $n);
+        return $v;
+    }
+
+    /**
+     * @param int $n
+     * @return Vector
+     */
+    function skip($n) {
+        $v = new Vector();
+        $v->array = array_slice($this->array, $n);
+        return $v;
+    }
+
+    /**
+     * @param int $start
+     * @param int $count
+     * @return Vector
+     */
+    function slice($start, $count) {
+        $v = new Vector();
+        $v->array = array_slice($this->array, $start, $count);
+        return $v;
+    }
+
+    /**
+     * @param bool $preserveKeys
+     * @return array
+     */
+    function toArray($preserveKeys = FALSE) {
+       return $this->array;
+    }
+
+    /**
+     * @param $initialValue
+     * @param callable $combine
+     * @return mixed
+     */
+    function reduce($initialValue, callable $combine) {
+        $carry = $initialValue;
+        foreach ($this->array as $value) {
+            $carry = $combine($carry, $value);
+        }
+        return $carry;
+    }
+
+    /**
+     * @param string $separator
+     * @return string
+     */
+    function join($separator) {
+        reset($this->array);
+        if (key($this->array) === NULL) {
+            return '';
+        }
+        $buff = current($this->array);
+        for (next($this->array); key($this->array) !== NULL; next($this->array)) {
+            $buff .= $separator . current($this->array);
+        }
+        return $buff;
+    }
+
+    /**
+     * @param callable $compare
+     * @return bool
+     */
+    function any(callable $compare) {
+        foreach ($this->array as $key => $value) {
+            if ($compare($value, $key)) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+
+    /**
+     * @param callable $f
+     * @return bool
+     */
+    function every(callable $f) {
+        foreach ($this->array as $key => $value) {
+            if (!$f($value, $key)) {
+                return FALSE;
+            }
+        }
+        return TRUE;
+    }
+
+    /**
+     * @param callable $f
+     * @return bool
+     */
+    function none(callable $f) {
+        foreach ($this->array as $key => $value) {
+            if ($f($value, $key)) {
+                return FALSE;
+            }
+        }
+        return TRUE;
+    }
+
+    /**
+     * @param callable $compare
+     * @return mixed
+     */
+    function max(callable $compare = NULL) {
+        reset($this->array);
+        if (key($this->array) === NULL) {
+            return NULL;
+        }
+        $compare = $compare ?: 'max';
+        $max = current($this->array);
+        for (next($this->array); key($this->array) !== NULL; next($this->array)) {
+            $max = $compare($max, current($this->array));
+        }
+        return $max;
+    }
+
+    /**
+     * @param callable $compare
+     * @return mixed
+     */
+    function min(callable $compare = NULL) {
+        reset($this->array);
+        if (key($this->array) === NULL) {
+            return NULL;
+        }
+        $compare = $compare ?: 'min';
+        $min = current($this->array);
+        for (next($this->array); key($this->array) !== NULL; next($this->array)) {
+            $min = $compare($min, current($this->array));
+        }
+        return $min;
+    }
+
+    /**
+     * @param callable $filter
+     * @return Vector
+     */
+    function where(callable $filter) {
+        $vector = new self();
+        foreach ($this->array as $key => $value) {
+            if ($filter($value, $key)) {
+                $vector[] = $value;
+            }
+        }
+        return $vector;
     }
 
 }

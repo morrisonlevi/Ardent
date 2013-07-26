@@ -357,11 +357,11 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testLimit() {
-        $vector = new Vector(0);
-        $this->assertInstanceOf(
-            'Ardent\\Iterator\\LimitingIterator',
-            $vector->limit(0)
-        );
+        $vector = new Vector(0, 1, 2, 3);
+        $limited = $vector->limit(1);
+        $this->assertInstanceOf('Ardent\\Vector', $limited);
+        $this->assertCount(1, $limited);
+        $this->assertEquals(0, $limited[0]);
     }
 
     function testMaxEmpty() {
@@ -385,11 +385,16 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testMap() {
-        $vector = new Vector(0);
-        $this->assertInstanceOf(
-            'Ardent\\Iterator\\MappingIterator',
-            $vector->map(function() {})
-        );
+        $vector = new Vector(0, 1, 2, 3);
+        $mapped = $vector->map(function($value, $key) {
+            return $value + $key;
+        });
+        $this->assertInstanceOf('Ardent\\Vector', $mapped);
+        $this->assertCount(count($vector), $mapped);
+
+        foreach ($mapped as $key => $value) {
+            $this->assertEquals($key * 2, $value);
+        }
     }
 
     function testNoneMatchedSome() {
@@ -437,23 +442,29 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     function testSlice() {
         $vector = new Vector(0, 5);
         $slicer = $vector->slice(0, 1);
-        $this->assertInstanceOf('Ardent\\Iterator\\SlicingIterator', $slicer);
+        $this->assertInstanceOf('Ardent\\Vector', $slicer);
+        $this->assertCount(1, $slicer);
+        $this->assertEquals(0, $slicer[0]);
     }
 
-    function testSkip() {
-        $vector = new Vector([0]);
-        $this->assertInstanceOf(
-            'Ardent\\Iterator\\SkippingIterator',
-            $vector->skip(0)
-        );
+    function testSliceMiddle() {
+        $vector = new Vector(0, 1, 2, 3);
+        $slicer = $vector->slice(1, 2);
+        $this->assertInstanceOf('Ardent\\Vector', $slicer);
+        $this->assertCount(2, $slicer);
+        $this->assertEquals(1, $slicer[0]);
+        $this->assertEquals(2, $slicer[1]);
     }
 
     function testWhere() {
-        $vector = new Vector(0);
-        $this->assertInstanceOf(
-            'Ardent\\Iterator\\FilteringIterator',
-            $vector->where(function () {})
-        );
+        $vector = new Vector(0, 1, 2, 3);
+        $odd = $vector->where(function($value, $key) {
+            return $value % 2;
+        });
+        $this->assertInstanceOf('Ardent\\Vector', $odd);
+        $this->assertCount(2, $odd);
+        $this->assertEquals(1, $odd[0]);
+        $this->assertEquals(3, $odd[1]);
     }
 
     function testToArray() {
@@ -468,6 +479,45 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $notEmptyArray = $this->object->toArray();
         $this->assertTrue(is_array($notEmptyArray));
         $this->assertCount(3, $notEmptyArray);
+    }
+
+    /**
+     * @depends testToArray
+     */
+    function testSkipNone() {
+        $a = new Vector(0, 1, 2, 3);
+        $b = $a->skip(0);
+        $this->assertInstanceOf('Ardent\\Vector', $b);
+
+        $expect = [0, 1, 2, 3];
+        $actual = $b->toArray();
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @depends testToArray
+     */
+    function testSkip() {
+        $a = new Vector(0, 1, 2, 3);
+        $b = $a->skip(2);
+        $this->assertInstanceOf('Ardent\\Vector', $b);
+
+        $expect = [2, 3];
+        $actual = $b->toArray();
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @depends testToArray
+     */
+    function testSkipAll() {
+        $a = new Vector(0, 1);
+        $b = $a->skip(2);
+        $this->assertInstanceOf('Ardent\\Vector', $b);
+
+        $expect = [];
+        $actual = $b->toArray();
+        $this->assertEquals($expect, $actual);
     }
 
     function testApply() {
