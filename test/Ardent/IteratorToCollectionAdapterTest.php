@@ -205,9 +205,10 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testSlice() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0, 5]));
-        $slicer = $iterator->slice(0, 1);
-        $this->assertInstanceOf('Ardent\\Iterator\\SlicingIterator', $slicer);
+        $iterator = new \ArrayIterator();
+        $collection = new IteratorToCollectionAdapter($iterator);
+        $driver = new CollectionTestDriver();
+        $driver->doSliceTests($collection, [$iterator, 'append']);
     }
 
     function testSkip() {

@@ -46,7 +46,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
      * @return boolean
      */
     function valid() {
-        return $this->value !== NULL;
+        return $this->key !== NULL;
     }
 
     /**
