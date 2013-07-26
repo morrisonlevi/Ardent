@@ -396,4 +396,19 @@ class AvlTree implements BinarySearchTree {
         $this->comparator = $f;
     }
 
+    /**
+     * @param callable $map
+     * @return AvlTree
+     */
+    function map(callable $map) {
+        $t = new self($this->comparator);
+
+        // this doesn't call getIterator because we don't need to clone our structure.
+        $it = new LevelOrderIterator($this->root);
+        for ($it->rewind(); $it->valid(); $it->next()) {
+            $t->add($map($it->current(), $it->key()));
+        }
+        return $t;
+    }
+
 }

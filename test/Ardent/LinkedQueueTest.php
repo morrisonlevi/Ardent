@@ -183,4 +183,10 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($queue->contains(0));
     }
 
+    function testMap() {
+        $queue = new LinkedQueue();
+        $driver = new CollectionTestDriver();
+        $driver->doMapTests($queue, [$queue, 'push']);
+    }
+
 }

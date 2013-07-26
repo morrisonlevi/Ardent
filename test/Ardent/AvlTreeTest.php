@@ -677,4 +677,16 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(4, $avl);
     }
 
+    function testMap() {
+        $avl = new AvlTree();
+        $driver = new CollectionTestDriver();
+        $driver->doMapTests($avl, [$avl, 'add']);
+    }
+
+    function testSlice() {
+        $avl = new AvlTree();
+        $driver = new CollectionTestDriver();
+        $driver->doSliceTests($avl, [$avl, 'add']);
+    }
+
 }
