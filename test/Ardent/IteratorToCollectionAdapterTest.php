@@ -219,11 +219,11 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    function testWhere() {
+    function testFilter() {
         $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0]));
         $this->assertInstanceOf(
             'Ardent\\Iterator\\FilteringIterator',
-            $iterator->where(function () {})
+            $iterator->filter(function () {})
         );
     }
 

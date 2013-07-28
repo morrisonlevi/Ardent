@@ -370,7 +370,7 @@ class Vector implements ArrayAccess, \IteratorAggregate, Collection {
      * @param callable $filter
      * @return Vector
      */
-    function where(callable $filter) {
+    function filter(callable $filter) {
         $vector = new self();
         foreach ($this->array as $key => $value) {
             if ($filter($value, $key)) {

@@ -458,7 +458,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     function testWhere() {
         $vector = new Vector(0, 1, 2, 3);
-        $odd = $vector->where(function($value, $key) {
+        $odd = $vector->filter(function($value, $key) {
             return $value % 2;
         });
         $this->assertInstanceOf('Ardent\\Vector', $odd);

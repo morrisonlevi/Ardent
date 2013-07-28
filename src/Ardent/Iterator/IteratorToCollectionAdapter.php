@@ -95,7 +95,7 @@ class IteratorToCollectionAdapter implements CountableIterator, Collection {
      * @param callable $filter
      * @return Collection
      */
-    function where(callable $filter) {
+    function filter(callable $filter) {
         return new FilteringIterator($this, $filter);
     }
 

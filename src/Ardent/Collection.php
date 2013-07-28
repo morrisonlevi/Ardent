@@ -32,7 +32,7 @@ interface Collection extends \Countable, \Traversable {
      * @param callable $filter
      * @return Collection
      */
-    function where(callable $filter);
+    function filter(callable $filter);
 
     /**
      * @param callable $compare

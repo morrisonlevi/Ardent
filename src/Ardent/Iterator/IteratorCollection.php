@@ -31,8 +31,8 @@ trait IteratorCollection /* implements \Ardent\Collection */ {
      * @param callable $filter
      * @return \Ardent\Collection
      */
-    function where(callable $filter) {
-        return (new IteratorToCollectionAdapter($this))->where($filter);
+    function filter(callable $filter) {
+        return (new IteratorToCollectionAdapter($this))->filter($filter);
     }
 
     /**

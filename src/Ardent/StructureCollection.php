@@ -39,8 +39,8 @@ trait StructureCollection /* implements Collection */ {
      * @param callable $filter
      * @return Collection
      */
-    function where(callable $filter) {
-        return (new IteratorToCollectionAdapter($this->getIterator()))->where($filter);
+    function filter(callable $filter) {
+        return (new IteratorToCollectionAdapter($this->getIterator()))->filter($filter);
     }
 
     /**

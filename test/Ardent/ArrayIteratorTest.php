@@ -269,11 +269,11 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    function testWhere() {
+    function testFilter() {
         $iterator = new ArrayIterator([0]);
         $this->assertInstanceOf(
             'Ardent\\Iterator\\FilteringIterator',
-            $iterator->where(function () {})
+            $iterator->filter(function () {})
         );
     }
 
