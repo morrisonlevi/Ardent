@@ -32,6 +32,7 @@ function autoload($className) {
         'Ardent\\Iterator\\InOrderIterator' =>  'Iterator/InOrderIterator.php',
         'Ardent\\Iterator\\IteratorCollection'  =>  'Iterator/IteratorCollection.php',
         'Ardent\\Iterator\\IteratorToCollectionAdapter' =>  'Iterator/IteratorToCollectionAdapter.php',
+        'Ardent\\Iterator\\KeyIterator' =>  'Iterator/KeyIterator.php',
         'Ardent\\Iterator\\LevelOrderIterator'  =>  'Iterator/LevelOrderIterator.php',
         'Ardent\\Iterator\\LimitingIterator'    =>  'Iterator/LimitingIterator.php',
         'Ardent\\Iterator\\LinkedListIterator'  =>  'Iterator/LinkedListIterator.php',
