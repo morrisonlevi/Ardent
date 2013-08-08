@@ -129,7 +129,7 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
             throw new IndexException;
         }
 
-        $this->__seek($offset);
+        $this->seekUnsafe($offset);
 
         return $this->currentNode->value;
     }
@@ -151,7 +151,7 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
             throw new IndexException;
         }
 
-        $this->__seek($offset);
+        $this->seekUnsafe($offset);
         $this->currentNode->value = $value;
     }
 
@@ -165,7 +165,7 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
             return;
         }
 
-        $this->__seek($offset);
+        $this->seekUnsafe($offset);
         $this->removeNode($this->currentNode, $offset);
     }
 
@@ -299,7 +299,7 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
             return;
         }
 
-        $this->__seek($offset);
+        $this->seekUnsafe($offset);
 
         $newNode = new LinkedNode($value);
         $this->currentNode->next
@@ -325,7 +325,7 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
             return;
         }
 
-        $this->__seek($offset);
+        $this->seekUnsafe($offset);
 
         $newNode = new LinkedNode($value);
 
@@ -427,10 +427,10 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
             throw new IndexException;
         }
 
-        $this->__seek($offset);
+        $this->seekUnsafe($offset);
     }
 
-    private function __seek($offset) {
+    private function seekUnsafe($offset) {
 
         if ($offset == $this->currentOffset) {
             return;
@@ -489,7 +489,7 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
     private function copyRange($start, $finish) {
         $that = new LinkedList();
 
-        $this->__seek($start);
+        $this->seekUnsafe($start);
 
         for ($node = $this->currentNode, $i = $start; $i < $finish; $i++, $node = $node->next) {
             $that->push($node->value);
