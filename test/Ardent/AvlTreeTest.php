@@ -461,66 +461,27 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(4, $iterator);
     }
 
-    function testEmptyTreeIterators() {
-        $object = new AvlTree();
-
-        $iterators = array(
-            'InOrder' => $object->getIterator(AvlTree::TRAVERSE_IN_ORDER),
-            'PreOrder' => $object->getIterator(AvlTree::TRAVERSE_PRE_ORDER),
-            'PostOrder' => $object->getIterator(AvlTree::TRAVERSE_POST_ORDER),
-            'LevelOrder' => $object->getIterator(AvlTree::TRAVERSE_LEVEL_ORDER),
-        );
-
-        foreach ($iterators as $algorithm => $iterator) {
-            /**
-             * @var \Iterator $iterator
-             */
-            $this->assertInstanceOf("\\Ardent\\Iterator\\{$algorithm}Iterator", $iterator);
-
-            $iterator->rewind();
-            $this->assertFalse($iterator->valid());
-        }
-    }
-
     function provideIteratorCases() {
         return [
             'A' => [
-                'insertOrder' => [5,2,8,11,3],
+                'insertOrder' => [],
                 'iterators' => [
-                    BinarySearchTree::TRAVERSE_IN_ORDER    => [2,3,5,8,11],
-                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2,3,8,11],
-                    BinarySearchTree::TRAVERSE_POST_ORDER  => [3,2,11,8,5],
-                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,3,11],
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [],
                 ],
             ],
             'B' => [
-                'insertOrder' => [5,2,8,1,3],
+                'insertOrder' => [1],
                 'iterators' => [
-                    BinarySearchTree::TRAVERSE_IN_ORDER    => [1,2,3,5,8],
-                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2,1,3,8],
-                    BinarySearchTree::TRAVERSE_POST_ORDER  => [1,3,2,8,5],
-                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,1,3],
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [1],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [1],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [1],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [1],
                 ],
             ],
             'C' => [
-                'insertOrder' => [5,2,8,6,9],
-                'iterators' => [
-                    BinarySearchTree::TRAVERSE_IN_ORDER    => [2,5,6,8,9],
-                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2,8,6,9],
-                    BinarySearchTree::TRAVERSE_POST_ORDER  => [2,6,9,8,5],
-                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,6,9],
-                ],
-            ],
-            'D' => [
-                'insertOrder' => [5,2],
-                'iterators' => [
-                    BinarySearchTree::TRAVERSE_IN_ORDER    => [2,5],
-                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2],
-                    BinarySearchTree::TRAVERSE_POST_ORDER  => [2,5],
-                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2],
-                ],
-            ],
-            'E' => [
                 'insertOrder' => [0,2],
                 'iterators' => [
                     BinarySearchTree::TRAVERSE_IN_ORDER    => [0,2],
@@ -529,7 +490,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [0,2],
                 ],
             ],
-            'F' => [
+            'D' => [
                 'insertOrder' => [1,0,2],
                 'iterators' => [
                     BinarySearchTree::TRAVERSE_IN_ORDER    => [0,1,2],
@@ -538,6 +499,43 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [1,0,2],
                 ],
             ],
+            'E' => [
+                'insertOrder' => [5,2],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [2,5],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [2,5],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2],
+                ],
+            ],
+            'F' => [
+                'insertOrder' => [5,2,8,1,3],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [1,2,3,5,8],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2,1,3,8],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [1,3,2,8,5],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,1,3],
+                ],
+            ],
+            'G' => [
+                'insertOrder' => [5,2,8,6,9],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [2,5,6,8,9],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2,8,6,9],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [2,6,9,8,5],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,6,9],
+                ],
+            ],
+            'H' => [
+                'insertOrder' => [5,2,8,11,3],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [2,3,5,8,11],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2,3,8,11],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [3,2,11,8,5],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,3,11],
+                ],
+            ],
+
         ];
     }
 
