@@ -13,11 +13,13 @@ class SkippingIteratorTest extends \PHPUnit_Framework_TestCase {
                 'insert' => [],
                 'skip'   => 2,
                 'expect' => [],
+                'expectPreserveKeys' => [],
             ],
             '2' => [
                 'insert' => $insert,
                 'skip'   => 2,
-                'expect' => [
+                'expect' => [3,4,5],
+                'expectPreserveKeys' => [
                     2 => 3,
                     3 => 4,
                     4 => 5
@@ -27,6 +29,7 @@ class SkippingIteratorTest extends \PHPUnit_Framework_TestCase {
                 'insert' => $insert,
                 'skip'   => -2,
                 'expect' => $insert,
+                'expectPreserveKeys' => $insert,
             ],
         ];
     }
@@ -34,12 +37,13 @@ class SkippingIteratorTest extends \PHPUnit_Framework_TestCase {
     /**
      * @dataProvider provideCases
      */
-    function testCases(array $insert, $skip, array $expect) {
+    function testCases(array $insert, $skip, array $expect, array $expectPreserveKeys) {
         $iterator = new ArrayIterator($insert);
         $skipped = $iterator->skip($skip);
 
         $this->assertCount(count($expect), $skipped);
-        $this->assertEquals($expect, $skipped->toArray(TRUE));
+        $this->assertEquals($expect, $skipped->toArray(FALSE));
+        $this->assertEquals($expectPreserveKeys, $skipped->toArray(TRUE));
 
     }
 
