@@ -535,6 +535,15 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,3,11],
                 ],
             ],
+            'I' => [
+                'insertOrder' => [5,2,8,1,6],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [1,2,5,6,8],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2,1,8,6],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [1,2,6,8,5],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,1,6],
+                ],
+            ],
 
         ];
     }
