@@ -4,25 +4,10 @@ namespace Ardent;
 
 class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
-    /**
-     * @test
-     */
-    function initiallyEmpty() {
+    function testInitiallyEmpty() {
         $object = new AvlTree();
         $this->assertTrue($object->isEmpty());
         $this->assertCount(0, $object);
-    }
-
-    /**
-     * @test
-     */
-    function addingTwoElementsGivesSizeTwo() {
-        $object = new AvlTree();
-        $object->add(3);
-        $object->add(4);
-
-        $this->assertFalse($object->isEmpty());
-        $this->assertCount(2, $object);
     }
 
     /**
