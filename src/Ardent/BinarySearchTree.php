@@ -10,10 +10,10 @@ use Ardent\Exception\EmptyException,
 
 interface BinarySearchTree extends \IteratorAggregate, Collection {
 
-    const TRAVERSE_IN_ORDER = 1;
-    const TRAVERSE_LEVEL_ORDER = 2;
-    const TRAVERSE_PRE_ORDER = 3;
-    const TRAVERSE_POST_ORDER = 4;
+    const TRAVERSE_IN_ORDER = 0;
+    const TRAVERSE_LEVEL_ORDER = 1;
+    const TRAVERSE_PRE_ORDER = 2;
+    const TRAVERSE_POST_ORDER = 3;
 
     /**
      * @param callable $f

@@ -482,136 +482,71 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-    function testGetIteratorA() {
-        $object = new AvlTree();
-        //          5
-        //        /    \
-        //       2      8
-        //        \      \
-        //        3      11
-        $object->add(5);
-        $object->add(2);
-        $object->add(8);
-        $object->add(11);
-        $object->add(3);
-
-        $expectedSequences = array(
-            'inOrder' => array(2,3,5,8,11),
-            'preOrder' => array(5,2,3,8,11),
-            'postOrder' => array(3,2,11,8,5),
-            'levelOrder' => array(5,2,8,3,11),
-        );
-
-        $this->__testIterators($object, $expectedSequences);
-
+    function provideIteratorCases() {
+        return [
+            'A' => [
+                'insertOrder' => [5,2,8,11,3],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [2,3,5,8,11],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2,3,8,11],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [3,2,11,8,5],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,3,11],
+                ],
+            ],
+            'B' => [
+                'insertOrder' => [5,2,8,1,3],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [1,2,3,5,8],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2,1,3,8],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [1,3,2,8,5],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,1,3],
+                ],
+            ],
+            'C' => [
+                'insertOrder' => [5,2,8,6,9],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [2,5,6,8,9],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2,8,6,9],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [2,6,9,8,5],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,6,9],
+                ],
+            ],
+            'D' => [
+                'insertOrder' => [5,2],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [2,5],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [5,2],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [2,5],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2],
+                ],
+            ],
+            'E' => [
+                'insertOrder' => [0,2],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [0,2],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [0,2],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [2,0],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [0,2],
+                ],
+            ],
+        ];
     }
 
-    function testGetIteratorB() {
-        $object = new AvlTree();
-        //          5
-        //        /     \
-        //       2      8
-        //      / \
-        //     1  3
-        $object->add(5);
-        $object->add(2);
-        $object->add(8);
-        $object->add(1);
-        $object->add(3);
-
-        $expectedSequences = array(
-            'inOrder' => array(1,2,3,5,8),
-            'preOrder' => array(5,2,1,3,8),
-            'postOrder' => array(1,3,2,8,5),
-            'levelOrder' => array(5,2,8,1,3),
-        );
-
-        $this->__testIterators($object, $expectedSequences);
-
-    }
-
-    function testGetIteratorC() {
-        $object = new AvlTree();
-        //          5
-        //        /     \
-        //       2      8
-        //             / \
-        //            6  9
-        $object->add(5);
-        $object->add(2);
-        $object->add(8);
-        $object->add(6);
-        $object->add(9);
-
-        $expectedSequences = array(
-            'inOrder' => array(2,5,6,8,9),
-            'preOrder' => array(5,2,8,6,9),
-            'postOrder' => array(2,6,9,8,5),
-            'levelOrder' => array(5,2,8,6,9),
-        );
-
-        $this->__testIterators($object, $expectedSequences);
-
-    }
-
-    function testGetIteratorD() {
-        $object = new AvlTree();
-        //          5
-        //        /
-        //       2
-        $object->add(5);
-        $object->add(2);
-
-        $expectedSequences = array(
-            'inOrder' => array(2,5),
-            'preOrder' => array(5,2),
-            'postOrder' => array(2,5),
-            'levelOrder' => array(5,2),
-        );
-
-        $this->__testIterators($object, $expectedSequences);
-
-    }
-
-    function testGetIteratorE() {
-        $object = new AvlTree();
-        //     0
-        //      \
-        //       2
-        $object->add(0);
-        $object->add(2);
-
-        $expectedSequences = array(
-            'inOrder' => array(0,2),
-            'preOrder' => array(0,2),
-            'postOrder' => array(2,0),
-            'levelOrder' => array(0,2),
-        );
-
-        $this->__testIterators($object, $expectedSequences);
-
-    }
-
-    private function __testIterators(AvlTree $object, array $expectedSequences) {
-
-        $iterators = array(
-            'inOrder' => $object->getIterator(AvlTree::TRAVERSE_IN_ORDER),
-            'preOrder' => $object->getIterator(AvlTree::TRAVERSE_PRE_ORDER),
-            'postOrder' => $object->getIterator(AvlTree::TRAVERSE_POST_ORDER),
-            'levelOrder' => $object->getIterator(AvlTree::TRAVERSE_LEVEL_ORDER),
-        );
-
-        foreach ($iterators as $algorithm => $iterator) {
-            $actualSequence = array();
-            $expectedKey = 0;
-            foreach ($iterator as $key => $item) {
-                $actualSequence[] = $item;
-                $this->assertEquals($expectedKey++, $key);
-            }
-
-            $this->assertEquals($expectedSequences[$algorithm], $actualSequence);
+    /**
+     * @dataProvider provideIteratorCases
+     */
+    function testIterators($insertOrder, $iterators) {
+        $tree = new AvlTree;
+        foreach ($insertOrder as $item) {
+            $tree->add($item);
         }
-
+        foreach ($iterators as $algorithm => $expectedOrder) {
+            $iterator = $tree->getIterator($algorithm);
+            $this->assertCount(count($expectedOrder), $iterator);
+            foreach ($iterator as $key => $item) {
+                $this->assertEquals($expectedOrder[$key], $item);
+            }
+        }
     }
 
     function testGetInOrderPredecessorBasic() {
