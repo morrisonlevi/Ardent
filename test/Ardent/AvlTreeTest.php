@@ -529,13 +529,22 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [0,2],
                 ],
             ],
+            'F' => [
+                'insertOrder' => [1,0,2],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [0,1,2],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [1,0,2],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [0,2,1],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [1,0,2],
+                ],
+            ],
         ];
     }
 
     /**
      * @dataProvider provideIteratorCases
      */
-    function testIterators($insertOrder, $iterators) {
+    function testIterators(array $insertOrder, array $iterators) {
         $tree = new AvlTree;
         foreach ($insertOrder as $item) {
             $tree->add($item);
