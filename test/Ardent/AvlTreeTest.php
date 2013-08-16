@@ -26,25 +26,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @test
-     */
-    function caseRightRightBalances() {
-        $object = new AvlTree();
-        $object->add(3);
-        $object->add(4);
-        $object->add(5);
-
-        $root = new BinaryTree(4);
-        $root->setLeft(new BinaryTree(3));
-        $root->setRight(new BinaryTree(5));
-
-        $this->reCalculateHeights($root);
-        $actualRoot = $object->toBinaryTree();
-
-        $this->assertEquals($root, $actualRoot);
-    }
-
-    /**
      * @expectedException \Ardent\Exception\EmptyException
      */
     function testFindFirstEmpty() {
@@ -115,83 +96,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $binary->getRight()->getValue());
     }
 
-    /**
-     * @test
-     */
-    function caseLeftLeftBalances() {
-        $object = new AvlTree();
-        $object->add(5);
-        $object->add(4);
-        $object->add(3);
-
-        $root = new BinaryTree(4);
-        $root->setLeft(new BinaryTree(3));
-        $root->setRight(new BinaryTree(5));
-
-        $this->reCalculateHeights($root);
-        $this->assertEquals($root, $object->toBinaryTree());
-    }
-
-    /**
-     * @test
-     */
-    function caseLeftRightBalances() {
-        $object = new AvlTree();
-        $object->add(5);
-        $object->add(3);
-        $object->add(4);
-
-
-        $root = new BinaryTree(4);
-        $root->setLeft(new BinaryTree(3));
-        $root->setRight(new BinaryTree(5));
-
-        $actualRoot = $object->toBinaryTree();
-        $this->assertEquals($root, $actualRoot);
-
-    }
-
-    function testCaseRightLeft() {
-        $object = new AvlTree();
-        $object->add(5);
-        $object->add(1);
-        $object->add(8);
-        $object->add(7);
-        $object->add(9);
-
-        // triggers the double rotate
-        $object->add(6);
-
-        // original tree before rotate
-        //      5
-        //    /   \
-        //   1    8
-        //       / \
-        //      7  9
-        //     /
-        //    6
-        //
-        // resulting tree should be
-        //      7
-        //    /   \
-        //   5    8
-        //  / \    \
-        // 1  6    9
-
-
-        $root = new BinaryTree(7);
-        $root->setLeft(new BinaryTree(5));
-        $root->setRight(new BinaryTree(8));
-        $root->getLeft()->setLeft(new BinaryTree(1));
-        $root->getLeft()->setRight(new BinaryTree(6));
-        $root->getRight()->setRight(new BinaryTree(9));
-
-        $this->reCalculateHeights($root);
-        $actualRoot = $object->toBinaryTree();
-        $this->assertEquals($root, $actualRoot);
-
-    }
-
     function testRemoveNonExistingItem() {
         $object = new AvlTree();
         $object->remove(1);
@@ -206,10 +110,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($root);
     }
 
-    /**
-     * @depends caseRightRightBalances
-     * @depends caseLeftLeftBalances
-     */
     function testRemoveLeaf() {
         $object = new AvlTree();
         $object->add(4);
@@ -225,10 +125,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($root, $object->toBinaryTree());
     }
 
-    /**
-     * @depends caseRightRightBalances
-     * @depends caseLeftLeftBalances
-     */
     function testRemoveWithLeftChild() {
         $object = new AvlTree();
         $object->add(4);
@@ -246,10 +142,6 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($root, $object->toBinaryTree());
     }
 
-    /**
-     * @depends caseRightRightBalances
-     * @depends caseLeftLeftBalances
-     */
     function testRemoveWithRightChild() {
         $object = new AvlTree();
         $object->add(4);
@@ -461,9 +353,13 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(4, $iterator);
     }
 
+    /**
+     * @link http://upload.wikimedia.org/wikipedia/commons/f/f5/AVL_Tree_Rebalancing.svg
+     * @return array
+     */
     function provideIteratorCases() {
         return [
-            'A' => [
+            'Empty' => [
                 'insertOrder' => [],
                 'iterators' => [
                     BinarySearchTree::TRAVERSE_IN_ORDER    => [],
@@ -472,7 +368,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [],
                 ],
             ],
-            'B' => [
+            'Single' => [
                 'insertOrder' => [1],
                 'iterators' => [
                     BinarySearchTree::TRAVERSE_IN_ORDER    => [1],
@@ -481,7 +377,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [1],
                 ],
             ],
-            'C' => [
+            'Double' => [
                 'insertOrder' => [0,2],
                 'iterators' => [
                     BinarySearchTree::TRAVERSE_IN_ORDER    => [0,2],
@@ -490,16 +386,43 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [0,2],
                 ],
             ],
-            'D' => [
-                'insertOrder' => [1,0,2],
+            'LeftLeft' => [
+                'insertOrder' => [5,4,3],
                 'iterators' => [
-                    BinarySearchTree::TRAVERSE_IN_ORDER    => [0,1,2],
-                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [1,0,2],
-                    BinarySearchTree::TRAVERSE_POST_ORDER  => [0,2,1],
-                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [1,0,2],
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [3,4,5],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [4,3,5],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [3,5,4],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [4,3,5],
                 ],
             ],
-            'E' => [
+            'LeftRight' => [
+                'insertOrder' => [5,3,4],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [3,4,5],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [4,3,5],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [3,5,4],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [4,3,5],
+                ],
+            ],
+            'RightRight' => [
+                'insertOrder' => [3,4,5],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [3,4,5],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [4,3,5],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [3,5,4],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [4,3,5],
+                ],
+            ],
+            'RightLeft' => [
+                'insertOrder' => [3,5,4],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [3,4,5],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [4,3,5],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [3,5,4],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [4,3,5],
+                ],
+            ],
+            'A' => [
                 'insertOrder' => [5,2],
                 'iterators' => [
                     BinarySearchTree::TRAVERSE_IN_ORDER    => [2,5],
@@ -508,7 +431,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2],
                 ],
             ],
-            'F' => [
+            'B' => [
                 'insertOrder' => [5,2,8,1,3],
                 'iterators' => [
                     BinarySearchTree::TRAVERSE_IN_ORDER    => [1,2,3,5,8],
@@ -517,7 +440,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,1,3],
                 ],
             ],
-            'G' => [
+            'C' => [
                 'insertOrder' => [5,2,8,6,9],
                 'iterators' => [
                     BinarySearchTree::TRAVERSE_IN_ORDER    => [2,5,6,8,9],
@@ -526,7 +449,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,6,9],
                 ],
             ],
-            'H' => [
+            'D' => [
                 'insertOrder' => [5,2,8,11,3],
                 'iterators' => [
                     BinarySearchTree::TRAVERSE_IN_ORDER    => [2,3,5,8,11],
@@ -535,7 +458,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,3,11],
                 ],
             ],
-            'I' => [
+            'E' => [
                 'insertOrder' => [5,2,8,1,6],
                 'iterators' => [
                     BinarySearchTree::TRAVERSE_IN_ORDER    => [1,2,5,6,8],
@@ -544,7 +467,15 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
                     BinarySearchTree::TRAVERSE_LEVEL_ORDER => [5,2,8,1,6],
                 ],
             ],
-
+            'F' => [
+                'insertOrder' => [5,1,8,7,9,6],
+                'iterators' => [
+                    BinarySearchTree::TRAVERSE_IN_ORDER    => [1,5,6,7,8,9],
+                    BinarySearchTree::TRAVERSE_PRE_ORDER   => [7,5,1,6,8,9],
+                    BinarySearchTree::TRAVERSE_POST_ORDER  => [1,6,5,9,8,7],
+                    BinarySearchTree::TRAVERSE_LEVEL_ORDER => [7,5,8,1,6,9],
+                ],
+            ],
         ];
     }
 
