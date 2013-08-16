@@ -15,6 +15,12 @@ class SkippingIteratorTest extends \PHPUnit_Framework_TestCase {
                 'expect' => [],
                 'expectPreserveKeys' => [],
             ],
+            'all' => [
+                'insert' => $insert,
+                'skip'   => count($insert),
+                'expect' => [],
+                'expectPreserveKeys' => [],
+            ],
             '2' => [
                 'insert' => $insert,
                 'skip'   => 2,
