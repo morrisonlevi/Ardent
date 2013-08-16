@@ -6,46 +6,45 @@ use Ardent\Iterator\ArrayIterator;
 
 class SlicingIteratorTest extends \PHPUnit_Framework_TestCase {
 
-    function testEmpty() {
-        $inner = new ArrayIterator([]);
-        $iterator = $inner->slice(0, 2);
-        $this->assertCount(0, $iterator);
+    function provideCases() {
+        $insert = [1,2,3,4,5];
+        return [
+            'empty' => [
+                'insert' => [],
+                'params' => [0,2],
+                'expect' => [],
+            ],
+            'beginning' => [
+                'insert' => $insert,
+                'params' => [0,2],
+                'expect' => [1,2],
+            ],
+            'middle' => [
+                'insert' => $insert,
+                'params' => [2,2],
+                'expect' => [3,4],
+            ],
+            'end' => [
+                'insert' => $insert,
+                'params' => [3,2],
+                'expect' => [4,5],
+            ],
+            'more than available' => [
+                'insert' => $insert,
+                'params' => [3,3],
+                'expect' => [4,5],
+            ],
+        ];
     }
 
-    function testBeginning() {
-        $inner = new ArrayIterator([1, 2, 3, 4, 5]);
-        $iterator = $inner->slice(0, 2);
-        $this->assertCount(2, $iterator);
-
-        $expected = [1, 2];
-        $this->assertEquals($expected, $iterator->toArray());
-    }
-
-    function testMiddle() {
-        $inner = new ArrayIterator([1, 2, 3, 4, 5]);
-        $iterator = $inner->slice(2, 2);
-        $this->assertCount(2, $iterator);
-
-        $expected = [3, 4];
-        $this->assertEquals($expected, $iterator->toArray());
-    }
-
-    function testEnd() {
-        $inner = new ArrayIterator([1, 2, 3, 4, 5]);
-        $iterator = $inner->slice(3, 2);
-        $this->assertCount(2, $iterator);
-
-        $expected = [4, 5];
-        $this->assertEquals($expected, $iterator->toArray());
-    }
-
-    function testCountMoreThanAvailable() {
-        $inner = new ArrayIterator([1, 2, 3, 4, 5]);
-        $iterator = $inner->slice(3, 3);
-        $this->assertCount(2, $iterator);
-
-        $expected = [4, 5];
-        $this->assertEquals($expected, $iterator->toArray());
+    /**
+     * @dataProvider provideCases
+     */
+    function testCases(array $insert, array $params, array $expect) {
+        $iterator = new ArrayIterator($insert);
+        $slice = call_user_func_array([$iterator, 'slice'], $params);
+        $this->assertCount(count($expect), $slice);
+        $this->assertEquals($expect, $slice->toArray());
     }
 
 }

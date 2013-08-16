@@ -10,7 +10,7 @@ class FilteringIterator extends IteratorToCollectionAdapter {
     private $filter;
 
     private $current;
-    private $key = -1;
+    private $key;
 
     /**
      * @var bool
@@ -40,7 +40,7 @@ class FilteringIterator extends IteratorToCollectionAdapter {
             $key = $this->inner->key();
             $current = $this->inner->current();
             if (call_user_func($this->filter, $current, $key)) {
-                $this->key++;
+                $this->key = $key;
                 $this->current = $current;
                 $this->valid = TRUE;
                 $this->inner->next();
@@ -72,7 +72,7 @@ class FilteringIterator extends IteratorToCollectionAdapter {
      */
     function rewind() {
         $this->inner->rewind();
-        $this->key = -1;
+        $this->key = NULL;
         $this->next();
     }
 

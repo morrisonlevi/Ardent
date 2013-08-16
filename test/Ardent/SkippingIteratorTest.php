@@ -6,32 +6,41 @@ use Ardent\Iterator\ArrayIterator;
 
 class SkippingIteratorTest extends \PHPUnit_Framework_TestCase {
 
-    function testEmpty() {
-        $inner = new ArrayIterator([]);
-        $iterator = $inner->skip(2);
-        $this->assertCount(0, $iterator);
-    }
-
-    function test() {
-        $inner = new ArrayIterator([1, 2, 3, 4, 5]);
-        $iterator = $inner->skip(2);
-
-        $this->assertCount(3, $iterator);
-        $expected = [
-            2 => 3,
-            3 => 4,
-            4 => 5
+    function provideCases() {
+        $insert = [1,2,3,4,5];
+        return [
+            'empty' => [
+                'insert' => [],
+                'skip'   => 2,
+                'expect' => [],
+            ],
+            '2' => [
+                'insert' => $insert,
+                'skip'   => 2,
+                'expect' => [
+                    2 => 3,
+                    3 => 4,
+                    4 => 5
+                ],
+            ],
+            '-2' => [
+                'insert' => $insert,
+                'skip'   => -2,
+                'expect' => $insert,
+            ],
         ];
-        $this->assertEquals($expected, $iterator->toArray(TRUE));
     }
 
-    function testNegative() {
-        $array = [1, 2, 3, 4, 5];
-        $inner = new ArrayIterator($array);
-        $iterator = $inner->skip(-2);
+    /**
+     * @dataProvider provideCases
+     */
+    function testCases(array $insert, $skip, array $expect) {
+        $iterator = new ArrayIterator($insert);
+        $skipped = $iterator->skip($skip);
 
-        $this->assertCount(5, $iterator);
-        $this->assertEquals($array, $iterator->toArray());
+        $this->assertCount(count($expect), $skipped);
+        $this->assertEquals($expect, $skipped->toArray(TRUE));
+
     }
 
 }

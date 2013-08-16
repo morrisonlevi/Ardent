@@ -6,27 +6,33 @@ use Ardent\Iterator\ArrayIterator;
 
 class MappingIteratorTest extends \PHPUnit_Framework_TestCase {
 
-    function testEmpty() {
-        $inner = new ArrayIterator([]);
-        $i = 0;
-        $iterator = $inner->map(function () use (&$i) {
-            $i++;
-        });
-
-        $this->assertCount(0, $iterator);
-        $this->assertEquals([], $iterator->toArray());
-        $this->assertEquals(0, $i);
+    function provideCases() {
+        $multiplyBy2 = function($i) {
+            return $i * 2;
+        };
+        return [
+            'empty' => [
+                'insert' => [],
+                'map'    => $multiplyBy2,
+                'expect' => [],
+            ],
+            'map' => [
+                'insert' => [0,1,2,3],
+                'map'    => $multiplyBy2,
+                'expect' => [0,2,4,6],
+            ],
+        ];
     }
 
-    function test() {
-        $array = [0, 1, 2, 3, 4];
-        $inner = new ArrayIterator($array);
-        $iterator = $inner->map(function ($val) {
-            return $val * 2;
-        });
+    /**
+     * @dataProvider provideCases
+     */
+    function testCases(array $insert, callable $map, array $expect) {
+        $iterator = new ArrayIterator($insert);
+        $mapped = $iterator->map($map);
 
-        $this->assertCount(count($array), $iterator);
-        $this->assertEquals([0, 2, 4, 6, 8], $iterator->toArray());
+        $this->assertCount(count($expect), $mapped);
+        $this->assertEquals($expect, $mapped->toArray());
     }
 
 }
