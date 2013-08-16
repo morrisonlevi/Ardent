@@ -2,12 +2,6 @@
 
 namespace Ardent;
 
-use Ardent\Exception\EmptyException,
-    Ardent\Exception\LookupException,
-    Ardent\Exception\StateException,
-    Ardent\Exception\TypeException,
-    Ardent\Iterator\BinaryTreeIterator;
-
 interface BinarySearchTree extends \IteratorAggregate, Collection {
 
     const TRAVERSE_IN_ORDER = 0;
@@ -18,7 +12,7 @@ interface BinarySearchTree extends \IteratorAggregate, Collection {
     /**
      * @param callable $f
      * @return mixed
-     * @throws StateException when the tree is not empty
+     * @throws Exception\StateException when the tree is not empty
      */
     function setCompare(callable $f);
 
@@ -43,7 +37,7 @@ interface BinarySearchTree extends \IteratorAggregate, Collection {
      * @param $element
      *
      * @return mixed
-     * @throws LookupException
+     * @throws Exception\LookupException
      */
     function get($element);
 
@@ -61,19 +55,19 @@ interface BinarySearchTree extends \IteratorAggregate, Collection {
      * @param $item
      *
      * @return bool
-     * @throws TypeException when $item is not the correct type.
+     * @throws Exception\TypeException when $item is not the correct type.
      */
     function contains($item);
 
     /**
      * @return mixed
-     * @throws EmptyException when the tree is empty
+     * @throws Exception\EmptyException when the tree is empty
      */
     function findFirst();
 
     /**
      * @return mixed
-     * @throws EmptyException when the tree is empty
+     * @throws Exception\EmptyException when the tree is empty
      */
     function findLast();
 
@@ -85,7 +79,7 @@ interface BinarySearchTree extends \IteratorAggregate, Collection {
     /**
      * @param int $order [optional]
      *
-     * @return BinaryTreeIterator
+     * @return \Ardent\Iterator\BinaryTreeIterator
      */
     function getIterator($order = self::TRAVERSE_IN_ORDER);
 
