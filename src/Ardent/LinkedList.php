@@ -56,11 +56,7 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
      * @throws TypeException when $object is not the correct type.
      */
     function contains($value, callable $callback = NULL) {
-        if ($this->head === NULL) {
-            return FALSE;
-        }
-
-        return $this->indexOf($value, $callback) !== -1;
+        return $this->indexOf($value, $callback) >= 0;
     }
 
     /**
