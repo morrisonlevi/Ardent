@@ -3,7 +3,6 @@
 namespace Ardent;
 
 use Ardent\Exception\StateException;
-use Countable;
 use IteratorAggregate;
 
 interface Queue extends IteratorAggregate, Countable {
@@ -27,11 +26,6 @@ interface Queue extends IteratorAggregate, Countable {
      * @throws StateException if the Queue is empty.
      */
     function peek();
-
-    /**
-     * @return bool
-     */
-    function isEmpty();
 
     /**
      * @return array

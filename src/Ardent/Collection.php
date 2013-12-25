@@ -4,12 +4,7 @@ namespace Ardent;
 
 use Ardent\Iterator\SlicingIterator;
 
-interface Collection extends \Countable, \Traversable {
-
-    /**
-     * @return bool
-     */
-    function isEmpty();
+interface Collection extends Countable, \Traversable {
 
     /**
      * @param callable $callback

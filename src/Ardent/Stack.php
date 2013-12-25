@@ -3,7 +3,6 @@
 namespace Ardent;
 
 use Ardent\Exception\StateException;
-use Countable;
 
 interface Stack extends \IteratorAggregate, Countable {
 
@@ -26,11 +25,6 @@ interface Stack extends \IteratorAggregate, Countable {
      * @return mixed
      */
     function peek();
-
-    /**
-     * @return bool
-     */
-    function isEmpty();
 
     /**
      * @return array

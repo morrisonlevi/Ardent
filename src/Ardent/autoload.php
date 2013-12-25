@@ -10,6 +10,7 @@ function autoload($className) {
         'Ardent\\BinarySearchTree'	=>	'BinarySearchTree.php',
         'Ardent\\BinaryTree'	=>	'BinaryTree.php',
         'Ardent\\Collection'	=>	'Collection.php',
+        'Ardent\\Countable' =>  'Countable.php',
         'Ardent\\ConditionalMediator'	=>	'ConditionalMediator.php',
         'Ardent\\Exception\\EmptyException' =>  'Exception/EmptyException.php',
         'Ardent\\Exception\\Exception' =>   'Exception/Exception.php',

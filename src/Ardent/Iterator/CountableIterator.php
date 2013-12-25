@@ -2,8 +2,8 @@
 
 namespace Ardent\Iterator;
 
-use Countable,
-    Iterator;
+use Ardent\Countable;
+use Iterator;
 
 interface CountableIterator extends Countable, Iterator {
 
