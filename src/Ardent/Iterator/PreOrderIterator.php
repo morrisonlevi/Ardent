@@ -97,7 +97,7 @@ class PreOrderIterator implements BinaryTreeIterator {
             $this->value = $this->key = NULL;
             return;
         }
-        $this->value = $this->stack->peek();
+        $this->value = $this->stack->last();
         $this->key++;
     }
 

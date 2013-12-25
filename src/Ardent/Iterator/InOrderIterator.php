@@ -70,7 +70,7 @@ class InOrderIterator implements BinaryTreeIterator {
             $this->value = NULL;
             return;
         }
-        $this->value = $this->stack->peek();
+        $this->value = $this->stack->last();
 
         $this->key++;
     }
@@ -103,7 +103,7 @@ class InOrderIterator implements BinaryTreeIterator {
         }
 
         if (!$this->stack->isEmpty()) {
-            $this->value = $this->stack->peek();
+            $this->value = $this->stack->last();
             $this->key = 0;
         }
     }

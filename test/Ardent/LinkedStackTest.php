@@ -21,7 +21,7 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
         $stack = new LinkedStack();
         $stack->push(1);
 
-        $item = $stack->peek();
+        $item = $stack->last();
         $this->assertEquals(1, $item);
         $this->assertFalse($stack->isEmpty());
         $this->assertCount(1, $stack);
@@ -52,7 +52,7 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(3, $stack);
         $this->assertFalse($stack->isEmpty());
 
-        $peek = $stack->peek();
+        $peek = $stack->last();
         $this->assertEquals(5, $peek);
         $this->assertCount(3, $stack);
         $this->assertFalse($stack->isEmpty());
@@ -62,7 +62,7 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(2, $stack);
         $this->assertFalse($stack->isEmpty());
 
-        $peek = $stack->peek();
+        $peek = $stack->last();
         $this->assertEquals(3, $peek);
         $this->assertCount(2, $stack);
         $this->assertFalse($stack->isEmpty());
@@ -72,7 +72,7 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(1, $stack);
         $this->assertFalse($stack->isEmpty());
 
-        $peek = $stack->peek();
+        $peek = $stack->last();
         $this->assertEquals(1, $peek);
         $this->assertCount(1, $stack);
         $this->assertFalse($stack->isEmpty());
@@ -88,7 +88,7 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
      */
     function testPeekEmpty() {
         $stack = new LinkedStack();
-        $stack->peek();
+        $stack->last();
     }
 
     /**

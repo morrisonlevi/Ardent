@@ -24,7 +24,7 @@ interface Stack extends \IteratorAggregate, Countable {
      * @throws StateException if the Stack is empty.
      * @return mixed
      */
-    function peek();
+    function last();
 
     /**
      * @return array

@@ -90,7 +90,7 @@ class LinkedStack implements Stack {
      * @throws EmptyException if the Stack is empty.
      * @return mixed
      */
-    function peek() {
+    function last() {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
