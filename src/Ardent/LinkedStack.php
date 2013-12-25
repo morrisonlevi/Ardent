@@ -10,8 +10,6 @@ use Ardent\Iterator\StackIterator;
 
 class LinkedStack implements Stack {
 
-    use StructureCollection;
-
     /**
      * @var Pair
      */
@@ -20,7 +18,7 @@ class LinkedStack implements Stack {
     /**
      * @var int
      */
-    private $count;
+    private $size;
 
     /**
      * @return bool
@@ -34,7 +32,7 @@ class LinkedStack implements Stack {
      * @return StackIterator
      */
     function getIterator() {
-        return new LinkedStackIterator($this->count, $this->clonePair($this->top));
+        return new LinkedStackIterator($this->size, $this->clonePair($this->top));
     }
 
     private function clonePair(Pair $pair = NULL) {
@@ -57,7 +55,7 @@ class LinkedStack implements Stack {
      * @return int
      */
     function count() {
-        return $this->count;
+        return $this->size;
     }
 
     /**
@@ -69,7 +67,7 @@ class LinkedStack implements Stack {
      */
     function push($object) {
         $this->top = new Pair($object, $this->top);
-        $this->count++;
+        $this->size++;
     }
 
     /**
@@ -84,7 +82,7 @@ class LinkedStack implements Stack {
         $top = $this->top;
         $this->top = $top->second;
 
-        $this->count--;
+        $this->size--;
         return $top->first;
     }
 
@@ -98,6 +96,26 @@ class LinkedStack implements Stack {
         }
 
         return $this->top->first;
+    }
+
+
+    function clear() {
+        $this->top = NULL;
+        $this->size = 0;
+    }
+
+
+    /**
+     * @return array
+     */
+    function toArray() {
+        $a = [];
+        $current = $this->top;
+        while ($current !== NULL) {
+            $a[] = $current->first;
+            $current = $current->second;
+        }
+        return $a;
     }
 
 }

@@ -2,31 +2,34 @@
 
 namespace Ardent;
 
-use Ardent\Exception\EmptyException;
-use Ardent\Exception\FullException;
-use Ardent\Exception\TypeException;
+use Ardent\Exception\StateException;
+use Countable;
 
-interface Stack extends \IteratorAggregate, Collection {
+interface Stack extends \IteratorAggregate, Countable {
 
     /**
      * @param mixed $object
      *
-     * @throws TypeException if $object is not the correct type.
-     * @throws FullException if the Stack is full.
+     * @throws StateException if $object is not the correct type.
      * @return void
      */
     function push($object);
 
     /**
-     * @throws EmptyException if the Stack is empty.
+     * @throws StateException if the Stack is empty.
      * @return mixed
      */
     function pop();
 
     /**
-     * @throws EmptyException if the Stack is empty.
+     * @throws StateException if the Stack is empty.
      * @return mixed
      */
     function peek();
+
+    /**
+     * @return array
+     */
+    function toArray();
 
 }

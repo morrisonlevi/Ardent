@@ -135,17 +135,35 @@ class LinkedStackTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    function testSkip() {
+
+    function testClear() {
         $stack = new LinkedStack();
-        for ($i = 0; $i < 5; $i++) {
+        $stack->push(1);
+        $stack->clear();
+        $this->assertCount(0, $stack);
+    }
+
+
+    function testToArrayEmpty() {
+        $stack = new LinkedStack();
+        $array = $stack->toArray();
+        $this->assertTrue(is_array($array));
+        $this->assertCount(0, $array);
+    }
+
+
+    function testToArray() {
+        $stack = new LinkedStack();
+        for ($i = 0; $i < 3; $i++) {
             $stack->push($i);
         }
-        $skipped = $stack->skip(2);
+        $array = $stack->toArray();
+        $this->assertTrue(is_array($array));
+        $this->assertCount(3, $array);
         $i = 2;
-        foreach ($skipped as $value) {
-            $this->assertEquals($i--, $value);
+        foreach ($array as $item) {
+            $this->assertEquals($i--, $item);
         }
-        $this->assertEquals(-1, $i);
     }
 
 }
