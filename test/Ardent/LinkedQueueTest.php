@@ -23,7 +23,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(1, $queue);
         $this->assertFalse($queue->isEmpty());
 
-        $peek = $queue->peek();
+        $peek = $queue->first();
         $this->assertCount(1, $queue);
         $this->assertFalse($queue->isEmpty());
         $this->assertEquals(1, $peek);
@@ -53,7 +53,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $queue->enqueue(3);
         $queue->enqueue(5);
 
-        $peek = $queue->peek();
+        $peek = $queue->first();
         $this->assertEquals(1, $peek);
         $this->assertCount(3, $queue);
         $this->assertFalse($queue->isEmpty());
@@ -63,7 +63,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(2, $queue);
         $this->assertFalse($queue->isEmpty());
 
-        $peek = $queue->peek();
+        $peek = $queue->first();
         $this->assertEquals(3, $peek);
         $this->assertCount(2, $queue);
         $this->assertFalse($queue->isEmpty());
@@ -73,7 +73,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(1, $queue);
         $this->assertFalse($queue->isEmpty());
 
-        $peek = $queue->peek();
+        $peek = $queue->first();
         $this->assertEquals(5, $peek);
         $this->assertCount(1, $queue);
         $this->assertFalse($queue->isEmpty());
@@ -89,7 +89,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
      */
     function testPeekEmpty() {
         $queue = new LinkedQueue();
-        $queue->peek();
+        $queue->first();
     }
 
     /**

@@ -74,7 +74,7 @@ class LinkedQueue implements Queue {
      * @return mixed
      * @throws Exception\StateException if the Queue is empty.
      */
-    function peek() {
+    function first() {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }

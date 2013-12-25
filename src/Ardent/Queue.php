@@ -25,7 +25,7 @@ interface Queue extends IteratorAggregate, Countable {
      * @return mixed
      * @throws StateException if the Queue is empty.
      */
-    function peek();
+    function first();
 
     /**
      * @return array
