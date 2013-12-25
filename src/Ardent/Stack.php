@@ -28,6 +28,11 @@ interface Stack extends \IteratorAggregate, Countable {
     function peek();
 
     /**
+     * @return bool
+     */
+    function isEmpty();
+
+    /**
      * @return array
      */
     function toArray();
