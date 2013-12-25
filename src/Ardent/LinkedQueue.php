@@ -3,14 +3,10 @@
 namespace Ardent;
 
 use Ardent\Exception\EmptyException;
-use Ardent\Exception\FullException;
-use Ardent\Exception\TypeException;
 use Ardent\Iterator\LinkedQueueIterator;
 use Ardent\Iterator\QueueIterator;
 
 class LinkedQueue implements Queue {
-
-    use StructureCollection;
 
     /**
      * @var Pair
@@ -39,32 +35,15 @@ class LinkedQueue implements Queue {
      * @return QueueIterator
      */
     function getIterator() {
-
-        return new LinkedQueueIterator($this->size, $this->clonePair($this->head));
-    }
-
-    private function clonePair(Pair $pair = NULL) {
-        if ($pair === NULL) {
-            return NULL;
-        }
-
-        $new = new Pair($pair->first, $pair->second);
-        for ($current = $new; $current->second !== NULL; $current = $current->second) {
-            $current->second = new Pair(
-                $current->second->first,
-                $current->second->second
-            );
-        }
-        return $new;
+        return new LinkedQueueIterator($this->size, $this->head);
     }
 
     /**
      * @param $item
      * @return void
-     * @throws FullException if the Queue is full.
-     * @throws TypeException when $item is not the correct type.
+     * @throws Exception\StateException if the Queue is full.
      */
-    function push($item) {
+    function enqueue($item) {
         $pair = new Pair($item, NULL);
 
         if ($this->tail !== NULL) {
@@ -78,9 +57,9 @@ class LinkedQueue implements Queue {
 
     /**
      * @return mixed
-     * @throws EmptyException if the Queue is empty.
+     * @throws Exception\StateException if the Queue is empty.
      */
-    function pop() {
+    function dequeue() {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
@@ -93,7 +72,7 @@ class LinkedQueue implements Queue {
 
     /**
      * @return mixed
-     * @throws EmptyException if the Queue is empty.
+     * @throws Exception\StateException if the Queue is empty.
      */
     function peek() {
         if ($this->isEmpty()) {
@@ -124,7 +103,7 @@ class LinkedQueue implements Queue {
     }
 
     /**
-     * @param mixed $compare
+     * @param mixed $item
      * @return bool
      */
     function contains($item) {
@@ -134,6 +113,21 @@ class LinkedQueue implements Queue {
             }
         }
         return FALSE;
+    }
+
+    function clear() {
+        $this->size = 0;
+        $this->head = $this->tail = NULL;
+    }
+
+    function toArray() {
+        $array = [];
+        $current = $this->head;
+        while ($current !== NULL) {
+            $array[] = $current->first;
+            $current = $current->second;
+        }
+        return $array;
     }
 
 }

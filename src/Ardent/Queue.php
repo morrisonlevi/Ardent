@@ -2,31 +2,35 @@
 
 namespace Ardent;
 
-use Ardent\Exception\EmptyException;
-use Ardent\Exception\FullException;
-use Ardent\Exception\TypeException;
+use Ardent\Exception\StateException;
+use Countable;
+use IteratorAggregate;
 
-interface Queue extends \IteratorAggregate, Collection {
+interface Queue extends IteratorAggregate, Countable {
 
     /**
      * @param $item
      *
      * @return void
-     * @throws FullException if the Queue is full.
-     * @throws TypeException when $item is not the correct type.
+     * @throws StateException if the Queue is full.
      */
-    function push($item);
+    function enqueue($item);
 
     /**
      * @return mixed
-     * @throws EmptyException if the Queue is empty.
+     * @throws StateException if the Queue is empty.
      */
-    function pop();
+    function dequeue();
 
     /**
      * @return mixed
-     * @throws EmptyException if the Queue is empty.
+     * @throws StateException if the Queue is empty.
      */
     function peek();
+
+    /**
+     * @return array
+     */
+    function toArray();
 
 }

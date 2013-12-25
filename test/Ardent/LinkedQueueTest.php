@@ -9,7 +9,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $queue);
         $this->assertTrue($queue->isEmpty());
 
-        $queue->push(0);
+        $queue->enqueue(0);
         $this->assertCount(1, $queue);
         $this->assertFalse($queue->isEmpty());
     }
@@ -19,7 +19,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
      */
     function testPeekOne() {
         $queue = new LinkedQueue();
-        $queue->push(1);
+        $queue->enqueue(1);
         $this->assertCount(1, $queue);
         $this->assertFalse($queue->isEmpty());
 
@@ -34,11 +34,11 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
      */
     function testPopOne() {
         $queue = new LinkedQueue();
-        $queue->push(1);
+        $queue->enqueue(1);
         $this->assertCount(1, $queue);
         $this->assertFalse($queue->isEmpty());
 
-        $pop = $queue->pop();
+        $pop = $queue->dequeue();
         $this->assertCount(0, $queue);
         $this->assertTrue($queue->isEmpty());
         $this->assertEquals(1, $pop);
@@ -49,16 +49,16 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
      */
     function testMultiplePushPeekPop() {
         $queue = new LinkedQueue();
-        $queue->push(1);
-        $queue->push(3);
-        $queue->push(5);
+        $queue->enqueue(1);
+        $queue->enqueue(3);
+        $queue->enqueue(5);
 
         $peek = $queue->peek();
         $this->assertEquals(1, $peek);
         $this->assertCount(3, $queue);
         $this->assertFalse($queue->isEmpty());
 
-        $pop = $queue->pop();
+        $pop = $queue->dequeue();
         $this->assertEquals(1, $pop);
         $this->assertCount(2, $queue);
         $this->assertFalse($queue->isEmpty());
@@ -68,7 +68,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(2, $queue);
         $this->assertFalse($queue->isEmpty());
 
-        $pop = $queue->pop();
+        $pop = $queue->dequeue();
         $this->assertEquals(3, $pop);
         $this->assertCount(1, $queue);
         $this->assertFalse($queue->isEmpty());
@@ -78,7 +78,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(1, $queue);
         $this->assertFalse($queue->isEmpty());
 
-        $pop = $queue->pop();
+        $pop = $queue->dequeue();
         $this->assertEquals(5, $pop);
         $this->assertCount(0, $queue);
         $this->assertTrue($queue->isEmpty());
@@ -97,7 +97,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
      */
     function testPopEmpty() {
         $queue = new LinkedQueue();
-        $queue->pop();
+        $queue->dequeue();
     }
 
     function testGetIteratorEmpty() {
@@ -111,10 +111,10 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
      */
     function testIteratorForeach() {
         $queue = new LinkedQueue();
-        $queue->push(1);
-        $queue->push(2);
-        $queue->push(3);
-        $queue->push(4);
+        $queue->enqueue(1);
+        $queue->enqueue(2);
+        $queue->enqueue(3);
+        $queue->enqueue(4);
 
         $iterator = $queue->getIterator();
         $this->assertInstanceOf('Ardent\\Iterator\\LinkedQueueIterator', $iterator);
@@ -150,16 +150,16 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $queue = new LinkedQueue();
         $this->assertFalse($queue->any($equalsZero));
 
-        $queue->push(1);
+        $queue->enqueue(1);
         $this->assertFalse($queue->any($equalsZero));
 
-        $queue->push(0);
+        $queue->enqueue(0);
         $this->assertTrue($queue->any($equalsZero));
 
-        $queue->pop();
+        $queue->dequeue();
         $this->assertTrue($queue->any($equalsZero));
 
-        $queue->pop();
+        $queue->dequeue();
         $this->assertFalse($queue->any($equalsZero));
     }
 
@@ -170,23 +170,48 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $queue = new LinkedQueue();
         $this->assertFalse($queue->contains(0));
 
-        $queue->push(1);
+        $queue->enqueue(1);
         $this->assertFalse($queue->contains(0));
 
-        $queue->push(0);
+        $queue->enqueue(0);
         $this->assertTrue($queue->contains(0));
 
-        $queue->pop();
+        $queue->dequeue();
         $this->assertTrue($queue->contains(0));
 
-        $queue->pop();
+        $queue->dequeue();
         $this->assertFalse($queue->contains(0));
     }
 
-    function testMap() {
+
+    function testClear() {
         $queue = new LinkedQueue();
-        $driver = new CollectionTestDriver();
-        $driver->doMapTests($queue, [$queue, 'push']);
+        $queue->enqueue(0);
+        $queue->clear();
+        $this->assertCount(0, $queue);
+    }
+
+
+    function testToArrayEmpty() {
+        $queue = new LinkedQueue();
+        $array = $queue->toArray();
+        $this->assertTrue(is_array($array));
+        $this->assertCount(0, $array);
+    }
+
+
+    function testToArray() {
+        $queue = new LinkedQueue();
+        for ($i = 0; $i < 3; $i++) {
+            $queue->enqueue($i);
+        }
+        $array = $queue->toArray();
+        $this->assertTrue(is_array($array));
+        $this->assertCount(3, $array);
+        $i = 0;
+        foreach ($array as $item) {
+            $this->assertEquals($i++, $item);
+        }
     }
 
 }
