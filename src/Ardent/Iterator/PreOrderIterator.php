@@ -70,7 +70,7 @@ class PreOrderIterator implements BinaryTreeIterator {
      * @return mixed
      */
     function current() {
-        return $this->value->getValue();
+        return $this->value->value();
     }
 
     /**
@@ -83,12 +83,12 @@ class PreOrderIterator implements BinaryTreeIterator {
          */
         $node = $this->stack->pop();
 
-        $right = $node->getRight();
+        $right = $node->right();
         if ($right !== NULL) {
             $this->stack->push($right);
         }
 
-        $left = $node->getLeft();
+        $left = $node->left();
         if ($left !== NULL) {
             $this->stack->push($left);
         }

@@ -62,7 +62,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
      * @return mixed
      */
     function current() {
-        return $this->value->getValue();
+        return $this->value->value();
     }
 
     /**
@@ -75,12 +75,12 @@ class LevelOrderIterator implements BinaryTreeIterator {
          */
         $node = array_shift($this->queue);
 
-        $left = $node->getLeft();
+        $left = $node->left();
         if ($left !== NULL) {
             $this->queue[] = $left;
         }
 
-        $right = $node->getRight();
+        $right = $node->right();
         if ($right !== NULL) {
             $this->queue[] = $right;
         }

@@ -12,7 +12,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(1);
 
         $root = $tree->toBinaryTree();
-        $this->assertEquals(1, $root->getValue());
+        $this->assertEquals(1, $root->value());
         $this->assertBinaryTree($root);
         $this->assertCount(2, $tree);
     }
@@ -23,7 +23,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(0);
 
         $root = $tree->toBinaryTree();
-        $this->assertEquals(0, $root->getValue());
+        $this->assertEquals(0, $root->value());
         $this->assertBinaryTree($root);
         $this->assertCount(2, $tree);
     }
@@ -35,7 +35,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(0);
 
         $root = $tree->toBinaryTree();
-        $this->assertEquals(0, $root->getValue());
+        $this->assertEquals(0, $root->value());
         $this->assertBinaryTree($root);
         $this->assertCount(3, $tree);
     }
@@ -47,7 +47,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(2);
 
         $root = $tree->toBinaryTree();
-        $this->assertEquals(2, $root->getValue());
+        $this->assertEquals(2, $root->value());
         $this->assertBinaryTree($root);
         $this->assertCount(3, $tree);
     }
@@ -59,7 +59,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(0);
 
         $root = $tree->toBinaryTree();
-        $this->assertEquals(0, $root->getValue());
+        $this->assertEquals(0, $root->value());
         $this->assertBinaryTree($root);
         $this->assertCount(3, $tree);
     }
@@ -70,23 +70,23 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(1);
 
         $root = $tree->toBinaryTree();
-        $this->assertEquals(1, $root->getValue());
+        $this->assertEquals(1, $root->value());
         $this->assertCount(1, $tree);
     }
 
     protected function assertBinaryTree(BinaryTree $root) {
-        $x = $root->getValue();
-        $left = $root->getLeft();
+        $x = $root->value();
+        $left = $root->left();
         if ($left !== NULL) {
-            $y = $root->getLeft()->getValue();
+            $y = $root->left()->value();
             $this->assertLessThan($x, $y);
-            $this->assertBinaryTree($root->getLeft());
+            $this->assertBinaryTree($root->left());
         }
-        $right = $root->getRight();
+        $right = $root->right();
         if ($right !== NULL) {
-            $y = $right->getValue();
+            $y = $right->value();
             $this->assertLessThan($y, $x);
-            $this->assertBinaryTree($root->getRight());
+            $this->assertBinaryTree($root->right());
         }
     }
 
@@ -239,9 +239,9 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
             $tree->add($i);
         }
         $bt = $tree->toBinaryTree();
-        $this->assertEquals(2, $bt->getValue());
-        $this->assertEquals(1, $bt->getRight()->getValue());
-        $this->assertEquals(0, $bt->getRight()->getRight()->getValue());
+        $this->assertEquals(2, $bt->value());
+        $this->assertEquals(1, $bt->right()->value());
+        $this->assertEquals(0, $bt->right()->right()->value());
     }
 
     /**

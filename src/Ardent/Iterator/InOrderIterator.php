@@ -29,7 +29,7 @@ class InOrderIterator implements BinaryTreeIterator {
     /**
      * @var BinaryTree
      */
-    protected $value;
+    protected $node;
 
     function __construct(BinaryTree $root = NULL) {
         $this->root = $root;
@@ -40,7 +40,7 @@ class InOrderIterator implements BinaryTreeIterator {
      * @return mixed
      */
     function current() {
-        return $this->value->getValue();
+        return $this->node->value();
     }
 
     /**
@@ -58,19 +58,19 @@ class InOrderIterator implements BinaryTreeIterator {
          */
         $node = $this->stack->pop();
 
-        $right = $node->getRight();
+        $right = $node->right();
         if ($right !== NULL) {
             // left-most branch of the right side
-            for ($left = $right; $left !== NULL; $left = $left->getLeft()) {
+            for ($left = $right; $left !== NULL; $left = $left->left()) {
                 $this->stack->push($left);
             }
         }
 
         if ($this->stack->isEmpty()) {
-            $this->value = NULL;
+            $this->node = NULL;
             return;
         }
-        $this->value = $this->stack->last();
+        $this->node = $this->stack->last();
 
         $this->key++;
     }
@@ -88,7 +88,7 @@ class InOrderIterator implements BinaryTreeIterator {
      * @return boolean
      */
     function valid() {
-        return $this->value !== NULL;
+        return $this->node !== NULL;
     }
 
     /**
@@ -98,12 +98,12 @@ class InOrderIterator implements BinaryTreeIterator {
     function rewind() {
         $this->stack = new LinkedStack();
 
-        for ($current = $this->root; $current !== NULL; $current = $current->getLeft()) {
+        for ($current = $this->root; $current !== NULL; $current = $current->left()) {
             $this->stack->push($current);
         }
 
         if (!$this->stack->isEmpty()) {
-            $this->value = $this->stack->last();
+            $this->node = $this->stack->last();
             $this->key = 0;
         }
     }

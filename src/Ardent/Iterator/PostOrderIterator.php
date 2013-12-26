@@ -76,7 +76,7 @@ class PostOrderIterator implements BinaryTreeIterator {
      * @return mixed
      */
     function current() {
-        return $this->current->getValue();
+        return $this->current->value();
     }
 
     /**
@@ -88,12 +88,12 @@ class PostOrderIterator implements BinaryTreeIterator {
          * @var BinaryTree $node
          */
         if ($this->value !== NULL) {
-            $right = $this->value->getRight();
+            $right = $this->value->right();
             if ($right !== NULL) {
                 $this->stack->push($right);
             }
             $this->stack->push($this->value);
-            $this->value = $this->value->getLeft();
+            $this->value = $this->value->left();
             $this->next();
             return;
         }

@@ -7,26 +7,14 @@ class BinaryTree {
     /**
      * @var BinaryTree
      */
-    protected $left = NULL;
-
+    private $left = NULL;
     /**
      * @var BinaryTree
      */
-    protected $right = NULL;
+    private $right = NULL;
+    private $value = NULL;
+    private $height = 1;
 
-    /**
-     * @var mixed
-     */
-    protected $value = NULL;
-
-    /**
-     * @var int
-     */
-    protected $height = 1;
-
-    /**
-     * @param mixed $value
-     */
     function __construct($value) {
         $this->value = $value;
     }
@@ -34,14 +22,14 @@ class BinaryTree {
     /**
      * @return BinaryTree
      */
-    function getRight() {
+    function right() {
         return $this->right;
     }
 
     /**
      * @return BinaryTree
      */
-    function getLeft() {
+    function left() {
         return $this->left;
     }
 
@@ -66,28 +54,28 @@ class BinaryTree {
     /**
      * @return int
      */
-    function getHeight() {
+    function height() {
         return $this->height;
     }
 
     /**
      * @return int
      */
-    function getLeftHeight() {
-        return $this->left === NULL ? 0 : $this->left->getHeight();
+    function leftHeight() {
+        return $this->left === NULL ? 0 : $this->left->height();
     }
 
     /**
      * @return int
      */
-    function getRightHeight() {
-        return $this->right === NULL ? 0 : $this->right->getHeight();
+    function rightHeight() {
+        return $this->right === NULL ? 0 : $this->right->height();
     }
 
     /**
      * @return mixed
      */
-    function getValue() {
+    function value() {
         return $this->value;
     }
 
@@ -100,17 +88,17 @@ class BinaryTree {
     }
 
     function recalculateHeight() {
-        $this->height = max($this->getLeftHeight(), $this->getRightHeight()) + 1;
+        $this->height = max($this->leftHeight(), $this->rightHeight()) + 1;
     }
 
     /**
      * Note that this function is only safe to call when it has a predecessor.
      * @return BinaryTree
      */
-    function getInOrderPredecessor() {
-        $current = $this->getLeft();
-        while ($current->getRight() !== NULL) {
-            $current = $current->getRight();
+    function inOrderPredecessor() {
+        $current = $this->left();
+        while ($current->right() !== NULL) {
+            $current = $current->right();
         }
         return $current;
     }
