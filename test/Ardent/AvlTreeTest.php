@@ -15,7 +15,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
      */
     function testFindFirstEmpty() {
         $tree = new AvlTree();
-        $tree->findFirst();
+        $tree->first();
     }
 
     function testFindFirst() {
@@ -26,7 +26,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(-1);
 
         $expected = -1;
-        $actual = $tree->findFirst();
+        $actual = $tree->first();
         $this->assertEquals($expected, $actual);
     }
 
@@ -35,7 +35,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
      */
     function testFindLastEmpty() {
         $tree = new AvlTree();
-        $tree->findLast();
+        $tree->last();
     }
 
     function testFindLast() {
@@ -45,7 +45,7 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(2);
 
         $expected = 2;
-        $actual = $tree->findLast();
+        $actual = $tree->last();
         $this->assertEquals($expected, $actual);
     }
 

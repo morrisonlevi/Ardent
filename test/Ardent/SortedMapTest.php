@@ -124,7 +124,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
      */
     function testFindFirstEmpty() {
         $map = new SortedMap();
-        $map->findFirst();
+        $map->first();
     }
 
     /**
@@ -132,7 +132,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
      */
     function testFindLastEmpty() {
         $map = new SortedMap();
-        $map->findLast();
+        $map->last();
     }
 
     /**

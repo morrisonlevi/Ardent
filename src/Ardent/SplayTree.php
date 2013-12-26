@@ -186,7 +186,7 @@ class SplayTree implements BinarySearchTree {
     /**
      * Find the smallest item in the tree.
      */
-    function findFirst() {
+    function first() {
         $x = $this->root;
         if ($this->root == null) {
             throw new EmptyException;
@@ -201,7 +201,7 @@ class SplayTree implements BinarySearchTree {
     /**
      * Find the largest item in the tree.
      */
-    function findLast() {
+    function last() {
         $x = $this->root;
         if ($this->root == null) {
             throw new EmptyException;

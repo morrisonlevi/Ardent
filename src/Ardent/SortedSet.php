@@ -96,16 +96,16 @@ class SortedSet extends AbstractSet implements Set {
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
-    function findFirst() {
-        return $this->bst->findFirst();
+    function first() {
+        return $this->bst->first();
     }   
 
     /** 
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
-    function findLast() {
-        return $this->bst->findLast();
+    function last() {
+        return $this->bst->last();
     }
 
     /**

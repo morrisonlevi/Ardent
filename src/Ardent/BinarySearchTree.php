@@ -63,13 +63,13 @@ interface BinarySearchTree extends \IteratorAggregate, Collection {
      * @return mixed
      * @throws Exception\EmptyException when the tree is empty
      */
-    function findFirst();
+    function first();
 
     /**
      * @return mixed
      * @throws Exception\EmptyException when the tree is empty
      */
-    function findLast();
+    function last();
 
     /**
      * @return bool

@@ -225,7 +225,7 @@ class AvlTree implements BinarySearchTree {
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
-    function findFirst() {
+    function first() {
         if ($this->root === NULL) {
             throw new EmptyException();
         }
@@ -240,7 +240,7 @@ class AvlTree implements BinarySearchTree {
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
-    function findLast() {
+    function last() {
         if ($this->root === NULL) {
             throw new EmptyException();
         }

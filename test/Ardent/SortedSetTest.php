@@ -108,7 +108,7 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
      */
     function testFindFirstEmpty() {
         $set = new SortedSet();
-        $set->findFirst();
+        $set->first();
     }
 
     /**
@@ -119,7 +119,7 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
         $set->add(1);
 
         $expected = 1;
-        $actual = $set->findFirst();
+        $actual = $set->first();
         $this->assertEquals($expected, $actual);
     }
 
@@ -133,7 +133,7 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
         $set->add(3);
 
         $expected = 1;
-        $actual = $set->findFirst();
+        $actual = $set->first();
         $this->assertEquals($expected, $actual);
     }
 
@@ -142,7 +142,7 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
      */
     function testFindLastEmpty() {
         $set = new SortedSet();
-        $set->findLast();
+        $set->last();
     }
 
     /**
@@ -153,7 +153,7 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
         $set->add(1);
 
         $expected = 1;
-        $actual = $set->findLast();
+        $actual = $set->last();
         $this->assertEquals($expected, $actual);
     }
 
@@ -167,7 +167,7 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
         $set->add(3);
 
         $expected = 3;
-        $actual = $set->findLast();
+        $actual = $set->last();
         $this->assertEquals($expected, $actual);
     }
 
@@ -248,7 +248,7 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
         $tree = new SplayTree();
         $tree->add(1);
 
-        $set = new SortedSet(NULL, $tree);
+        new SortedSet(NULL, $tree);
     }
 
 }

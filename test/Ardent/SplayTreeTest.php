@@ -129,7 +129,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(0);
 
         $expected = 2;
-        $actual = $tree->findLast();
+        $actual = $tree->last();
         $this->assertEquals($expected, $actual);
     }
 
@@ -140,7 +140,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(1);
 
         $expected = 0;
-        $actual = $tree->findFirst();
+        $actual = $tree->first();
         $this->assertEquals($expected, $actual);
     }
 

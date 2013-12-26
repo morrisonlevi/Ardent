@@ -79,16 +79,16 @@ class SortedMap implements Map {
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
-    function findFirst() {
-        return $this->avl->findFirst();
+    function first() {
+        return $this->avl->first();
     }
 
     /** 
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
-    function findLast() {
-        return $this->avl->findLast();
+    function last() {
+        return $this->avl->last();
     }
 
     /**
