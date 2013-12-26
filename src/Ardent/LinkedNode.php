@@ -4,9 +4,6 @@ namespace Ardent;
 
 class LinkedNode {
 
-    /**
-     * @var mixed
-     */
     public $value;
 
     /**

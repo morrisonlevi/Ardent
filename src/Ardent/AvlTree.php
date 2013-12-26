@@ -21,8 +21,6 @@ class AvlTree implements BinarySearchTree {
      */
     private $root = NULL;
 
-    private $size = 0;
-
     /**
      * @var callable
      */
@@ -32,6 +30,8 @@ class AvlTree implements BinarySearchTree {
      * @var BinaryTree
      */
     private $cache = NULL;
+
+    private $size = 0;
 
     /**
      * @param callable $comparator

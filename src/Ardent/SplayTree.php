@@ -22,7 +22,9 @@ class SplayTree implements BinarySearchTree {
      * @var callable
      */
     private $comparator;
+
     private $header;
+
     private $size = 0;
 
     function __construct(callable $comparator = NULL) {

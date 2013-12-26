@@ -18,9 +18,6 @@ class LinkedQueue implements Queue {
      */
     private $tail;
 
-    /**
-     * @var int
-     */
     private $size = 0;
 
     /**

@@ -15,10 +15,7 @@ class LinkedStack implements Stack {
      */
     private $top;
 
-    /**
-     * @var int
-     */
-    private $size;
+    private $size = 0;
 
     /**
      * @return bool

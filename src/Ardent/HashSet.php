@@ -10,9 +10,6 @@ class HashSet extends AbstractSet implements Set {
 
     use StructureCollection;
 
-    /**
-     * @var array
-     */
     private $objects = [];
 
     /**

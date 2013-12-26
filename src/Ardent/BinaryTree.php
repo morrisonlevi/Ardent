@@ -12,7 +12,9 @@ class BinaryTree {
      * @var BinaryTree
      */
     private $right = NULL;
-    private $value = NULL;
+
+    private $value;
+
     private $height = 1;
 
     function __construct($value) {

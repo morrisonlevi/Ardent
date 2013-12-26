@@ -24,19 +24,13 @@ class LinkedList implements ArrayAccess, \IteratorAggregate, Collection {
     private $tail;
 
     /**
-     * @var int
-     */
-    private $size = 0;
-
-    /**
      * @var LinkedNode
      */
     private $currentNode;
 
-    /**
-     * @var int
-     */
-    private $currentOffset;
+    private $currentOffset = 0;
+
+    private $size = 0;
 
     /**
      * @return void
