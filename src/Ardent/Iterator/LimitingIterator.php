@@ -34,8 +34,10 @@ class LimitingIterator extends IteratorToCollectionAdapter {
      * @return void
      */
     function next() {
-        $this->inner->next();
         $this->used++;
+        if ($this->used < $this->n) {
+            $this->inner->next();
+        }
     }
 
     /**
