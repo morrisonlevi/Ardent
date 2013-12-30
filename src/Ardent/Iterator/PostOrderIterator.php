@@ -107,7 +107,7 @@ class PostOrderIterator implements BinaryTreeIterator {
 
         $this->value = $this->stack->pop();
 
-        $right = $this->value->getRight();
+        $right = $this->value->right();
         if ($right !== NULL && !$this->stack->isEmpty() && $right === $this->stack->last()) {
             $this->stack->pop();
             $this->stack->push($this->value);
