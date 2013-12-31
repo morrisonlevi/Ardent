@@ -2,8 +2,8 @@
     "name": "morrisonlevi/ardent",
     "type": "library",
     "description": "A healthy library for PHP",
-    "keywords": ["ardent", "library", "php", "spl"],
-    "homepage": "https://github.com/morrisonlevi/Collections",
+    "keywords": ["ardent", "collections", "library", "php", "spl"],
+    "homepage": "https://github.com/morrisonlevi/Ardent",
     "license": "MIT",
     "authors": [
         {
@@ -17,7 +17,7 @@
         "php": ">=5.4"
     },
     "autoload": {
-        "psr-0": {"Ardent": "src/"}
+        "classmap": ["src/"]
     },
     "extra": {
         "branch-alias": {
