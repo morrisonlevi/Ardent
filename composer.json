@@ -3,7 +3,7 @@
     "type": "library",
     "description": "A healthy library for PHP",
     "keywords": ["ardent", "library", "php", "spl"],
-    "homepage": "https://github.com/morrisonlevi/Ardent",
+    "homepage": "https://github.com/morrisonlevi/Collections",
     "license": "MIT",
     "authors": [
         {
