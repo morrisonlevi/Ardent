@@ -28,4 +28,4 @@ The Standard PHP Library (SPL) has many problems, some of which are documented i
 
 ### What's up with the name?
 
-This projet was originally aimed to fix the SPL; as such I had named it SPL. Eventually I realized that I would do better with a different name; I picked Ardent it describes how I feel about the need for this kind of library. Right now the Ardent namespace isn't used within the project at all; this is because I will eventually move away from this name because another PHP project decided to use the name after I had already picked it. I am not sure what the final name will be, so for now they are simply "Collections".
+This project was originally aimed to fix the SPL; as such I had named it SPL. Eventually I realized that I would do better with a different name; I picked Ardent it describes how I feel about the need for this kind of library. Right now the Ardent namespace isn't used within the project at all. I will eventually move away from the name Ardent because another PHP project decided to use the name after I had already picked it. I am not sure what the final name will be, so for now they are simply "Collections".
