@@ -1,4 +1,4 @@
-<phpunit bootstrap="./autoload.php" colors="true">
+<phpunit bootstrap="test/autoload.php" colors="true">
     <testsuites>
         <testsuite name="Unit-Tests">
             <directory>./</directory>
@@ -6,14 +6,14 @@
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory>../src/Collections</directory>
+            <directory>src/Collections</directory>
         </whitelist>
     </filter>
 
     <logging>
         <log
             type="coverage-html"
-            target="./coverage"
+            target="test/coverage"
             charset="UTF-8"
             yui="true"
             lowUpperBound="35"
