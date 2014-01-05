@@ -2,7 +2,7 @@
 
 namespace Collections;
 
-interface BinarySearchTree extends Enumerable {
+interface BinarySearchTree extends \Countable, Enumerable {
 
     const TRAVERSE_IN_ORDER = 0;
     const TRAVERSE_LEVEL_ORDER = 1;

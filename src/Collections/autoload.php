@@ -10,7 +10,6 @@ function autoload($className) {
         'Collections\\BinarySearchTree'	=>	'BinarySearchTree.php',
         'Collections\\BinaryTree'	=>	'BinaryTree.php',
         'Collections\\Collection'	=>	'Collection.php',
-        'Collections\\Countable' =>  'Countable.php',
         'Collections\\ConditionalMediator'	=>	'ConditionalMediator.php',
         'Collections\\EmptyException' =>  'Exception/EmptyException.php',
         'Collections\\Enumerable'   =>  'Enumerable.php',

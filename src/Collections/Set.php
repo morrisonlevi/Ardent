@@ -2,7 +2,7 @@
 
 namespace Collections;
 
-interface Set extends Enumerable {
+interface Set extends \Countable, Enumerable {
 
     /**
      * Note that if the item is considered equal to an already existing item

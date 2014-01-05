@@ -2,8 +2,7 @@
 
 namespace Collections;
 
-
-interface Queue extends Countable, Enumerable {
+interface Queue extends \Countable, Enumerable {
 
     /**
      * @param $item
@@ -24,10 +23,5 @@ interface Queue extends Countable, Enumerable {
      * @throws StateException if the Queue is empty.
      */
     function first();
-
-    /**
-     * @return array
-     */
-    function toArray();
 
 }

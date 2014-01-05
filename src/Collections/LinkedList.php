@@ -2,9 +2,9 @@
 
 namespace Collections;
 
-use ArrayAccess;
+class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
-class LinkedList implements ArrayAccess, Enumerable {
+    use IteratorCollection;
 
     /**
      * @var LinkedNode

@@ -115,4 +115,12 @@ trait StructureCollection /* implements Collection */ {
     function slice($start, $count) {
         return new SlicingIterator($this->getIterator(), $start, $count);
     }
+
+    /**
+     * @param bool $preserveKeys
+     * @return array
+     */
+    function toArray($preserveKeys = FALSE) {
+        return iterator_to_array($this->getIterator(), $preserveKeys);
+    }
 }

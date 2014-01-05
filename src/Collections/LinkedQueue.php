@@ -4,6 +4,8 @@ namespace Collections;
 
 class LinkedQueue implements Queue {
 
+    use StructureCollection;
+
     /**
      * @var Pair
      */
@@ -111,16 +113,6 @@ class LinkedQueue implements Queue {
     function clear() {
         $this->size = 0;
         $this->head = $this->tail = NULL;
-    }
-
-    function toArray() {
-        $array = [];
-        $current = $this->head;
-        while ($current !== NULL) {
-            $array[] = $current->first;
-            $current = $current->second;
-        }
-        return $array;
     }
 
 }

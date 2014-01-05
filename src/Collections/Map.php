@@ -2,9 +2,7 @@
 
 namespace Collections;
 
-use ArrayAccess;
-
-interface Map extends ArrayAccess, Enumerable {
+interface Map extends \ArrayAccess, \Countable, Enumerable {
 
     /**
      * @param $key

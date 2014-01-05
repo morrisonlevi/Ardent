@@ -2,9 +2,7 @@
 
 namespace Collections;
 
-use IteratorAggregate;
-
-interface Enumerable extends Countable, IteratorAggregate {
+interface Enumerable extends Collection, \IteratorAggregate {
 
     /**
      * @return Enumerator

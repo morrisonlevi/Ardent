@@ -2,9 +2,7 @@
 
 namespace Collections;
 
-use ArrayAccess;
-
-class Vector implements ArrayAccess, Enumerable {
+class Vector implements \ArrayAccess, \Countable, Enumerable {
 
     protected $array = [];
 

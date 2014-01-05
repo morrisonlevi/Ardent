@@ -4,6 +4,8 @@ namespace Collections;
 
 class AvlTree implements BinarySearchTree {
 
+    use StructureCollection;
+
     /**
      * @var BinaryTree
      */
