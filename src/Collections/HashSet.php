@@ -4,7 +4,7 @@ namespace Collections;
 
 class HashSet extends AbstractSet implements Set {
 
-    use StructureCollection;
+    use IteratorCollection;
 
     private $objects = [];
 

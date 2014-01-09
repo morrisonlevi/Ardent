@@ -2,30 +2,34 @@
 
 namespace Collections;
 
-/**
- * @implements \Collections\Enumerator
- */
 trait IteratorCollection /* implements \Collections\Enumerator */ {
+
+    /**
+     * @return \Iterator
+     */
+    private function asIterator() {
+        if ($this instanceof \IteratorAggregate) {
+            return $this->getIterator();
+        }
+        return $this;
+    }
 
     /**
      * @return bool
      */
     function isEmpty() {
-        if ($this instanceof \Countable) {
-            return $this->count() == 0;
-        }
-        /** @var \Iterator $this */
-        $this->rewind();
-        return !$this->valid();
+        $i = $this->asIterator();
+        $i->rewind();
+        return !$i->valid();
     }
 
     /**
      * @param callable $callback
      */
     function each(callable $callback) {
-        /** @var \Iterator $this */
-        for ($this->rewind(); $this->valid(); $this->next()) {
-            $callback($this->current(), $this->key());
+        $i = $this->asIterator();
+        for ($i->rewind(); $i->valid(); $i->next()) {
+            $callback($i->current(), $i->key());
         }
     }
 
@@ -34,9 +38,9 @@ trait IteratorCollection /* implements \Collections\Enumerator */ {
      * @return bool
      */
     function every(callable $f) {
-        /** @var \Iterator $this */
-        for ($this->rewind(); $this->valid(); $this->next()) {
-            if (!$f($this->current(), $this->key())) {
+        $i = $this->asIterator();
+        for ($i->rewind(); $i->valid(); $i->next()) {
+            if (!$f($i->current(), $i->key())) {
                 return FALSE;
             }
         }
@@ -48,7 +52,7 @@ trait IteratorCollection /* implements \Collections\Enumerator */ {
      * @return Enumerator
      */
     function map(callable $map) {
-        return new MappingIterator($this, $map);
+        return new MappingIterator($this->asIterator(), $map);
     }
 
     /**
@@ -56,7 +60,7 @@ trait IteratorCollection /* implements \Collections\Enumerator */ {
      * @return Enumerator
      */
     function filter(callable $filter) {
-        return new FilteringIterator($this, $filter);
+        return new FilteringIterator($this->asIterator(), $filter);
     }
 
     /**
@@ -93,7 +97,7 @@ trait IteratorCollection /* implements \Collections\Enumerator */ {
      * @return Enumerator
      */
     function limit($n) {
-        return new LimitingIterator($this, $n);
+        return new LimitingIterator($this->asIterator(), $n);
     }
 
     /**
@@ -102,15 +106,15 @@ trait IteratorCollection /* implements \Collections\Enumerator */ {
      * @return mixed
      */
     function max(callable $compare = NULL) {
-        /** @var \Iterator $this */
-        $this->rewind();
-        if (!$this->valid()) {
+        $i = $this->asIterator();
+        $i->rewind();
+        if (!$i->valid()) {
             throw new StateException;
         }
         $compare = $compare ?: 'max';
-        $max = $this->current();
-        for ($this->next(); $this->valid(); $this->next()) {
-            $max = $compare($max, $this->current());
+        $max = $i->current();
+        for ($i->next(); $i->valid(); $i->next()) {
+            $max = $compare($max, $i->current());
         }
         return $max;
     }
@@ -121,15 +125,15 @@ trait IteratorCollection /* implements \Collections\Enumerator */ {
      * @return mixed
      */
     function min(callable $compare = NULL) {
-        /** @var \Iterator $this */
-        $this->rewind();
-        if (!$this->valid()) {
+        $i = $this->asIterator();
+        $i->rewind();
+        if (!$i->valid()) {
             throw new StateException;
         }
         $compare = $compare ?: 'min';
-        $min = $this->current();
-        for ($this->next(); $this->valid(); $this->next()) {
-            $min = $compare($min, $this->current());
+        $min = $i->current();
+        for ($i->next(); $i->valid(); $i->next()) {
+            $min = $compare($min, $i->current());
         }
         return $min;
     }
@@ -139,9 +143,9 @@ trait IteratorCollection /* implements \Collections\Enumerator */ {
      * @return bool
      */
     function none(callable $f) {
-        /** @var \Iterator $this */
-        for ($this->rewind(); $this->valid(); $this->next()) {
-            if ($f($this->current(), $this->key())) {
+        $i = $this->asIterator();
+        for ($i->rewind(); $i->valid(); $i->next()) {
+            if ($f($i->current(), $i->key())) {
                 return FALSE;
             }
         }
@@ -154,10 +158,10 @@ trait IteratorCollection /* implements \Collections\Enumerator */ {
      * @return mixed
      */
     function reduce($initialValue, callable $combine) {
-        /** @var \Iterator $this */
+        $i = $this->asIterator();
         $carry = $initialValue;
-        for ($this->rewind(); $this->valid(); $this->next()) {
-            $carry = $combine($carry, $this->current());
+        for ($i->rewind(); $i->valid(); $i->next()) {
+            $carry = $combine($carry, $i->current());
         }
         return $carry;
     }
@@ -167,7 +171,7 @@ trait IteratorCollection /* implements \Collections\Enumerator */ {
      * @return Enumerator
      */
     function skip($n) {
-        return new SkippingIterator($this, $n);
+        return new SkippingIterator($this->asIterator(), $n);
     }
 
     /**
@@ -176,22 +180,22 @@ trait IteratorCollection /* implements \Collections\Enumerator */ {
      * @return Enumerator
      */
     function slice($start, $count) {
-        return new SlicingIterator($this, $start, $count);
+        return new SlicingIterator($this->asIterator(), $start, $count);
     }
 
     /**
      * @return array
      */
     function toArray() {
-        return iterator_to_array($this);
+        return iterator_to_array($this->asIterator());
     }
 
     function keys() {
-        return new KeyIterator($this);
+        return new KeyIterator($this->asIterator());
     }
 
     function values() {
-        return new ValueIterator($this);
+        return new ValueIterator($this->asIterator());
     }
 
 }

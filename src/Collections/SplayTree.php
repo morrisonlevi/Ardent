@@ -3,7 +3,8 @@
 namespace Collections;
 
 class SplayTree implements BinarySearchTree {
-    use StructureCollection;
+
+    use IteratorCollection;
 
     /**
      * @var SplayNode

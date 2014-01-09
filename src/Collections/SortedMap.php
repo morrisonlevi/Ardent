@@ -4,7 +4,7 @@ namespace Collections;
 
 class SortedMap implements Map {
 
-    use StructureCollection;
+    use IteratorCollection;
 
     private $avl;
 

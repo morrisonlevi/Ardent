@@ -4,7 +4,7 @@ namespace Collections;
 
 class LinkedStack implements Stack {
 
-    use StructureCollection;
+    use IteratorCollection;
 
     /**
      * @var Pair

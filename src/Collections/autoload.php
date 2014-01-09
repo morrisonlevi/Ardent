@@ -66,7 +66,6 @@ function autoload($className) {
         'Collections\\SplayNode' =>  'SplayNode.php',
         'Collections\\SplayTree' =>  'SplayTree.php',
         'Collections\\Stack'	=>	'Stack.php',
-        'Collections\\StructureCollection'	=>	'StructureCollection.php',
         'Collections\\ValueIterator'   =>   'Iterator/ValueIterator.php',
         'Collections\\Vector'	=>	'Vector.php',
         'Collections\\VectorIterator'  =>  'Iterator/VectorIterator.php',

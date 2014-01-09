@@ -4,7 +4,7 @@ namespace Collections;
 
 class SortedSet extends AbstractSet implements Set {
 
-    use StructureCollection;
+    use IteratorCollection;
 
     /**
      * @var BinarySearchTree

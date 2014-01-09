@@ -4,7 +4,7 @@ namespace Collections;
 
 class HashMap implements Map {
 
-    use StructureCollection;
+    use IteratorCollection;
 
     private $storage = [];
 
