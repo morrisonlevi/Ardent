@@ -2,7 +2,7 @@
 
 namespace Collections;
 
-class SlicingIterator extends IteratorToCollectionAdapter {
+class SlicingIterator extends IteratorCollectionAdapter {
 
     private $start;
     private $count;
@@ -30,14 +30,6 @@ class SlicingIterator extends IteratorToCollectionAdapter {
         for ($i = 0; $i < $this->start; $i++) {
             $this->inner->next();
         }
-    }
-
-    /**
-     * @link http://php.net/manual/en/countable.count.php
-     * @return int
-     */
-    function count() {
-        return iterator_count($this);
     }
 
 }

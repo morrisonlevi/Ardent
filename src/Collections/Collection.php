@@ -89,9 +89,19 @@ interface Collection extends \Traversable {
     function slice($start, $count);
 
     /**
-     * @param bool $preserveKeys
+     * Note that if you attempt to use keys that are not valid as a PHP array key then you will get errors.
      * @return array
      */
-    function toArray($preserveKeys = FALSE);
+    function toArray();
+
+    /**
+     * @return Collection containing the keys as the values
+     */
+    function keys();
+
+    /**
+     * @return Collection containing the values but ignores keys
+     */
+    function values();
 
 } 

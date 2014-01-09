@@ -2,27 +2,20 @@
 
 namespace Collections;
 
-class HashSetIterator implements SetIterator {
+class HashSetIterator extends IteratorCollectionAdapter implements SetIterator {
 
-    use IteratorCollection;
-
-    /**
-     * @var array
-     */
-    private $objects;
-
-    /**
-     * @var int
-     */
     private $key = 0;
 
+    private $size = 0;
+
     function  __construct(array $set) {
-        $this->objects = $set;
+        parent::__construct(new \ArrayIterator($set));
+        $this->size = count($set);
         $this->rewind();
     }
 
     function count() {
-        return count($this->objects);
+        return $this->size;
     }
 
     /**
@@ -30,38 +23,8 @@ class HashSetIterator implements SetIterator {
      * @return void
      */
     function rewind() {
-        reset($this->objects);
+        parent::rewind();
         $this->key = 0;
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean
-     */
-    function valid() {
-        return key($this->objects) !== NULL;
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.key.php
-     * @return string
-     */
-    function key() {
-        if (!$this->valid()) {
-            return NULL;
-        }
-        return $this->key;
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed
-     */
-    function current() {
-        if (!$this->valid()) {
-            return NULL;
-        }
-        return current($this->objects);
     }
 
     /**
@@ -69,8 +32,16 @@ class HashSetIterator implements SetIterator {
      * @return void
      */
     function next() {
-        next($this->objects);
+        parent::next();
         $this->key++;
+    }
+
+    /**
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return string
+     */
+    function key() {
+        return $this->key;
     }
 
 }

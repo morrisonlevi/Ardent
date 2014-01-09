@@ -26,8 +26,11 @@ class InOrderIterator implements BinaryTreeIterator {
      */
     protected $node;
 
-    function __construct(BinaryTree $root = NULL) {
+    private $size = 0;
+
+    function __construct(BinaryTree $root = NULL, $count = 0) {
         $this->root = $root;
+        $this->size = $count;
     }
 
     /**
@@ -43,11 +46,6 @@ class InOrderIterator implements BinaryTreeIterator {
      * @return void
      */
     function next() {
-        if (!$this->valid()) {
-            $this->key = NULL;
-            return;
-        }
-
         /**
          * @var BinaryTree $node
          */
@@ -101,6 +99,10 @@ class InOrderIterator implements BinaryTreeIterator {
             $this->node = $this->stack->last();
             $this->key = 0;
         }
+    }
+
+    function count() {
+        return $this->size;
     }
 
 }

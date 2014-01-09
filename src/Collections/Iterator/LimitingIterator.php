@@ -2,7 +2,7 @@
 
 namespace Collections;
 
-class LimitingIterator extends IteratorToCollectionAdapter {
+class LimitingIterator extends IteratorCollectionAdapter {
 
     /**
      * @var int
@@ -25,7 +25,7 @@ class LimitingIterator extends IteratorToCollectionAdapter {
      * @return void
      */
     function rewind() {
-        $this->inner->rewind();
+        parent::rewind();
         $this->used = 0;
     }
 
@@ -45,15 +45,7 @@ class LimitingIterator extends IteratorToCollectionAdapter {
      * @return boolean
      */
     function valid() {
-        return $this->used < $this->n && $this->inner->valid();
-    }
-
-    /**
-     * @link http://php.net/manual/en/countable.count.php
-     * @return int
-     */
-    function count() {
-        return iterator_count($this);
+        return $this->used < $this->n && parent::valid();
     }
 
 }

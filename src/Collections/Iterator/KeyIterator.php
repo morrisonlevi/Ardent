@@ -2,36 +2,17 @@
 
 namespace Collections;
 
-class KeyIterator implements CountableIterator, Enumerator {
-
-    use IteratorCollection;
+class KeyIterator extends IteratorCollectionAdapter {
 
     private $i = 0;
-
-    /**
-     * @var \Iterator
-     */
-    private $inner;
-
-    function __construct(\Iterator $iterator) {
-        $this->inner = $iterator;
-    }
 
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void
      */
     function rewind() {
+        parent::rewind();
         $this->i = 0;
-        $this->inner->rewind();
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean
-     */
-    function valid() {
-        return $this->inner->valid();
     }
 
     /**
@@ -51,7 +32,7 @@ class KeyIterator implements CountableIterator, Enumerator {
      * @return mixed
      */
     function current() {
-        return $this->inner->key();
+        return parent::key();
     }
 
     /**
@@ -61,7 +42,7 @@ class KeyIterator implements CountableIterator, Enumerator {
      * @return void
      */
     function next() {
-        $this->inner->next();
+        parent::next();
         $this->i++;
     }
 

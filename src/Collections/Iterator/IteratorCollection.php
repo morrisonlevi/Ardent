@@ -2,13 +2,31 @@
 
 namespace Collections;
 
-trait IteratorCollection /* implements \Collections\Collection */ {
+/**
+ * @implements \Collections\Enumerator
+ */
+trait IteratorCollection /* implements \Collections\Enumerator */ {
+
+    /**
+     * @return bool
+     */
+    function isEmpty() {
+        if ($this instanceof \Countable) {
+            return $this->count() == 0;
+        }
+        /** @var \Iterator $this */
+        $this->rewind();
+        return !$this->valid();
+    }
 
     /**
      * @param callable $callback
      */
     function each(callable $callback) {
-        (new IteratorToCollectionAdapter($this))->each($callback);
+        /** @var \Iterator $this */
+        for ($this->rewind(); $this->valid(); $this->next()) {
+            $callback($this->current(), $this->key());
+        }
     }
 
     /**
@@ -16,7 +34,13 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @return bool
      */
     function every(callable $f) {
-        return (new IteratorToCollectionAdapter($this))->every($f);
+        /** @var \Iterator $this */
+        for ($this->rewind(); $this->valid(); $this->next()) {
+            if (!$f($this->current(), $this->key())) {
+                return FALSE;
+            }
+        }
+        return TRUE;
     }
 
     /**
@@ -24,7 +48,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @return Enumerator
      */
     function map(callable $map) {
-        return (new IteratorToCollectionAdapter($this))->map($map);
+        return new MappingIterator($this, $map);
     }
 
     /**
@@ -32,7 +56,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @return Enumerator
      */
     function filter(callable $filter) {
-        return (new IteratorToCollectionAdapter($this))->filter($filter);
+        return new FilteringIterator($this, $filter);
     }
 
     /**
@@ -40,7 +64,12 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @return bool
      */
     function any(callable $compare) {
-        return (new IteratorToCollectionAdapter($this))->any($compare);
+        foreach ($this as $value) {
+            if ($compare($value)) {
+                return TRUE;
+            }
+        }
+        return FALSE;
     }
 
     /**
@@ -48,7 +77,15 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @return string
      */
     function join($separator) {
-        return (new IteratorToCollectionAdapter($this))->join($separator);
+        $buffer = '';
+        $i = 0;
+        foreach ($this as $value) {
+            if ($i++ > 0) {
+                $buffer .= $separator;
+            }
+            $buffer .= $value;
+        }
+        return $buffer;
     }
 
     /**
@@ -56,23 +93,45 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @return Enumerator
      */
     function limit($n) {
-        return (new IteratorToCollectionAdapter($this))->limit($n);
+        return new LimitingIterator($this, $n);
     }
 
     /**
      * @param callable $compare
+     * @throws StateException
      * @return mixed
      */
     function max(callable $compare = NULL) {
-        return (new IteratorToCollectionAdapter($this))->max($compare);
+        /** @var \Iterator $this */
+        $this->rewind();
+        if (!$this->valid()) {
+            throw new StateException;
+        }
+        $compare = $compare ?: 'max';
+        $max = $this->current();
+        for ($this->next(); $this->valid(); $this->next()) {
+            $max = $compare($max, $this->current());
+        }
+        return $max;
     }
 
     /**
      * @param callable $compare
+     * @throws StateException
      * @return mixed
      */
     function min(callable $compare = NULL) {
-        return (new IteratorToCollectionAdapter($this))->min($compare);
+        /** @var \Iterator $this */
+        $this->rewind();
+        if (!$this->valid()) {
+            throw new StateException;
+        }
+        $compare = $compare ?: 'min';
+        $min = $this->current();
+        for ($this->next(); $this->valid(); $this->next()) {
+            $min = $compare($min, $this->current());
+        }
+        return $min;
     }
 
     /**
@@ -80,7 +139,13 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @return bool
      */
     function none(callable $f) {
-        return (new IteratorToCollectionAdapter($this))->none($f);
+        /** @var \Iterator $this */
+        for ($this->rewind(); $this->valid(); $this->next()) {
+            if ($f($this->current(), $this->key())) {
+                return FALSE;
+            }
+        }
+        return TRUE;
     }
 
     /**
@@ -89,8 +154,12 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @return mixed
      */
     function reduce($initialValue, callable $combine) {
-        return (new IteratorToCollectionAdapter($this))
-            ->reduce($initialValue, $combine);
+        /** @var \Iterator $this */
+        $carry = $initialValue;
+        for ($this->rewind(); $this->valid(); $this->next()) {
+            $carry = $combine($carry, $this->current());
+        }
+        return $carry;
     }
 
     /**
@@ -98,7 +167,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @return Enumerator
      */
     function skip($n) {
-        return (new IteratorToCollectionAdapter($this))->skip($n);
+        return new SkippingIterator($this, $n);
     }
 
     /**
@@ -107,28 +176,22 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @return Enumerator
      */
     function slice($start, $count) {
-        return (new IteratorToCollectionAdapter($this))
-            ->slice($start, $count);
+        return new SlicingIterator($this, $start, $count);
     }
 
     /**
-     * @param bool $preserveKeys
      * @return array
      */
-    function toArray($preserveKeys = FALSE) {
-        return iterator_to_array($this, $preserveKeys);
+    function toArray() {
+        return iterator_to_array($this);
     }
 
-    function isEmpty() {
-        return $this->count() === 0;
+    function keys() {
+        return new KeyIterator($this);
     }
 
-    /**
-     * @link http://php.net/manual/en/countable.count.php
-     * @return int
-     */
-    function count() {
-        return iterator_count($this);
+    function values() {
+        return new ValueIterator($this);
     }
 
 }

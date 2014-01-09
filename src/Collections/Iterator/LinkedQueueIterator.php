@@ -38,9 +38,6 @@ class LinkedQueueIterator implements QueueIterator {
      * @return mixed Can return any type.
      */
     function current() {
-        if ($this->current === NULL) {
-            return NULL;
-        }
         return $this->current->first;
     }
 
@@ -49,10 +46,6 @@ class LinkedQueueIterator implements QueueIterator {
      * @return void 
      */
     function next() {
-        if ($this->current === NULL) {
-            $this->key = NULL;
-            return;
-        }
         $this->current = $this->current->second;
         $this->key++;
     }

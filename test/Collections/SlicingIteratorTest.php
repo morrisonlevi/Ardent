@@ -42,7 +42,7 @@ class SlicingIteratorTest extends \PHPUnit_Framework_TestCase {
         $iterator = new ArrayIterator($insert);
         $slice = call_user_func_array([$iterator, 'slice'], $params);
         $this->assertCount(count($expect), $slice);
-        $this->assertEquals($expect, $slice->toArray());
+        $this->assertEquals($expect, $slice->values()->toArray());
     }
 
 }

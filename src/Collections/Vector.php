@@ -217,7 +217,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @return VectorIterator
      */
     function getIterator() {
-        return new VectorIterator(clone $this);
+        return new VectorIterator($this);
     }
 
     /**
@@ -252,10 +252,9 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
     }
 
     /**
-     * @param bool $preserveKeys
      * @return array
      */
-    function toArray($preserveKeys = FALSE) {
+    function toArray() {
        return $this->array;
     }
 
@@ -332,14 +331,15 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @return mixed
      */
     function max(callable $compare = NULL) {
-        reset($this->array);
-        if (key($this->array) === NULL) {
-            return NULL;
+        $i = new \ArrayIterator($this->array);
+        $i->rewind();
+        if (!$i->valid()) {
+            throw new StateException;
         }
         $compare = $compare ?: 'max';
-        $max = current($this->array);
-        for (next($this->array); key($this->array) !== NULL; next($this->array)) {
-            $max = $compare($max, current($this->array));
+        $max = $i->current();
+        for ($i->next(); $i->valid(); $i->next()) {
+            $max = $compare($max, $i->current());
         }
         return $max;
     }
@@ -347,16 +347,18 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
     /**
      * @param callable $compare
      * @return mixed
+     * @throws StateException if Collection is empty
      */
     function min(callable $compare = NULL) {
-        reset($this->array);
-        if (key($this->array) === NULL) {
-            return NULL;
+        $i = new \ArrayIterator($this->array);
+        $i->rewind();
+        if (!$i->valid()) {
+            throw new StateException;
         }
         $compare = $compare ?: 'min';
-        $min = current($this->array);
-        for (next($this->array); key($this->array) !== NULL; next($this->array)) {
-            $min = $compare($min, current($this->array));
+        $min = $i->current();
+        for ($i->next(); $i->valid(); $i->next()) {
+            $min = $compare($min, $i->current());
         }
         return $min;
     }
@@ -373,6 +375,25 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
             }
         }
         return $vector;
+    }
+
+    /**
+     * @return Vector
+     */
+    function keys() {
+        $vector = new Vector();
+        $i = new \ArrayIterator($this->array);
+        for ($i->rewind(); $i->valid(); $i->next()) {
+            $vector->append($i->key());
+        }
+        return $vector;
+    }
+
+    /**
+     * @return Vector
+     */
+    function values() {
+        return $this;
     }
 
 }

@@ -207,12 +207,6 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
         }
 
         $this->assertFalse($iterator->valid());
-        $this->assertNull($iterator->key());
-        $this->assertNull($iterator->current());
-
-        $iterator->next();
-        $this->assertNull($iterator->key());
-        $this->assertNull($iterator->current());
     }
 
     /**

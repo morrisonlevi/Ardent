@@ -2,7 +2,7 @@
 
 namespace Collections;
 
-interface Stack extends \IteratorAggregate, \Countable {
+interface Stack extends \IteratorAggregate, \Countable, Enumerable {
 
     /**
      * @param mixed $object
@@ -28,5 +28,10 @@ interface Stack extends \IteratorAggregate, \Countable {
      * @return array
      */
     function toArray();
+
+    /**
+     * @return bool
+     */
+    function isEmpty();
 
 }

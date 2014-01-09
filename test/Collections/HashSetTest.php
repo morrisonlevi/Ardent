@@ -169,7 +169,7 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
 
         $iterator = $set->getIterator();
         $this->assertInstanceOf('Collections\\HashSetIterator', $iterator);
-        $this->assertCount(count($set), $iterator);
+        $iterator->rewind();
 
         $this->assertTrue($iterator->valid());
         $this->assertEquals(0, $iterator->key());
@@ -194,11 +194,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         }
 
         $this->assertFalse($iterator->valid());
-        $this->assertNull($iterator->key());
-        $this->assertNull($iterator->current());
-        $iterator->next();
-        $this->assertNull($iterator->key());
-        $this->assertNull($iterator->current());
 
     }
 

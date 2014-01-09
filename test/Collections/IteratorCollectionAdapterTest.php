@@ -2,12 +2,12 @@
 
 namespace Collections;
 
-class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
+class IteratorCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
 
     function testIteration() {
         $array = [1, 2, 3, 4, 5];
         $inner = new ArrayIterator($array);
-        $iterator = new IteratorToCollectionAdapter($inner);
+        $iterator = new IteratorCollectionAdapter($inner);
 
         $i = 0;
         foreach ($iterator as $key => $value) {
@@ -20,7 +20,7 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     function testEach() {
         $array = [1, 2, 3, 4, 5];
         $inner = new ArrayIterator($array);
-        $iterator = new IteratorToCollectionAdapter($inner);
+        $iterator = new IteratorCollectionAdapter($inner);
 
         $keys = '';
         $sum = 0;
@@ -36,7 +36,7 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     function testEveryMatchesNone() {
         $array = [1, 2, 3, 4, 5];
         $inner = new ArrayIterator($array);
-        $iterator = new IteratorToCollectionAdapter($inner);
+        $iterator = new IteratorCollectionAdapter($inner);
 
         $this->assertFalse($iterator->every(function ($value) {
             return $value < 0;
@@ -46,7 +46,7 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     function testEveryMatchesSome() {
         $array = [1, 2, 3, 4, 5];
         $inner = new ArrayIterator($array);
-        $iterator = new IteratorToCollectionAdapter($inner);
+        $iterator = new IteratorCollectionAdapter($inner);
 
         $this->assertFalse($iterator->every(function ($value) {
             return $value < 3;
@@ -56,7 +56,7 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     function testEveryMatchesAll() {
         $array = [1, 2, 3, 4, 5];
         $inner = new ArrayIterator($array);
-        $iterator = new IteratorToCollectionAdapter($inner);
+        $iterator = new IteratorCollectionAdapter($inner);
 
         $this->assertTrue($iterator->every(function ($value) {
             return $value < PHP_INT_MAX;
@@ -66,7 +66,7 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     function testContainsFalse() {
         $array = [1, 2, 3, 4, 5];
         $inner = new ArrayIterator($array);
-        $iterator = new IteratorToCollectionAdapter($inner);
+        $iterator = new IteratorCollectionAdapter($inner);
 
         $this->assertFalse($iterator->any(function ($value) {
             return $value === NULL;
@@ -76,7 +76,7 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     function testContains() {
         $array = [1, 2, 3, 4, 5];
         $inner = new ArrayIterator($array);
-        $iterator = new IteratorToCollectionAdapter($inner);
+        $iterator = new IteratorCollectionAdapter($inner);
 
         $this->assertTrue($iterator->any(function ($value) {
             return $value === 3;
@@ -84,47 +84,39 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testCountCountable() {
-        $iterator = new IteratorToCollectionAdapter(new \ArrayIterator([0, 2, 4]));
+        $iterator = new IteratorCollectionAdapter(new \ArrayIterator([0, 2, 4]));
         $this->assertCount(3, $iterator);
     }
 
     function testCountEmptyNotCountable() {
-        $iterator = new IteratorToCollectionAdapter(new \EmptyIterator());
+        $iterator = new IteratorCollectionAdapter(new \EmptyIterator());
         $this->assertCount(0, $iterator);
-    }
-
-    function testCountNotCountable() {
-        $iterator = new IteratorToCollectionAdapter(new \IteratorIterator(new \ArrayIterator([1])));
-        $this->assertCount(1, $iterator);
-    }
-
-    function testIsEmptyTrue() {
-        $iterator = new IteratorToCollectionAdapter(new \EmptyIterator());
         $this->assertTrue($iterator->isEmpty());
     }
 
-    function testIsEmptyFalse() {
-        $iterator = new IteratorToCollectionAdapter(new \ArrayIterator([1]));
+    function testCountNotCountable() {
+        $iterator = new IteratorCollectionAdapter(new \IteratorIterator(new \ArrayIterator([1])));
+        $this->assertCount(1, $iterator);
         $this->assertFalse($iterator->isEmpty());
     }
 
     function testJoinEmpty() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([]));
         $this->assertEquals('', $iterator->join(','));
     }
 
     function testJoinSingle() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0]));
         $this->assertEquals('0', $iterator->join(','));
     }
 
     function testJoinMultiple() {
-        $iterator = new IteratorToCollectionAdapter( new ArrayIterator([0, 2, 4]));
+        $iterator = new IteratorCollectionAdapter( new ArrayIterator([0, 2, 4]));
         $this->assertEquals('0, 2, 4', $iterator->join(', '));
     }
 
     function testLimit() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0]));
         $this->assertInstanceOf(
             'Collections\\LimitingIterator',
             $iterator->limit(0)
@@ -132,7 +124,7 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testMap() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0]));
         $this->assertInstanceOf(
             'Collections\\MappingIterator',
             $iterator->map(function() {})
@@ -140,27 +132,29 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testMaxEmpty() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([]));
-        $this->assertNull($iterator->max(function() {return 1;}));
+        $this->setExpectedException('\\Collections\\StateException');
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([]));
+        $iterator->max();
     }
 
     function testMax() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0, 5, 3, 8]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0, 5, 3, 8]));
         $this->assertEquals(8, $iterator->max());
     }
 
     function testMinEmpty() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([]));
-        $this->assertNull($iterator->min(function() {return 1;}));
+        $this->setExpectedException('\\Collections\\StateException');
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([]));
+        $iterator->min();
     }
 
     function testMin() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0, 5, 3, 8]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0, 5, 3, 8]));
         $this->assertEquals(0, $iterator->min());
     }
 
     function testNoneMatchedSome() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0, 5, 3, -5]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0, 5, 3, -5]));
         $none = $iterator->none(function ($value, $key) {
             return $value < 3;
         });
@@ -168,7 +162,7 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testNoneFalse() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0, 5, 3, -5]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0, 5, 3, -5]));
         $none = $iterator->none(function ($value, $key) {
             return $value < 0;
         });
@@ -176,7 +170,7 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testNoneTrue() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0, 5, 3, 8]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0, 5, 3, 8]));
         $none = $iterator->none(function ($value, $key) {
             return $value < 0;
         });
@@ -184,32 +178,32 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testReduceEmpty() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([]));
         $max = $iterator->reduce(10, 'max');
         $this->assertEquals(10, $max);
     }
 
     function testReduceInitialIsMax() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0, 5]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0, 5]));
         $max = $iterator->reduce(10, 'max');
         $this->assertEquals(10, $max);
     }
 
     function testReduce() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0, 5]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0, 5]));
         $max = $iterator->reduce(-5, 'max');
         $this->assertEquals(5, $max);
     }
 
     function testSlice() {
         $iterator = new \ArrayIterator();
-        $collection = new IteratorToCollectionAdapter($iterator);
+        $collection = new IteratorCollectionAdapter($iterator);
         $driver = new CollectionTestDriver();
         $driver->doSliceTests($collection, [$iterator, 'append']);
     }
 
     function testSkip() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0]));
         $this->assertInstanceOf(
             'Collections\\SkippingIterator',
             $iterator->skip(0)
@@ -217,11 +211,47 @@ class IteratorToCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testFilter() {
-        $iterator = new IteratorToCollectionAdapter(new ArrayIterator([0]));
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator([0]));
         $this->assertInstanceOf(
             'Collections\\FilteringIterator',
             $iterator->filter(function () {})
         );
+    }
+
+    function testValuesArray() {
+        $array = [1,2,3];
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator($array));
+
+        $this->assertEquals([1,2,3], $iterator->values()->toArray());
+    }
+
+    function testValuesMap() {
+        $array = ['one' => 1, 'two' => 2, 'three' => 3];
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator($array));
+
+        $this->assertEquals([1,2,3], $iterator->values()->toArray());
+    }
+
+    function testKeysArray() {
+        $array = [1,2,3];
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator($array));
+
+        $this->assertEquals([0,1,2], $iterator->keys()->toArray());
+    }
+
+    function testKeysMap() {
+        $array = ['one' => 1, 'two' => 2, 'three' => 3];
+        $iterator = new IteratorCollectionAdapter(new ArrayIterator($array));
+
+        $this->assertEquals(['one', 'two', 'three'], $iterator->keys()->toArray());
+    }
+
+    function testValuesOnValuesReturnsSame() {
+        $array = ['one' => 1, 'two' => 2, 'three' => 3];
+        $iterator = new ValueIterator(new ArrayIterator($array));
+
+        $this->assertSame($iterator, $iterator->values());
+
     }
 
 }

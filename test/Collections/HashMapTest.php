@@ -197,11 +197,9 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $map = new HashMap();
         $iterator = $map->getIterator();
         $this->assertInstanceOf('\\Collections\\HashMapIterator', $iterator);
-        $this->assertCount(0, $iterator);
 
         $iterator->rewind();
-        $this->assertNull($iterator->key());
-        $this->assertNull($iterator->current());
+        $this->assertFalse($iterator->valid());
     }
 
     /**
@@ -226,8 +224,6 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         }
 
         $this->assertFalse($iterator->valid());
-        $this->assertNull($iterator->key());
-        $this->assertNull($iterator->current());
 
     }
 

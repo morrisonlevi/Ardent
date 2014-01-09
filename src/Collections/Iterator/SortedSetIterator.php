@@ -2,16 +2,14 @@
 
 namespace Collections;
 
-class SortedSetIterator implements SetIterator {
-
-    use IteratorCollection;
+class SortedSetIterator extends IteratorCollectionAdapter implements SetIterator {
 
     private $key = 0;
 
     function __construct(BinaryTreeIterator $iterator, $size) {
-        $this->iterator = $iterator;
+        parent::__construct($iterator);
         $this->size = $size;
-        $this->iterator->rewind();
+        $this->rewind();
     }
 
     /**
@@ -27,32 +25,8 @@ class SortedSetIterator implements SetIterator {
      * @return void
      */
     function rewind() {
-        $this->iterator->rewind();
+        parent::rewind();
         $this->key = 0;
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean
-     */
-    function valid() {
-        return $this->iterator->valid();
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed
-     */
-    function key() {
-        return $this->valid() ? $this->key : NULL;
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed
-     */
-    function current() {
-        return $this->valid() ? $this->iterator->current() : NULL;
     }
 
     /**
@@ -60,7 +34,7 @@ class SortedSetIterator implements SetIterator {
      * @return void
      */
     function next() {
-        $this->iterator->next();
+        parent::next();
         $this->key++;
     }
 

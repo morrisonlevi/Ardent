@@ -2,19 +2,12 @@
 
 namespace Collections;
 
-class SortedMapIterator implements MapIterator {
+class SortedMapIterator extends IteratorCollectionAdapter implements MapIterator {
 
-    use IteratorCollection;
-
-    /**
-     * @var BinaryTreeIterator
-     */
-    private $iterator;
-
-    private $size;
+    private $size = 0;
 
     function __construct(BinaryTreeIterator $iterator, $size) {
-        $this->iterator = $iterator;
+        parent::__construct($iterator);
         $this->size = $size;
         $this->rewind();
     }
@@ -24,36 +17,16 @@ class SortedMapIterator implements MapIterator {
     }
 
     /**
-     * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void
-     */
-    function rewind() {
-        $this->iterator->rewind();
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean
-     */
-    function valid() {
-        return $this->iterator->valid();
-    }
-
-    /**
      * @link https://bugs.php.net/bug.php?id=45684
      * @link http://php.net/manual/en/iterator.key.php
      * @return mixed
      * @throws TypeException
      */
     function key() {
-        if (!$this->iterator->valid()) {
-            return NULL;
-        }
-
         /**
          * @var Pair $pair
          */
-        $pair = $this->iterator->current();
+        $pair = $this->inner->current();
 
         if (!($pair instanceof Pair)) {
             throw new TypeException(
@@ -70,13 +43,10 @@ class SortedMapIterator implements MapIterator {
      * @return mixed
      */
     function current() {
-        if (!$this->iterator->valid()) {
-            return NULL;
-        }
         /**
          * @var Pair $pair
          */
-        $pair = $this->iterator->current();
+        $pair = $this->inner->current();
 
         if (!($pair instanceof Pair)) {
             throw new TypeException(
@@ -85,14 +55,6 @@ class SortedMapIterator implements MapIterator {
         }
 
         return $pair->second;
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.next.php
-     * @return void
-     */
-    function next() {
-        $this->iterator->next();
     }
 
 }

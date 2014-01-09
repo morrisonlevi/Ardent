@@ -261,20 +261,20 @@ class AvlTree implements BinarySearchTree {
 
         switch ($order) {
             case self::TRAVERSE_LEVEL_ORDER:
-                $iterator = new LevelOrderIterator($root);
+                $iterator = new LevelOrderIterator($root, $this->size);
                 break;
 
             case self::TRAVERSE_PRE_ORDER:
-                $iterator = new PreOrderIterator($root);
+                $iterator = new PreOrderIterator($root, $this->size);
                 break;
 
             case self::TRAVERSE_POST_ORDER:
-                $iterator = new PostOrderIterator($root);
+                $iterator = new PostOrderIterator($root, $this->size);
                 break;
 
             case self::TRAVERSE_IN_ORDER:
             default:
-                $iterator = new InOrderIterator($root);
+                $iterator = new InOrderIterator($root, $this->size);
         }
 
         return $iterator;

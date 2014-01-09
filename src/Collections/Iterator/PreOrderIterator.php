@@ -9,25 +9,29 @@ class PreOrderIterator implements BinaryTreeIterator {
     /**
      * @var Stack
      */
-    protected $stack;
+    private $stack;
 
     /**
      * @var BinaryTree
      */
-    protected $root;
+    private $root;
 
     /**
      * @var BinaryTree
      */
-    protected $value;
+    private $value;
 
-    /**
-     * @var int
-     */
-    protected $key = NULL;
+    private $key = NULL;
 
-    function __construct(BinaryTree $root = NULL) {
+    private $size = 0;
+
+    function __construct(BinaryTree $root = NULL, $count = 0) {
         $this->root = $root;
+        $this->size = $count;
+    }
+
+    function count() {
+        return $this->size;
     }
 
     /**

@@ -216,13 +216,27 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testMapToArray() {
-        $map = [1, 2, 3, 4];
+        $map = ['one' => 1, 'two' => 2, 'three' => 3];
         $vector = new Vector();
         $vector->appendAll(new \ArrayIterator($map));
 
-        $copy = [];
-        $this->assertEquals($map, $vector->toArray($copy, NULL));
-        $this->assertEquals($map, $vector->toArray($copy, NULL));
+        $this->assertEquals(array_values($map), $vector->toArray());
+    }
+
+    function testKeys() {
+        $map = ['one' => 1, 'two' => 2, 'three' => 3];
+        $vector = new Vector();
+        $vector->appendAll(new \ArrayIterator($map));
+
+        $this->assertEquals([0,1,2], $vector->keys()->toArray());
+    }
+
+    function testValues() {
+        $map = ['one' => 1, 'two' => 2, 'three' => 3];
+        $vector = new Vector();
+        $vector->appendAll(new \ArrayIterator($map));
+
+        $this->assertEquals([1, 2, 3], $vector->values()->toArray());
     }
 
     function testAnyEmpty() {
@@ -323,8 +337,11 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testMaxEmpty() {
+        $this->setExpectedException(
+            'Collections\\StateException'
+        );
         $vector = new Vector();
-        $this->assertNull($vector->max(function() {return 1;}));
+        $vector->max();
     }
 
     function testMax() {
@@ -333,8 +350,11 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testMinEmpty() {
+        $this->setExpectedException(
+            'Collections\\StateException'
+        );
         $vector = new Vector();
-        $this->assertNull($vector->min(function() {return 1;}));
+        $vector->min();
     }
 
     function testMin() {

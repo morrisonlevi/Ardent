@@ -2,7 +2,7 @@
 
 namespace Collections;
 
-class MappingIterator extends IteratorToCollectionAdapter {
+class MappingIterator extends IteratorCollectionAdapter {
 
     /**
      * @var callable

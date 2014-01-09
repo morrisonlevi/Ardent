@@ -2,72 +2,25 @@
 
 namespace Collections;
 
-class LinkedListIterator implements CountableSeekableIterator, Enumerator {
-
-    use IteratorCollection;
-
-    /**
-     * @var LinkedList
-     */
-    private $list;
+class LinkedListIterator extends IteratorCollectionAdapter implements CountableSeekableIterator, Enumerator {
 
     function __construct(LinkedList $list) {
-        $this->list = $list;
+        parent::__construct($list);
         $this->rewind();
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed
-     */
-    function current() {
-        return $this->list->current();
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.next.php
-     * @return void
-     */
-    function next() {
-        $this->list->next();
     }
 
     /**
      * @return void
      */
     function prev() {
-        $this->list->prev();
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed
-     */
-    function key() {
-        return $this->list->key();
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean
-     */
-    function valid() {
-        return $this->list->valid();
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void
-     */
-    function rewind() {
-        $this->list->rewind();
+        $this->getInnerIterator()->prev();
     }
 
     /**
      * @return void
      */
     function end() {
-        $this->list->end();
+        $this->getInnerIterator()->end();
     }
 
     /**
@@ -75,7 +28,7 @@ class LinkedListIterator implements CountableSeekableIterator, Enumerator {
      * @return int
      */
     function count() {
-        return $this->list->count();
+        return $this->getInnerIterator()->count();
     }
 
     /**
@@ -84,7 +37,14 @@ class LinkedListIterator implements CountableSeekableIterator, Enumerator {
      * @return void
      */
     function seek($position) {
-        $this->list->seek($position);
+        $this->getInnerIterator()->seek($position);
+    }
+
+    /**
+     * @return LinkedList
+     */
+    function getInnerIterator() {
+        return parent::getInnerIterator();
     }
 
 

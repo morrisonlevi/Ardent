@@ -2,30 +2,13 @@
 
 namespace Collections;
 
-class HashMapIterator implements MapIterator {
+class HashMapIterator extends IteratorCollectionAdapter implements MapIterator {
 
-    use IteratorCollection;
-
-    protected $storage = [];
+    private $size = 0;
 
     function __construct(array $storage) {
-        $this->storage = $storage;
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void
-     */
-    function rewind() {
-        reset($this->storage);
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean
-     */
-    function valid() {
-        return key($this->storage) !== NULL;
+        parent::__construct(new \ArrayIterator($storage));
+        $this->size = count($storage);
     }
 
     /**
@@ -33,36 +16,23 @@ class HashMapIterator implements MapIterator {
      * @return mixed
      */
     function key() {
-        if (!$this->valid()) {
-            return NULL;
-        }
         /**
          * @var Pair $pair
          */
-        $pair = current($this->storage);
+        $pair = parent::current();
         return $pair->first;
     }
+
     /**
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed
      */
     function current() {
-        if (!$this->valid()) {
-            return NULL;
-        }
         /**
          * @var Pair $pair
          */
-        $pair = current($this->storage);
+        $pair = parent::current();
         return $pair->second;
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.next.php
-     * @return void
-     */
-    function next() {
-        next($this->storage);
     }
 
     /**
@@ -70,7 +40,7 @@ class HashMapIterator implements MapIterator {
      * @return int
      */
     function count() {
-        return count($this->storage);
+        return $this->size;
     }
 
 }

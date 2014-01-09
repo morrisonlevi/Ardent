@@ -272,7 +272,7 @@ class SplayTree implements BinarySearchTree {
 
             case self::TRAVERSE_IN_ORDER:
             default:
-                $iterator = new InOrderIterator($root);
+                $iterator = new InOrderIterator($root, 0);
         }
 
         return $iterator;

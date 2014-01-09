@@ -2,7 +2,7 @@
 
 namespace Collections;
 
-class SkippingIterator extends IteratorToCollectionAdapter {
+class SkippingIterator extends IteratorCollectionAdapter {
 
     /**
      * @var int
@@ -23,14 +23,6 @@ class SkippingIterator extends IteratorToCollectionAdapter {
         for ($i = 0; $i < $this->n; $i++) {
             $this->inner->next();
         }
-    }
-
-    function count() {
-        $i = 0;
-        for ($this->rewind(); $this->valid(); $this->next()) {
-            $i++;
-        }
-        return $i;
     }
 
 }

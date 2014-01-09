@@ -221,12 +221,6 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($iterator->valid());
         $this->assertCount(count($map), $iterator);
 
-        $this->assertNull($iterator->key());
-        $this->assertNull($iterator->current());
-
-        $iterator->next();
-        $this->assertNull($iterator->key());
-        $this->assertNull($iterator->current());
     }
 
     /**
@@ -237,7 +231,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $tree->setLeft(new BinaryTree(-1));
         $tree->setRight(new BinaryTree(1));
 
-        $iterator = new SortedMapIterator(new InOrderIterator($tree), 3);
+        $iterator = new SortedMapIterator(new InOrderIterator($tree, 0), 3);
         $iterator->key();
     }
 
@@ -249,7 +243,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $tree->setLeft(new BinaryTree(-1));
         $tree->setRight(new BinaryTree(1));
 
-        $iterator = new SortedMapIterator(new InOrderIterator($tree), 3);
+        $iterator = new SortedMapIterator(new InOrderIterator($tree, 0), 3);
         $iterator->current();
     }
 

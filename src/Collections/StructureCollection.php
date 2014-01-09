@@ -14,7 +14,7 @@ trait StructureCollection /* implements Collection */ {
      * @return void
      */
     function each(callable $callback) {
-        (new IteratorToCollectionAdapter($this->getIterator()))->each($callback);
+        (new IteratorCollectionAdapter($this->getIterator()))->each($callback);
     }
 
     /**
@@ -22,7 +22,7 @@ trait StructureCollection /* implements Collection */ {
      * @return bool
      */
     function every(callable $f) {
-        return (new IteratorToCollectionAdapter($this->getIterator()))->every($f);
+        return (new IteratorCollectionAdapter($this->getIterator()))->every($f);
     }
 
     /**
@@ -46,7 +46,7 @@ trait StructureCollection /* implements Collection */ {
      * @return bool
      */
     function any(callable $compare) {
-        return (new IteratorToCollectionAdapter($this->getIterator()))->any($compare);
+        return (new IteratorCollectionAdapter($this->getIterator()))->any($compare);
     }
 
     /**
@@ -54,7 +54,7 @@ trait StructureCollection /* implements Collection */ {
      * @return string
      */
     function join($separator) {
-        return (new IteratorToCollectionAdapter($this->getIterator()))->join($separator);
+        return (new IteratorCollectionAdapter($this->getIterator()))->join($separator);
     }
 
     /**
@@ -70,7 +70,7 @@ trait StructureCollection /* implements Collection */ {
      * @return mixed
      */
     function max(callable $compare = NULL) {
-        return (new IteratorToCollectionAdapter($this->getIterator()))->max($compare);
+        return (new IteratorCollectionAdapter($this->getIterator()))->max($compare);
     }
 
     /**
@@ -78,7 +78,7 @@ trait StructureCollection /* implements Collection */ {
      * @return mixed
      */
     function min(callable $compare = NULL) {
-        return (new IteratorToCollectionAdapter($this->getIterator()))->min($compare);
+        return (new IteratorCollectionAdapter($this->getIterator()))->min($compare);
     }
 
     /**
@@ -86,7 +86,7 @@ trait StructureCollection /* implements Collection */ {
      * @return bool
      */
     function none(callable $f) {
-        return (new IteratorToCollectionAdapter($this->getIterator()))->none($f);
+        return (new IteratorCollectionAdapter($this->getIterator()))->none($f);
     }
 
     /**
@@ -95,7 +95,7 @@ trait StructureCollection /* implements Collection */ {
      * @return mixed
      */
     function reduce($initialValue, callable $combine) {
-        return (new IteratorToCollectionAdapter($this->getIterator()))
+        return (new IteratorCollectionAdapter($this->getIterator()))
             ->reduce($initialValue, $combine);
     }
 
@@ -117,10 +117,17 @@ trait StructureCollection /* implements Collection */ {
     }
 
     /**
-     * @param bool $preserveKeys
      * @return array
      */
-    function toArray($preserveKeys = FALSE) {
-        return iterator_to_array($this->getIterator(), $preserveKeys);
+    function toArray() {
+        return iterator_to_array($this->getIterator());
+    }
+
+    function keys() {
+        return new KeyIterator($this->getIterator());
+    }
+
+    function values() {
+        return new ValueIterator($this->getIterator());
     }
 }

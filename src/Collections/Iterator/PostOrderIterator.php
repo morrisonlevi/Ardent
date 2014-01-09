@@ -26,15 +26,18 @@ class PostOrderIterator implements BinaryTreeIterator {
      */
     protected $current;
 
-    /**
-     * @var int
-     */
     protected $key = NULL;
 
-    function __construct(BinaryTree $root = NULL) {
+    private $size = 0;
+
+    function __construct(BinaryTree $root = NULL, $count = 0) {
         $this->root = $root;
+        $this->size = $count;
     }
 
+    function count() {
+        return $this->size;
+    }
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void

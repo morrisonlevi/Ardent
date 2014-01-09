@@ -2,13 +2,12 @@
 
 namespace Collections;
 
-class FilteringIterator extends IteratorToCollectionAdapter {
+class FilteringIterator extends IteratorCollectionAdapter {
 
     /**
      * @var callable
      */
     private $filter;
-
     private $current;
     private $key;
 
@@ -74,14 +73,6 @@ class FilteringIterator extends IteratorToCollectionAdapter {
         $this->inner->rewind();
         $this->key = NULL;
         $this->next();
-    }
-
-    /**
-     * @link http://php.net/manual/en/countable.count.php
-     * @return int
-     */
-    function count() {
-        return iterator_count($this);
     }
 
 }

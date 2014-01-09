@@ -23,8 +23,15 @@ class LevelOrderIterator implements BinaryTreeIterator {
 
     protected $key = NULL;
 
-    function __construct(BinaryTree $root = NULL) {
+    private $size = 0;
+
+    function __construct(BinaryTree $root = NULL, $count = 0) {
         $this->root = $root;
+        $this->size = $count;
+    }
+
+    function count() {
+        return $this->size;
     }
 
     /**

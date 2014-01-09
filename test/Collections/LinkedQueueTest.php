@@ -134,10 +134,6 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertFalse($iterator->valid());
 
-        $iterator->next();
-        $this->assertNull($iterator->key());
-        $this->assertNull($iterator->current());
-
     }
 
     /**

@@ -61,8 +61,8 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
             'd' => '4',
         ];
         $iterator = new ArrayIterator($map);
-        $this->assertEquals(array_values($map), $iterator->toArray());
-        $this->assertEquals($map, $iterator->toArray(TRUE));
+        $this->assertEquals(array_values($map), $iterator->values()->toArray());
+        $this->assertEquals($map, $iterator->toArray());
     }
 
     function testAnyEmpty() {
@@ -160,26 +160,6 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
             'Collections\\LimitingIterator',
             $iterator->limit(0)
         );
-    }
-
-    function testMaxEmpty() {
-        $iterator = new ArrayIterator([]);
-        $this->assertNull($iterator->max(function() {return 1;}));
-    }
-
-    function testMax() {
-        $iterator = new ArrayIterator([0, 5, 3, 8]);
-        $this->assertEquals(8, $iterator->max());
-    }
-
-    function testMinEmpty() {
-        $iterator = new ArrayIterator([]);
-        $this->assertNull($iterator->min(function() {return 1;}));
-    }
-
-    function testMin() {
-        $iterator = new ArrayIterator([0, 5, 3, 8]);
-        $this->assertEquals(0, $iterator->min());
     }
 
     function testMap() {

@@ -44,7 +44,7 @@ class FilteringIteratorTest extends \PHPUnit_Framework_TestCase {
         $filtered = $iterator->filter($filter);
 
         $this->assertCount(count($expect), $filtered);
-        $this->assertEquals($expect, $filtered->toArray());
-        $this->assertEquals($expectPreserveKeys, $filtered->toArray(TRUE));
+        $this->assertEquals($expect, $filtered->values()->toArray());
+        $this->assertEquals($expectPreserveKeys, $filtered->toArray());
     }
 }

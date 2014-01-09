@@ -67,9 +67,6 @@ class LinkedStackIterator implements StackIterator {
      * @return mixed
      */
     function current() {
-        if ($this->pair === NULL) {
-            return NULL;
-        }
         return $this->pair->first;
     }
 
@@ -78,10 +75,6 @@ class LinkedStackIterator implements StackIterator {
      * @return void
      */
     function next() {
-        if ($this->pair === NULL) {
-            $this->key = NULL;
-            return;
-        }
         $this->pair = $this->pair->second;
         $this->key++;
     }
