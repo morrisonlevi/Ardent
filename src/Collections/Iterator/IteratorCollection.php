@@ -2,7 +2,7 @@
 
 namespace Collections;
 
-trait IteratorCollection /* implements \Collections\Enumerator */ {
+trait IteratorCollection /* implements \Collections\Collection */ {
 
     /**
      * @return \Iterator
