@@ -20,8 +20,11 @@ class SkippingIterator extends IteratorCollectionAdapter {
      */
     function rewind() {
         $this->inner->rewind();
+
         for ($i = 0; $i < $this->n; $i++) {
-            $this->inner->next();
+            if ($this->inner->valid()) {
+                $this->inner->next();
+            }
         }
     }
 

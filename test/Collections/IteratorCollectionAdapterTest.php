@@ -67,23 +67,6 @@ class IteratorCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
         }));
     }
 
-    function testCountCountable() {
-        $iterator = new IteratorCollectionAdapter(new \ArrayIterator([0, 2, 4]));
-        $this->assertCount(3, $iterator);
-    }
-
-    function testCountEmptyNotCountable() {
-        $iterator = new IteratorCollectionAdapter(new \EmptyIterator());
-        $this->assertCount(0, $iterator);
-        $this->assertTrue($iterator->isEmpty());
-    }
-
-    function testCountNotCountable() {
-        $iterator = new IteratorCollectionAdapter(new \IteratorIterator(new \ArrayIterator([1])));
-        $this->assertCount(1, $iterator);
-        $this->assertFalse($iterator->isEmpty());
-    }
-
     function testJoinEmpty() {
         $iterator = new IteratorCollectionAdapter(new ArrayIterator([]));
         $this->assertEquals('', $iterator->join(','));
