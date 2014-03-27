@@ -8,5 +8,3 @@ php:
 matrix:
   allow_failures:
     - php: hhvm
-
-script: phpunit --debug

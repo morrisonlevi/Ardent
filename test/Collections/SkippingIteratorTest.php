@@ -51,7 +51,7 @@ class SkippingIteratorTest extends \PHPUnit_Framework_TestCase {
         $iterator = new ArrayIterator($insert);
         $skipped = $iterator->skip($skip);
 
-        $this->assertCount(count($expect), $skipped);
+        $this->assertEquals(count($expect), iterator_count($skipped));
         $this->assertEquals($expect, $skipped->values()->toArray());
         $this->assertEquals($expectPreserveKeys, $skipped->toArray());
 
