@@ -1,12 +1,12 @@
 <phpunit bootstrap="test/autoload.php" colors="true">
     <testsuites>
         <testsuite name="Unit-Tests">
-            <directory>./</directory>
+            <directory>.</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory>src/Collections</directory>
+            <directory>src</directory>
         </whitelist>
     </filter>
 
