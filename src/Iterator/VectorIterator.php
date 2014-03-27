@@ -24,11 +24,10 @@ class VectorIterator extends IteratorCollectionAdapter implements CountableSeeka
      * @throws IndexException if it cannot seek to the position
      */
     function seek($index) {
-        try {
-            $this->getInnerIterator()->seek($index);
-        } catch (\OutOfBoundsException $e) {
+        if ($index < 0 || $index >= $this->getInnerIterator()->count()) {
             throw new IndexException;
         }
+        $this->getInnerIterator()->seek($index);
     }
 
     /**
