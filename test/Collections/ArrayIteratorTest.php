@@ -100,30 +100,6 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
         }));
     }
 
-    function testEachEmpty() {
-        $iterator = new ArrayIterator([]);
-        $i = 0;
-        $iterator->each(function ($val) use (&$i) {
-            $i += $val;
-        });
-
-        $this->assertEquals(0, $i);
-    }
-
-    function testEach() {
-        $iterator = new ArrayIterator([1, 2, 3]);
-
-        $k = '';
-        $v = 0;
-        $iterator->each(function ($val, $key) use (&$v, &$k) {
-            $k .= $key;
-            $v += $val;
-        });
-
-        $this->assertEquals('012', $k);
-        $this->assertEquals(6, $v);
-    }
-
     function testEveryEmpty() {
         $iterator = new ArrayIterator([]);
         $this->assertTrue($iterator->every('is_null'));

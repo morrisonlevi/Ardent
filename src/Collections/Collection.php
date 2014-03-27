@@ -10,11 +10,6 @@ interface Collection extends \Traversable {
     function isEmpty();
 
     /**
-     * @param callable $callback
-     */
-    function each(callable $callback);
-
-    /**
      * @param callable $f
      * @return bool
      */

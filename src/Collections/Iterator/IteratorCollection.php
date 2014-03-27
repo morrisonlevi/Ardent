@@ -24,16 +24,6 @@ trait IteratorCollection /* implements \Collections\Collection */ {
     }
 
     /**
-     * @param callable $callback
-     */
-    function each(callable $callback) {
-        $i = $this->asIterator();
-        for ($i->rewind(); $i->valid(); $i->next()) {
-            $callback($i->current(), $i->key());
-        }
-    }
-
-    /**
      * @param callable $f
      * @return bool
      */

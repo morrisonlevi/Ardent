@@ -14,14 +14,14 @@
         }
     ],
     "require": {
-        "php": ">=5.4"
+        "php": "~5.4"
     },
     "autoload": {
         "classmap": ["src/"]
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.9-dev"
+            "dev-master": "0.12-dev"
         }
     }
 }

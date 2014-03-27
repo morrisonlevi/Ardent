@@ -17,22 +17,6 @@ class IteratorCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(5, $i);
     }
 
-    function testEach() {
-        $array = [1, 2, 3, 4, 5];
-        $inner = new ArrayIterator($array);
-        $iterator = new IteratorCollectionAdapter($inner);
-
-        $keys = '';
-        $sum = 0;
-        $iterator->each(function ($value, $key) use (&$keys, &$sum) {
-            $keys .= $key;
-            $sum += $value;
-        });
-
-        $this->assertEquals('01234', $keys);
-        $this->assertEquals(15, $sum);
-    }
-
     function testEveryMatchesNone() {
         $array = [1, 2, 3, 4, 5];
         $inner = new ArrayIterator($array);
