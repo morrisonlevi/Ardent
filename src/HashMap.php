@@ -157,7 +157,7 @@ class HashMap implements Map {
      * @return void
      * @throws TypeException when the $key or $value is not the correct type.
      */
-    function insert($key, $value) {
+    function set($key, $value) {
         $this->offsetSet($key, $value);
     }
 

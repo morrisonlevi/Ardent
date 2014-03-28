@@ -120,7 +120,7 @@ class SortedMap implements Map {
      * @return void
      */
     function offsetSet($offset, $value) {
-        $this->insert($offset, $value);
+        $this->set($offset, $value);
     }
 
     /**
@@ -164,7 +164,7 @@ class SortedMap implements Map {
      * @return void
      * @throws TypeException when the $key or value is not the correct type.
      */
-    function insert($key, $value) {
+    function set($key, $value) {
         $this->avl->add(new Pair($key, $value));
     }
 

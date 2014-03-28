@@ -25,13 +25,13 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $map);
         $this->assertTrue($map->isEmpty());
 
-        $map->insert(0, 1);
+        $map->set(0, 1);
         $get = $map->get(0);
         $this->assertEquals(1, $get);
         $this->assertCount(1, $map);
         $this->assertFalse($map->isEmpty());
 
-        $map->insert(1, 0);
+        $map->set(1, 0);
         $get = $map->get(1);
         $this->assertEquals(0, $get);
         $this->assertCount(2, $map);
@@ -71,7 +71,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
      */
     function testRemove() {
         $map = new HashMap();
-        $map->insert(0, 1);
+        $map->set(0, 1);
         $map->remove(0);
 
         $this->assertCount(0, $map);
@@ -153,7 +153,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
     function testHashResource() {
         $map = new HashMap();
         $resource = fopen(__FILE__, 'r');
-        $map->insert($resource, 1);
+        $map->set($resource, 1);
         $this->assertEquals(1, $map->get($resource));
     }
 
@@ -163,7 +163,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
     function testHashArray() {
         $map = new HashMap();
         $array = array(0);
-        $map->insert($array, 1);
+        $map->set($array, 1);
         $this->assertEquals(1, $map->get($array));
     }
 
@@ -173,7 +173,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
     function testHashObject() {
         $map = new HashMap();
         $object = new \StdClass;
-        $map->insert($object, 1);
+        $map->set($object, 1);
         $object->property = 'set';
         $this->assertEquals(1, $map->get($object));
 
@@ -186,7 +186,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
      */
     function testHashNull() {
         $map = new HashMap();
-        $map->insert(NULL, 1);
+        $map->set(NULL, 1);
         $this->assertEquals(1, $map->get(NULL));
     }
 
