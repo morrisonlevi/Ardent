@@ -18,12 +18,14 @@ class LinkedQueue implements Queue {
 
     private $size = 0;
 
+
     /**
      * @return bool
      */
     function isEmpty()  {
         return $this->head === NULL;
     }
+
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
@@ -33,10 +35,10 @@ class LinkedQueue implements Queue {
         return new LinkedQueueIterator($this->size, $this->head);
     }
 
+
     /**
      * @param $item
      * @return void
-     * @throws StateException if the Queue is full.
      */
     function enqueue($item) {
         $pair = new Pair($item, NULL);
@@ -49,6 +51,7 @@ class LinkedQueue implements Queue {
 
         $this->size++;
     }
+
 
     /**
      * @return mixed
@@ -65,7 +68,9 @@ class LinkedQueue implements Queue {
         return $item;
     }
 
+
     /**
+     * Returns the first element in the Queue without removing it.
      * @return mixed
      * @throws StateException if the Queue is empty.
      */
@@ -76,6 +81,7 @@ class LinkedQueue implements Queue {
         return $this->head->first;
     }
 
+
     /**
      * @link http://php.net/manual/en/countable.count.php
      * @return int
@@ -84,18 +90,6 @@ class LinkedQueue implements Queue {
         return $this->size;
     }
 
-    /**
-     * @param callable $compare
-     * @return bool
-     */
-    function any(callable $compare) {
-        for ($n = $this->head; $n !== NULL; $n = $n->second) {
-            if ($compare($n->first)) {
-                return TRUE;
-            }
-        }
-        return FALSE;
-    }
 
     /**
      * @param mixed $item
@@ -110,6 +104,11 @@ class LinkedQueue implements Queue {
         return FALSE;
     }
 
+
+    /**
+     * Empties the Queue.
+     * @return void
+     */
     function clear() {
         $this->size = 0;
         $this->head = $this->tail = NULL;
