@@ -7,6 +7,8 @@ While developing and helping others develop PHP applications I noticed the trend
 ##### PHP 5.4
 This project requires **PHP 5.4** because it uses Traits, the callable type-hint and short-array syntax. Depending on how long this project takes to mature it might require PHP 5.5 for generators and improved handling of non-scalar keys in `foreach` loops.
 
+You can also use HHVM 2.4. I won't let HHVM compatibility stop me from using features in PHP 5.5 or 5.6 if I feel those features will help me, but for now we are compatible.
+
 ##### Patience
 This project is unstable and subject to significant changes from release to release. Therefore it requires that you exercise patience if you use it in your project.
 
