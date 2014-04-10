@@ -41,21 +41,21 @@ class SortedSetTest extends \PHPUnit_Framework_TestCase {
      */
     function testContains() {
         $set = new SortedSet();
-        $this->assertFalse($set->contains(0));
-        $this->assertFalse($set->contains(-1));
-        $this->assertFalse($set->contains(1));
+        $this->assertFalse($set->has(0));
+        $this->assertFalse($set->has(-1));
+        $this->assertFalse($set->has(1));
 
         $set->add(0);
         $set->add(-1);
         $set->add(1);
-        $this->assertTrue($set->contains(0));
-        $this->assertTrue($set->contains(-1));
-        $this->assertTrue($set->contains(1));
+        $this->assertTrue($set->has(0));
+        $this->assertTrue($set->has(-1));
+        $this->assertTrue($set->has(1));
 
         $set->remove(0);
-        $this->assertFalse($set->contains(0));
-        $this->assertTrue($set->contains(-1));
-        $this->assertTrue($set->contains(1));
+        $this->assertFalse($set->has(0));
+        $this->assertTrue($set->has(-1));
+        $this->assertTrue($set->has(1));
 
     }
 

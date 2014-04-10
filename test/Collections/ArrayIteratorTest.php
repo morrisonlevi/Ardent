@@ -4,6 +4,7 @@ namespace Collections;
 
 class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
 
+
     function testCount() {
         $array = [];
         $iterator = new ArrayIterator($array);
@@ -21,15 +22,18 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(count($array), $iterator);
     }
 
-    function testisEmptyTrue() {
+
+    function testIsEmptyTrue() {
         $iterator = new ArrayIterator([]);
         $this->assertTrue($iterator->isEmpty());
     }
 
-    function testisEmptyFalse() {
+
+    function testIsEmptyFalse() {
         $iterator = new ArrayIterator([1]);
         $this->assertFalse($iterator->isEmpty());
     }
+
 
     function testIteration() {
         $array = [0, 2, 4, 8];
@@ -46,12 +50,14 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
+
     function testArrayToArray() {
         $array = [0, 2, 4, 8];
         $iterator = new ArrayIterator($array);
 
         $this->assertEquals($array, $iterator->toArray());
     }
+
 
     function testMapToArray() {
         $map = [
@@ -65,70 +71,6 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($map, $iterator->toArray());
     }
 
-    function testAnyEmpty() {
-        $iterator = new ArrayIterator([]);
-        $this->assertFalse($iterator->any(function () {
-            return TRUE;
-        }));
-    }
-
-    function testAnyFalse() {
-        $iterator = new ArrayIterator([1, 2, 3, 4, 5]);
-        $this->assertFalse($iterator->any(function ($val) {
-            return $val === 0;
-        }));
-    }
-
-    function testAnyFirst() {
-        $iterator = new ArrayIterator([1, 2, 3, 4, 5]);
-        $this->assertTrue($iterator->any(function ($val) {
-            return $val === 1;
-        }));
-    }
-
-    function testAnyMiddle() {
-        $iterator = new ArrayIterator([1, 2, 3, 4, 5]);
-        $this->assertTrue($iterator->any(function ($val) {
-            return $val === 3;
-        }));
-    }
-
-    function testAnyLast() {
-        $iterator = new ArrayIterator([1, 2, 3, 4, 5]);
-        $this->assertTrue($iterator->any(function ($val) {
-            return $val === 5;
-        }));
-    }
-
-    function testEveryEmpty() {
-        $iterator = new ArrayIterator([]);
-        $this->assertTrue($iterator->every('is_null'));
-    }
-
-    function testEverySome() {
-        $iterator = new ArrayIterator([NULL, NULL, 0]);
-        $this->assertFalse($iterator->every(function ($val) { return $val === NULL;}));
-    }
-
-    function testEvery() {
-        $iterator = new ArrayIterator([NULL, NULL, NULL]);
-        $this->assertTrue($iterator->every(function ($val) { return $val === NULL;}));
-    }
-
-    function testJoinEmpty() {
-        $iterator = new ArrayIterator([]);
-        $this->assertEquals('', $iterator->join(','));
-    }
-
-    function testJoinSingle() {
-        $iterator = new ArrayIterator([0]);
-        $this->assertEquals('0', $iterator->join(','));
-    }
-
-    function testJoinMultiple() {
-        $iterator = new ArrayIterator([0, 2, 4]);
-        $this->assertEquals('0, 2, 4', $iterator->join(', '));
-    }
 
     function testLimit() {
         $iterator = new ArrayIterator([0]);
@@ -138,6 +80,7 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+
     function testMap() {
         $iterator = new ArrayIterator([0]);
         $this->assertInstanceOf(
@@ -146,29 +89,6 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    function testNoneMatchedSome() {
-        $iterator = new ArrayIterator([0, 5, 3, -5]);
-        $none = $iterator->none(function ($value, $key) {
-            return $value < 3;
-        });
-        $this->assertFalse($none);
-    }
-
-    function testNoneFalse() {
-        $iterator = new ArrayIterator([0, 5, 3, -5]);
-        $none = $iterator->none(function ($value, $key) {
-            return $value < 0;
-        });
-        $this->assertFalse($none);
-    }
-
-    function testNoneTrue() {
-        $iterator = new ArrayIterator([0, 5, 3, 8]);
-        $none = $iterator->none(function ($value, $key) {
-            return $value < 0;
-        });
-        $this->assertTrue($none);
-    }
 
     function testReduceEmpty() {
         $iterator = new ArrayIterator([]);
@@ -176,17 +96,20 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(10, $max);
     }
 
+
     function testReduceInitialIsMax() {
         $iterator = new ArrayIterator([0, 5]);
         $max = $iterator->reduce(10, 'max');
         $this->assertEquals(10, $max);
     }
 
+
     function testReduce() {
         $iterator = new ArrayIterator([0, 5]);
         $max = $iterator->reduce(-5, 'max');
         $this->assertEquals(5, $max);
     }
+
 
     function testSeek() {
         $iterator = new ArrayIterator([0, 5, 2, 6]);
@@ -209,11 +132,13 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+
     function testSlice() {
         $iterator = new ArrayIterator([0, 5]);
         $slicer = $iterator->slice(0, 1);
         $this->assertInstanceOf('Collections\\SlicingIterator', $slicer);
     }
+
 
     function testSkip() {
         $iterator = new ArrayIterator([0]);
@@ -222,6 +147,7 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
             $iterator->skip(0)
         );
     }
+
 
     function testFilter() {
         $iterator = new ArrayIterator([0]);

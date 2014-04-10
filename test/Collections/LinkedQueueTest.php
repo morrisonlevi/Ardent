@@ -4,6 +4,7 @@ namespace Collections;
 
 class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
 
+
     function testPushOne() {
         $queue = new LinkedQueue();
         $this->assertCount(0, $queue);
@@ -13,6 +14,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(1, $queue);
         $this->assertFalse($queue->isEmpty());
     }
+
 
     /**
      * @depends testPushOne
@@ -29,6 +31,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $peek);
     }
 
+
     /**
      * @depends testPeekOne
      */
@@ -43,6 +46,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($queue->isEmpty());
         $this->assertEquals(1, $pop);
     }
+
 
     /**
      * @depends testPopOne
@@ -84,6 +88,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($queue->isEmpty());
     }
 
+
     /**
      * @expectedException \Collections\EmptyException
      */
@@ -91,6 +96,7 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $queue = new LinkedQueue();
         $queue->first();
     }
+
 
     /**
      * @expectedException \Collections\EmptyException
@@ -100,11 +106,13 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
         $queue->dequeue();
     }
 
+
     function testGetIteratorEmpty() {
         $queue = new LinkedQueue();
         $iterator = $queue->getIterator();
         $this->assertInstanceOf('Collections\\LinkedQueueIterator', $iterator);
     }
+
 
     /**
      * @depends testMultiplePushPeekPop
@@ -136,28 +144,6 @@ class LinkedQueueTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @depends testPopOne
-     */
-    function testAny() {
-        $equalsZero = function($item) {
-            return $item === 0;
-        };
-        $queue = new LinkedQueue();
-        $this->assertFalse($queue->any($equalsZero));
-
-        $queue->enqueue(1);
-        $this->assertFalse($queue->any($equalsZero));
-
-        $queue->enqueue(0);
-        $this->assertTrue($queue->any($equalsZero));
-
-        $queue->dequeue();
-        $this->assertTrue($queue->any($equalsZero));
-
-        $queue->dequeue();
-        $this->assertFalse($queue->any($equalsZero));
-    }
 
     /**
      * @depends testPopOne

@@ -4,86 +4,8 @@ namespace Collections;
 
 class AbstractSetTest extends \PHPUnit_Framework_TestCase {
 
-    function testDifferenceNone() {
-        $a = new HashSet();
-        $a->add(0);
-        $a->add(1);
-        $a->add(2);
-        $a->add(3);
 
-
-        $b = new HashSet();
-        $b->add(0);
-        $b->add(1);
-        $b->add(2);
-        $b->add(3);
-
-        $diff = $a->difference($b);
-        $this->assertInstanceOf('Collections\\HashSet', $diff);
-        $this->assertNotSame($diff, $a);
-        $this->assertNotSame($diff, $b);
-        $this->assertCount(0, $diff);
-    }
-
-    /**
-     * @depends testDifferenceNone
-     * @covers \Collections\AbstractSet::difference
-     */
-    function testDifferenceAll() {
-        $a = new HashSet();
-        $a->add(0);
-        $a->add(1);
-        $a->add(2);
-        $a->add(3);
-
-
-        $b = new HashSet();
-
-        $diff = $a->difference($b);
-        $this->assertCount(4, $diff);
-        $this->assertNotSame($diff, $a);
-        $this->assertNotSame($diff, $b);
-
-        for ($i = 0; $i < 4; $i++) {
-            $this->assertTrue($a->contains($i));
-        }
-    }
-
-    /**
-     * @depends testDifferenceNone
-     */
-    function testDifferenceSome() {
-        $a = new HashSet();
-        $a->add(0);
-        $a->add(1);
-        $a->add(2);
-        $a->add(3);
-
-
-        $b = new HashSet();
-        $b->add(1);
-        $b->add(3);
-        $b->add(5);
-        $b->add(7);
-
-        $diff = $a->difference($b);
-        $this->assertCount(2, $diff);
-        $this->assertNotSame($diff, $a);
-        $this->assertNotSame($diff, $b);
-
-        $this->assertTrue($diff->contains(0));
-        $this->assertTrue($diff->contains(2));
-
-        $diff = $b->difference($a);
-        $this->assertCount(2, $diff);
-        $this->assertNotSame($diff, $a);
-        $this->assertNotSame($diff, $b);
-
-        $this->assertTrue($diff->contains(5));
-        $this->assertTrue($diff->contains(7));
-    }
-
-    function testSymmetricDifference() {
+    function testDifference() {
         $a = new HashSet();
         $a->add(0);
         $a->add(1);
@@ -104,30 +26,30 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $c->add(2);
         $c->add(4);
 
-        $difference = $a->symmetricDifference($b);
+        $difference = $a->difference($b);
         foreach ($difference as $item) {
             $this->assertTrue(
-                $c->contains($item),
+                $c->has($item),
                 "Symmetric difference failed: had '$item' but should not have"
             );
         }
         foreach ($c as $item) {
             $this->assertTrue(
-                $difference->contains($item),
+                $difference->has($item),
                 "Symmetric difference failed: should have contained '$item'"
             );
         }
 
-        $difference = $b->symmetricDifference($a);
+        $difference = $b->difference($a);
         foreach ($difference as $item) {
             $this->assertTrue(
-                $c->contains($item),
+                $c->has($item),
                 "Symmetric difference failed: had '$item' but should not have"
             );
         }
         foreach ($c as $item) {
             $this->assertTrue(
-                $difference->contains($item),
+                $difference->has($item),
                 "Symmetric difference failed: should have contained '$item'"
             );
         }
@@ -192,14 +114,14 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $intersection = $a->intersection($b);
         $this->assertInstanceOf('Collections\\HashSet', $intersection);
         $this->assertCount(2, $intersection);
-        $this->assertTrue($intersection->contains(1));
-        $this->assertTrue($intersection->contains(3));
+        $this->assertTrue($intersection->has(1));
+        $this->assertTrue($intersection->has(3));
 
         $intersection = $b->intersection($a);
         $this->assertInstanceOf('Collections\\HashSet', $intersection);
         $this->assertCount(2, $intersection);
-        $this->assertTrue($intersection->contains(1));
-        $this->assertTrue($intersection->contains(3));
+        $this->assertTrue($intersection->has(1));
+        $this->assertTrue($intersection->has(3));
 
     }
 
@@ -209,7 +131,7 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $a->add(3);
         $a->add(4);
 
-        $complement = $a->relativeComplement($a);
+        $complement = $a->complement($a);
         $this->assertInstanceOf('Collections\\HashSet', $complement);
         $this->assertCount(0, $complement);
     }
@@ -225,15 +147,15 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $b->add(2);
         $b->add(3);
 
-        $complement = $a->relativeComplement($b);
+        $complement = $a->complement($b);
         $this->assertInstanceOf('Collections\\HashSet', $complement);
         $this->assertCount(1, $complement);
-        $this->assertTrue($complement->contains(1));
+        $this->assertTrue($complement->has(1));
 
-        $complement = $b->relativeComplement($a);
+        $complement = $b->complement($a);
         $this->assertInstanceOf('Collections\\HashSet', $complement);
         $this->assertCount(1, $complement);
-        $this->assertTrue($complement->contains(4));
+        $this->assertTrue($complement->has(4));
     }
 
     function testUnionSelf() {
@@ -265,7 +187,7 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(4, $union);
 
         for ($i = 1; $i <= 4; $i++) {
-            $this->assertTrue($union->contains($i));
+            $this->assertTrue($union->has($i));
         }
 
         $union = $b->union($a);
@@ -273,126 +195,9 @@ class AbstractSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(4, $union);
 
         for ($i = 1; $i <= 4; $i++) {
-            $this->assertTrue($union->contains($i));
+            $this->assertTrue($union->has($i));
         }
 
-    }
-
-    function testSubsetEmpty() {
-        $a = new HashSet();
-        $b = new HashSet();
-
-        $this->assertTrue($a->isSubsetOf($b));
-        $this->assertTrue($b->isSubsetOf($a));
-    }
-
-    function testSubsetSelfEmpty() {
-        $a = new HashSet();
-        $this->assertTrue($a->isSubsetOf($a));
-    }
-
-    function testSubsetSelfNonEmpty() {
-        $a = new HashSet();
-        $a->add(0);
-        $this->assertTrue($a->isSubsetOf($a));
-    }
-
-    function testSubset() {
-        $a = new HashSet();
-
-        $b = new HashSet();
-        $b->add(0);
-
-        $this->assertTrue($a->isSubsetOf($b));
-
-        $a->add(0);
-        $this->assertTrue($a->isSubsetOf($b));
-    }
-
-    function testNotSubset() {
-        $a = new HashSet();
-
-        $b = new HashSet();
-        $b->add(0);
-
-        $this->assertFalse($b->isSubsetOf($a));
-    }
-
-    function testStrictSubsetSelfEmpty() {
-        $a = new HashSet();
-        $this->assertFalse($a->isStrictSubsetOf($a));
-    }
-
-    function testStrictSubsetSelfNonEmpty() {
-        $a = new HashSet();
-        $a->add(0);
-        $this->assertFalse($a->isStrictSubsetOf($a));
-    }
-
-    function testStrictSubsetEmpty() {
-        $a = new HashSet();
-        $b = new HashSet();
-        $this->assertFalse($a->isStrictSubsetOf($b));
-        $this->assertFalse($b->isStrictSubsetOf($a));
-    }
-
-
-    function testSupersetEmpty() {
-        $a = new HashSet();
-        $b = new HashSet();
-
-        $this->assertTrue($a->isSupersetOf($b));
-        $this->assertTrue($b->isSupersetOf($a));
-    }
-
-    function testSupersetSelfEmpty() {
-        $a = new HashSet();
-        $this->assertTrue($a->isSupersetOf($a));
-    }
-
-    function testSupersetSelfNonEmpty() {
-        $a = new HashSet();
-        $a->add(0);
-        $this->assertTrue($a->isSupersetOf($a));
-    }
-
-    function testSuperset() {
-        $a = new HashSet();
-
-        $b = new HashSet();
-        $b->add(0);
-
-        $this->assertTrue($b->isSupersetOf($a));
-
-        $a->add(0);
-        $this->assertTrue($b->isSupersetOf($a));
-    }
-
-    function testNotSuperset() {
-        $a = new HashSet();
-
-        $b = new HashSet();
-        $b->add(0);
-
-        $this->assertFalse($a->isSupersetOf($b));
-    }
-
-    function testStrictSupersetSelfEmpty() {
-        $a = new HashSet();
-        $this->assertFalse($a->isStrictSupersetOf($a));
-    }
-
-    function testStrictSupersetSelfNonEmpty() {
-        $a = new HashSet();
-        $a->add(0);
-        $this->assertFalse($a->isStrictSupersetOf($a));
-    }
-
-    function testStrictSupersetEmpty() {
-        $a = new HashSet();
-        $b = new HashSet();
-        $this->assertFalse($a->isStrictSupersetOf($b));
-        $this->assertFalse($b->isStrictSupersetOf($a));
     }
 
 }

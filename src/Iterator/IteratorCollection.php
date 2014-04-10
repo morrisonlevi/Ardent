@@ -24,20 +24,6 @@ trait IteratorCollection /* implements \Collections\Collection */ {
     }
 
     /**
-     * @param callable $f
-     * @return bool
-     */
-    function every(callable $f) {
-        $i = $this->asIterator();
-        for ($i->rewind(); $i->valid(); $i->next()) {
-            if (!$f($i->current(), $i->key())) {
-                return FALSE;
-            }
-        }
-        return TRUE;
-    }
-
-    /**
      * @param callable $map
      * @return Enumerator
      */
@@ -53,34 +39,6 @@ trait IteratorCollection /* implements \Collections\Collection */ {
         return new FilteringIterator($this->asIterator(), $filter);
     }
 
-    /**
-     * @param callable $compare
-     * @return bool
-     */
-    function any(callable $compare) {
-        foreach ($this as $value) {
-            if ($compare($value)) {
-                return TRUE;
-            }
-        }
-        return FALSE;
-    }
-
-    /**
-     * @param string $separator
-     * @return string
-     */
-    function join($separator) {
-        $buffer = '';
-        $i = 0;
-        foreach ($this as $value) {
-            if ($i++ > 0) {
-                $buffer .= $separator;
-            }
-            $buffer .= $value;
-        }
-        return $buffer;
-    }
 
     /**
      * @param int $n
@@ -88,58 +46,6 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      */
     function limit($n) {
         return new LimitingIterator($this->asIterator(), $n);
-    }
-
-    /**
-     * @param callable $compare
-     * @throws StateException
-     * @return mixed
-     */
-    function max(callable $compare = NULL) {
-        $i = $this->asIterator();
-        $i->rewind();
-        if (!$i->valid()) {
-            throw new StateException;
-        }
-        $compare = $compare ?: 'max';
-        $max = $i->current();
-        for ($i->next(); $i->valid(); $i->next()) {
-            $max = $compare($max, $i->current());
-        }
-        return $max;
-    }
-
-    /**
-     * @param callable $compare
-     * @throws StateException
-     * @return mixed
-     */
-    function min(callable $compare = NULL) {
-        $i = $this->asIterator();
-        $i->rewind();
-        if (!$i->valid()) {
-            throw new StateException;
-        }
-        $compare = $compare ?: 'min';
-        $min = $i->current();
-        for ($i->next(); $i->valid(); $i->next()) {
-            $min = $compare($min, $i->current());
-        }
-        return $min;
-    }
-
-    /**
-     * @param callable $f
-     * @return bool
-     */
-    function none(callable $f) {
-        $i = $this->asIterator();
-        for ($i->rewind(); $i->valid(); $i->next()) {
-            if ($f($i->current(), $i->key())) {
-                return FALSE;
-            }
-        }
-        return TRUE;
     }
 
     /**

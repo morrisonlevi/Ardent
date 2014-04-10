@@ -3,6 +3,8 @@
 namespace Collections;
 
 abstract class AbstractSet implements Set {
+
+
     /**
      * Algorithms such as set difference need to be able to return a new
      * set object that includes any hashing or sorting functions needed but
@@ -12,31 +14,6 @@ abstract class AbstractSet implements Set {
      */
     protected abstract function cloneEmpty();
 
-    /**
-     * Creates a set that contains the items in the current set that are not
-     * contained in the provided set.
-     *
-     * Formally:
-     * A - B = {x : x ∈ A ∧ x ∉ B}
-     *
-     * @param Set $that
-     * @return Set
-     */
-    function difference(Set $that) {
-        $difference = $this->cloneEmpty();
-
-        if ($that === $this) {
-            return $difference;
-        }
-
-        foreach ($this as $item) {
-            if (!$that->contains($item)) {
-                $difference->add($item);
-            }
-        }
-
-        return $difference;
-    }
 
     /**
      * Creates the set that contains the items in the current set that are not
@@ -49,10 +26,21 @@ abstract class AbstractSet implements Set {
      * @param Set $that
      * @return Set
      */
-    function symmetricDifference(Set $that) {
-        $difference = $this->difference($that);
+    function difference(Set $that) {
+        $difference = $this->cloneEmpty();
+
+        if ($that === $this) {
+            return $difference;
+        }
+
+        foreach ($this as $item) {
+            if (!$that->has($item)) {
+                $difference->add($item);
+            }
+        }
+
         foreach ($that as $item) {
-            if (!$this->contains($item)) {
+            if (!$this->has($item)) {
                 $difference->add($item);
             }
         }
@@ -73,13 +61,14 @@ abstract class AbstractSet implements Set {
         $intersection = $this->cloneEmpty();
 
         foreach ($this as $item) {
-            if ($that->contains($item)) {
+            if ($that->has($item)) {
                 $intersection->add($item);
             }
         }
 
         return $intersection;
     }
+
 
     /**
      * Creates a new set which contains the items that exist in the provided
@@ -91,7 +80,7 @@ abstract class AbstractSet implements Set {
      * @param Set $that
      * @return Set
      */
-    function relativeComplement(Set $that) {
+    function complement(Set $that) {
         $complement = $this->cloneEmpty();
 
         if ($that === $this) {
@@ -99,13 +88,14 @@ abstract class AbstractSet implements Set {
         }
 
         foreach ($that as $item) {
-            if (!$this->contains($item)) {
+            if (!$this->has($item)) {
                 $complement->add($item);
             }
         }
 
         return $complement;
     }
+
 
     /**
      * Creates a new set that contains the items of the current set and the
@@ -133,55 +123,6 @@ abstract class AbstractSet implements Set {
         }
 
         return $union;
-    }
-
-    /**
-     * @param Set $that
-     * @return bool
-     */
-    function isSubsetOf(Set $that) {
-        if ($this === $that) {
-            return TRUE;
-        }
-
-        return self::subset($this, $that);
-    }
-
-    /**
-     * @param Set $that
-     * @return bool
-     */
-    function isStrictSubsetOf(Set $that) {
-        if ($this === $that) {
-            return FALSE;
-        }
-
-        return self::subset($this, $that) && !self::subset($that, $this);
-    }
-
-    /**
-     * @param Set $that
-     * @return bool
-     */
-    function isSupersetOf(Set $that) {
-        return $that->isSubsetOf($this);
-    }
-
-    /**
-     * @param Set $that
-     * @return mixed
-     */
-    function isStrictSupersetOf(Set $that) {
-        return $that->isStrictSubsetOf($this);
-    }
-
-    private static function subset(Set $a, Set $b) {
-        foreach ($a as $item) {
-            if (!$b->contains($item)) {
-                return FALSE;
-            }
-        }
-        return TRUE;
     }
 
 }

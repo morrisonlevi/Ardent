@@ -4,6 +4,7 @@ namespace Collections;
 
 interface Set extends \Countable, Enumerable {
 
+
     /**
      * Note that if the item is considered equal to an already existing item
      * in the set that it will be replaced.
@@ -11,35 +12,25 @@ interface Set extends \Countable, Enumerable {
      * @param $item
      *
      * @return void
-     * @throws TypeException when $item is not the correct type.
      */
     function add($item);
+
 
     /**
      * @param mixed $item
      * @return bool
      */
-    function contains($item);
+    function has($item);
+
 
     /**
      * @param $item
      *
      * @return void
-     * @throws TypeException when $item is not the correct type.
      */
     function remove($item);
 
-    /**
-     * Creates a set that contains the items in the current set that are not
-     * contained in the provided set.
-     *
-     * Formally:
-     * A - B = {x : x ∈ A ∧ x ∉ B}
-     *
-     * @param Set $that
-     * @return Set
-     */
-    function difference(Set $that);
+
 
     /**
      * Creates the set that contains the items in the current set that are not
@@ -52,7 +43,8 @@ interface Set extends \Countable, Enumerable {
      * @param Set $that
      * @return Set
      */
-    function symmetricDifference(Set $that);
+    function difference(Set $that);
+
 
     /**
      * Creates a new set that contains the items that are in current set that
@@ -66,6 +58,7 @@ interface Set extends \Countable, Enumerable {
      */
     function intersection(Set $that);
 
+
     /**
      * Creates a new set which contains the items that exist in the provided
      * set and do not exist in the current set.
@@ -76,7 +69,8 @@ interface Set extends \Countable, Enumerable {
      * @param Set $that
      * @return Set
      */
-    function relativeComplement(Set $that);
+    function complement(Set $that);
+
 
     /**
      * Creates a new set that contains the items of the current set and the
@@ -89,29 +83,5 @@ interface Set extends \Countable, Enumerable {
      * @return Set
      */
     function union(Set $that);
-
-    /**
-     * @param Set $that
-     * @return bool
-     */
-    function isSubsetOf(Set $that);
-
-    /**
-     * @param Set $that
-     * @return bool
-     */
-    function isStrictSubsetOf(Set $that);
-
-    /**
-     * @param Set $that
-     * @return bool
-     */
-    function isSupersetOf(Set $that);
-
-    /**
-     * @param Set $that
-     * @return mixed
-     */
-    function isStrictSupersetOf(Set $that);
 
 }
