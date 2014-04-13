@@ -377,7 +377,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     function testNoneMatchedSome() {
         $vector = new Vector(0, 5, 3, -5);
-        $none = $vector->none(function ($value, $key) {
+        $none = $vector->none(function ($value) {
             return $value < 3;
         });
         $this->assertFalse($none);
@@ -385,7 +385,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     function testNoneFalse() {
         $vector = new Vector(0, 5, 3, -5);
-        $none = $vector->none(function ($value, $key) {
+        $none = $vector->none(function ($value) {
             return $value < 0;
         });
         $this->assertFalse($none);
@@ -393,7 +393,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     function testNoneTrue() {
         $vector = new Vector(0, 5, 3, 8);
-        $none = $vector->none(function ($value, $key) {
+        $none = $vector->none(function ($value) {
             return $value < 0;
         });
         $this->assertTrue($none);
@@ -436,7 +436,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     function testWhere() {
         $vector = new Vector(0, 1, 2, 3);
-        $odd = $vector->filter(function($value, $key) {
+        $odd = $vector->filter(function($value) {
             return $value % 2;
         });
         $this->assertInstanceOf('Collections\\Vector', $odd);
