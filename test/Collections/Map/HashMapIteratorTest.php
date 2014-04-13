@@ -3,7 +3,8 @@
 namespace Collections;
 
 
-class HashMapIteratorTest extends \PHPUnit_Framework_TestCase {
+class HashMapIteratorTest extends TestCase {
+
 
     function test_getIterator_any_returnsCorrectInstance() {
         $map = new HashMap();
@@ -11,6 +12,7 @@ class HashMapIteratorTest extends \PHPUnit_Framework_TestCase {
         $this->assertNotNull($iterator);
         $this->assertInstanceOf('\\Collections\\HashMapIterator', $iterator);
     }
+
 
     /**
      * @depends test_getIterator_any_returnsCorrectInstance
@@ -23,38 +25,25 @@ class HashMapIteratorTest extends \PHPUnit_Framework_TestCase {
     }
 
 
-    function provider() {
-        $data = [];
-        $result = [
-            'N0' => [$data, 0],
-        ];
-
-        for ($i = 1; $i < 10; ++$i) {
-            $data[] = 2 * $i;
-            $result["N$i"] = [$data, $i];
-        }
-        return $result;
-    }
-
-
     /**
      * @depends test_getIterator_any_returnsCorrectInstance
-     * @dataProvider provider
+     * @dataProvider provide_rangeN
      */
-    function testCount_containsN_returnsN($dataToAdd, $expectedCount) {
+    function testCount_containsN_returnsN(array $data) {
         $map = new HashMap();
-        foreach ($dataToAdd as $key => $value) {
+        foreach ($data as $key => $value) {
             $map[$key] = $value;
         }
-
         $iterator = $map->getIterator();
+        $expectedCount = count($data);
+
         $this->assertCount($expectedCount, $iterator);
     }
 
 
     /**
      * @depends test_getIterator_any_returnsCorrectInstance
-     * @dataProvider provider
+     * @dataProvider provide_rangeN
      */
     function test_containsN_returnsKeyValuePairCorrectly($dataToAdd) {
         $map = new HashMap();

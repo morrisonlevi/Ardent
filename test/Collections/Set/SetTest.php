@@ -2,22 +2,13 @@
 
 namespace Collections;
 
-abstract class SetTest extends \PHPUnit_Framework_TestCase {
+abstract class SetTest extends TestCase {
 
 
     /**
      * @return Set
      */
     abstract function instance();
-
-
-    function provide_rangeN() {
-        $cases = [];
-        for ($i = 0; $i < 5; ++$i) {
-            $cases[] = [range(0, 5)];
-        }
-        return $cases;
-    }
 
 
     /**

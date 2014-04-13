@@ -3,22 +3,13 @@
 namespace Collections;
 
 
-abstract class SetIteratorTest extends \PHPUnit_Framework_TestCase {
+abstract class SetIteratorTest extends TestCase {
 
 
     /**
      * @return Set
      */
     abstract function set();
-    
-
-    function provide_rangeN() {
-        $cases = [];
-        for ($i = 0; $i < 5; ++$i) {
-            $cases[] = [range(0, 5)];
-        }
-        return $cases;
-    }
 
 
     function test_isEmpty_empty_returnsTrue() {

@@ -13,6 +13,11 @@ spl_autoload_register(function ($class) {
         case 'Collections\\SetTest':
             require __DIR__ . '/Collections/Set/SetTest.php';
             break;
+
+        case 'Collections\\TestCase':
+            require __DIR__ . '/Collections/TestCase.php';
+            break;
+
     }
 });
 
