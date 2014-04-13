@@ -6,7 +6,7 @@ class SortedMapIterator extends IteratorCollectionAdapter implements MapIterator
 
     private $size = 0;
 
-    function __construct(BinaryTreeIterator $iterator, $size) {
+    function __construct(InOrderIterator $iterator, $size) {
         parent::__construct($iterator);
         $this->size = $size;
         $this->rewind();

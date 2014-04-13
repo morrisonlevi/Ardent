@@ -4,28 +4,39 @@ namespace Collections;
 
 class HashMapTest extends \PHPUnit_Framework_TestCase {
 
-    /**
-     * @expectedException \Collections\KeyException
-     */
-    function testGetException() {
+
+    function test_get_missingKey_throwsException() {
+        $this->setExpectedException('\Collections\KeyException');
+
         $map = new HashMap();
         $map->get(0);
     }
 
-    /**
-     * @expectedException \Collections\KeyException
-     */
-    function testOffsetGetException() {
+
+    function test_offsetGet_missingKey_throwsException() {
+        $this->setExpectedException('\Collections\KeyException');
+
         $map = new HashMap();
         $map->offsetGet(0);
     }
 
-    function testInsertGet() {
+
+    function test_count_empty_returnsZero() {
         $map = new HashMap();
         $this->assertCount(0, $map);
-        $this->assertTrue($map->isEmpty());
+    }
 
+
+    function test_isEmpty_empty_returnsTrue() {
+        $map = new HashMap();
+        $this->assertTrue($map->isEmpty());
+    }
+
+
+    function testInsertGet() {
+        $map = new HashMap();
         $map->set(0, 1);
+
         $get = $map->get(0);
         $this->assertEquals(1, $get);
         $this->assertCount(1, $map);
@@ -188,43 +199,6 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $map = new HashMap();
         $map->set(NULL, 1);
         $this->assertEquals(1, $map->get(NULL));
-    }
-
-    /**
-     * @depends testOffsetSetOffsetGet
-     */
-    function testIteratorEmpty() {
-        $map = new HashMap();
-        $iterator = $map->getIterator();
-        $this->assertInstanceOf('\\Collections\\HashMapIterator', $iterator);
-
-        $iterator->rewind();
-        $this->assertFalse($iterator->valid());
-    }
-
-    /**
-     * @depends testIteratorEmpty
-     */
-    function testIterator() {
-        $map = new HashMap();
-        $map[0] = 2;
-        $map[2] = 4;
-        $map[4] = 6;
-
-        $iterator = $map->getIterator();
-        $this->assertCount(3, $iterator);
-
-        $iterator->rewind();
-        for ($i = 0; $i <= 4; $i += 2) {
-            $this->assertTrue($iterator->valid());
-            $value = $i + 2;
-            $this->assertEquals($i, $iterator->key());
-            $this->assertEquals($value, $iterator->current());
-            $iterator->next();
-        }
-
-        $this->assertFalse($iterator->valid());
-
     }
 
 }
