@@ -33,7 +33,9 @@ interface Set extends \Countable, Enumerable {
 
 
     /**
-     * Creates the set that contains the items in the current set that are not
+     * Computes the symmetric difference.
+     *
+     * Returns the set that contains the items in the current set that are not
      * contained in the provided set, as well as items that are in the
      * provided set that are not in the current set.
      *
@@ -60,6 +62,8 @@ interface Set extends \Countable, Enumerable {
 
 
     /**
+     * Also known as relative difference.
+     *
      * Creates a new set which contains the items that exist in the provided
      * set and do not exist in the current set.
      *
