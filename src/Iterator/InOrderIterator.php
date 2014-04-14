@@ -54,9 +54,7 @@ class InOrderIterator implements BinaryTreeIterator {
         $right = $node->right();
         if ($right !== NULL) {
             // left-most branch of the right side
-            for ($left = $right; $left !== NULL; $left = $left->left()) {
-                $this->stack->push($left);
-            }
+            $this->pushLeft($right);
         }
 
         if ($this->stack->isEmpty()) {
@@ -91,9 +89,7 @@ class InOrderIterator implements BinaryTreeIterator {
     function rewind() {
         $this->stack = new LinkedStack();
 
-        for ($current = $this->root; $current !== NULL; $current = $current->left()) {
-            $this->stack->push($current);
-        }
+        $this->pushLeft($this->root);
 
         if (!$this->stack->isEmpty()) {
             $this->node = $this->stack->last();
@@ -103,6 +99,13 @@ class InOrderIterator implements BinaryTreeIterator {
 
     function count() {
         return $this->size;
+    }
+
+
+    private function pushLeft(BinaryTree $n = null) {
+        for ($current = $n; $current !== NULL; $current = $current->left()) {
+            $this->stack->push($current);
+        }
     }
 
 }
