@@ -151,21 +151,11 @@ class AvlTree implements BinarySearchTree {
      * @throws LookupException
      */
     function get($element) {
-        $node = $this->root;
-
-        while ($node !== NULL) {
-            $comparisonResult = call_user_func($this->comparator, $element, $node->value());
-
-            if ($comparisonResult < 0) {
-                $node = $node->left();
-            } elseif ($comparisonResult > 0) {
-                $node = $node->right();
-            } else {
-                return $node->value();
-            }
+        $node = $this->findNode($element, $this->root);
+        if (!$node) {
+            throw new LookupException;
         }
-
-        throw new LookupException;
+        return $node->value();
     }
 
     /**
@@ -192,20 +182,7 @@ class AvlTree implements BinarySearchTree {
      * @throws TypeException when $item is not the correct type.
      */
     function contains($item) {
-        $node = $this->root;
-        while ($node !== NULL) {
-            $comparisonResult = call_user_func($this->comparator, $item, $node->value());
-
-            if ($comparisonResult < 0) {
-                $node = $node->left();
-            } elseif ($comparisonResult > 0) {
-                $node = $node->right();
-            } else {
-                return TRUE;
-            }
-        }
-
-        return FALSE;
+        return $this->findNode($item, $this->root) !== null;
     }
 
     /**
@@ -381,6 +358,22 @@ class AvlTree implements BinarySearchTree {
             throw new StateException('Cannot set compare function when the BinarySearchTree is not empty');
         }
         $this->comparator = $f;
+    }
+
+
+    private function findNode($element, BinaryTree $context = NULL) {
+        while ($context !== NULL) {
+            $comparisonResult = call_user_func($this->comparator, $element, $context->value());
+
+            if ($comparisonResult < 0) {
+                $context = $context->left();
+            } elseif ($comparisonResult > 0) {
+                $context = $context->right();
+            } else {
+                return $context;
+            }
+        }
+        return null;
     }
 
 }
