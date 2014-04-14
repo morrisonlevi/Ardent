@@ -97,8 +97,6 @@ class SplayTree implements BinarySearchTree {
     }
 
     private function splay($value) {
-        $y = null;
-
         $l = $r = $this->header;
         $t = $this->root;
         $this->header->left = $this->header->right = null;

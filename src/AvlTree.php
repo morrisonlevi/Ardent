@@ -228,7 +228,6 @@ class AvlTree implements BinarySearchTree {
      * @return BinaryTreeIterator
      */
     function getIterator($order = self::TRAVERSE_IN_ORDER) {
-        $iterator = NULL;
 
         $root = $this->cache ?: (
         $this->root !== NULL
