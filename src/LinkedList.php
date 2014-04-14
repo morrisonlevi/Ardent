@@ -29,7 +29,8 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @return void
      */
     function __clone() {
-        $that = $this->copyRange(0, $this->size);
+        $that = new LinkedList();
+        $that->pushFromContext($this->head);
         $this->head = $that->head;
         $this->tail = $that->tail;
         $this->currentNode = $that->currentNode;
@@ -454,17 +455,13 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         $this->size--;
     }
 
-    private function copyRange($start, $finish) {
-        $that = new LinkedList();
 
-        $this->seekUnsafe($start);
-
-        for ($node = $this->currentNode, $i = $start; $i < $finish; $i++, $node = $node->next) {
-            $that->push($node->value);
+    private function pushFromContext(LinkedNode $context = null) {
+        for ($n = $context; $n !== NULL; $n = $n->next) {
+            $this->push($n->value);
         }
-
-        return $that;
     }
+
 
     /**
      * PhpStorm thinks this method is unused, but it is used in indexOf.
@@ -487,9 +484,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
             throw new EmptyException;
         }
         $that = new LinkedList();
-        for ($n = $this->head->next; $n !== NULL; $n = $n->next) {
-            $that->push($n->value);
-        }
+        $that->pushFromContext($this->head->next);
         return $that;
     }
 
