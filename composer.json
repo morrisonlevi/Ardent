@@ -17,7 +17,7 @@
         "php": "~5.4"
     },
     "autoload": {
-        "classmap": ["src/"]
+        "files": ["src/autoload.php"]
     },
     "extra": {
         "branch-alias": {

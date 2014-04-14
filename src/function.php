@@ -2,6 +2,27 @@
 
 namespace Collections;
 
+
+/**
+ * @param $a
+ * @param $b
+ * @return int
+ */
+function compare($a, $b) {
+    if ($a < $b) {
+        return -1;
+    } elseif ($b < $a) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+
+/**
+ * @param string $className
+ * @return void
+ */
 function autoload($className) {
     static $root = __DIR__;
     static $classMap = [
@@ -76,4 +97,3 @@ function autoload($className) {
     }
 
 }
-

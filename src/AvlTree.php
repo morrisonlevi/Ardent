@@ -27,22 +27,7 @@ class AvlTree implements BinarySearchTree {
      * @param callable $comparator
      */
     function __construct(callable $comparator = NULL) {
-        $this->comparator = $comparator ?: [$this, 'compare'];
-    }
-
-    /**
-     * @param $a
-     * @param $b
-     * @return int
-     */
-    function compare($a, $b) {
-        if ($a < $b) {
-            return -1;
-        } elseif ($b < $a) {
-            return 1;
-        } else {
-            return 0;
-        }
+        $this->comparator = $comparator ?: '\Collections\compare';
     }
 
     /**

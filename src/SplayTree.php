@@ -20,7 +20,7 @@ class SplayTree implements BinarySearchTree {
     private $size = 0;
 
     function __construct(callable $comparator = NULL) {
-        $this->comparator = $comparator ? : [$this, 'compare'];
+        $this->comparator = $comparator ? : '\Collections\compare';
         $this->header = new SplayNode(null);
     }
 
@@ -36,20 +36,6 @@ class SplayTree implements BinarySearchTree {
         $this->comparator = $f;
     }
 
-    /**
-     * @param $a
-     * @param $b
-     * @return int
-     */
-    function compare($a, $b) {
-        if ($a < $b) {
-            return -1;
-        } elseif ($b < $a) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
 
     function toBinaryTree() {
         return $this->copyNode($this->root);

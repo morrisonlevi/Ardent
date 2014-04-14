@@ -17,13 +17,6 @@ interface BinarySearchTree extends \Countable, Enumerable {
     function setCompare(callable $f);
 
     /**
-     * @param $a
-     * @param $b
-     * @return int
-     */
-    function compare($a, $b);
-
-    /**
      * @param mixed $element
      * @return void
      */

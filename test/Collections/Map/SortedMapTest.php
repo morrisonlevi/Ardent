@@ -168,8 +168,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
      */
     function test__construct() {
         $map = new SortedMap(function ($a, $b) {
-            $map = new SortedMap();
-            return $map->compareStandard(abs($a), abs($b));
+            return compare(abs($a), abs($b));
         });
 
         $this->assertFalse($map->offsetExists(0));

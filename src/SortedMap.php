@@ -17,7 +17,7 @@ class SortedMap implements Map {
     private $comparator;
 
     function __construct($comparator = NULL) {
-        $this->comparator = $comparator ?: [$this, 'compareStandard'];
+        $this->comparator = $comparator ?: '\Collections\compare';
 
         $this->avl = new SplayTree([$this, 'compareKeys']);
     }
@@ -26,15 +26,6 @@ class SortedMap implements Map {
         return call_user_func($this->comparator, $a->first, $b->first);
     }
 
-    function compareStandard($a, $b) {
-        if ($a < $b) {
-            return -1;
-        } elseif ($b < $a) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
 
     /**
      * @return void
@@ -52,7 +43,7 @@ class SortedMap implements Map {
      */
     function contains($item, callable $callback = NULL) {
         if ($callback === NULL) {
-            $callback = [$this, 'compareStandard'];
+            $callback = '\Collections\compare';
         }
         foreach ($this->avl as $pair) {
             /**
