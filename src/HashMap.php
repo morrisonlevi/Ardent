@@ -135,16 +135,7 @@ class HashMap implements Map {
      * @throws TypeException when the $key is not the correct type.
      */
     function get($key) {
-        $hash = call_user_func($this->hashFunction, $key);
-        if (!array_key_exists($hash, $this->storage)) {
-            throw new KeyException;
-        }
-
-        /**
-         * @var Pair $pair
-         */
-        $pair = $this->storage[$hash];
-        return $pair->second;
+        return $this->offsetGet($key);
     }
 
     /**
