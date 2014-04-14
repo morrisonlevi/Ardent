@@ -29,13 +29,14 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @return void
      */
     function __clone() {
-        $that = new LinkedList();
-        $that->pushFromContext($this->head);
+        $that = $this->copyFromContext($this->head);
         $this->head = $that->head;
         $this->tail = $that->tail;
         $this->currentNode = $that->currentNode;
         $this->currentOffset = $that->currentOffset;
     }
+
+
     /**
      * @param mixed $value
      * @param callable $callback [optional]
@@ -46,6 +47,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     function contains($value, callable $callback = NULL) {
         return $this->indexOf($value, $callback) >= 0;
     }
+
 
     /**
      * @param mixed $value
@@ -78,12 +80,14 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         return -1;
     }
 
+
     /**
      * @return bool
      */
     function isEmpty() {
         return $this->head === NULL;
     }
+
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
@@ -93,6 +97,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         return new LinkedListIterator(clone $this);
     }
 
+
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      * @param int $offset
@@ -101,6 +106,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     function offsetExists($offset) {
         return $offset < $this->size && $offset >= 0;
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
@@ -117,6 +123,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
         return $this->currentNode->value;
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
@@ -139,6 +146,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         $this->currentNode->value = $value;
     }
 
+
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
      * @param int $offset
@@ -153,6 +161,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         $this->removeNode($this->currentNode, $offset);
     }
 
+
     /**
      * @link http://php.net/manual/en/countable.count.php
      * @return int
@@ -160,6 +169,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     function count() {
         return $this->size;
     }
+
 
     /**
      * @param mixed $object
@@ -202,6 +212,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         return $value;
     }
 
+
     /**
      * @return mixed
      * @throws EmptyException if the LinkedList is empty.
@@ -213,6 +224,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
         return $this->head->value;
     }
+
 
     /**
      * @param mixed $value
@@ -238,6 +250,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         $this->currentOffset = 0;
     }
 
+
     /**
      * @throws EmptyException if the LinkedList is empty.
      * @return mixed
@@ -256,6 +269,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         return $value;
     }
 
+
     /**
      * @throws EmptyException if the LinkedList is empty.
      * @return mixed
@@ -267,6 +281,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
         return $this->tail->value;
     }
+
 
     function insertAfter($offset, $value) {
         if ($this->isEmpty()) {
@@ -292,6 +307,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
         $this->size++;
     }
+
 
     function insertBefore($offset, $value) {
         if ($this->isEmpty()) {
@@ -321,6 +337,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.next.php
      * @return void
@@ -332,6 +349,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         }
     }
 
+
     /**
      * @return void
      */
@@ -342,6 +360,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         }
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.key.php
      * @return int
@@ -350,6 +369,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         return $this->currentOffset;
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed If the structure is empty this will return NULL
@@ -357,6 +377,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     function current() {
         return $this->currentNode->value;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
@@ -367,6 +388,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         $this->currentOffset = 0;
     }
 
+
     /**
      * @return void
      */
@@ -375,6 +397,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         $this->currentOffset = max(0, $this->size - 1);
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      * @return bool
@@ -382,6 +405,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     function valid() {
         return $this->currentNode !== NULL;
     }
+
 
     /**
      * @param int $offset
@@ -400,6 +424,19 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
         $this->seekUnsafe($offset);
     }
+
+    /**
+     * Extract the elements after the first of a list, which must be non-empty.
+     * @return LinkedList
+     * @throws StateException
+     */
+    function tail() {
+        if ($this->head === NULL) {
+            throw new EmptyException;
+        }
+        return $this->copyFromContext($this->head->next);
+    }
+
 
     private function seekUnsafe($offset) {
 
@@ -456,10 +493,12 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     }
 
 
-    private function pushFromContext(LinkedNode $context = null) {
+    private function copyFromContext(LinkedNode $context = null) {
+        $list = new self();
         for ($n = $context; $n !== NULL; $n = $n->next) {
-            $this->push($n->value);
+            $list->push($n->value);
         }
+        return $list;
     }
 
 
@@ -472,20 +511,6 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      */
     private function __equals($a, $b) {
         return $a == $b;
-    }
-
-    /**
-     * Extract the elements after the first of a list, which must be non-empty.
-     * @return LinkedList
-     * @throws StateException
-     */
-    function tail() {
-        if ($this->head === NULL) {
-            throw new EmptyException;
-        }
-        $that = new LinkedList();
-        $that->pushFromContext($this->head->next);
-        return $that;
     }
 
 }
