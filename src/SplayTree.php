@@ -71,7 +71,6 @@ class SplayTree implements BinarySearchTree {
      * @return void
      */
     function add($value) {
-        $n = null;
         if ($this->root == null) {
             $this->root = new SplayNode($value);
             $this->size++;
@@ -98,9 +97,6 @@ class SplayTree implements BinarySearchTree {
     }
 
     private function splay($value) {
-        $l = null;
-        $r = null;
-        $t = null;
         $y = null;
 
         $l = $r = $this->header;
