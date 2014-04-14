@@ -283,6 +283,13 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     }
 
 
+    /**
+     * @param int $offset
+     * @param mixed $value
+     * @throws IndexException
+     * @throws EmptyException
+     * @returns void
+     */
     function insertAfter($offset, $value) {
         if ($this->isEmpty()) {
             throw new EmptyException;
@@ -304,6 +311,13 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     }
 
 
+    /**
+     * @param int $offset
+     * @param mixed $value
+     * @throws IndexException
+     * @throws EmptyException
+     * @returns void
+     */
     function insertBefore($offset, $value) {
         if ($this->isEmpty()) {
             throw new EmptyException;
