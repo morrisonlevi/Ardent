@@ -6,6 +6,9 @@ class SortedMap implements Map {
 
     use IteratorCollection;
 
+    /**
+     * @var SplayTree
+     */
     private $avl;
 
     /**

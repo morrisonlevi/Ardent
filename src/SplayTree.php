@@ -203,6 +203,9 @@ class SplayTree implements BinarySearchTree {
 
     /**
      * Find an item in the tree.
+     * @param mixed $value
+     * @throws LookupException
+     * @return mixed
      */
     function get($value) {
         if ($this->root == null) {
