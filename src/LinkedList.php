@@ -299,12 +299,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         }
 
         $this->seekUnsafe($offset);
-
-        $newNode = new LinkedNode($value);
-        $this->currentNode->next
-            = $this->currentNode->next->prev
-            = $newNode;
-
+        $this->insertBetween($this->currentNode, $this->currentNode->next, $value);
         $this->size++;
     }
 
@@ -326,12 +321,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
         $this->seekUnsafe($offset);
 
-        $newNode = new LinkedNode($value);
-
-        $this->currentNode->prev
-            = $this->currentNode->prev->next
-            = $newNode;
-
+        $this->insertBetween($this->currentNode->prev, $this->currentNode, $value);
         $this->currentOffset++;
         $this->size++;
 
@@ -499,6 +489,15 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
             $list->push($n->value);
         }
         return $list;
+    }
+
+
+    private function insertBetween(LinkedNode $a, LinkedNode $b, $value) {
+        $link = new LinkedNode($value);
+
+        $b->prev = $a->next = $link;
+        $link->prev = $a;
+        $link->next = $b;
     }
 
 
