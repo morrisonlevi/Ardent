@@ -240,7 +240,9 @@ abstract class SetTest extends TestCase {
         $this->assertInstanceOf('Collections\\Set', $union);
         $this->count(3, $union);
         $this->assertNotSame($a, $union);
-        $this->assertEquals($a, $union);
+        foreach ($a as $item) {
+            $this->assertTrue($union->has($item));
+        }
     }
 
     function testUnion() {

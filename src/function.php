@@ -3,6 +3,13 @@
 namespace Collections;
 
 
+function negate(callable $f) {
+    return function() use($f) {
+        return !call_user_func_array($f, func_get_args());
+    };
+}
+
+
 /**
  * @param $a
  * @param $b

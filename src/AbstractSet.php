@@ -33,17 +33,9 @@ abstract class AbstractSet implements Set {
             return $difference;
         }
 
-        foreach ($this as $item) {
-            if (!$that->has($item)) {
-                $difference->add($item);
-            }
-        }
+        $this->addIf($difference, $this, negate([$that, 'has']));
+        $this->addIf($difference, $that, negate([$this, 'has']));
 
-        foreach ($that as $item) {
-            if (!$this->has($item)) {
-                $difference->add($item);
-            }
-        }
         return $difference;
     }
 
@@ -60,11 +52,7 @@ abstract class AbstractSet implements Set {
     function intersection(Set $that) {
         $intersection = $this->cloneEmpty();
 
-        foreach ($this as $item) {
-            if ($that->has($item)) {
-                $intersection->add($item);
-            }
-        }
+        $this->addIf($intersection, $this, [$that, 'has']);
 
         return $intersection;
     }
@@ -87,11 +75,7 @@ abstract class AbstractSet implements Set {
             return $complement;
         }
 
-        foreach ($that as $item) {
-            if (!$this->has($item)) {
-                $complement->add($item);
-            }
-        }
+        $this->addIf($complement, $that, negate([$this, 'has']));
 
         return $complement;
     }
@@ -110,19 +94,21 @@ abstract class AbstractSet implements Set {
     function union(Set $that) {
         $union = $this->cloneEmpty();
 
-        foreach ($this as $item) {
-            $union->add($item);
-        }
-
-        if ($that === $this) {
-            return $union;
-        }
-
-        foreach ($that as $item) {
-            $union->add($item);
-        }
+        $this->for_each($this, [$union, 'add']);
+        $this->for_each($that, [$union, 'add']);
 
         return $union;
+    }
+
+    private function for_each(\Traversable $i, callable $f) {
+        foreach ($i as $item) {
+            $f($item);
+        }
+    }
+
+
+    private function addIf(Set $to, Set $from, callable $f) {
+        $this->for_each($from->filter($f), [$to, 'add']);
     }
 
 }
