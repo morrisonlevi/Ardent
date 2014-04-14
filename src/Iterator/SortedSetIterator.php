@@ -5,6 +5,7 @@ namespace Collections;
 class SortedSetIterator extends IteratorCollectionAdapter implements SetIterator {
 
     private $key = 0;
+    private $size = 0;
 
     function __construct(BinaryTreeIterator $iterator, $size) {
         parent::__construct($iterator);
