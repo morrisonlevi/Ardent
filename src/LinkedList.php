@@ -450,8 +450,6 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
 
     private function removeNode(LinkedNode $node, $offset) {
-        $current = NULL;
-
         if ($node->next !== NULL) {
             $this->currentNode = $node->next;
             $this->currentNode->prev = $node->prev;
