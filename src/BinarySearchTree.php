@@ -25,11 +25,13 @@ interface BinarySearchTree extends \Countable, Enumerable {
 
     /**
      * @param mixed $element
+     * @return void
      */
     function add($element);
 
     /**
      * @param mixed $element
+     * @return void
      */
     function remove($element);
 
