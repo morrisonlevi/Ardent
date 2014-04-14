@@ -4,11 +4,10 @@ namespace Collections;
 
 class SortedSetIterator extends IteratorCollectionAdapter implements SetIterator {
 
-    private $key = 0;
     private $size = 0;
 
     function __construct(BinaryTreeIterator $iterator, $size) {
-        parent::__construct($iterator);
+        parent::__construct(new ValueIterator($iterator));
         $this->size = $size;
         $this->rewind();
     }
@@ -19,24 +18,6 @@ class SortedSetIterator extends IteratorCollectionAdapter implements SetIterator
      */
     function count() {
         return $this->size;
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void
-     */
-    function rewind() {
-        parent::rewind();
-        $this->key = 0;
-    }
-
-    /**
-     * @link http://php.net/manual/en/iterator.next.php
-     * @return void
-     */
-    function next() {
-        parent::next();
-        $this->key++;
     }
 
 }
