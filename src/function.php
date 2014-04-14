@@ -97,6 +97,12 @@ function autoload($className) {
         'Collections\\ValueIterator'   =>   'Iterator/ValueIterator.php',
         'Collections\\Vector'	=>	'Vector.php',
         'Collections\\VectorIterator'  =>  'Iterator/VectorIterator.php',
+
+
+        'Collections\\SNode'	=>	'SNode.php',
+        'Collections\\SDataNode'	=>	'SDataNode.php',
+        'Collections\\SLinkedList'	=>	'SLinkedList.php',
+        'Collections\\STerminalNode'	=>	'STerminalNode.php',
     ];
 
     if (isset($classMap[$className])) {
