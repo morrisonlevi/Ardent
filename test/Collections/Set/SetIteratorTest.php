@@ -21,7 +21,7 @@ abstract class SetIteratorTest extends TestCase {
 
 
     /**
-     * @dataProvider provide_rangeN
+     * @dataProvider provide_rangeZeroToN
      */
     function test_count_sizeN_returnsN(array $data) {
         $set = $this->set();

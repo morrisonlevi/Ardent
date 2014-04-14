@@ -12,7 +12,7 @@ abstract class SetTest extends TestCase {
 
 
     /**
-     * @dataProvider provide_rangeN
+     * @dataProvider provide_rangeZeroToN
      * @param array $add
      */
     function test_count_sizeN_returnsN(array $add) {
@@ -26,7 +26,7 @@ abstract class SetTest extends TestCase {
 
     /**
      * @depends test_count_sizeN_returnsN
-     * @dataProvider provide_rangeN
+     * @dataProvider provide_rangeZeroToN
      */
     function test_clear_sizeN_isEmpty(array $data) {
         $set = $this->instance();
@@ -49,7 +49,7 @@ abstract class SetTest extends TestCase {
 
 
     /**
-     * @dataProvider provide_rangeN
+     * @dataProvider provide_rangeZeroToN
      */
     function test_has_removingLastItem_returnsFalse(array $data) {
         $set = $this->instance();
@@ -62,7 +62,7 @@ abstract class SetTest extends TestCase {
 
 
     /**
-     * @dataProvider provide_rangeN
+     * @dataProvider provide_rangeZeroToN
      */
     function test_isEmpty_sizeN(array $data) {
         $set = $this->instance();
@@ -86,7 +86,7 @@ abstract class SetTest extends TestCase {
 
 
     /**
-     * @dataProvider provide_rangeN
+     * @dataProvider provide_rangeZeroToN
      */
     function test_difference_withSelf_returnsEmptySet(array $data) {
         $set = $this->instance();
@@ -97,7 +97,7 @@ abstract class SetTest extends TestCase {
 
 
     /**
-     * @dataProvider provide_rangeN
+     * @dataProvider provide_rangeZeroToN
      */
     function test_difference_noDifference_returnsEmptySet(array $data) {
         $a = $this->instance();
@@ -150,7 +150,7 @@ abstract class SetTest extends TestCase {
 
 
     /**
-     * @dataProvider provide_rangeN
+     * @dataProvider provide_rangeZeroToN
      */
     function test_intersection_allMatch_returnsAll(array $add) {
         $a = $this->instance();
