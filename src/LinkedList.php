@@ -296,7 +296,6 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         if ($this->isEmpty()) {
             throw new EmptyException;
         }
-
         if (!$this->offsetExists($offset)) {
             throw new IndexException;
         }
@@ -344,13 +343,10 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return int If the structure is empty, this value is null
+     * @return int
      */
     function key() {
-        if ($this->currentNode !== NULL) {
-            return $this->currentOffset;
-        }
-        return NULL;
+        return $this->currentOffset;
     }
 
     /**
@@ -358,10 +354,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @return mixed If the structure is empty this will return NULL
      */
     function current() {
-        if ($this->currentNode !== NULL) {
-            return $this->currentNode->value;
-        }
-        return NULL;
+        return $this->currentNode->value;
     }
 
     /**
@@ -370,10 +363,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      */
     function rewind() {
         $this->currentNode = $this->head;
-
-        if ($this->currentNode !== NULL) {
-            $this->currentOffset = 0;
-        }
+        $this->currentOffset = 0;
     }
 
     /**
@@ -381,10 +371,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      */
     function end() {
         $this->currentNode = $this->tail;
-
-        if ($this->currentNode !== NULL) {
-            $this->currentOffset = $this->size - 1;
-        }
+        $this->currentOffset = max(0, $this->size - 1);
     }
 
     /**

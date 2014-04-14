@@ -628,23 +628,14 @@ class LinkedListTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $iterator->current());
     }
 
-    function testIteratorEmpty() {
+    function test_rewind_empty_returnsFalse() {
         $list = new LinkedList();
         $iterator = $list;
 
         $iterator->rewind();
         $this->assertFalse($iterator->valid());
-        $this->assertEquals(NULL, $iterator->key());
-        $this->assertEquals(NULL, $iterator->current());
-
-        $iterator->next();
-        $this->assertEquals(NULL, $iterator->key());
-        $this->assertEquals(NULL, $iterator->current());
-
-        $iterator->prev();
-        $this->assertEquals(NULL, $iterator->key());
-        $this->assertEquals(NULL, $iterator->current());
     }
+
 
     function testIteratorSeek() {
         $list = new LinkedList();
