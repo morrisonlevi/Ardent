@@ -222,14 +222,11 @@ class SplayTree implements BinarySearchTree {
 
 
     private function splay_rotate($property, $rotate, $value, $t, $d) {
+        if ($t->$property && call_user_func($this->comparator, $value, $t->$property->value) > 0) {
+            $t = $this->$rotate($t);
+        }
         if ($t->$property == null) {
             return [false, $t, $d];
-        }
-        if (call_user_func($this->comparator, $value, $t->$property->value) > 0) {
-            $t = $this->$rotate($t);
-            if ($t->$property == null) {
-                return [false, $t, $d];
-            }
         }
         $d->$property = $t;
         $d = $t;
