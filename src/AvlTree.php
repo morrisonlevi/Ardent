@@ -375,7 +375,6 @@ class AvlTree implements BinarySearchTree {
      */
     private function deleteSelectChild(BinaryTree $node, $direction) {
         $d = $node->$direction();
-        // right empty, left is not
         unset($node);
         return $d;
     }
@@ -386,7 +385,6 @@ class AvlTree implements BinarySearchTree {
      * @return BinaryTree
      */
     private function deleteNeitherChildIsNull(BinaryTree $node) {
-        // neither is empty
         $value = $node->inOrderPredecessor()->value();
         $node->setLeft($this->removeRecursive($value, $node->left()));
         $node->setValue($value);
