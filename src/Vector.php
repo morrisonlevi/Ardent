@@ -65,7 +65,8 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @return mixed
      */
     function offsetGet($offset) {
-        return $this->get($offset);
+        $index = $this->existsGuard($this->intGuard($offset));
+        return $this->array[$index];
     }
 
 
@@ -127,15 +128,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @throws IndexException when $index < 0 or $index >= count($this).
      */
     function get($index) {
-        if (filter_var($index, FILTER_VALIDATE_INT) === FALSE) {
-            throw new TypeException;
-        }
-
-        if (!$this->offsetExists($index)) {
-            throw new IndexException;
-        }
-
-        return $this->array[$index];
+        return $this->offsetGet($index);
     }
 
 
@@ -148,15 +141,8 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @throws IndexException when $index < 0 or $index >= count($this).
      */
     function set($index, $item) {
-        if (filter_var($index, FILTER_VALIDATE_INT) === FALSE) {
-            throw new TypeException;
-        }
-
-        if (!$this->offsetExists($index)) {
-            throw new IndexException;
-        }
-
-        $this->array[$index] = $item;
+        $ndx = $this->existsGuard($this->intGuard($index));
+        $this->array[$ndx] = $item;
     }
 
 
@@ -167,15 +153,10 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @return void
      */
     function remove($index) {
-        if (filter_var($index, FILTER_VALIDATE_INT) === FALSE) {
-            throw new TypeException;
+        $ndx = $this->intGuard($index);
+        if ($this->offsetExists($ndx)) {
+            array_splice($this->array, $ndx, 1);
         }
-
-        if (!$this->offsetExists($index)) {
-            return;
-        }
-
-        array_splice($this->array, $index, 1);
     }
 
 
@@ -318,6 +299,22 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      */
     function values() {
         return $this;
+    }
+
+
+    private function existsGuard($i) {
+        if (!$this->offsetExists($i)) {
+            throw new IndexException;
+        }
+        return $i;
+    }
+
+
+    private function intGuard($i) {
+        if (filter_var($i, FILTER_VALIDATE_INT) === FALSE) {
+            throw new TypeException;
+        }
+        return $i;
     }
 
 
