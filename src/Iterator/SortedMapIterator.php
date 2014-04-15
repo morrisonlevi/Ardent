@@ -23,19 +23,9 @@ class SortedMapIterator extends IteratorCollectionAdapter implements MapIterator
      * @throws TypeException
      */
     function key() {
-        /**
-         * @var Pair $pair
-         */
-        $pair = $this->inner->current();
-
-        if (!($pair instanceof Pair)) {
-            throw new TypeException(
-                __CLASS__ . ' only works with a BinarySearchTreeIterator that returns pair objects as values'
-            );
-        }
-
-        return $pair->first;
+        return $this->pairGuard($this->inner->current())->first;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
@@ -43,18 +33,23 @@ class SortedMapIterator extends IteratorCollectionAdapter implements MapIterator
      * @return mixed
      */
     function current() {
-        /**
-         * @var Pair $pair
-         */
-        $pair = $this->inner->current();
+        return $this->pairGuard($this->inner->current())->second;
+    }
 
+
+    /**
+     * @param mixed $pair
+     * @return Pair
+     * @throws TypeException
+     */
+    private function pairGuard($pair) {
         if (!($pair instanceof Pair)) {
             throw new TypeException(
                 __CLASS__ . ' only works with a BinarySearchTreeIterator that returns pair objects as values'
             );
         }
-
-        return $pair->second;
+        return $pair;
     }
+
 
 }
