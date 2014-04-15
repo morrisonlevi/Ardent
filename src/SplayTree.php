@@ -242,18 +242,18 @@ class SplayTree implements BinarySearchTree {
         $l = $r = $this->header;
         $t = $this->root;
         $this->header->left = $this->header->right = null;
-        $continue = true;
-        while($continue) {
-            if (call_user_func($this->comparator, $value, $t->value) < 0) {
+
+        do {
+            $continue = false;
+            $result = call_user_func($this->comparator, $value, $t->value) ;
+            if ($result < 0) {
                 list($continue, $t, $r) = $this->splay_rotate('left', 'rotateRight', $value, $t, $r);
             }
-            else if (call_user_func($this->comparator, $value, $t->value) > 0) {
+            else if ($result > 0) {
                 list($continue, $t, $l) = $this->splay_rotate('right', 'rotateLeft', $value, $t, $l);
             }
-            else {
-                break;
-            }
-        }
+        } while($continue);
+
         $l->right = $t->left; /* assemble */
         $r->left = $t->right;
         $t->left = $this->header->right;
