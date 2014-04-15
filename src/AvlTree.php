@@ -4,7 +4,7 @@ namespace Collections;
 
 class AvlTree implements BinarySearchTree {
 
-    use EmptyGuardian;
+    use EmptyGuard;
     use IteratorCollection;
 
     /**

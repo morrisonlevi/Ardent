@@ -4,7 +4,7 @@ namespace Collections;
 
 class SplayTree implements BinarySearchTree {
 
-    use EmptyGuardian;
+    use EmptyGuard;
     use IteratorCollection;
 
     /**

@@ -4,7 +4,7 @@ namespace Collections;
 
 class LinkedQueue implements Queue {
 
-    use EmptyGuardian;
+    use EmptyGuard;
     use IteratorCollection;
 
     /**

@@ -4,7 +4,7 @@ namespace Collections;
 
 class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
-    use EmptyGuardian;
+    use EmptyGuard;
     use IteratorCollection;
 
     /**

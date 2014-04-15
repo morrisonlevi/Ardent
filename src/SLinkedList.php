@@ -5,7 +5,7 @@ namespace Collections;
 
 class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
 
-    use EmptyGuardian;
+    use EmptyGuard;
     use IteratorCollection;
 
     private $head;

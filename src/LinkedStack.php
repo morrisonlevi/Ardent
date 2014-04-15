@@ -4,7 +4,7 @@ namespace Collections;
 
 class LinkedStack implements Stack {
 
-    use EmptyGuardian;
+    use EmptyGuard;
     use IteratorCollection;
 
     /**

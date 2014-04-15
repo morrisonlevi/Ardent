@@ -3,7 +3,7 @@
 namespace Collections;
 
 
-trait EmptyGuardian {
+trait EmptyGuard {
 
 
     abstract function isEmpty();

@@ -64,7 +64,7 @@ function autoload($className) {
         'Collections\\CountableIterator'	=>	'Iterator/CountableIterator.php',
         'Collections\\CountableSeekableIterator'   =>  'Iterator/CountableSeekableIterator.php',
         'Collections\\EmptyException'	=>	'Exception/EmptyException.php',
-        'Collections\\EmptyGuardian'	=>	'EmptyGuardian.php',
+        'Collections\\EmptyGuard'	=>	'EmptyGuard.php',
         'Collections\\Enumerable'	=>	'Enumerable.php',
         'Collections\\Enumerator'	=>	'Enumerator.php',
         'Collections\\Exception'	=>	'Exception/Exception.php',
