@@ -3,17 +3,11 @@
 namespace Collections;
 
 
-class LevelOrderIteratorTest extends TestCase {
+class LevelOrderIteratorTest extends BinaryTreeIteratorTest {
 
 
     function instance(BinaryTree $root = null, $count = 0) {
         return new LevelOrderIterator($root, $count);
-    }
-
-
-    function test_empty() {
-        $iterator = $this->instance();
-        $this->assertTrue($iterator->isEmpty());
     }
 
 

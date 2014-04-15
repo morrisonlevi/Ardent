@@ -18,6 +18,9 @@ spl_autoload_register(function ($class) {
             require __DIR__ . '/Collections/TestCase.php';
             break;
 
+        case 'Collections\\BinaryTreeIteratorTest':
+            require __DIR__ . '/Collections/BinarySearchTree/BinaryTreeIteratorTest.php';
+            break;
     }
 });
 

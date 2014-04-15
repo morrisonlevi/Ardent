@@ -3,18 +3,12 @@
 namespace Collections;
 
 
-class PostOrderIteratorTest extends TestCase {
+class PostOrderIteratorTest extends BinaryTreeIteratorTest {
 
 
 
     function instance(BinaryTree $root = null, $count = 0) {
         return new PostOrderIterator($root, $count);
-    }
-
-
-    function test_empty() {
-        $iterator = $this->instance();
-        $this->assertTrue($iterator->isEmpty());
     }
 
 

@@ -3,17 +3,11 @@
 namespace Collections;
 
 
-class PreOrderIteratorTest extends TestCase {
+class PreOrderIteratorTest extends BinaryTreeIteratorTest {
 
 
     function instance(BinaryTree $root = null, $count = 0) {
         return new PreOrderIterator($root, $count);
-    }
-
-
-    function test_empty() {
-        $iterator = $this->instance();
-        $this->assertTrue($iterator->isEmpty());
     }
 
 
