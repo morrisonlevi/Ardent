@@ -13,6 +13,7 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
     private $current;
     private $offset = -1;
 
+
     function __construct() {
         $this->head = $head = new STerminalNode();
         $this->tail = $tail = new STerminalNode();
@@ -23,6 +24,7 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
         $this->current = $this->head;
     }
 
+
     function isEmpty() {
         return $this->size === 0;
     }
@@ -30,23 +32,19 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     function push($value) {
         $this->insertBetween($this->tail->prev(), $this->tail, $value);
+        $this->offset = $this->size - 1;
     }
 
 
     function unshift($value) {
         $this->insertBetween($this->head, $this->head->next(), $value);
+        $this->offset = 0;
     }
 
 
     function pop() {
         $this->emptyGuard(__METHOD__);
-
-        /**
-         * @var SDataNode $n
-         */
-        $n = $this->tail->prev();
-        $this->current = $n->prev();
-        $this->offset = $this->size -1;
+        $n = $this->seekTail();
         $this->removeNode($n);
         return $n->value();
     }
@@ -54,8 +52,7 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     function shift() {
         $this->emptyGuard(__METHOD__);
-
-        $n = $this->seekTo(0);
+        $n = $this->seekHead();
         $this->removeNode($n);
         return $n->value();
     }
@@ -63,15 +60,13 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     function first() {
         $this->emptyGuard(__METHOD__);
-
-        return $this->seek(0);
+        return $this->seekHead()->value();
     }
 
 
     function last() {
         $this->emptyGuard(__METHOD__);
-
-        return $this->seek($this->size - 1);
+        return $this->seekTail()->value();
     }
 
 
@@ -237,8 +232,18 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     function seek($position) {
         $this->indexGuard($position, __METHOD__);
+        switch ($position) {
+            case 0:
+                $n = $this->seekHead();
+                break;
+            case $this->size-1:
+                $n = $this->seekTail();
+                break;
 
-        return $this->seekTo($position)->value();
+            default:
+                $n = $this->seekTo($position);
+        }
+        return $n->value();
     }
 
 
@@ -311,32 +316,35 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
 
 
     /**
+     * @return SDataNode
+     */
+    private function seekTail() {
+        $this->offset = $this->size - 1;
+        $this->current = $this->tail->prev();
+        return $this->current;
+    }
+
+
+    /**
+     * @return SDataNode
+     */
+    private function seekHead() {
+        $this->offset = 0;
+        return $this->current = $this->head->next();
+    }
+
+
+    /**
      * @param $offset
      * @return SDataNode
      */
     private function seekTo($offset) {
-        if ($offset == 0) {
-            $this->offset = 0;
-            return $this->current = $this->head->next();
-        }
-
-        if ($offset == $this->size - 1) {
-            $this->offset = $this->size - 1;
-            $this->current = $this->tail->prev();
-            return $this->current;
-        }
-
         $diff = $this->offset - $offset;
-        if ($diff < 0) {
-            for ($i = 0; $i > $diff; $i--) {
-                $this->forward();
-            }
-        } else {
-            for ($i = 0; $i < $diff; $i++) {
-                $this->backward();
-            }
+        $action = $diff < 0 ? 'forward' : 'backward';
+        $n = abs($diff);
+        for ($i = 0; $i < $n; $i++) {
+            $this->$action();
         }
-
         return $this->current;
     }
 
