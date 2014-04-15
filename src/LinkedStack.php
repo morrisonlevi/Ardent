@@ -71,11 +71,10 @@ class LinkedStack implements Stack {
     function pop() {
         $this->emptyGuard(__METHOD__);
 
-        $top = $this->top;
-        $this->top = $top->second;
-
+        list($value, $this->top) = [$this->top->first, $this->top->second];
         $this->size--;
-        return $top->first;
+
+        return $value;
     }
 
     /**
