@@ -55,7 +55,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      */
     function reduce($initialValue, callable $combine) {
         $carry = $initialValue;
-        foreach ($this as $value) {
+        foreach ($this->asIterator() as $value) {
             $carry = $combine($carry, $value);
         }
         return $carry;
