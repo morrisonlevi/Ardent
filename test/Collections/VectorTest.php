@@ -14,9 +14,11 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
      */
     protected $object;
 
+
     protected function setUp() {
         $this->object = new Vector;
     }
+
 
     function testClear() {
         $this->object->append(1);
@@ -25,16 +27,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $this->object);
     }
 
-    function testAny() {
-        $any1 = function ($item) {
-           return $item == 1;
-        };
-        $this->assertFalse($this->object->any($any1));
-
-        $this->object->append(1);
-
-        $this->assertTrue($this->object->any($any1));
-    }
 
     function testIsEmpty() {
         $this->assertTrue($this->object->isEmpty());
@@ -42,6 +34,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->object->append(1);
         $this->assertFalse($this->object->isEmpty());
     }
+
 
     function testOffsetExists() {
         $this->assertFalse($this->object->offsetExists(0));
@@ -53,6 +46,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+
     /**
      * @expectedException \Collections\IndexException
      */
@@ -60,18 +54,20 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->object[0];
     }
 
+
     /**
      * @expectedException \Collections\TypeException
      */
     function testOffsetGetTypeException() {
-
         $this->object->get(array());
     }
+
 
     function testOffsetSet() {
         $this->object[] = 1;
         $this->object[0] = 0;
     }
+
 
     function testOffsetUnset() {
         unset($this->object[0]);
@@ -81,6 +77,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertCount(0, $this->object);
     }
+
 
     function testAppendAll() {
         $data = [0, 2, 4, 6];
@@ -101,6 +98,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(count($expect), $i);
     }
 
+
     function testAppend() {
         $vector = new VectorMock;
         $vector->append(1);
@@ -114,6 +112,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(2, $array[1]);
     }
 
+
     function testGet() {
         $vector = new VectorMock;
         $array =& $vector->getInnerArray();
@@ -124,6 +123,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
+
     /**
      * @expectedException \Collections\TypeException
      */
@@ -132,6 +132,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $vector->get(array());
     }
 
+
     /**
      * @expectedException \Collections\IndexException
      */
@@ -139,6 +140,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $vector = new Vector();
         $vector->get(1);
     }
+
 
     function testSet() {
         $vector = new VectorMock;
@@ -151,6 +153,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
+
     /**
      * @expectedException \Collections\TypeException
      */
@@ -159,6 +162,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $vector->set(array(), 0);
     }
 
+
     /**
      * @expectedException \Collections\IndexException
      */
@@ -166,6 +170,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $vector = new Vector();
         $vector->set(1, 0);
     }
+
 
     function testRemove() {
         $vector = new VectorMock(0);
@@ -188,6 +193,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $array[0]);
     }
 
+
     /**
      * @expectedException \Collections\TypeException
      */
@@ -195,6 +201,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $vector = new Vector();
         $vector->remove(array());
     }
+
 
     function testRemoveItem() {
         $vector = new VectorMock(0, 2, 4);
@@ -215,6 +222,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(4, $array[1]);
     }
 
+
     function testMapToArray() {
         $map = ['one' => 1, 'two' => 2, 'three' => 3];
         $vector = new Vector();
@@ -222,6 +230,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(array_values($map), $vector->toArray());
     }
+
 
     function testKeys() {
         $map = ['one' => 1, 'two' => 2, 'three' => 3];
@@ -231,6 +240,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals([0,1,2], $vector->keys()->toArray());
     }
 
+
     function testValues() {
         $map = ['one' => 1, 'two' => 2, 'three' => 3];
         $vector = new Vector();
@@ -239,94 +249,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals([1, 2, 3], $vector->values()->toArray());
     }
 
-    function testAnyEmpty() {
-        $vector = new Vector();
-        $this->assertFalse($vector->any(function () {
-            return TRUE;
-        }));
-    }
-
-    function testAnyFalse() {
-        $vector = new Vector(1, 2, 3, 4, 5);
-        $this->assertFalse($vector->any(function ($val) {
-            return $val === 0;
-        }));
-    }
-
-    function testAnyFirst() {
-        $vector = new Vector(1, 2, 3, 4, 5);
-        $this->assertTrue($vector->any(function ($val) {
-            return $val === 1;
-        }));
-    }
-
-    function testAnyMiddle() {
-        $vector = new Vector(1, 2, 3, 4, 5);
-        $this->assertTrue($vector->any(function ($val) {
-            return $val === 3;
-        }));
-    }
-
-    function testAnyLast() {
-        $vector = new Vector(1, 2, 3, 4, 5);
-        $this->assertTrue($vector->any(function ($val) {
-            return $val === 5;
-        }));
-    }
-
-    function testEachEmpty() {
-        $vector = new Vector();
-        $i = 0;
-        $vector->each(function ($val) use (&$i) {
-            $i += $val;
-        });
-
-        $this->assertEquals(0, $i);
-    }
-
-    function testEach() {
-        $vector = new Vector(1, 2, 3);
-
-        $k = '';
-        $v = 0;
-        $vector->each(function ($val, $key) use (&$v, &$k) {
-            $k .= $key;
-            $v += $val;
-        });
-
-        $this->assertEquals('012', $k);
-        $this->assertEquals(6, $v);
-    }
-
-    function testEveryEmpty() {
-        $vector = new Vector();
-        $this->assertTrue($vector->every('is_null'));
-    }
-
-    function testEverySome() {
-        $vector = new Vector(NULL, NULL, 0);
-        $this->assertFalse($vector->every(function ($val) { return $val === NULL;}));
-    }
-
-    function testEvery() {
-        $vector = new Vector(NULL, NULL, NULL);
-        $this->assertTrue($vector->every(function ($val) { return $val === NULL;}));
-    }
-
-    function testJoinEmpty() {
-        $vector = new Vector();
-        $this->assertEquals('', $vector->join(','));
-    }
-
-    function testJoinSingle() {
-        $vector = new Vector(0);
-        $this->assertEquals('0', $vector->join(','));
-    }
-
-    function testJoinMultiple() {
-        $vector = new Vector(0, 2, 4);
-        $this->assertEquals('0, 2, 4', $vector->join(', '));
-    }
 
     function testLimit() {
         $vector = new Vector(0, 1, 2, 3);
@@ -336,31 +258,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $limited[0]);
     }
 
-    function testMaxEmpty() {
-        $this->setExpectedException(
-            'Collections\\StateException'
-        );
-        $vector = new Vector();
-        $vector->max();
-    }
-
-    function testMax() {
-        $vector = new Vector(0, 5, 3, 8);
-        $this->assertEquals(8, $vector->max());
-    }
-
-    function testMinEmpty() {
-        $this->setExpectedException(
-            'Collections\\StateException'
-        );
-        $vector = new Vector();
-        $vector->min();
-    }
-
-    function testMin() {
-        $vector = new Vector(0, 5, 3, 8);
-        $this->assertEquals(0, $vector->min());
-    }
 
     function testMap() {
         $vector = new Vector(0, 1, 2, 3);
@@ -375,29 +272,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-    function testNoneMatchedSome() {
-        $vector = new Vector(0, 5, 3, -5);
-        $none = $vector->none(function ($value) {
-            return $value < 3;
-        });
-        $this->assertFalse($none);
-    }
-
-    function testNoneFalse() {
-        $vector = new Vector(0, 5, 3, -5);
-        $none = $vector->none(function ($value) {
-            return $value < 0;
-        });
-        $this->assertFalse($none);
-    }
-
-    function testNoneTrue() {
-        $vector = new Vector(0, 5, 3, 8);
-        $none = $vector->none(function ($value) {
-            return $value < 0;
-        });
-        $this->assertTrue($none);
-    }
 
     function testReduceEmpty() {
         $vector = new Vector();
@@ -405,17 +279,20 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(10, $max);
     }
 
+
     function testReduceInitialIsMax() {
         $vector = new Vector(0, 5);
         $max = $vector->reduce(10, 'max');
         $this->assertEquals(10, $max);
     }
 
+
     function testReduce() {
         $vector = new Vector(0, 5);
         $max = $vector->reduce(-5, 'max');
         $this->assertEquals(5, $max);
     }
+
 
     function testSlice() {
         $vector = new Vector(0, 5);
@@ -425,6 +302,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $slicer[0]);
     }
 
+
     function testSliceMiddle() {
         $vector = new Vector(0, 1, 2, 3);
         $slicer = $vector->slice(1, 2);
@@ -433,6 +311,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $slicer[0]);
         $this->assertEquals(2, $slicer[1]);
     }
+
 
     function testWhere() {
         $vector = new Vector(0, 1, 2, 3);
@@ -444,6 +323,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $odd[0]);
         $this->assertEquals(3, $odd[1]);
     }
+
 
     function testToArray() {
         $copy = [];
@@ -460,6 +340,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(3, $notEmptyArray);
     }
 
+
     /**
      * @depends testToArray
      */
@@ -473,6 +354,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $actual = $b->toArray($copy, NULL);
         $this->assertEquals($expect, $actual);
     }
+
 
     /**
      * @depends testToArray
@@ -488,6 +370,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expect, $actual);
     }
 
+
     /**
      * @depends testToArray
      */
@@ -501,6 +384,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $actual = $b->toArray($copy, NULL);
         $this->assertEquals($expect, $actual);
     }
+
 
     function testApply() {
         $vector = new Vector(0, 1, 2, 3);
@@ -519,6 +403,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
             $this->assertEquals($doubleValue($i), $vector[$i]);
         }
     }
+
 
     /**
      * @depends testAppend
@@ -547,6 +432,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+
     /**
      * @depends testAppend
      */
@@ -555,6 +441,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $b = new Vector(0, 1, 2);
         $this->assertEquals($a, $b);
     }
+
 
     /**
      * @depends testIterator
@@ -596,6 +483,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(3, $iterator->current());
     }
 
+
     /**
      * @depends testIterator
      * @expectedException \Collections\IndexException
@@ -607,6 +495,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $iterator->seek(-1);
     }
 
+
     /**
      * @depends testIterator
      * @expectedException \Collections\IndexException
@@ -617,5 +506,6 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $iterator = $this->object->getIterator();
         $iterator->seek(1);
     }
+
 
 }

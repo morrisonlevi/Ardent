@@ -6,6 +6,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
 
     protected $array = [];
 
+
     /**
      * @param mixed,... $varargs
      * @throws TypeException
@@ -13,6 +14,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
     function __construct($varargs = NULL) {
         $this->array = func_get_args();
     }
+
 
     /**
      * @param \Traversable $traversable
@@ -24,6 +26,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         }
     }
 
+
     /**
      * @return void
      */
@@ -31,12 +34,14 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         $this->array = [];
     }
 
+
     /**
      * @return bool
      */
     function isEmpty() {
         return count($this->array) === 0;
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
@@ -48,6 +53,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
     function offsetExists($offset) {
         return $offset >= 0 && $offset < $this->count();
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
@@ -61,6 +67,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
     function offsetGet($offset) {
         return $this->get($offset);
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
@@ -80,6 +87,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         $this->set($offset, $value);
     }
 
+
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
      *
@@ -91,6 +99,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         $this->remove($offset);
     }
 
+
     /**
      * @link http://php.net/manual/en/countable.count.php
      * @return int
@@ -98,6 +107,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
     function count() {
         return count($this->array);
     }
+
 
     /**
      * @param $item
@@ -107,6 +117,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
     function append($item) {
         $this->array[] = $item;
     }
+
 
     /**
      * @param int $index
@@ -126,6 +137,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
 
         return $this->array[$index];
     }
+
 
     /**
      * @param int $index
@@ -147,6 +159,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         $this->array[$index] = $item;
     }
 
+
     /**
      * @param int $index
      *
@@ -165,6 +178,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         array_splice($this->array, $index, 1);
     }
 
+
     /**
      * @param mixed $object
      *
@@ -179,6 +193,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         array_splice($this->array, $index, 1);
     }
 
+
     /**
      * Applies $callable to each item in the vector.
      *
@@ -191,14 +206,6 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         }
     }
 
-    /**
-     * @param callable $callback function($value, $key = NULL)
-     */
-    function each(callable $callback) {
-        foreach ($this->array as $i => $value) {
-            $callback($value, $i);
-        }
-    }
 
     /**
      * @param callable $map
@@ -212,6 +219,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         return $vector;
     }
 
+
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return VectorIterator
@@ -219,6 +227,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
     function getIterator() {
         return new VectorIterator($this);
     }
+
 
     /**
      * @param int $n
@@ -230,6 +239,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         return $v;
     }
 
+
     /**
      * @param int $n
      * @return Vector
@@ -239,6 +249,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         $v->array = array_slice($this->array, $n);
         return $v;
     }
+
 
     /**
      * @param int $start
@@ -251,12 +262,14 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         return $v;
     }
 
+
     /**
      * @return array
      */
     function toArray() {
        return $this->array;
     }
+
 
     /**
      * @param $initialValue
@@ -271,97 +284,6 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         return $carry;
     }
 
-    /**
-     * @param string $separator
-     * @return string
-     */
-    function join($separator) {
-        reset($this->array);
-        if (key($this->array) === NULL) {
-            return '';
-        }
-        $buff = current($this->array);
-        for (next($this->array); key($this->array) !== NULL; next($this->array)) {
-            $buff .= $separator . current($this->array);
-        }
-        return $buff;
-    }
-
-    /**
-     * @param callable $compare
-     * @return bool
-     */
-    function any(callable $compare) {
-        foreach ($this->array as $key => $value) {
-            if ($compare($value, $key)) {
-                return TRUE;
-            }
-        }
-        return FALSE;
-    }
-
-    /**
-     * @param callable $f
-     * @return bool
-     */
-    function every(callable $f) {
-        foreach ($this->array as $key => $value) {
-            if (!$f($value, $key)) {
-                return FALSE;
-            }
-        }
-        return TRUE;
-    }
-
-    /**
-     * @param callable $f
-     * @return bool
-     */
-    function none(callable $f) {
-        foreach ($this->array as $key => $value) {
-            if ($f($value, $key)) {
-                return FALSE;
-            }
-        }
-        return TRUE;
-    }
-
-    /**
-     * @param callable $compare
-     * @return mixed
-     */
-    function max(callable $compare = NULL) {
-        $i = new \ArrayIterator($this->array);
-        $i->rewind();
-        if (!$i->valid()) {
-            throw new StateException;
-        }
-        $compare = $compare ?: 'max';
-        $max = $i->current();
-        for ($i->next(); $i->valid(); $i->next()) {
-            $max = $compare($max, $i->current());
-        }
-        return $max;
-    }
-
-    /**
-     * @param callable $compare
-     * @return mixed
-     * @throws StateException if Collection is empty
-     */
-    function min(callable $compare = NULL) {
-        $i = new \ArrayIterator($this->array);
-        $i->rewind();
-        if (!$i->valid()) {
-            throw new StateException;
-        }
-        $compare = $compare ?: 'min';
-        $min = $i->current();
-        for ($i->next(); $i->valid(); $i->next()) {
-            $min = $compare($min, $i->current());
-        }
-        return $min;
-    }
 
     /**
      * @param callable $filter
@@ -377,6 +299,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         return $vector;
     }
 
+
     /**
      * @return Vector
      */
@@ -389,11 +312,13 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
         return $vector;
     }
 
+
     /**
      * @return Vector
      */
     function values() {
         return $this;
     }
+
 
 }
