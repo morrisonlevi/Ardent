@@ -39,9 +39,7 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
 
 
     function pop() {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
+        $this->emptyGuard(__METHOD__);
 
         /**
          * @var SDataNode $n
@@ -55,9 +53,7 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
 
 
     function shift() {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
+        $this->emptyGuard(__METHOD__);
 
         $n = $this->seekTo(0);
         $this->removeNode($n);
@@ -66,18 +62,14 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
 
 
     function first() {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
+        $this->emptyGuard(__METHOD__);
 
         return $this->seek(0);
     }
 
 
     function last() {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
+        $this->emptyGuard(__METHOD__);
 
         return $this->seek($this->size - 1);
     }
@@ -109,9 +101,7 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws IndexException
      */
     function offsetGet($offset) {
-        if (!$this->offsetExists($offset)) {
-            throw new IndexException;
-        }
+        $this->indexGuard($offset, __METHOD__);
         $n = $this->seekTo($offset);
         return $n->value();
     }
@@ -129,9 +119,7 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
             $this->push($value);
             return;
         }
-        if (!$this->offsetExists($offset)) {
-            throw new IndexException;
-        }
+        $this->indexGuard($offset, __METHOD__);
         $n = $this->seekTo($offset);
         $n->setValue($value);
     }
@@ -143,13 +131,12 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @return void
      */
     function offsetUnset($offset) {
-        if (!$this->offsetExists($offset)) {
-            return;
+        if ($this->offsetExists($offset)) {
+            $n = $this->seekTo($offset);
+            $this->removeNode($n);
+            $this->current = $n->prev();
+            $this->offset--;
         }
-        $n = $this->seekTo($offset);
-        $this->removeNode($n);
-        $this->current = $n->prev();
-        $this->offset--;
     }
 
 
@@ -160,9 +147,7 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws IndexException
      */
     function insertBefore($position, $value) {
-        if (!$this->offsetExists($position)) {
-            throw new IndexException;
-        }
+        $this->indexGuard($position, __METHOD__);
         $n = $this->seekTo($position);
         $this->insertBetween($n->prev(), $n, $value);
         $this->current = $this->current->next();
@@ -177,9 +162,7 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws IndexException
      */
     function insertAfter($position, $value) {
-        if (!$this->offsetExists($position)) {
-            throw new IndexException;
-        }
+        $this->indexGuard($position, __METHOD__);
         $n = $this->seekTo($position);
         $this->insertBetween($n, $n->next(), $value);
         $this->current = $this->current->prev();
@@ -253,9 +236,7 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
      */
 
     function seek($position) {
-        if ($position < 0 || $position >= $this->size) {
-            throw new IndexException;
-        }
+        $this->indexGuard($position, __METHOD__);
 
         return $this->seekTo($position)->value();
     }
@@ -267,9 +248,7 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws EmptyException
      */
     function tail() {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
+        $this->emptyGuard(__METHOD__);
         return $this->copyFromContext($this->head->next()->next());
     }
 
@@ -363,6 +342,24 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
         }
 
         return $this->current;
+    }
+
+
+    private function emptyGuard($method) {
+        if ($this->isEmpty()) {
+            throw new EmptyException(
+                "{$method} cannot be called when the structure is empty"
+            );
+        }
+    }
+
+
+    private function indexGuard($offset, $method) {
+        if (!$this->offsetExists($offset)) {
+            throw new IndexException(
+                "{$method} was called with invalid index: {$offset}"
+            );
+        }
     }
 
 
