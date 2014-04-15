@@ -24,12 +24,19 @@ class AvlTree implements BinarySearchTree {
 
     private $size = 0;
 
+    private $deleteOptions;
 
     /**
      * @param callable $comparator
      */
     function __construct(callable $comparator = NULL) {
         $this->comparator = $comparator ?: '\Collections\compare';
+        $this->deleteOptions = [
+            0b000 => [$this, 'doNothing'],
+            0b001 => $this->deleteSelect('right'),
+            0b010 => $this->deleteSelect('left'),
+            0b011 => [$this, 'deleteNeitherChildIsNull'],
+        ];
     }
 
 
@@ -217,7 +224,7 @@ class AvlTree implements BinarySearchTree {
      */
     protected function deleteNode(BinaryTree $node) {
         $state = $this->deleteSelectState($node);
-        return $this->deleteDispatch($node, $state);
+        return $this->deleteOptions[$state]($node);
     }
 
 
@@ -335,29 +342,6 @@ class AvlTree implements BinarySearchTree {
 
     /**
      * @param BinaryTree $node
-     * @param $state
-     * @return BinaryTree|null
-     */
-    private function deleteDispatch(BinaryTree $node, $state) {
-        switch ($state) {
-            case 0b001:
-                return $this->deleteSelectChild($node, 'right');
-
-            case 0b010:
-                return $this->deleteSelectChild($node, 'left');
-
-            case 0b011:
-                return $this->deleteNeitherChildIsNull($node);
-
-            case 0:
-            default:
-        }
-        return NULL;
-    }
-
-
-    /**
-     * @param BinaryTree $node
      * @return int
      */
     private function deleteSelectState(BinaryTree $node) {
@@ -368,15 +352,12 @@ class AvlTree implements BinarySearchTree {
     }
 
 
-    /**
-     * @param BinaryTree $node
-     * @param $direction
-     * @return mixed
-     */
-    private function deleteSelectChild(BinaryTree $node, $direction) {
-        $d = $node->$direction();
-        unset($node);
-        return $d;
+    private function deleteSelect($direction) {
+        return function(BinaryTree $node) use ($direction) {
+            $d = $node->$direction();
+            unset($node);
+            return $d;
+        };
     }
 
 
