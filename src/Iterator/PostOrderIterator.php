@@ -60,7 +60,7 @@ class PostOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return 0
+     * @return int
      */
     function key() {
         return $this->key;
@@ -79,9 +79,6 @@ class PostOrderIterator implements BinaryTreeIterator {
      * @return void
      */
     function next() {
-        /**
-         * @var BinaryTree $node
-         */
         if ($this->value !== NULL) {
             $right = $this->value->right();
             if ($right !== NULL) {
