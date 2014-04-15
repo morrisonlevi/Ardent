@@ -24,12 +24,14 @@ class AvlTree implements BinarySearchTree {
 
     private $size = 0;
 
+
     /**
      * @param callable $comparator
      */
     function __construct(callable $comparator = NULL) {
         $this->comparator = $comparator ?: '\Collections\compare';
     }
+
 
     /**
      * @param mixed $element
@@ -39,30 +41,6 @@ class AvlTree implements BinarySearchTree {
         $this->cache = NULL;
     }
 
-    /**
-     * @param $element
-     * @param BinaryTree $node
-     *
-     * @return BinaryTree
-     */
-    protected function addRecursive($element, BinaryTree $node = NULL) {
-        if ($node === NULL) {
-            $this->size++;
-            return new BinaryTree($element);
-        }
-
-        $comparisonResult = call_user_func($this->comparator, $element, $node->value());
-
-        if ($comparisonResult < 0) {
-            $node->setLeft($this->addRecursive($element, $node->left()));
-        } elseif ($comparisonResult > 0) {
-            $node->setRight($this->addRecursive($element, $node->right()));
-        } else {
-            $node->setValue($element);
-        }
-
-        return $this->balance($node);
-    }
 
     /**
      * @param mixed $element
@@ -72,63 +50,6 @@ class AvlTree implements BinarySearchTree {
         $this->cache = NULL;
     }
 
-    /**
-     * @param $element
-     * @param BinaryTree $node
-     *
-     * @return BinaryTree
-     */
-    protected function removeRecursive($element, BinaryTree $node = NULL) {
-        if ($node === NULL) {
-            return NULL;
-        }
-
-        $comparisonResult = call_user_func($this->comparator, $element, $node->value());
-
-        if ($comparisonResult < 0) {
-            $node->setLeft($this->removeRecursive($element, $node->left()));
-        } elseif ($comparisonResult > 0) {
-            $node->setRight($this->removeRecursive($element, $node->right()));
-        } else {
-            //remove the element
-            $node = $this->deleteNode($node);
-        }
-
-        return $this->balance($node);
-    }
-
-    /**
-     * @param BinaryTree $node
-     *
-     * @return BinaryTree
-     */
-    protected function deleteNode(BinaryTree $node) {
-        $left = $node->left();
-        $right = $node->right();
-        if ($left === NULL) {
-            $this->size--;
-            if ($right === NULL) {
-                // left and right empty
-                return NULL;
-            } else {
-                // left empty, right is not
-                unset($node);
-                return $right;
-            }
-        } else {
-            if ($right === NULL) {
-                // right empty, left is not
-                unset($node);
-                return $left;
-            } else {
-                // neither is empty
-                $value = $node->inOrderPredecessor()->value();
-                $node->setLeft($this->removeRecursive($value, $node->left()));
-                $node->setValue($value);
-                return $node;
-            }
-        }
-    }
 
     /**
      * @param $element
@@ -144,6 +65,7 @@ class AvlTree implements BinarySearchTree {
         return $node->value();
     }
 
+
     /**
      * @return BinaryTree A copy of the current BinaryTree
      */
@@ -153,6 +75,7 @@ class AvlTree implements BinarySearchTree {
             : NULL;
     }
 
+
     /**
      * @return void
      */
@@ -160,6 +83,7 @@ class AvlTree implements BinarySearchTree {
         $this->root = NULL;
         $this->size = 0;
     }
+
 
     /**
      * @param $item
@@ -224,6 +148,106 @@ class AvlTree implements BinarySearchTree {
             : clone $this->root;
     }
 
+
+    /**
+     * @param callable $f
+     * @return mixed
+     * @throws StateException when the tree is not empty
+     */
+    function setCompare(callable $f) {
+        if ($this->root !== NULL) {
+            throw new StateException('Cannot set compare function when the BinarySearchTree is not empty');
+        }
+        $this->comparator = $f;
+    }
+
+
+    /**
+     * @param $element
+     * @param BinaryTree $node
+     *
+     * @return BinaryTree
+     */
+    protected function addRecursive($element, BinaryTree $node = NULL) {
+        if ($node === NULL) {
+            $this->size++;
+            return new BinaryTree($element);
+        }
+
+        $comparisonResult = call_user_func($this->comparator, $element, $node->value());
+
+        if ($comparisonResult < 0) {
+            $node->setLeft($this->addRecursive($element, $node->left()));
+        } elseif ($comparisonResult > 0) {
+            $node->setRight($this->addRecursive($element, $node->right()));
+        } else {
+            $node->setValue($element);
+        }
+
+        return $this->balance($node);
+    }
+
+
+    /**
+     * @param $element
+     * @param BinaryTree $node
+     *
+     * @return BinaryTree
+     */
+    protected function removeRecursive($element, BinaryTree $node = NULL) {
+        if ($node === NULL) {
+            return NULL;
+        }
+
+        $comparisonResult = call_user_func($this->comparator, $element, $node->value());
+
+        if ($comparisonResult < 0) {
+            $node->setLeft($this->removeRecursive($element, $node->left()));
+        } elseif ($comparisonResult > 0) {
+            $node->setRight($this->removeRecursive($element, $node->right()));
+        } else {
+            //remove the element
+            $node = $this->deleteNode($node);
+        }
+
+        return $this->balance($node);
+    }
+
+
+    /**
+     * @param BinaryTree $node
+     *
+     * @return BinaryTree
+     */
+    protected function deleteNode(BinaryTree $node) {
+        $left = $node->left();
+        $right = $node->right();
+        if ($left === NULL) {
+            $this->size--;
+            if ($right === NULL) {
+                // left and right empty
+                return NULL;
+            } else {
+                // left empty, right is not
+                unset($node);
+                return $right;
+            }
+        } else {
+            if ($right === NULL) {
+                // right empty, left is not
+                unset($node);
+                return $left;
+            } else {
+                // neither is empty
+                $value = $node->inOrderPredecessor()->value();
+                $node->setLeft($this->removeRecursive($value, $node->left()));
+                $node->setValue($value);
+                return $node;
+            }
+        }
+    }
+
+
     /**
      * @param BinaryTree $node
      *
@@ -246,6 +270,7 @@ class AvlTree implements BinarySearchTree {
 
         return $node;
     }
+
 
     /**
      * @param BinaryTree $root
@@ -274,6 +299,7 @@ class AvlTree implements BinarySearchTree {
         return $pivot;
     }
 
+
     /**
      * @param BinaryTree $root
      *
@@ -298,18 +324,6 @@ class AvlTree implements BinarySearchTree {
         $pivot->setLeft($root);
 
         return $pivot;
-    }
-
-    /**
-     * @param callable $f
-     * @return mixed
-     * @throws StateException when the tree is not empty
-     */
-    function setCompare(callable $f) {
-        if ($this->root !== NULL) {
-            throw new StateException('Cannot set compare function when the BinarySearchTree is not empty');
-        }
-        $this->comparator = $f;
     }
 
 
