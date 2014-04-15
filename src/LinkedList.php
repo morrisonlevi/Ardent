@@ -100,9 +100,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws TypeException
      */
     function offsetGet($offset) {
-        $index = intGuard($offset);
-        $this->indexGuard($index, __METHOD__);
-        $n = $this->seekTo($index);
+        $n = $this->guardedSeek($offset, __METHOD__);
         return $n->value();
     }
 
@@ -120,9 +118,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
             $this->push($value);
             return;
         }
-        $index = intGuard($offset);
-        $this->indexGuard($index, __METHOD__);
-        $n = $this->seekTo($index);
+        $n = $this->guardedSeek($offset, __METHOD__);
         $n->setValue($value);
     }
 
@@ -152,9 +148,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws TypeException
      */
     function insertBefore($position, $value) {
-        $index = intGuard($position);
-        $this->indexGuard($index, __METHOD__);
-        $n = $this->seekTo($index);
+        $n = $this->guardedSeek($position, __METHOD__);
         $this->insertBetween($n->prev(), $n, $value);
         $this->current = $this->current->next();
         $this->offset++;
@@ -169,9 +163,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws TypeException
      */
     function insertAfter($position, $value) {
-        $index = intGuard($position);
-        $this->indexGuard($index, __METHOD__);
-        $n = $this->seekTo($index);
+        $n = $this->guardedSeek($position, __METHOD__);
         $this->insertBetween($n, $n->next(), $value);
         $this->current = $this->current->prev();
     }
@@ -399,6 +391,13 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
                 "{$method} was called with invalid index: {$offset}"
             );
         }
+    }
+
+
+    private function guardedSeek($index, $method) {
+        $index = intGuard($index);
+        $this->indexGuard($index, $method);
+        return $this->seekTo($index);
     }
 
 
