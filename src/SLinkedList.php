@@ -5,6 +5,7 @@ namespace Collections;
 
 class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
 
+    use EmptyGuardian;
     use IteratorCollection;
 
     private $head;
@@ -376,15 +377,6 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
             $this->$action();
         }
         return $this->current;
-    }
-
-
-    private function emptyGuard($method) {
-        if ($this->isEmpty()) {
-            throw new EmptyException(
-                "{$method} cannot be called when the structure is empty"
-            );
-        }
     }
 
 

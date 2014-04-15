@@ -4,6 +4,7 @@ namespace Collections;
 
 class AvlTree implements BinarySearchTree {
 
+    use EmptyGuardian;
     use IteratorCollection;
 
     /**
@@ -325,13 +326,6 @@ class AvlTree implements BinarySearchTree {
             }
         }
         return null;
-    }
-
-
-    private function emptyGuard($method) {
-        if ($this->isEmpty()) {
-            throw new EmptyException($method);
-        }
     }
 
 

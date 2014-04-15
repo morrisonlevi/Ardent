@@ -4,6 +4,7 @@ namespace Collections;
 
 class SplayTree implements BinarySearchTree {
 
+    use EmptyGuardian;
     use IteratorCollection;
 
     /**
@@ -161,8 +162,8 @@ class SplayTree implements BinarySearchTree {
      * Find the smallest item in the tree.
      */
     function first() {
-        $root = $this->emptyGuard($this->root);
-        return $this->farthest('left', $root);
+        $this->emptyGuard(__METHOD__);
+        return $this->farthest('left', $this->root);
     }
 
 
@@ -170,8 +171,8 @@ class SplayTree implements BinarySearchTree {
      * Find the largest item in the tree.
      */
     function last() {
-        $root = $this->emptyGuard($this->root);
-        return $this->farthest('right', $root);
+        $this->emptyGuard(__METHOD__);
+        return $this->farthest('right', $this->root);
     }
 
     /**
@@ -228,19 +229,6 @@ class SplayTree implements BinarySearchTree {
     function getIterator() {
         $root = $this->copyNode($this->root);
         return new InOrderIterator($root, 0);
-    }
-
-
-    /**
-     * @param SplayNode $n
-     * @return SplayNode
-     * @throws EmptyException
-     */
-    private function emptyGuard(SplayNode $n = null) {
-        if ($n === null) {
-            throw new EmptyException;
-        }
-        return $n;
     }
 
 

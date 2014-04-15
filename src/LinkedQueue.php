@@ -4,6 +4,7 @@ namespace Collections;
 
 class LinkedQueue implements Queue {
 
+    use EmptyGuardian;
     use IteratorCollection;
 
     /**
@@ -108,15 +109,6 @@ class LinkedQueue implements Queue {
     function clear() {
         $this->size = 0;
         $this->head = $this->tail = NULL;
-    }
-
-
-    private function emptyGuard($method) {
-        if ($this->isEmpty()) {
-            throw new EmptyException(
-                "{$method} cannot be called on an empty structure"
-            );
-        }
     }
 
 }

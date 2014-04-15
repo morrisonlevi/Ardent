@@ -4,6 +4,7 @@ namespace Collections;
 
 class LinkedStack implements Stack {
 
+    use EmptyGuardian;
     use IteratorCollection;
 
     /**
@@ -104,15 +105,6 @@ class LinkedStack implements Stack {
             $current = $current->second;
         }
         return $a;
-    }
-
-
-    private function emptyGuard($method) {
-        if ($this->isEmpty()) {
-            throw new EmptyException(
-                "{$method} cannot be called on an empty structure"
-            );
-        }
     }
 
 

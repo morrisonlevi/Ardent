@@ -61,18 +61,19 @@ function autoload($className) {
         'Collections\\BinaryTreeIterator'  =>'Iterator/BinaryTreeIterator.php',
         'Collections\\Collection'	=>	'Collection.php',
         'Collections\\ConditionalMediator'	=>	'ConditionalMediator.php',
-        'Collections\\CountableIterator' =>  'Iterator/CountableIterator.php',
+        'Collections\\CountableIterator'	=>	'Iterator/CountableIterator.php',
         'Collections\\CountableSeekableIterator'   =>  'Iterator/CountableSeekableIterator.php',
-        'Collections\\EmptyException' =>  'Exception/EmptyException.php',
-        'Collections\\Enumerable'   =>  'Enumerable.php',
-        'Collections\\Enumerator'   =>  'Enumerator.php',
-        'Collections\\Exception' =>   'Exception/Exception.php',
-        'Collections\\FunctionException'  =>  'Exception/FunctionException.php',
-        'Collections\\IndexException' =>  'Exception/IndexException.php',
-        'Collections\\KeyException'   =>  'Exception/KeyException.php',
-        'Collections\\LookupException'    =>  'Exception/LookupException.php',
-        'Collections\\StateException' =>  'Exception/StateException.php',
-        'Collections\\TypeException'  =>  'Exception/TypeException.php',
+        'Collections\\EmptyException'	=>	'Exception/EmptyException.php',
+        'Collections\\EmptyGuardian'	=>	'EmptyGuardian.php',
+        'Collections\\Enumerable'	=>	'Enumerable.php',
+        'Collections\\Enumerator'	=>	'Enumerator.php',
+        'Collections\\Exception'	=>	'Exception/Exception.php',
+        'Collections\\FunctionException'	=>	'Exception/FunctionException.php',
+        'Collections\\IndexException'	=>	'Exception/IndexException.php',
+        'Collections\\KeyException'	=>	'Exception/KeyException.php',
+        'Collections\\LookupException'	=>	'Exception/LookupException.php',
+        'Collections\\StateException'	=>	'Exception/StateException.php',
+        'Collections\\TypeException'	=>	'Exception/TypeException.php',
         'Collections\\HashingMediator'	=>	'HashingMediator.php',
         'Collections\\HashMap'	=>	'HashMap.php',
         'Collections\\HashSet'	=>	'HashSet.php',
@@ -149,4 +150,17 @@ function hash($item) {
     }
 
     return '0';
+}
+
+
+/**
+ * @param mixed $i
+ * @return int
+ * @throws TypeException
+ */
+function intGuard($i) {
+    if (filter_var($i, FILTER_VALIDATE_INT) === FALSE) {
+        throw new TypeException;
+    }
+    return (int) $i;
 }

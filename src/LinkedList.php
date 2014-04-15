@@ -4,6 +4,7 @@ namespace Collections;
 
 class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
+    use EmptyGuardian;
     use IteratorCollection;
 
     /**
@@ -24,6 +25,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     private $currentOffset = 0;
 
     private $size = 0;
+
 
     /**
      * @return void
@@ -62,7 +64,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
         /**
          * @var callable $callback
          */
-        $callback = $callback ?: [$this, '__equals'];
+        $callback = $callback ?: '\Collections\equal';
 
         if ($callback($value, $this->currentNode->value)) {
             return $this->currentOffset;
@@ -113,13 +115,13 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @param int $offset
      * @return mixed
      * @throws IndexException
+     * @throws TypeException
      */
     function offsetGet($offset) {
-        if (!$this->offsetExists($offset)) {
-            throw new IndexException;
-        }
+        $index = intGuard($offset);
+        $this->existsGuard($index, __METHOD__);
 
-        $this->seekUnsafe($offset);
+        $this->seekUnsafe($index);
 
         return $this->currentNode->value;
     }
@@ -131,6 +133,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @param mixed $value
      * @return void
      * @throws IndexException
+     * @throws TypeException
      */
     function offsetSet($offset, $value) {
         if ($offset === NULL) {
@@ -138,11 +141,10 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
             return;
         }
 
-        if (!$this->offsetExists($offset)) {
-            throw new IndexException;
-        }
+        $index = intGuard($offset);
+        $this->existsGuard($index, __METHOD__);
 
-        $this->seekUnsafe($offset);
+        $this->seekUnsafe($index);
         $this->currentNode->value = $value;
     }
 
@@ -153,12 +155,10 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @return void
      */
     function offsetUnset($offset) {
-        if (!$this->offsetExists($offset)) {
-            return;
+        if ($this->offsetExists($offset)) {
+            $this->seekUnsafe($offset);
+            $this->removeNode($this->currentNode, $offset);
         }
-
-        $this->seekUnsafe($offset);
-        $this->removeNode($this->currentNode, $offset);
     }
 
 
@@ -203,10 +203,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws EmptyException if the LinkedList is empty.
      */
     function shift() {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
-
+        $this->emptyGuard(__METHOD__);
         $value = $this->head->value;
         $this->removeNode($this->head, 0);
         return $value;
@@ -218,10 +215,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws EmptyException if the LinkedList is empty.
      */
     function first() {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
-
+        $this->emptyGuard(__METHOD__);
         return $this->head->value;
     }
 
@@ -255,10 +249,8 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws EmptyException if the LinkedList is empty.
      * @return mixed
      */
-    function pop(){
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
+    function pop() {
+        $this->emptyGuard(__METHOD__);
 
         $value = $this->tail->value;
         $this->removeNode($this->tail, $this->size - 1);
@@ -274,10 +266,8 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws EmptyException if the LinkedList is empty.
      * @return mixed
      */
-    function last(){
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
+    function last() {
+        $this->emptyGuard(__METHOD__);
 
         return $this->tail->value;
     }
@@ -291,21 +281,18 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @returns void
      */
     function insertAfter($offset, $value) {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
-        if (!$this->offsetExists($offset)) {
-            throw new IndexException;
-        }
+        $this->emptyGuard(__METHOD__);
+        $index = intGuard($offset);
+        $this->existsGuard($index, __METHOD__);
 
-        if ($offset == $this->size - 1) {
+        if ($index == $this->size - 1) {
             $this->push($value);
             $this->currentNode = $this->tail->prev;
             $this->currentOffset = $this->size - 2;
             return;
         }
 
-        $this->seekUnsafe($offset);
+        $this->seekUnsafe($index);
         $this->insertBetween($this->currentNode, $this->currentNode->next, $value);
         $this->size++;
     }
@@ -315,25 +302,23 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @param int $offset
      * @param mixed $value
      * @throws IndexException
+     * @throws TypeException
      * @throws EmptyException
      * @returns void
      */
     function insertBefore($offset, $value) {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
-        if (!$this->offsetExists($offset)) {
-            throw new IndexException;
-        }
+        $this->emptyGuard(__METHOD__);
+        $index = intGuard($offset);
+        $this->existsGuard($index, __METHOD__);
 
-        if ($offset == 0) {
+        if ($index == 0) {
             $this->unshift($value);
             $this->currentNode = $this->head->next;
             $this->currentOffset = 1;
             return;
         }
 
-        $this->seekUnsafe($offset);
+        $this->seekUnsafe($index);
 
         $this->insertBetween($this->currentNode->prev, $this->currentNode, $value);
         $this->currentOffset++;
@@ -418,16 +403,11 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws TypeException
      */
     function seek($offset) {
-        if (filter_var($offset, FILTER_VALIDATE_INT) === FALSE) {
-            throw new TypeException;
-        }
-
-        if (!$this->offsetExists($offset)) {
-            throw new IndexException;
-        }
-
-        $this->seekUnsafe($offset);
+        $index = intGuard($offset);
+        $this->existsGuard($index, __METHOD__);
+        $this->seekUnsafe($index);
     }
+
 
     /**
      * Extract the elements after the first of a list, which must be non-empty.
@@ -435,9 +415,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @throws StateException
      */
     function tail() {
-        if ($this->head === NULL) {
-            throw new EmptyException;
-        }
+        $this->emptyGuard(__METHOD__);
         return $this->copyFromContext($this->head->next);
     }
 
@@ -515,15 +493,13 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     }
 
 
-    /**
-     * PhpStorm thinks this method is unused, but it is used in indexOf.
-     *
-     * @param $a
-     * @param $b
-     * @return bool
-     */
-    private function __equals($a, $b) {
-        return $a == $b;
+    private function existsGuard($offset, $method) {
+        if (!$this->offsetExists($offset)) {
+            throw new IndexException(
+                "{$method} was called with invalid index: {$offset}"
+            );
+        }
     }
+
 
 }
