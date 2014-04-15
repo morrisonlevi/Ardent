@@ -216,31 +216,8 @@ class AvlTree implements BinarySearchTree {
      * @return BinaryTree
      */
     protected function deleteNode(BinaryTree $node) {
-        $left = $node->left();
-        $right = $node->right();
-        if ($left === NULL) {
-            $this->size--;
-            if ($right === NULL) {
-                // left and right empty
-                return NULL;
-            } else {
-                // left empty, right is not
-                unset($node);
-                return $right;
-            }
-        } else {
-            if ($right === NULL) {
-                // right empty, left is not
-                unset($node);
-                return $left;
-            } else {
-                // neither is empty
-                $value = $node->inOrderPredecessor()->value();
-                $node->setLeft($this->removeRecursive($value, $node->left()));
-                $node->setValue($value);
-                return $node;
-            }
-        }
+        $state = $this->deleteSelectState($node);
+        return $this->deleteDispatch($node, $state);
     }
 
 
@@ -353,6 +330,67 @@ class AvlTree implements BinarySearchTree {
     private function createTree($element) {
         $this->size++;
         return new BinaryTree($element);
+    }
+
+
+    /**
+     * @param BinaryTree $node
+     * @param $state
+     * @return BinaryTree|null
+     */
+    private function deleteDispatch(BinaryTree $node, $state) {
+        switch ($state) {
+            case 0b001:
+                return $this->deleteSelectChild($node, 'right');
+
+            case 0b010:
+                return $this->deleteSelectChild($node, 'left');
+
+            case 0b011:
+                return $this->deleteNeitherChildIsNull($node);
+
+            default:
+            case 0:
+        }
+        return NULL;
+    }
+
+
+    /**
+     * @param BinaryTree $node
+     * @return int
+     */
+    private function deleteSelectState(BinaryTree $node) {
+        $state = 0;
+        $state |= ($node->right() != NULL) << 0;
+        $state |= ($node->left() != NULL) << 1;
+        return $state;
+    }
+
+
+    /**
+     * @param BinaryTree $node
+     * @param $direction
+     * @return mixed
+     */
+    private function deleteSelectChild(BinaryTree $node, $direction) {
+        $d = $node->$direction();
+        // right empty, left is not
+        unset($node);
+        return $d;
+    }
+
+
+    /**
+     * @param BinaryTree $node
+     * @return BinaryTree
+     */
+    private function deleteNeitherChildIsNull(BinaryTree $node) {
+        // neither is empty
+        $value = $node->inOrderPredecessor()->value();
+        $node->setLeft($this->removeRecursive($value, $node->left()));
+        $node->setValue($value);
+        return $node;
     }
 
 
