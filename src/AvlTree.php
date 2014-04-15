@@ -170,35 +170,26 @@ class AvlTree implements BinarySearchTree {
         return $this->findNode($item, $this->root) !== null;
     }
 
+
     /**
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
     function first() {
-        if ($this->root === NULL) {
-            throw new EmptyException();
-        }
-        $node = $this->root;
-        while (($left = $node->left()) !== NULL) {
-            $node = $left;
-        }
-        return $node->value();
+        $this->emptyGuard(__METHOD__);
+        return $this->farthest('left', $this->root)->value();
     }
+
 
     /**
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
     function last() {
-        if ($this->root === NULL) {
-            throw new EmptyException();
-        }
-        $node = $this->root;
-        while (($right = $node->right()) !== NULL) {
-            $node = $right;
-        }
-        return $node->value();
+        $this->emptyGuard(__METHOD__);
+        return $this->farthest('right', $this->root)->value();
     }
+
 
     /**
      * @return bool
@@ -358,6 +349,19 @@ class AvlTree implements BinarySearchTree {
             }
         }
         return null;
+    }
+
+
+    private function emptyGuard($method) {
+        if ($this->isEmpty()) {
+            throw new EmptyException($method);
+        }
+    }
+
+
+    private function farthest($direction, BinaryTree $context) {
+        for ($node = $context; $node->$direction() !== NULL; $node = $node->$direction());
+        return $node;
     }
 
 }
