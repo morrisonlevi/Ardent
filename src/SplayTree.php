@@ -255,21 +255,32 @@ class SplayTree implements BinarySearchTree {
         $this->header->left = $this->header->right = null;
 
         do {
-            $continue = false;
-            $result = call_user_func($this->comparator, $value, $t->value) ;
-            if ($result < 0) {
-                list($continue, $t, $r) = $this->splay_rotate('left', 'rotateRight', $value, $t, $r);
-            }
-            else if ($result > 0) {
-                list($continue, $t, $l) = $this->splay_rotate('right', 'rotateLeft', $value, $t, $l);
-            }
-        } while($continue);
+            list($continue, $t, $r, $l) = $this->splay_loop($value, $t, $r, $l);
+        } while ($continue);
 
-        $l->right = $t->left; /* assemble */
+        $this->assemble($t, $r, $l);
+    }
+
+
+    private function assemble($t, $r, $l) {
+        $l->right = $t->left;
         $r->left = $t->right;
         $t->left = $this->header->right;
         $t->right = $this->header->left;
         $this->root = $t;
+    }
+
+
+    private function splay_loop($value, $t, $r, $l) {
+        $continue = false;
+        $result = call_user_func($this->comparator, $value, $t->value) ;
+        if ($result < 0) {
+            list($continue, $t, $r) = $this->splay_rotate('left', 'rotateRight', $value, $t, $r);
+        }
+        else if ($result > 0) {
+            list($continue, $t, $l) = $this->splay_rotate('right', 'rotateLeft', $value, $t, $l);
+        }
+        return [$continue, $t, $r, $l];
     }
 
 
