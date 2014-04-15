@@ -173,6 +173,27 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($root, $object->toBinaryTree());
     }
 
+    function testGetInOrderPredecessorBasic() {
+        $root = new BinaryTree(5);
+        $inOrderPredecessor = new BinaryTree(2);
+        $root->setLeft($inOrderPredecessor);
+        $root->setRight(new BinaryTree(6));
+
+        $this->assertEquals($inOrderPredecessor, $root->inOrderPredecessor());
+    }
+
+    function testGetInOrderPredecessorWithLeftNodeHavingRightSubTree() {
+        $root = new BinaryTree(5);
+        $left = new BinaryTree(2);
+        $root->setLeft($left);
+        $root->setRight(new BinaryTree(6));
+
+        $inOrderPredecessor = new BinaryTree(3);
+        $left->setRight($inOrderPredecessor);
+
+        $this->assertEquals($inOrderPredecessor, $root->inOrderPredecessor());
+    }
+
     function testRemoveWhereInOrderPredecessorHasChild() {
         $object = new AvlTree();
         //          5
@@ -223,13 +244,125 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         $expectedRoot->setRight(new BinaryTree(9));
         $expectedRoot->right()->setLeft(new BinaryTree(8));
         $expectedRoot->right()->setRight(new BinaryTree(11));
+        $this->reCalculateHeights($expectedRoot);
+        $actualRoot = $object->toBinaryTree();
+        $this->assertEquals($expectedRoot, $actualRoot);
+    }
+
+
+    function testBalanceWithLeftSubtreeLargerThanRight() {
+        $tree = new AvlTree();
+        //          4
+        //        /    \
+        //       2      9
+        //     /  \
+        //    1    3
+        $tree->add(4);
+        $tree->add(2);
+        $tree->add(9);
+        $tree->add(1);
+        $tree->add(3);
+
+        // build a test tree to validate that we are set up correctly
+        $expectedRoot = new BinaryTree(4);
+        $expectedRoot->setLeft(new BinaryTree(2));
+        $expectedRoot->left()->setLeft(new BinaryTree(1));
+        $expectedRoot->left()->setRight(new BinaryTree(3));
+        $expectedRoot->setRight(new BinaryTree(9));
 
         $this->reCalculateHeights($expectedRoot);
 
-        $actualRoot = $object->toBinaryTree();
+        $actualRoot = $tree->toBinaryTree();
+        $this->assertEquals($expectedRoot, $actualRoot);
 
+
+        // the real test
+        //
+        //          4
+        //        /   \
+        //       2*    9
+        //     /  \
+        //    1    3
+        //   /
+        //  0
+        $tree->add(0);
+
+        //          2
+        //        /  \
+        //       1    4
+        //     /     / \
+        //    0     3   9
+
+        $expectedRoot = new BinaryTree(2);
+        $expectedRoot->setLeft(new BinaryTree(1));
+        $expectedRoot->left()->setLeft(new BinaryTree(0));
+        $expectedRoot->setRight(new BinaryTree(4));
+        $expectedRoot->right()->setRight(new BinaryTree(9));
+        $expectedRoot->right()->setLeft(new BinaryTree(3));
+
+        $this->reCalculateHeights($expectedRoot);
+
+        $actualRoot = $tree->toBinaryTree();
         $this->assertEquals($expectedRoot, $actualRoot);
     }
+
+
+    function testBalanceWithLeftSubtreeLargerThanRight2() {
+        $tree = new AvlTree();
+        //          5
+        //        /   \
+        //       2     9
+        //     /  \
+        //    1    3
+        $tree->add(5);
+        $tree->add(2);
+        $tree->add(9);
+        $tree->add(1);
+        $tree->add(3);
+
+        // build a test tree to validate that we are set up correctly
+        $expectedRoot = new BinaryTree(5);
+        $expectedRoot->setLeft(new BinaryTree(2));
+        $expectedRoot->left()->setLeft(new BinaryTree(1));
+        $expectedRoot->left()->setRight(new BinaryTree(3));
+        $expectedRoot->setRight(new BinaryTree(9));
+
+        $this->reCalculateHeights($expectedRoot);
+
+        $actualRoot = $tree->toBinaryTree();
+        $this->assertEquals($expectedRoot, $actualRoot);
+
+
+        // the real test
+        //
+        //          5
+        //        /   \
+        //       2*    9
+        //     /  \
+        //    1    3
+        //          \
+        //           4
+        $tree->add(4);
+
+        //          3
+        //        /  \
+        //       2    5
+        //     /     / \
+        //    1     4  9
+
+        $expectedRoot = new BinaryTree(3);
+        $expectedRoot->setLeft(new BinaryTree(2));
+        $expectedRoot->left()->setLeft(new BinaryTree(1));
+        $expectedRoot->setRight(new BinaryTree(5));
+        $expectedRoot->right()->setRight(new BinaryTree(9));
+        $expectedRoot->right()->setLeft(new BinaryTree(4));
+
+        $this->reCalculateHeights($expectedRoot);
+
+        $actualRoot = $tree->toBinaryTree();
+        $this->assertEquals($expectedRoot, $actualRoot);
+    }
+
 
     private function reCalculateHeights(BinaryTree $root = NULL) {
         if ($root === NULL) {
