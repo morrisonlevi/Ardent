@@ -40,8 +40,8 @@ class PreOrderIterator implements BinaryTreeIterator {
      */
     function rewind() {
         $this->stack = new LinkedStack();
+        $this->key = 0;
         $this->stack->push($this->root);
-
         $this->value = $this->root;
     }
 

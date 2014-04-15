@@ -26,7 +26,7 @@ class PostOrderIterator implements BinaryTreeIterator {
      */
     protected $current;
 
-    protected $key = NULL;
+    protected $key = -1;
 
     private $size = 0;
 
@@ -46,10 +46,8 @@ class PostOrderIterator implements BinaryTreeIterator {
         $this->stack = new LinkedStack();
 
         $this->value = $this->root;
+        $this->key = -1;
         $this->next();
-        $this->key = $this->root === NULL
-            ? NULL
-            : 0;
     }
 
     /**
@@ -62,12 +60,10 @@ class PostOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return NULL
+     * @return 0
      */
     function key() {
-        return $this->current !== NULL
-            ? $this->key
-            : NULL;
+        return $this->key;
     }
 
     /**

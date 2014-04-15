@@ -21,7 +21,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
      */
     protected $value;
 
-    protected $key = NULL;
+    protected $key = 0;
 
     private $size = 0;
 
@@ -41,9 +41,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
     function rewind() {
         $this->queue = [$this->root];
         $this->value = $this->root;
-        $this->key = $this->root === NULL
-            ? NULL
-            : 0;
+        $this->key = 0;
     }
 
     /**
@@ -51,12 +49,12 @@ class LevelOrderIterator implements BinaryTreeIterator {
      * @return boolean
      */
     function valid() {
-        return $this->key !== NULL;
+        return $this->key < $this->count();
     }
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return int|NULL
+     * @return int
      */
     function key() {
         return $this->key;
@@ -75,6 +73,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
      * @return void
      */
     function next() {
+        $this->key++;
         /**
          * @var BinaryTree $node
          */
@@ -91,12 +90,11 @@ class LevelOrderIterator implements BinaryTreeIterator {
         }
 
         if (empty($this->queue)) {
-            $this->value = $this->key = NULL;
+            $this->value = NULL;
             return;
         }
 
         $this->value = $this->queue[0];
-        $this->key++;
     }
 
 }
