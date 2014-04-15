@@ -25,14 +25,17 @@ class LevelOrderIterator implements BinaryTreeIterator {
 
     private $size = 0;
 
+
     function __construct(BinaryTree $root = NULL, $count = 0) {
         $this->root = $root;
         $this->size = $count;
     }
 
+
     function count() {
         return $this->size;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
@@ -44,6 +47,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
         $this->key = 0;
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean
@@ -51,6 +55,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
     function valid() {
         return $this->key < $this->count();
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
@@ -60,6 +65,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
         return $this->key;
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed
@@ -67,6 +73,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
     function current() {
         return $this->value->value();
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.next.php
@@ -79,22 +86,18 @@ class LevelOrderIterator implements BinaryTreeIterator {
          */
         $node = array_shift($this->queue);
 
-        $left = $node->left();
-        if ($left !== NULL) {
-            $this->queue[] = $left;
-        }
+        $this->pushIfNotNull('left', $node);
+        $this->pushIfNotNull('right', $node);
 
-        $right = $node->right();
-        if ($right !== NULL) {
-            $this->queue[] = $right;
-        }
+        $this->value = empty($this->queue) ? null : $this->queue[0];
+    }
 
-        if (empty($this->queue)) {
-            $this->value = NULL;
-            return;
-        }
 
-        $this->value = $this->queue[0];
+    private function pushIfNotNull($direction, BinaryTree $context) {
+        $value = $context->$direction();
+        if ($value !== NULL) {
+            $this->queue[] = $value;
+        }
     }
 
 }
