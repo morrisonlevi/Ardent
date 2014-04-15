@@ -186,7 +186,7 @@ class SortedMap implements Map {
      */
     function getIterator() {
         return new SortedMapIterator(
-            $this->avl->getIterator(BinarySearchTree::TRAVERSE_IN_ORDER),
+            new InOrderIterator($this->avl->toBinaryTree(), $this->avl->count()),
             $this->avl->count()
         );
     }

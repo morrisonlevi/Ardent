@@ -193,35 +193,13 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+
     function testGetIterator() {
         $tree = new SplayTree();
         $iterator = $tree->getIterator();
-        $this->assertInstanceOf('\Collections\InOrderIterator', $iterator);
+        $this->assertInstanceOf('\Collections\BinaryTreeIterator', $iterator);
     }
 
-    function testGetIterator_InOrderIterator() {
-        $tree = new SplayTree();
-        $iterator = $tree->getIterator($tree::TRAVERSE_IN_ORDER);
-        $this->assertInstanceOf('\Collections\InOrderIterator', $iterator);
-    }
-
-    function testGetIterator_LevelOrderIterator() {
-        $tree = new SplayTree();
-        $iterator = $tree->getIterator($tree::TRAVERSE_LEVEL_ORDER);
-        $this->assertInstanceOf('\Collections\LevelOrderIterator', $iterator);
-    }
-
-    function testGetIterator_PostOrderIterator() {
-        $tree = new SplayTree();
-        $iterator = $tree->getIterator($tree::TRAVERSE_POST_ORDER);
-        $this->assertInstanceOf('\Collections\PostOrderIterator', $iterator);
-    }
-
-    function testGetIterator_PreOrderIterator() {
-        $tree = new SplayTree();
-        $iterator = $tree->getIterator($tree::TRAVERSE_PRE_ORDER);
-        $this->assertInstanceOf('\Collections\PreOrderIterator', $iterator);
-    }
 
     function testSetCompare() {
         $tree = new SplayTree();
@@ -243,6 +221,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $bt->right()->value());
         $this->assertEquals(0, $bt->right()->right()->value());
     }
+
 
     /**
      * @expectedException \Collections\StateException

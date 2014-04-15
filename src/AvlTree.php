@@ -198,40 +198,15 @@ class AvlTree implements BinarySearchTree {
         return $this->root === NULL;
     }
 
+
     /**
-     * @param int $order [optional]
-     *
      * @return BinaryTreeIterator
      */
-    function getIterator($order = self::TRAVERSE_IN_ORDER) {
-
-        $root = $this->cache ?: (
-        $this->root !== NULL
-            ? clone $this->root
-            : NULL
-        );
-
-        switch ($order) {
-            case self::TRAVERSE_LEVEL_ORDER:
-                $iterator = new LevelOrderIterator($root, $this->size);
-                break;
-
-            case self::TRAVERSE_PRE_ORDER:
-                $iterator = new PreOrderIterator($root, $this->size);
-                break;
-
-            case self::TRAVERSE_POST_ORDER:
-                $iterator = new PostOrderIterator($root, $this->size);
-                break;
-
-            case self::TRAVERSE_IN_ORDER:
-            default:
-                $iterator = new InOrderIterator($root, $this->size);
-        }
-
-        return $iterator;
-
+    function getIterator() {
+        $tree = clone $this;
+        return new InOrderIterator($tree->root, $tree->size);
     }
+
 
     /**
      * @link http://php.net/manual/en/countable.count.php
@@ -240,6 +215,7 @@ class AvlTree implements BinarySearchTree {
     function count() {
         return $this->size;
     }
+
 
     function __clone() {
         $this->root = $this->root === NULL

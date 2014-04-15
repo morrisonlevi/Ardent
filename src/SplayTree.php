@@ -234,32 +234,14 @@ class SplayTree implements BinarySearchTree {
         $this->size = 0;
     }
 
+
     /**
-     * @param int $order [optional]
-     *
      * @return BinaryTreeIterator
      */
-    function getIterator($order = self::TRAVERSE_IN_ORDER) {
+    function getIterator() {
         $root = $this->copyNode($this->root);
-        switch ($order) {
-            case self::TRAVERSE_LEVEL_ORDER:
-                $iterator = new LevelOrderIterator($root);
-                break;
-
-            case self::TRAVERSE_PRE_ORDER:
-                $iterator = new PreOrderIterator($root);
-                break;
-
-            case self::TRAVERSE_POST_ORDER:
-                $iterator = new PostOrderIterator($root);
-                break;
-
-            case self::TRAVERSE_IN_ORDER:
-            default:
-                $iterator = new InOrderIterator($root, 0);
-        }
-
-        return $iterator;
+        return new InOrderIterator($root, 0);
     }
+
 
 }
