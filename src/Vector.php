@@ -194,9 +194,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      */
     function map(callable $map) {
         $vector = new self();
-        foreach ($this->array as $key => $value) {
-            $vector->array[] = $map($value, $key);
-        }
+        $vector->appendAll($this->getIterator()->map($map));
         return $vector;
     }
 
@@ -258,11 +256,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @return mixed
      */
     function reduce($initialValue, callable $combine) {
-        $carry = $initialValue;
-        foreach ($this->array as $value) {
-            $carry = $combine($carry, $value);
-        }
-        return $carry;
+        return $this->getIterator()->reduce($initialValue, $combine);
     }
 
 
@@ -272,11 +266,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      */
     function filter(callable $filter) {
         $vector = new self();
-        foreach ($this->array as $key => $value) {
-            if ($filter($value, $key)) {
-                $vector[] = $value;
-            }
-        }
+        $vector->appendAll($this->getIterator()->filter($filter));
         return $vector;
     }
 
@@ -286,10 +276,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      */
     function keys() {
         $vector = new Vector();
-        $i = new \ArrayIterator($this->array);
-        for ($i->rewind(); $i->valid(); $i->next()) {
-            $vector->append($i->key());
-        }
+        $vector->appendAll($this->getIterator()->keys());
         return $vector;
     }
 
