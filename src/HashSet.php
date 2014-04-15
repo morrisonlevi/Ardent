@@ -20,7 +20,7 @@ class HashSet extends AbstractSet implements Set {
      * @return HashSet
      */
     function __construct(callable $hashFunction = NULL) {
-        $this->hashFunction = $hashFunction ?: [$this, 'hash'];
+        $this->hashFunction = $hashFunction ?: '\Collections\hash';
     }
 
 
@@ -35,26 +35,6 @@ class HashSet extends AbstractSet implements Set {
         $hash = $this->hashGuard(call_user_func($this->hashFunction, $item));
         return array_key_exists($hash, $this->objects);
 
-    }
-
-
-    /**
-     * @param $item
-     *
-     * @return string
-     */
-    function hash($item) {
-        if (is_object($item)) {
-            return spl_object_hash($item);
-        } elseif (is_scalar($item)) {
-            return "s_$item";
-        } elseif (is_resource($item)) {
-            return "r_$item";
-        } elseif (is_array($item)) {
-            return 'a_' . md5(serialize($item));
-        }
-
-        return '0';
     }
 
 

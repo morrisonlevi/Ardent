@@ -130,3 +130,23 @@ function autoload($className) {
     }
 
 }
+
+
+/**
+ * @param $item
+ *
+ * @return string
+ */
+function hash($item) {
+    if (is_object($item)) {
+        return spl_object_hash($item);
+    } elseif (is_scalar($item)) {
+        return "s_$item";
+    } elseif (is_resource($item)) {
+        return "r_$item";
+    } elseif (is_array($item)) {
+        return 'a_' . md5(serialize($item));
+    }
+
+    return '0';
+}
