@@ -161,30 +161,17 @@ class SplayTree implements BinarySearchTree {
      * Find the smallest item in the tree.
      */
     function first() {
-        $x = $this->root;
-        if ($this->root == null) {
-            throw new EmptyException;
-        }
-        while ($x->left != null) {
-            $x = $x->left;
-        }
-        $this->splay($x->value);
-        return $x->value;
+        $root = $this->emptyGuard($this->root);
+        return $this->farthest('left', $root);
     }
+
 
     /**
      * Find the largest item in the tree.
      */
     function last() {
-        $x = $this->root;
-        if ($this->root == null) {
-            throw new EmptyException;
-        }
-        while ($x->right != null) {
-            $x = $x->right;
-        }
-        $this->splay($x->value);
-        return $x->value;
+        $root = $this->emptyGuard($this->root);
+        return $this->farthest('right', $root);
     }
 
     /**
@@ -241,6 +228,31 @@ class SplayTree implements BinarySearchTree {
     function getIterator() {
         $root = $this->copyNode($this->root);
         return new InOrderIterator($root, 0);
+    }
+
+
+    /**
+     * @param SplayNode $n
+     * @return SplayNode
+     * @throws EmptyException
+     */
+    private function emptyGuard(SplayNode $n = null) {
+        if ($n === null) {
+            throw new EmptyException;
+        }
+        return $n;
+    }
+
+
+    /**
+     * @param $direction
+     * @param SplayNode $context
+     * @return SplayNode
+     */
+    private function farthest($direction, SplayNode $context) {
+        for ($n = $context; $n->$direction != null; $n = $n->$direction);
+        $this->splay($n->value);
+        return $n->value;
     }
 
 
