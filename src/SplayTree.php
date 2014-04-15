@@ -52,28 +52,10 @@ class SplayTree implements BinarySearchTree {
      */
     function add($value) {
         if ($this->root == null) {
-            $this->root = new SplayNode($value);
-            $this->size++;
+            $this->root = $this->createNode($value);
             return;
         }
-        $this->splay($value);
-        if (($c = call_user_func($this->comparator, $value, $this->root->value)) === 0) {
-            $this->root->value = $value;
-            return;
-        }
-        $n = new SplayNode($value);
-        $this->size++;
-        if ($c < 0) {
-            $n->left = $this->root->left;
-            $n->right = $this->root;
-            $this->root->left = null;
-        }
-        else {
-            $n->right = $this->root->right;
-            $n->left = $this->root;
-            $this->root->right = null;
-        }
-        $this->root = $n;
+        $this->addImpl($value);
     }
 
 
@@ -85,21 +67,7 @@ class SplayTree implements BinarySearchTree {
         if ($this->root === NULL) {
             return;
         }
-        $this->splay($value);
-        if (call_user_func($this->comparator, $value, $this->root->value) !== 0) {
-            return;
-        }
-        // Now delete the $this->root
-        $this->size--;
-        if ($this->root->left == null) {
-            $this->root = $this->root->right;
-        }
-        else {
-            $x = $this->root->right;
-            $this->root = $this->root->left;
-            $this->splay($value);
-            $this->root->right = $x;
-        }
+        $this->removeImpl($value);
     }
 
 
@@ -179,6 +147,52 @@ class SplayTree implements BinarySearchTree {
     function getIterator() {
         $root = $this->copyNode($this->root);
         return new InOrderIterator($root, 0);
+    }
+
+
+    private function addImpl($value) {
+        $this->splay($value);
+        if (($c = call_user_func($this->comparator, $value, $this->root->value)) === 0) {
+            $this->root->value = $value;
+            return;
+        }
+        $n = $this->createNode($value);
+        if ($c < 0) {
+            $n->left = $this->root->left;
+            $n->right = $this->root;
+            $this->root->left = null;
+        }
+        else {
+            $n->right = $this->root->right;
+            $n->left = $this->root;
+            $this->root->right = null;
+        }
+        $this->root = $n;
+    }
+
+
+    private function removeImpl($value) {
+        $this->splay($value);
+        if (call_user_func($this->comparator, $value, $this->root->value) !== 0) {
+            return;
+        }
+        // Now delete the $this->root
+        $this->size--;
+        if ($this->root->left == null) {
+            $this->root = $this->root->right;
+        }
+        else {
+            $x = $this->root->right;
+            $this->root = $this->root->left;
+            $this->splay($value);
+            $this->root->right = $x;
+        }
+    }
+
+
+    private function createNode($value) {
+        $this->size++;
+        return new SplayNode($value);
     }
 
 
