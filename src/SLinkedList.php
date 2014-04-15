@@ -315,10 +315,6 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
      * @return SDataNode
      */
     private function seekTo($offset) {
-        if ($offset == $this->offset) {
-            return $this->current;
-        }
-
         if ($offset == 0) {
             $this->offset = 0;
             return $this->current = $this->head->next();
