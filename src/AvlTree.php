@@ -349,8 +349,8 @@ class AvlTree implements BinarySearchTree {
             case 0b011:
                 return $this->deleteNeitherChildIsNull($node);
 
-            default:
             case 0:
+            default:
         }
         return NULL;
     }
