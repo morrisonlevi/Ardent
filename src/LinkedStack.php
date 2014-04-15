@@ -68,9 +68,7 @@ class LinkedStack implements Stack {
      * @return mixed
      */
     function pop() {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
+        $this->emptyGuard(__METHOD__);
 
         $top = $this->top;
         $this->top = $top->second;
@@ -84,10 +82,7 @@ class LinkedStack implements Stack {
      * @return mixed
      */
     function last() {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
-
+        $this->emptyGuard(__METHOD__);
         return $this->top->first;
     }
 
@@ -110,5 +105,15 @@ class LinkedStack implements Stack {
         }
         return $a;
     }
+
+
+    private function emptyGuard($method) {
+        if ($this->isEmpty()) {
+            throw new EmptyException(
+                "{$method} cannot be called on an empty structure"
+            );
+        }
+    }
+
 
 }
