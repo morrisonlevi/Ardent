@@ -13,6 +13,7 @@ class HashSet extends AbstractSet implements Set {
      */
     private $hashFunction = NULL;
 
+
     /**
      * @param callable $hashFunction
      *
@@ -22,6 +23,7 @@ class HashSet extends AbstractSet implements Set {
         $this->hashFunction = $hashFunction ?: [$this, 'hash'];
     }
 
+
     /**
      * @param $item
      *
@@ -30,17 +32,11 @@ class HashSet extends AbstractSet implements Set {
      * @throws TypeException when $item is not the correct type.
      */
     function has($item) {
-        $hash = call_user_func($this->hashFunction, $item);
-
-        if (!is_scalar($hash)) {
-            throw new FunctionException(
-                'Hashing function must return a scalar value'
-            );
-        }
-
+        $hash = $this->hashGuard(call_user_func($this->hashFunction, $item));
         return array_key_exists($hash, $this->objects);
 
     }
+
 
     /**
      * @param $item
@@ -61,12 +57,14 @@ class HashSet extends AbstractSet implements Set {
         return '0';
     }
 
+
     /**
      * @return void
      */
     function clear() {
         $this->objects = [];
     }
+
 
     /**
      * @return bool
@@ -75,6 +73,7 @@ class HashSet extends AbstractSet implements Set {
         return $this->count() === 0;
     }
 
+
     /**
      * @link http://php.net/manual/en/countable.count.php
      * @return int
@@ -82,6 +81,7 @@ class HashSet extends AbstractSet implements Set {
     function count() {
         return count($this->objects);
     }
+
 
     /**
      * Note that if the item is considered equal to an already existing item
@@ -94,16 +94,10 @@ class HashSet extends AbstractSet implements Set {
      * @throws TypeException when $item is not the correct type.
      */
     function add($item) {
-        $hash = call_user_func($this->hashFunction, $item);
-
-        if (!is_scalar($hash)) {
-            throw new FunctionException(
-                'Hashing function must return a scalar value'
-            );
-        }
-
+        $hash = $this->hashGuard(call_user_func($this->hashFunction, $item));
         $this->objects[$hash] = $item;
     }
+
 
     /**
      * @param $item
@@ -113,16 +107,10 @@ class HashSet extends AbstractSet implements Set {
      * @throws TypeException when $item is not the correct type.
      */
     function remove($item) {
-        $hash = call_user_func($this->hashFunction, $item);
-
-        if (!is_scalar($hash)) {
-            throw new FunctionException(
-                'Hashing function must return a scalar value'
-            );
-        }
-
+        $hash = $this->hashGuard(call_user_func($this->hashFunction, $item));
         unset($this->objects[$hash]);
     }
+
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
@@ -132,11 +120,22 @@ class HashSet extends AbstractSet implements Set {
         return new HashSetIterator($this->objects);
     }
 
+
     /**
      * @return HashSet
      */
     protected function cloneEmpty() {
         return new self($this->hashFunction);
+    }
+
+
+    private function hashGuard($hash){
+        if (!is_scalar($hash)) {
+            throw new FunctionException(
+                'Hashing function must return a scalar value'
+            );
+        }
+        return $hash;
     }
 
 }
