@@ -54,10 +54,9 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @return mixed
      */
     function reduce($initialValue, callable $combine) {
-        $i = $this->asIterator();
         $carry = $initialValue;
-        for ($i->rewind(); $i->valid(); $i->next()) {
-            $carry = $combine($carry, $i->current());
+        foreach ($this as $value) {
+            $carry = $combine($carry, $value);
         }
         return $carry;
     }
