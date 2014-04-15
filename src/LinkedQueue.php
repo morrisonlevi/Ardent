@@ -58,9 +58,7 @@ class LinkedQueue implements Queue {
      * @throws StateException if the Queue is empty.
      */
     function dequeue() {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
+        $this->emptyGuard(__METHOD__);
         $item = $this->head->first;
         $this->head = $this->head->second;
         $this->size--;
@@ -75,9 +73,7 @@ class LinkedQueue implements Queue {
      * @throws StateException if the Queue is empty.
      */
     function first() {
-        if ($this->isEmpty()) {
-            throw new EmptyException;
-        }
+        $this->emptyGuard(__METHOD__);
         return $this->head->first;
     }
 
@@ -112,6 +108,15 @@ class LinkedQueue implements Queue {
     function clear() {
         $this->size = 0;
         $this->head = $this->tail = NULL;
+    }
+
+
+    private function emptyGuard($method) {
+        if ($this->isEmpty()) {
+            throw new EmptyException(
+                "{$method} cannot be called on an empty structure"
+            );
+        }
     }
 
 }
