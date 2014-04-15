@@ -302,6 +302,11 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
     }
 
 
+    /**
+     * @param int $i
+     * @return mixed
+     * @throws IndexException
+     */
     private function existsGuard($i) {
         if (!$this->offsetExists($i)) {
             throw new IndexException;
@@ -310,11 +315,16 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
     }
 
 
+    /**
+     * @param mixed $i
+     * @return int
+     * @throws TypeException
+     */
     private function intGuard($i) {
         if (filter_var($i, FILTER_VALIDATE_INT) === FALSE) {
             throw new TypeException;
         }
-        return $i;
+        return (int) $i;
     }
 
 
