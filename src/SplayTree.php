@@ -20,10 +20,12 @@ class SplayTree implements BinarySearchTree {
 
     private $size = 0;
 
+
     function __construct(callable $comparator = NULL) {
         $this->comparator = $comparator ? : '\Collections\compare';
         $this->header = new SplayNode(null);
     }
+
 
     /**
      * @param callable $f
@@ -42,15 +44,6 @@ class SplayTree implements BinarySearchTree {
         return $this->copyNode($this->root);
     }
 
-    private function copyNode(SplayNode $n = NULL) {
-        if ($n === NULL) {
-            return NULL;
-        }
-        $new = new BinaryTree($n->value);
-        $new->setLeft($this->copyNode($n->left));
-        $new->setRight($this->copyNode($n->right));
-        return $new;
-    }
 
     /**
      * Insert into the tree.
@@ -83,55 +76,6 @@ class SplayTree implements BinarySearchTree {
         $this->root = $n;
     }
 
-    private function splay($value) {
-        $l = $r = $this->header;
-        $t = $this->root;
-        $this->header->left = $this->header->right = null;
-        for (; ;) {
-            if (call_user_func($this->comparator, $value, $t->value) < 0) {
-                if ($t->left == null) {
-                    break;
-                }
-                if (call_user_func($this->comparator, $value, $t->left->value) < 0) {
-                    $y = $t->left; /* rotate right */
-                    $t->left = $y->right;
-                    $y->right = $t;
-                    $t = $y;
-                    if ($t->left == null) {
-                        break;
-                    }
-                }
-                $r->left = $t; /* link right */
-                $r = $t;
-                $t = $t->left;
-            }
-            else if (call_user_func($this->comparator, $value, $t->value) > 0) {
-                if ($t->right == null) {
-                    break;
-                }
-                if (call_user_func($this->comparator, $value, $t->right->value) > 0) {
-                    $y = $t->right; /* rotate left */
-                    $t->right = $y->left;
-                    $y->left = $t;
-                    $t = $y;
-                    if ($t->right == null) {
-                        break;
-                    }
-                }
-                $l->right = $t; /* link left */
-                $l = $t;
-                $t = $t->right;
-            }
-            else {
-                break;
-            }
-        }
-        $l->right = $t->left; /* assemble */
-        $r->left = $t->right;
-        $t->left = $this->header->right;
-        $t->right = $this->header->left;
-        $this->root = $t;
-    }
 
     /**
      * Remove from the tree.
@@ -158,6 +102,7 @@ class SplayTree implements BinarySearchTree {
         }
     }
 
+
     /**
      * Find the smallest item in the tree.
      */
@@ -174,6 +119,7 @@ class SplayTree implements BinarySearchTree {
         $this->emptyGuard(__METHOD__);
         return $this->farthest('right', $this->root);
     }
+
 
     /**
      * Find an item in the tree.
@@ -192,6 +138,7 @@ class SplayTree implements BinarySearchTree {
         return $this->root->value;
     }
 
+
     /**
      * @param $item
      * @return bool
@@ -204,6 +151,7 @@ class SplayTree implements BinarySearchTree {
         return call_user_func($this->comparator, $this->root->value, $item) === 0;
     }
 
+
     /**
      * Test if the tree is logically empty.
      * @return bool true if empty, false otherwise.
@@ -212,9 +160,11 @@ class SplayTree implements BinarySearchTree {
         return $this->root == null;
     }
 
+
     function count() {
         return $this->size;
     }
+
 
     function clear() {
         $this->root = NULL;
@@ -241,6 +191,74 @@ class SplayTree implements BinarySearchTree {
         for ($n = $context; $n->$direction != null; $n = $n->$direction);
         $this->splay($n->value);
         return $n->value;
+    }
+
+
+    private function copyNode(SplayNode $n = NULL) {
+        if ($n === NULL) {
+            return NULL;
+        }
+        $new = new BinaryTree($n->value);
+        $new->setLeft($this->copyNode($n->left));
+        $new->setRight($this->copyNode($n->right));
+        return $new;
+    }
+
+
+    private function rotateRight(SplayNode $t) {
+        $y = $t->left;
+        $t->left = $y->right;
+        $y->right = $t;
+        return $y;
+    }
+
+
+    private function rotateLeft(SplayNode $t) {
+        $y = $t->right;
+        $t->right = $y->left;
+        $y->left = $t;
+        return $y;
+    }
+
+
+    private function splay_rotate($property, $rotate, $value, $t, $d) {
+        if ($t->$property == null) {
+            return [false, $t, $d];
+        }
+        if (call_user_func($this->comparator, $value, $t->$property->value) > 0) {
+            $t = $this->$rotate($t);
+            if ($t->$property == null) {
+                return [false, $t, $d];
+            }
+        }
+        $d->$property = $t;
+        $d = $t;
+        $t = $t->$property;
+        return [true, $t, $d];
+    }
+
+
+    private function splay($value) {
+        $l = $r = $this->header;
+        $t = $this->root;
+        $this->header->left = $this->header->right = null;
+        $continue = true;
+        while($continue) {
+            if (call_user_func($this->comparator, $value, $t->value) < 0) {
+                list($continue, $t, $r) = $this->splay_rotate('left', 'rotateRight', $value, $t, $r);
+            }
+            else if (call_user_func($this->comparator, $value, $t->value) > 0) {
+                list($continue, $t, $l) = $this->splay_rotate('right', 'rotateLeft', $value, $t, $l);
+            }
+            else {
+                break;
+            }
+        }
+        $l->right = $t->left; /* assemble */
+        $r->left = $t->right;
+        $t->left = $this->header->right;
+        $t->right = $this->header->left;
+        $this->root = $t;
     }
 
 
