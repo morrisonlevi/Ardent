@@ -21,7 +21,7 @@ class PreOrderIterator implements BinaryTreeIterator {
      */
     private $value;
 
-    private $key = NULL;
+    private $key = 0;
 
     private $size = 0;
 
@@ -43,10 +43,6 @@ class PreOrderIterator implements BinaryTreeIterator {
         $this->stack->push($this->root);
 
         $this->value = $this->root;
-
-        $this->key = $this->root === NULL
-            ? NULL
-            : 0;
     }
 
     /**
@@ -59,7 +55,7 @@ class PreOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return int|NULL
+     * @return int
      */
     function key() {
         return $this->key;
@@ -83,15 +79,8 @@ class PreOrderIterator implements BinaryTreeIterator {
          */
         $node = $this->stack->pop();
 
-        $right = $node->right();
-        if ($right !== NULL) {
-            $this->stack->push($right);
-        }
-
-        $left = $node->left();
-        if ($left !== NULL) {
-            $this->stack->push($left);
-        }
+        $this->pushIfNotNull('right', $node);
+        $this->pushIfNotNull('left', $node);
 
         if ($this->stack->isEmpty()) {
             $this->value = $this->key = NULL;
@@ -99,6 +88,14 @@ class PreOrderIterator implements BinaryTreeIterator {
         }
         $this->value = $this->stack->last();
         $this->key++;
+    }
+
+
+    private function pushIfNotNull($direction, BinaryTree $n) {
+        $next = $n->$direction();
+        if ($next !== null) {
+            $this->stack->push($next);
+        }
     }
 
 }
