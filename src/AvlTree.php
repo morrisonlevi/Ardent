@@ -169,22 +169,12 @@ class AvlTree implements BinarySearchTree {
      * @return BinaryTree
      */
     protected function addRecursive($element, BinaryTree $node = NULL) {
-        if ($node === NULL) {
-            $this->size++;
-            return new BinaryTree($element);
-        }
-
-        $comparisonResult = call_user_func($this->comparator, $element, $node->value());
-
-        if ($comparisonResult < 0) {
-            $node->setLeft($this->addRecursive($element, $node->left()));
-        } elseif ($comparisonResult > 0) {
-            $node->setRight($this->addRecursive($element, $node->right()));
-        } else {
-            $node->setValue($element);
-        }
-
-        return $this->balance($node);
+        $nullAction = [$this, 'createTree'];
+        $matchAction = function(BinaryTree $n) use($element) {
+            $n->setValue($element);
+            return $n;
+        };
+        return $this->doRecursive($nullAction, $matchAction, $element, $node);
     }
 
 
@@ -195,19 +185,25 @@ class AvlTree implements BinarySearchTree {
      * @return BinaryTree
      */
     protected function removeRecursive($element, BinaryTree $node = NULL) {
+        $nullAction = [$this, 'doNothing'];
+        $matchAction = [$this, 'deleteNode'];
+        return $this->doRecursive($nullAction, $matchAction, $element, $node);
+    }
+
+
+    private function doRecursive($nullAction, $matchAction, $element, BinaryTree $node = null) {
         if ($node === NULL) {
-            return NULL;
+            return $nullAction($element);
         }
 
         $comparisonResult = call_user_func($this->comparator, $element, $node->value());
 
         if ($comparisonResult < 0) {
-            $node->setLeft($this->removeRecursive($element, $node->left()));
+            $node->setLeft($this->doRecursive($nullAction, $matchAction, $element, $node->left()));
         } elseif ($comparisonResult > 0) {
-            $node->setRight($this->removeRecursive($element, $node->right()));
+            $node->setRight($this->doRecursive($nullAction, $matchAction, $element, $node->right()));
         } else {
-            //remove the element
-            $node = $this->deleteNode($node);
+            $node = $matchAction($node);
         }
 
         return $this->balance($node);
@@ -347,5 +343,17 @@ class AvlTree implements BinarySearchTree {
         for ($node = $context; $node->$direction() !== NULL; $node = $node->$direction());
         return $node;
     }
+
+
+    private function doNothing() {
+
+    }
+
+
+    private function createTree($element) {
+        $this->size++;
+        return new BinaryTree($element);
+    }
+
 
 }
