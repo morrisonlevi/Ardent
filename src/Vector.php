@@ -65,7 +65,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @return mixed
      */
     function offsetGet($offset) {
-        $index = $this->existsGuard($this->intGuard($offset));
+        $index = $this->existsGuard(intGuard($offset));
         return $this->array[$index];
     }
 
@@ -141,7 +141,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @throws IndexException when $index < 0 or $index >= count($this).
      */
     function set($index, $item) {
-        $ndx = $this->existsGuard($this->intGuard($index));
+        $ndx = $this->existsGuard(intGuard($index));
         $this->array[$ndx] = $item;
     }
 
@@ -153,7 +153,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @return void
      */
     function remove($index) {
-        $ndx = $this->intGuard($index);
+        $ndx = intGuard($index);
         if ($this->offsetExists($ndx)) {
             array_splice($this->array, $ndx, 1);
         }
@@ -299,19 +299,6 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
             throw new IndexException;
         }
         return $i;
-    }
-
-
-    /**
-     * @param mixed $i
-     * @return int
-     * @throws TypeException
-     */
-    private function intGuard($i) {
-        if (filter_var($i, FILTER_VALIDATE_INT) === FALSE) {
-            throw new TypeException;
-        }
-        return (int) $i;
     }
 
 

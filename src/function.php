@@ -86,7 +86,6 @@ function autoload($className) {
         'Collections\\KeyIterator' =>  'Iterator/KeyIterator.php',
         'Collections\\LevelOrderIterator'  =>  'Iterator/LevelOrderIterator.php',
         'Collections\\LimitingIterator'    =>  'Iterator/LimitingIterator.php',
-        'Collections\\LinkedListIterator'  =>  'Iterator/LinkedListIterator.php',
         'Collections\\LinkedQueueIterator' =>  'Iterator/LinkedQueueIterator.php',
         'Collections\\LinkedStackIterator' =>  'Iterator/LinkedStackIterator.php',
         'Collections\\MapIterator' =>  'Iterator/MapIterator.php',
@@ -120,10 +119,8 @@ function autoload($className) {
         'Collections\\VectorIterator'  =>  'Iterator/VectorIterator.php',
 
 
-        'Collections\\SNode'	=>	'SNode.php',
-        'Collections\\SDataNode'	=>	'SDataNode.php',
-        'Collections\\SLinkedList'	=>	'SLinkedList.php',
-        'Collections\\STerminalNode'	=>	'STerminalNode.php',
+        'Collections\\LinkedDataNode'	=>	'LinkedDataNode.php',
+        'Collections\\LinkedTerminalNode'	=>	'LinkedTerminalNode.php',
     ];
 
     if (isset($classMap[$className])) {

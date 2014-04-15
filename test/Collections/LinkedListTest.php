@@ -2,683 +2,784 @@
 
 namespace Collections;
 
-class CallableMock {
-    function __invoke($a, $b) {
-        return $a[0] == $b[0];
-    }
-}
 
-class LinkedListTest extends \PHPUnit_Framework_TestCase {
+class SLinkedListTest extends TestCase {
 
-    function testOffsetGetAndSet() {
-        $list = new LinkedList();
 
-        $list->offsetSet(NULL, 0);
-        $this->assertEquals(0, $list->key());
-        $this->assertCount(1, $list);
-        $this->assertEquals(0, $list[0]);
-
-        $list->offsetSet(NULL, 1);
-        $this->assertEquals(1, $list->key());
-        $this->assertCount(2, $list);
-        $this->assertEquals(0, $list[0]);
-        $this->assertEquals(1, $list[1]);
-
-        $list->offsetSet(0, 2);
-        $this->assertEquals(0, $list->key());
-        $this->assertCount(2, $list);
-        $this->assertEquals(2, $list[0]);
-        $this->assertEquals(1, $list[1]);
-        $this->assertEquals(1, $list->key());
+    function instance() {
+        return new LinkedList();
     }
 
-    /**
-     * @expectedException \Collections\IndexException
-     */
-    function testOffsetSetIndexException() {
-        $list = new LinkedList();
-        $list->offsetSet(0, 0);
-    }
 
-    /**
-     * @expectedException \Collections\IndexException
-     */
-    function testOffsetGetIndexException() {
-        $list = new LinkedList();
-        $list->offsetGet(0);
-    }
-
-    function testOffsetUnsetNonExistent() {
-        $list = new LinkedList();
-        $list->offsetUnset(0);
-    }
-
-    /**
-     * @depends testOffsetGetAndSet
-     */
-    function testOffsetUnsetOneItem() {
-        $list = new LinkedList();
-        $list->push(0);
-        $list->offsetUnset(0);
-
+    function test_count_empty_returnsZero() {
+        $list = $this->instance();
         $this->assertCount(0, $list);
     }
 
-    /**
-     * @depends testOffsetGetAndSet
-     */
-    function testOffsetUnsetHead() {
-        $list = new LinkedList();
-        $list->push(0);
-        $list->push(1);
 
-        $list->offsetUnset(0);
-        $this->assertEquals(0, $list->key());
-        $this->assertEquals(1, $list->current());
+    function test_count_pushWhenEmpty_returnsOne() {
+        $list = $this->instance();
+        $list->push(0);
         $this->assertCount(1, $list);
-        $this->assertEquals(1, $list->offsetGet(0));
     }
 
-    /**
-     * @depends testOffsetGetAndSet
-     */
-    function testOffsetUnsetTail() {
-        $list = new LinkedList();
-        $list->push(1);
-        $list->push(2);
 
-        $list->offsetUnset(1);
-        $this->assertEquals(0, $list->key());
-        $this->assertEquals(1, $list->current());
+    function test_count_unshiftWhenEmpty_size1() {
+        $list = $this->instance();
+        $list->unshift(0);
         $this->assertCount(1, $list);
-        $this->assertEquals(1, $list->offsetGet(0));
     }
 
-    /**
-     * @depends testOffsetGetAndSet
-     */
-    function testOffsetUnsetMiddle() {
-        $list = new LinkedList();
-        $list->push(0);
-        $list->push(2);
-        $list->push(4);
 
-        $list->offsetUnset(1);
-        $this->assertEquals(1, $list->key());
-        $this->assertEquals(4, $list->current());
-        $this->assertCount(2, $list);
-        $this->assertEquals(0, $list->offsetGet(0));
-        $this->assertEquals(4, $list->offsetGet(1));
-    }
-
-    /**
-     * @depends testOffsetGetAndSet
-     */
-    function testOffsetExists() {
-        $list = new LinkedList();
-
-        $this->assertFalse($list->offsetExists(0));
-        $this->assertFalse($list->offsetExists(-1));
-
-        $list->push(0);
-        $this->assertTrue($list->offsetExists(0));
-
-    }
-
-    /**
-     * @depends testOffsetGetAndSet
-     * @depends testOffsetUnsetOneItem
-     */
-    function testIsEmpty() {
-        $list = new LinkedList();
-
+    function test_isEmpty_empty_returnsTrue() {
+        $list = $this->instance();
         $this->assertTrue($list->isEmpty());
+    }
 
+
+    function test_isEmpty_notEmpty_returnsFalse() {
+        $list = $this->instance();
         $list->push(0);
-        $this->assertFalse($list->isEmpty());
-
-        unset($list[0]);
-
-        $this->assertTrue($list->isEmpty());
-
-    }
-
-    /**
-     * @depends testOffsetGetAndSet
-     */
-    function testIndexOf() {
-        $list = new LinkedList();
-        $valueA = 0;
-
-        $this->assertEquals(-1, $list->indexOf($valueA));
-
-        $list->push($valueA);
-        $this->assertEquals(0, $list->indexOf($valueA));
-
-        $valueB = 1;
-        $this->assertEquals(-1, $list->indexOf($valueB));
-
-        $list->push($valueB);
-
-        // reset the internal pointer so it actually searches the whole list.
-
-        $list->seek(0);
-        $this->assertEquals(1, $list->indexOf($valueB));
-
-
-        $this->assertEquals(-1, $list->indexOf($valueThatDoesNotExist=PHP_INT_MAX));
-
-    }
-
-    /**
-     * @depends testOffsetGetAndSet
-     */
-    function testIndexOfCallback() {
-        $list = new LinkedList();
-        $callback = $this->getMock(
-            'Collections\\CallableMock',
-            array('__invoke')
-        );
-
-        $callback->expects($this->exactly(9))
-            ->method('__invoke')
-            ->will($this->returnCallback(function($a, $b) {
-                return $a[0] == $b[0];
-            }));
-
-        /**
-         * @var callable $callback
-         */
-
-        $valueA = array(0);
-
-        $this->assertEquals(-1, $list->indexOf($valueA, $callback));
-
-        $list->push($valueA);
-        $this->assertEquals(0, $list->indexOf($valueA, $callback));
-
-        $valueB = array(1);
-        $this->assertEquals(-1, $list->indexOf($valueB, $callback));
-
-        $list->push($valueB);
-
-        // reset the internal pointer so it actually searches the whole list.
-
-        $list->seek(0);
-        $this->assertEquals(1, $list->indexOf($valueB, $callback));
-
-
-        $this->assertEquals(
-            -1,
-            $list->indexOf(
-                $valueThatDoesNotExist = array(PHP_INT_MAX),
-                $callback
-            )
-        );
-    }
-
-    /**
-     * @depends testOffsetUnsetOneItem
-     */
-    function testContains() {
-        $list = new LinkedList();
-        $this->assertFalse($list->contains(0));
-
-        $list->push(1);
-        $this->assertTrue($list->contains(1));
-        $this->assertFalse($list->contains(0));
-
-        $list->offsetUnset(0);
-        $this->assertFalse($list->contains(1));
-
-        $list->push(0);
-        $list->push(2);
-        $list->push(4);
-
-        for ($i = 0; $i < 2; $i++) {
-            $this->assertTrue($list->contains($i * 2));
-        }
-    }
-
-    /**
-     * @depends testOffsetGetAndSet
-     */
-    function testContainsCallback() {
-        $list = new LinkedList();
-
-        $abs = function($a, $b) {
-            return abs($a) == abs($b);
-        };
-
-        $this->assertFalse($list->contains(0), $abs);
-
-        $list->push(1);
-
-        $this->assertTrue($list->contains(1, $abs));
-        $this->assertTrue($list->contains(-1, $abs));
-
-        $list->push(2);
-        $list->seek(0);
-        $this->assertTrue($list->contains(2, $abs));
-        $this->assertTrue($list->contains(-2, $abs));
-    }
-
-    function testSeek() {
-        $list = new LinkedList();
-
-        $list->push(1);
-        $this->assertEquals(0, $list->key());
-        $this->assertEquals(1, $list->current());
-
-        $list->push(2);
-        $this->assertEquals(1, $list->key());
-        $this->assertEquals(2, $list->current());
-
-        $list->push(3);
-        $this->assertEquals(2, $list->key());
-        $this->assertEquals(3, $list->current());
-
-        $list->seek(1);
-        $this->assertEquals(1, $list->key());
-        $this->assertEquals(2, $list->current());
-
-        $list->seek(0);
-        $this->assertEquals(0, $list->key());
-        $this->assertEquals(1, $list->current());
-
-        $list->seek(1);
-        $this->assertEquals(1, $list->key());
-        $this->assertEquals(2, $list->current());
-
-    }
-
-    /**
-     * @expectedException \Collections\IndexException
-     */
-    function testSeekIndexException() {
-        $list = new LinkedList();
-        $list->seek(0);
-    }
-
-    /**
-     * @expectedException \Collections\TypeException
-     */
-    function testSeekTypeException() {
-        $list = new LinkedList();
-        $list->seek(array());
-    }
-
-    function testShift() {
-        $list = new LinkedList();
-        $list->push(0);
-
-        $popped = $list->shift();
-
-        $this->assertEquals(0, $popped);
-        $this->assertCount(0, $list);
-        $this->assertTrue($list->isEmpty());
-
-        $list->push(1);
-        $list->push(2);
-
-        $popped = $list->shift();
-
-        $this->assertEquals(1, $popped);
-        $this->assertCount(1, $list);
         $this->assertFalse($list->isEmpty());
     }
 
-    /**
-     * @expectedException \Collections\EmptyException
-     */
-    function testshiftEmpty() {
-        $list = new LinkedList();
+
+    function test_pop_empty_throwsException() {
+        $this->setExpectedException('\Collections\EmptyException');
+        $list = $this->instance();
+        $list->pop();
+    }
+
+
+    function test_shift_empty_throwsException() {
+        $this->setExpectedException('\Collections\EmptyException');
+        $list = $this->instance();
         $list->shift();
     }
 
-    function testpop() {
-        $list = new LinkedList();
-        $list->push(0);
 
-        $popped = $list->pop();
-
-        $this->assertEquals(0, $popped);
-        $this->assertCount(0, $list);
-        $this->assertTrue($list->isEmpty());
-
-        $list->push(1);
-        $list->push(2);
-
-        $popped = $list->pop();
-
-        $this->assertEquals(2, $popped);
-        $this->assertCount(1, $list);
-        $this->assertFalse($list->isEmpty());
-    }
-
-    /**
-     * @expectedException \Collections\EmptyException
-     */
-    function testpopEmpty() {
-        $list = new LinkedList();
-        $list->pop();;
-    }
-
-    function testFirst() {
-        $list = new LinkedList();
-        $list->push(0);
-
-        $popped = $list->first();
-
-        $this->assertEquals(0, $popped);
-        $this->assertCount(1, $list);
-        $this->assertFalse($list->isEmpty());
-
-        $list->push(1);
-        $list->push(2);
-
-        $popped = $list->first();
-
-        $this->assertEquals(0, $popped);
-        $this->assertCount(3, $list);
-        $this->assertFalse($list->isEmpty());
-    }
-
-    /**
-     * @expectedException \Collections\EmptyException
-     */
-    function testFirstEmpty() {
-        $list = new LinkedList();
+    function test_first_empty_throwsException() {
+        $this->setExpectedException('\Collections\EmptyException');
+        $list = $this->instance();
         $list->first();
     }
 
-    function testLast() {
-        $list = new LinkedList();
-        $list->push(0);
 
-        $popped = $list->last();
-
-        $this->assertEquals(0, $popped);
-        $this->assertCount(1, $list);
-        $this->assertFalse($list->isEmpty());
-
-        $list->push(1);
-        $list->push(2);
-
-        $popped = $list->last();
-
-        $this->assertEquals(2, $popped);
-        $this->assertCount(3, $list);
-        $this->assertFalse($list->isEmpty());
-    }
-
-    /**
-     * @expectedException \Collections\EmptyException
-     */
-    function testLastEmpty() {
-        $list = new LinkedList();
+    function test_last_empty_throwsException() {
+        $this->setExpectedException('\Collections\EmptyException');
+        $list = $this->instance();
         $list->last();
     }
 
-    /**
-     * @depends testLast
-     * @depends testFirst
-     */
-    function testUnshift() {
-        $list = new LinkedList();
-
-        $list->unshift(0);
-
-        $this->assertEquals(0, $list->first());
-        $this->assertCount(1, $list);
-        $this->assertFalse($list->isEmpty());
-
-        $list->unshift(1);
-        $list->unshift(2);
-
-        $this->assertEquals(2, $list->first(0));
-        $this->assertEquals(0, $list->last(0));
-        $this->assertCount(3, $list);
-        $this->assertFalse($list->isEmpty());
-    }
-
-    function testInsertAfter() {
-        $list = new LinkedList();
-        $list->push(0);
-
-        $list->insertAfter(0, 2);
-        $this->assertEquals(0, $list->key());
-        $this->assertEquals(0, $list->offsetGet(0));
-        $this->assertEquals(2, $list->offsetGet(1));
-
-        $list->insertAfter(0, 1);
-        $this->assertEquals(0, $list->key());
-        $this->assertEquals(0, $list->offsetGet(0));
-        $this->assertEquals(1, $list->offsetGet(1));
-        $this->assertEquals(2, $list->offsetGet(2));
-    }
 
     /**
-     * @depends testOffsetGetAndSet
+     * @dataProvider provide_rangeOneToN
      */
-    function testInsertBefore() {
-        $list = new LinkedList();
-        $list->push(2);
+    function test_pop_sizeN_returnsNValue(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
 
+        $expect = end($data);
+        $actual = $list->pop();
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    function test_offsetSet_withNonIntIndex_throwsException() {
+        $this->setExpectedException('\Collections\TypeException');
+        $list = $this->instance();
+        $list[array()] = 0;
+    }
+
+
+    function test_offsetGet_withNonIntIndex_throwsException() {
+        $this->setExpectedException('\Collections\TypeException');
+        $list = $this->instance();
+        $list[array()];
+    }
+
+
+    function test_offsetUnset_withNonIntIndex_throwsException() {
+        $this->setExpectedException('\Collections\TypeException');
+        $list = $this->instance();
+        unset($list[array()]);
+    }
+
+
+    function test_offsetExists_withNonIntIndex_throwsException() {
+        $this->setExpectedException('\Collections\TypeException');
+        $list = $this->instance();
+        $list->offsetExists([]);
+    }
+
+
+    /**
+     * @depends test_pop_sizeN_returnsNValue
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_offsetSet_withNull_pushesValue(array $data) {
+        $list = $this->instance();
+        foreach ($data as $value) {
+            $list[] = $value;
+        }
+
+        $expect = end($data);
+        $actual = $list->pop();
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    /**
+     * @depends test_pop_sizeN_returnsNValue
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_count_offsetSetWithNull_returnsN(array $data) {
+        $list = $this->instance();
+        foreach ($data as $value) {
+            $list[] = $value;
+        }
+
+        $expect = count($data);
+        $this->assertCount($expect, $list);
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_count_pushNThenPop_returnsNMinusOne(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+
+        $expect = count($data) - 1;
+        $list->pop();
+        $this->assertCount($expect, $list);
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_shift_sizeN_returnsFirstValue(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+
+        $expect = reset($data);
+        $actual = $list->shift();
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_count_pushNThenShift_returnsNMinusOne(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+
+        $expect = count($data) - 1;
+        $list->shift();
+        $this->assertCount($expect, $list);
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_first_sizeN_returnsFirstValue(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+
+        $expect = reset($data);
+        $actual = $list->first();
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_count_pushNThenFirst_returnsN(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+
+        $expect = count($data);
+        $list->first();
+        $this->assertCount($expect, $list);
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_lasst_sizeN_returnsFirstValue(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+
+        $expect = end($data);
+        $actual = $list->last();
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_count_pushNThenLast_returnsN(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+
+        $expect = count($data);
+        $list->last();
+        $this->assertCount($expect, $list);
+    }
+
+
+    /**
+     * @dataProvider provide_rangeZeroToN
+     */
+    function test_offsetExists_rangeZeroToN_returnsTrue(array $data) {
+        $list = $this->instance();
+        $n = count($data);
+        array_walk($data, [$list, 'push']);
+
+        $expect = $n > 0;
+        for ($i = 0; $i < $n; $i++) {
+            $this->assertEquals($expect, $list->offsetExists($i));
+        }
+    }
+
+
+    /**
+     * @dataProvider provide_rangeZeroToN
+     */
+    function test_offsetExists_forN_returnsFalse(array $data) {
+        $list = $this->instance();
+        $n = count($data);
+        array_walk($data, [$list, 'push']);
+        $this->assertFalse($list->offsetExists($n));
+    }
+
+
+    /**
+     * @dataProvider provide_rangeZeroToN
+     */
+    function test_offsetExists_anyNegative_returnsFalse(array $data) {
+        $list = $this->instance();
+        $n = count($data) * 1;
+        $this->assertFalse($list->offsetExists($n));
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_offsetGet_rangeOneToN_returnsValue(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+        $n = count($data);
+        for ($i = 0; $i < $n; ++$i) {
+            $expect = $i;
+            $actual = $list->offsetGet($i);
+            $this->assertEquals($expect, $actual);
+        }
+    }
+
+
+    function test_seek_negative_throwsException() {
+        $this->setExpectedException('\Collections\IndexException');
+        $list = $this->instance();
+        $list->seek(-1);
+    }
+
+
+    /**
+     * @dataProvider provide_rangeZeroToN
+     */
+    function test_seek_toN_throwsException(array $data) {
+        $this->setExpectedException('\Collections\IndexException');
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+        $n = count($data);
+        $list->seek($n);
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_current_seekOneToN_returnsN(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+        $n = count($data);
+        for ($i = 0; $i < $n; $i++) {
+            $list->seek($i);
+            $expect = $i;
+            $actual = $list->current();
+            $this->assertEquals($expect, $actual);
+        }
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_key_seekN_returnsN(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+        $n = count($data);
+        for ($i = 0; $i < $n; $i++) {
+            $list->seek($i);
+            $expect = $i;
+            $actual = $list->key();
+            $this->assertEquals($expect, $actual);
+        }
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_seek_toN_returnsValue(array $data) {
+        $list = $this->instance();
+        foreach ($data as $value) {
+            $list->push($value * 2);
+        }
+        $n = count($data);
+        for ($i = 0; $i < $n; ++$i) {
+            $expect = $i * 2;
+            $actual = $list->seek($i);
+            $this->assertEquals($expect, $actual);
+        }
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_seek_toNMinusOne_returnsNMinusOneValue(array $data) {
+        $list = $this->instance();
+        foreach ($data as $value) {
+            $list->push($value * 2);
+        }
+        $n = count($data);
+        for ($i = 1; $i < $n; ++$i) {
+            $expect = ($i - 1) * 2;
+            $actual = $list->seek($i-1);
+            $this->assertEquals($expect, $actual);
+        }
+    }
+
+
+    function test_seek_toMiddleFromBeginning_returnsMiddleValue() {
+        $list = $this->instance();
+        $n = 6;
+        for ($i = 0; $i < $n; ++$i) {
+            $list->push($i*13);
+        }
+        $list->seek(0);
+        $expect = 3 * 13;
+        $actual = $list->seek(3);
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    function test_seek_toMiddleFromEnd_returnsMiddleValue() {
+        $list = $this->instance();
+        $n = 6;
+        for ($i = 0; $i < $n; ++$i) {
+            $list->push($i*13);
+        }
+        $list->seek(5);
+        $expect = 3 * 13;
+        $actual = $list->seek(3);
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    function test_valid_empty_returnsFalse() {
+        $list = $this->instance();
+        $this->assertFalse($list->valid());
+    }
+
+
+    function test_valid_emptyAfterRewind_returnsFalse() {
+        $list = $this->instance();
+        $list->rewind();
+        $this->assertFalse($list->valid());
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_valid_pushNThenRewind_returnsTrue(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+        $list->rewind();
+        $this->assertTrue($list->valid());
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_valid_pushN_returnsTrue(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+        $list->rewind();
+        $this->assertTrue($list->valid());
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_valid_nextN_returnsTrue(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+
+        $list->rewind();
+        for ($i = 0; $i < count($data); $i++) {
+            $this->assertTrue($list->valid());
+            $list->next();
+        }
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_key_iterateN_returnsN(array $data) {
+        $list = $this->instance();
+        foreach ($data as $value) {
+            $list->push($value * 2);
+        }
+        array_walk($data, [$list, 'push']);
+
+        $list->rewind();
+        for ($i = 0; $i < count($data); $i++) {
+            $expect = $i;
+            $actual = $list->key();
+            $this->assertEquals($expect, $actual);
+            $list->next();
+        }
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_current_iterateN_returnsN(array $data) {
+        $list = $this->instance();
+        foreach ($data as $value) {
+            $list->push($value * 2);
+        }
+
+        $list->rewind();
+        for ($i = 0; $i < count($data); $i++) {
+            $expect = $i * 2;
+            $actual = $list->current();
+            $this->assertEquals($expect, $actual);
+            $list->next();
+        }
+    }
+
+
+    function test_offsetGet_empty_throwsException() {
+        $this->setExpectedException('\Collections\IndexException');
+        $list = $this->instance();
+        $list[0];
+    }
+
+
+    function test_offsetSet_emptyNonNullOffset_throwsException() {
+        $this->setExpectedException('\Collections\IndexException');
+        $list = $this->instance();
+        $list[0] = 1;
+    }
+
+
+    /**
+     * @dataProvider provide_rangeOneToN
+     */
+    function test_offsetGet_offsetSetNThenOffsetGet_returnsN(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
+
+        for ($i = 0; $i < count($data); $i++) {
+            $list[$i] = $i * 2;
+        }
+        $list->rewind();
+        for ($i = 0; $i < count($data); $i++) {
+            $expect = $i * 2;
+            $actual = $list[$i];
+            $this->assertEquals($expect, $actual);
+        }
+    }
+
+
+    function test_insertBefore_empty_throwsException() {
+        $this->setExpectedException('\Collections\IndexException');
+
+        $list = $this->instance();
         $list->insertBefore(0, 0);
-        $this->assertEquals(1, $list->key());
-        $this->assertEquals(0, $list->offsetGet(0));
-        $this->assertEquals(2, $list->offsetGet(1));
-
-        $list->insertBefore(1, 1);
-        $this->assertEquals(2, $list->key());
-        $this->assertEquals(0, $list->offsetGet(0));
-        $this->assertEquals(1, $list->offsetGet(1));
-        $this->assertEquals(2, $list->offsetGet(2));
     }
 
-    /**
-     * @expectedException \Collections\EmptyException
-     */
-    function testInsertAfterEmpty() {
-        $list = new LinkedList();
+
+    function test_insertAfter_empty_throwsException() {
+        $this->setExpectedException('\Collections\IndexException');
+
+        $list = $this->instance();
         $list->insertAfter(0, 0);
     }
 
-    /**
-     * @expectedException \Collections\EmptyException
-     */
-    function testInsertBeforeEmpty() {
-        $list = new LinkedList();
+
+    function test_count_insertBeforeFirst_increasesSize() {
+        $list = $this->instance();
+        $list->push(0);
+        $before = count($list);
         $list->insertBefore(0, 0);
+        $after = count($list);
+        $this->assertGreaterThan($before, $after);
     }
 
-    /**
-     * @expectedException \Collections\IndexException
-     */
-    function testInsertAfterNegativeIndex() {
-        $list = new LinkedList();
+
+    function test_first_insertBeforeFirst_returnsNew() {
+        $list = $this->instance();
         $list->push(0);
-        $list->insertAfter(-1, 0);
+        $list->insertBefore(0, 1);
+        $expect = 1;
+        $actual = $list->first();
+        $this->assertEquals($expect, $actual);
     }
 
-    /**
-     * @expectedException \Collections\IndexException
-     */
-    function testInsertAfterOverMaxIndex() {
-        $list = new LinkedList();
+
+    function test_last_insertBeforeOnly_returnsOriginal() {
+        $list = $this->instance();
         $list->push(0);
-        $list->insertAfter(1, 0);
+        $list->insertBefore(0, 1);
+        $expect = 0;
+        $actual = $list->last();
+        $this->assertEquals($expect, $actual);
     }
 
-    /**
-     * @expectedException \Collections\IndexException
-     */
-    function testInsertBeforeNegativeIndex() {
-        $list = new LinkedList();
+
+    function test_count_insertAfterOnly_increasesSize() {
+        $list = $this->instance();
         $list->push(0);
-        $list->insertBefore(-1, 0);
+        $before = count($list);
+        $list->insertAfter(0, 0);
+        $after = count($list);
+        $this->assertGreaterThan($before, $after);
     }
 
-    /**
-     * @expectedException \Collections\IndexException
-     */
-    function testInsertBeforeOverMaxIndex() {
-        $list = new LinkedList();
+
+    function test_first_insertAfterLast_returnsOriginal() {
+        $list = $this->instance();
         $list->push(0);
-        $list->insertBefore(1, 0);
+        $list->insertAfter(0, 1);
+        $expect = 0;
+        $actual = $list->first();
+        $this->assertEquals($expect, $actual);
     }
 
+
+    function test_last_insertAfterOnly_returnsNew() {
+        $list = $this->instance();
+        $list->push(0);
+        $list->insertAfter(0, 1);
+        $expect = 1;
+        $actual = $list->last();
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    function test_offsetUnset_empty_doesNotThrow() {
+        $list = $this->instance();
+        unset($list[0]);
+    }
+
+
+    function test_count_offsetUnset_decreasesSize() {
+        $list = $this->instance();
+        $list->push(0);
+        $before = count($list);
+        unset($list[0]);
+        $after = count($list);
+        $this->assertLessThan($before, $after);
+    }
+
+
+    function test_offsetGet_offsetUnsetN_returnsNewN() {
+        $list = $this->instance();
+        $list->push(0);
+        $list->push(1);
+        unset($list[0]);
+        $expect = 1;
+        $actual = $list[0];
+        $this->assertEquals($expect, $actual);
+    }
+
+
     /**
-     * @expectedException \Collections\EmptyException
+     * @dataProvider provide_rangeOneToN
      */
-    function testTailEmpty() {
-        $list = new LinkedList();
+    function test_clone_alteringValues_doesNotChangeOriginal(array $data) {
+        $list = $this->instance();
+        array_shift($data);
+        array_walk($data, [$list, 'push']);
+
+        $clone = clone $list;
+        foreach ($clone as $key => $value) {
+            $expect = $value * 2;
+            $clone[$key] = $expect;
+            $actual = $list[$key];
+            $this->assertNotEquals($expect, $actual);
+        }
+    }
+
+
+    function test_tail_empty_throwsException() {
+        $this->setExpectedException('\Collections\EmptyException');
+
+        $list = $this->instance();
         $list->tail();
     }
 
-    /**
-     * @depends testShift
-     */
-    function testTail() {
-        $list = new LinkedList();
-        $expected = [];
-        for ($i = 0; $i < 3; $i++) {
-            if ($i > 0) {
-                $expected[] = $i;
-            }
-            $list->push($i);
-        }
-
-        $head = $list->tail();
-        $this->assertCount(2, $head);
-        for ($i = 0; $i < 2; $i++) {
-            $actual = $head->shift();
-            $this->assertEquals($expected[$i], $actual);
-        }
-    }
 
     /**
-     * @depends testOffsetGetAndSet
+     * @dataProvider provide_rangeOneToN
      */
-    function testClone() {
-        $list = new LinkedList();
-        $size = 5;
-        for ($i = 0; $i < $size; $i++) {
-            $list->push($i);
-        }
+    function test_tail_notEmpty_returnsTail(array $data) {
+        $list = $this->instance();
+        array_walk($data, [$list, 'push']);
 
-        $copy = clone $list;
-        for ($i = 0; $i < $size; $i++) {
-            $list->offsetSet($i, $i + $size);
-
-            //the copy should not change
-            $copyValue = $copy->offsetGet($i);
-            $this->assertEquals($i, $copyValue);
-            $this->assertNotEquals($copyValue, $list->offsetGet($i));
-        }
+        array_shift($data);
+        $expect = $data;
+        $actual = $list->tail()->toArray();
+        $this->assertEquals($expect, $actual);
     }
 
-    /**
-     * @depends testClone
-     */
-    function testGetIterator() {
-        $list = new LinkedList();
 
-        $iterator = $list->getIterator();
-
-        $this->assertInstanceOf('Collections\\LinkedListIterator', $iterator);
-
-        $size = 5;
-        for ($i = 0; $i < $size; $i++) {
-            $list->push($i);
-        }
-
-        $this->assertInstanceOf('Collections\\LinkedListIterator', $iterator);
-
-    }
-
-    function testIteratorForeach() {
-        $list = new LinkedList();
+    function test_current_prevFromLast_returnsPrevFromLastValue() {
+        $list = $this->instance();
         $list->push(0);
         $list->push(1);
         $list->push(2);
+        $list->prev();
+        $expect = 1;
+        $actual = $list->current();
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    function test_indexOf_empty_returnsNegative() {
+        $list = $this->instance();
+        $ndx = $list->indexOf(0);
+        $this->assertLessThan(0, $ndx);
+    }
+
+
+    function test_indexOf_matchesFirst_returnsZero() {
+        $list = $this->instance();
+        $list->push(1);
+        $expect = 0;
+        $actual = $list->indexOf(1);
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    function test_indexOf_matchesLast_returnsLastIndex() {
+        $list = $this->instance();
+        $list->push(1);
         $list->push(3);
-
-        $expectedKey = 0;
-        $expectedValue = 0;
-
-        $iterator = $list->getIterator();
-        foreach ($iterator as $key => $value) {
-            $this->assertEquals($expectedKey++, $key);
-            $this->assertEquals($expectedValue++, $value);
-        }
-
-        $iterator->rewind();
-        $iterator->next();
-        $iterator->prev();
-        $this->assertEquals(0, $iterator->key());
-        $this->assertEquals(0, $iterator->current());
-
-        $iterator->next();
-
-        $iterator->next();
-        $iterator->prev();
-        $this->assertEquals(1, $iterator->key());
-        $this->assertEquals(1, $iterator->current());
-    }
-
-    function test_rewind_empty_returnsFalse() {
-        $list = new LinkedList();
-        $iterator = $list;
-
-        $iterator->rewind();
-        $this->assertFalse($iterator->valid());
+        $expect = 1;
+        $actual = $list->indexOf(3);
+        $this->assertEquals($expect, $actual);
     }
 
 
-    function testIteratorSeek() {
-        $list = new LinkedList();
+    function test_indexOf_notFound_returnsNegative() {
+        $list = $this->instance();
+        $list->push(1);
+        $list->push(3);
+        $actual = $list->indexOf(2);
+        $this->assertLessThan(0, $actual);
+    }
+
+
+    function test_contains_empty_returnsFalse() {
+        $list = $this->instance();
+        $this->assertFalse($list->contains(1));
+    }
+
+
+    function test_contains_matchesFirst_returnsTrue() {
+        $list = $this->instance();
+        $list->push(1);
+        $list->push(3);
+        $this->assertTrue($list->contains(1));
+    }
+
+
+    function test_contains_matchesLast_returnsTrue() {
+        $list = $this->instance();
+        $list->push(1);
+        $list->push(3);
+        $this->assertTrue($list->contains(3));
+    }
+
+
+    function test_contains_matchesMiddle_returnsTrue() {
+        $list = $this->instance();
         $list->push(1);
         $list->push(2);
         $list->push(3);
-        $list->push(4);
-
-        $iterator = $list->getIterator();
-
-        $iterator->seek(0);
-        $this->assertEquals(0, $iterator->key());
-        $this->assertEquals(1, $iterator->current());
-
-        $iterator->seek(2);
-        $this->assertEquals(2, $iterator->key());
-        $this->assertEquals(3, $iterator->current());
-
-        $iterator->seek(1);
-        $this->assertEquals(1, $iterator->key());
-        $this->assertEquals(2, $iterator->current());
-
-        $iterator->seek(3);
-        $this->assertEquals(3, $iterator->key());
-        $this->assertEquals(4, $iterator->current());
-
-        $iterator->rewind();
-        $iterator->end();
-        $this->assertEquals(3, $iterator->key());
-        $this->assertEquals(4, $iterator->current());
+        $this->assertTrue($list->contains(2));
     }
 
-    function testCount() {
-        $list = new LinkedList();
-        $iterator = $list->getIterator();
-        $this->assertCount(0, $list);
-        $this->assertCount(0, $iterator);
 
-
-        $list->push(0);
-        $iterator = $list->getIterator();
-        $this->assertCount(1, $list);
-        $this->assertCount(1, $iterator);
+    function test_contains_matchesNone_returnsFalse() {
+        $list = $this->instance();
+        $list->push(1);
+        $list->push(3);
+        $this->assertFalse($list->contains(PHP_INT_MAX));
     }
+
+
+    function test_containsCallable_matchesFirst_returnsTrue() {
+        $list = $this->instance();
+        $list->push($a = new \StdClass);
+        $list->push(new \StdClass);
+        $this->assertTrue($list->contains($a, '\Collections\same'));
+    }
+
+
+    function test_containsCallable_matchesLast_returnsTrue() {
+        $list = $this->instance();
+        $list->push(new \StdClass);
+        $list->push($a = new \StdClass);
+        $this->assertTrue($list->contains($a, '\Collections\same'));
+    }
+
+
+    function test_containsCallable_matchesMiddle_returnsTrue() {
+        $list = $this->instance();
+        $list->push(new \StdClass);
+        $list->push($a = new \StdClass);
+        $list->push(new \StdClass);
+        $this->assertTrue($list->contains($a, '\Collections\same'));
+    }
+
+
+    function test_containsCallable_matchesNone_returnsFalse() {
+        $list = $this->instance();
+        $list->push(new \StdClass);
+        $list->push(new \StdClass);
+        $list->push(new \StdClass);
+        $this->assertFalse($list->contains(new \StdClass, '\Collections\same'));
+    }
+
 
 }

@@ -2,32 +2,20 @@
 
 namespace Collections;
 
-class LinkedNode {
 
-    public $value;
-
-    /**
-     * @var LinkedNode
-     */
-    public $prev;
+interface LinkedNode {
 
     /**
-     * @var LinkedNode
+     * @return LinkedNode
      */
-    public $next;
+    function prev();
 
-    function __construct($value) {
-        $this->value = $value;
-    }
+    /**
+     * @return LinkedNode
+     */
+    function next();
 
-    function __clone() {
-        $this->prev = $this->prev !== NULL
-            ? clone $this->prev
-            : NULL;
+    function setPrev(LinkedNode $prev);
 
-        $this->next = $this->next !== NULL
-            ? clone $this->next
-            : NULL;
-    }
-
+    function setNext(LinkedNode $next);
 }

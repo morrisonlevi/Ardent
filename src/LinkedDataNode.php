@@ -3,7 +3,7 @@
 namespace Collections;
 
 
-class SDataNode implements SNode {
+class LinkedDataNode implements LinkedNode {
     private $prev;
     private $value;
     private $next;
@@ -25,7 +25,7 @@ class SDataNode implements SNode {
 
 
     /**
-     * @return SNode
+     * @return LinkedNode
      */
     function prev() {
         return $this->prev;
@@ -33,19 +33,19 @@ class SDataNode implements SNode {
 
 
     /**
-     * @return SNode
+     * @return LinkedNode
      */
     function next() {
         return $this->next;
     }
 
 
-    function setPrev(SNode $prev) {
+    function setPrev(LinkedNode $prev) {
         $this->prev = $prev;
     }
 
 
-    function setNext(SNode $next) {
+    function setNext(LinkedNode $next) {
         $this->next = $next;
     }
 
