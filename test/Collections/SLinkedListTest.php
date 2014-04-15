@@ -634,7 +634,7 @@ class SLinkedListTest extends TestCase {
     }
 
 
-    function test_current_prevfromLast_returnsPrevFromLastValue() {
+    function test_current_prevFromLast_returnsPrevFromLastValue() {
         $list = $this->instance();
         $list->push(0);
         $list->push(1);
@@ -643,6 +643,114 @@ class SLinkedListTest extends TestCase {
         $expect = 1;
         $actual = $list->current();
         $this->assertEquals($expect, $actual);
+    }
+
+
+    function test_indexOf_empty_returnsNegative() {
+        $list = $this->instance();
+        $ndx = $list->indexOf(0);
+        $this->assertLessThan(0, $ndx);
+    }
+
+
+    function test_indexOf_matchesFirst_returnsZero() {
+        $list = $this->instance();
+        $list->push(1);
+        $expect = 0;
+        $actual = $list->indexOf(1);
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    function test_indexOf_matchesLast_returnsLastIndex() {
+        $list = $this->instance();
+        $list->push(1);
+        $list->push(3);
+        $expect = 1;
+        $actual = $list->indexOf(3);
+        $this->assertEquals($expect, $actual);
+    }
+
+
+    function test_indexOf_notFound_returnsNegative() {
+        $list = $this->instance();
+        $list->push(1);
+        $list->push(3);
+        $actual = $list->indexOf(2);
+        $this->assertLessThan(0, $actual);
+    }
+
+
+    function test_contains_empty_returnsFalse() {
+        $list = $this->instance();
+        $this->assertFalse($list->contains(1));
+    }
+
+
+    function test_contains_matchesFirst_returnsTrue() {
+        $list = $this->instance();
+        $list->push(1);
+        $list->push(3);
+        $this->assertTrue($list->contains(1));
+    }
+
+
+    function test_contains_matchesLast_returnsTrue() {
+        $list = $this->instance();
+        $list->push(1);
+        $list->push(3);
+        $this->assertTrue($list->contains(3));
+    }
+
+
+    function test_contains_matchesMiddle_returnsTrue() {
+        $list = $this->instance();
+        $list->push(1);
+        $list->push(2);
+        $list->push(3);
+        $this->assertTrue($list->contains(2));
+    }
+
+
+    function test_contains_matchesNone_returnsFalse() {
+        $list = $this->instance();
+        $list->push(1);
+        $list->push(3);
+        $this->assertFalse($list->contains(PHP_INT_MAX));
+    }
+
+
+    function test_containsCallable_matchesFirst_returnsTrue() {
+        $list = $this->instance();
+        $list->push($a = new \StdClass);
+        $list->push(new \StdClass);
+        $this->assertTrue($list->contains($a, '\Collections\same'));
+    }
+
+
+    function test_containsCallable_matchesLast_returnsTrue() {
+        $list = $this->instance();
+        $list->push(new \StdClass);
+        $list->push($a = new \StdClass);
+        $this->assertTrue($list->contains($a, '\Collections\same'));
+    }
+
+
+    function test_containsCallable_matchesMiddle_returnsTrue() {
+        $list = $this->instance();
+        $list->push(new \StdClass);
+        $list->push($a = new \StdClass);
+        $list->push(new \StdClass);
+        $this->assertTrue($list->contains($a, '\Collections\same'));
+    }
+
+
+    function test_containsCallable_matchesNone_returnsFalse() {
+        $list = $this->instance();
+        $list->push(new \StdClass);
+        $list->push(new \StdClass);
+        $list->push(new \StdClass);
+        $this->assertFalse($list->contains(new \StdClass, '\Collections\same'));
     }
 
 

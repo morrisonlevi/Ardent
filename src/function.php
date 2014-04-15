@@ -27,6 +27,26 @@ function compare($a, $b) {
 
 
 /**
+ * @param $a
+ * @param $b
+ * @return bool
+ */
+function equal($a, $b) {
+    return $a == $b;
+}
+
+
+/**
+ * @param $a
+ * @param $b
+ * @return bool
+ */
+function same($a, $b) {
+    return $a === $b;
+}
+
+
+/**
  * @param string $className
  * @return void
  */

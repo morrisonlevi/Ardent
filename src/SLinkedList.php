@@ -248,6 +248,36 @@ class SLinkedList implements \ArrayAccess, \Countable, Enumerator {
 
 
     /**
+     * @param $value
+     * @param callable $f
+     * @return int
+     */
+    function indexOf($value, callable $f = null) {
+        $equal = $f ?: '\Collections\equal';
+
+        $filter = $this->filter(function($item) use ($equal, $value) {
+            return $equal($item, $value);
+        });
+
+        foreach ($filter as $key => $value) {
+            return $key;
+        }
+
+        return -1;
+    }
+
+
+    /**
+     * @param $value
+     * @param callable $f [optional]
+     * @return bool
+     */
+    function contains($value, callable $f = null) {
+        return $this->indexOf($value, $f) >= 0;
+    }
+
+
+    /**
      * Extract the elements after the first of a list, which must be non-empty.
      * @return SLinkedList
      * @throws EmptyException
