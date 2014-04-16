@@ -109,7 +109,7 @@ class AvlTree implements BinarySearchTree {
      */
     function first() {
         $this->emptyGuard(__METHOD__);
-        return $this->farthest('left', $this->root)->value();
+        return $this->farthest('left', $this->root);
     }
 
 
@@ -119,7 +119,7 @@ class AvlTree implements BinarySearchTree {
      */
     function last() {
         $this->emptyGuard(__METHOD__);
-        return $this->farthest('right', $this->root)->value();
+        return $this->farthest('right', $this->root);
     }
 
 
@@ -325,7 +325,7 @@ class AvlTree implements BinarySearchTree {
 
     private function farthest($direction, BinaryTree $context) {
         for ($node = $context; $node->$direction() !== NULL; $node = $node->$direction());
-        return $node;
+        return $node->value();
     }
 
 
