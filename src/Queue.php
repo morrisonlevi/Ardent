@@ -26,4 +26,8 @@ interface Queue extends \Countable, Enumerable {
      */
     function first();
 
+
+    function getIterator(): QueueIterator;
+
+
 }

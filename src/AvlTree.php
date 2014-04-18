@@ -26,6 +26,7 @@ class AvlTree implements BinarySearchTree {
 
     private $deleteOptions;
 
+
     /**
      * @param callable $comparator
      */
@@ -74,7 +75,7 @@ class AvlTree implements BinarySearchTree {
 
 
     /**
-     * @return BinaryTree A copy of the current BinaryTree
+     * @return BinaryTree|null A copy of the current BinaryTree
      */
     function toBinaryTree() {
         return $this->root !== NULL
@@ -131,10 +132,7 @@ class AvlTree implements BinarySearchTree {
     }
 
 
-    /**
-     * @return BinaryTreeIterator
-     */
-    function getIterator() {
+    function getIterator(): BinaryTreeIterator {
         $tree = clone $this;
         return new InOrderIterator($tree->root, $tree->size);
     }

@@ -351,30 +351,20 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     }
 
 
-    /**
-     * @return LinkedDataNode
-     */
-    private function seekTail() {
+    private function seekTail(): LinkedDataNode {
         $this->offset = $this->size - 1;
         $this->current = $this->tail->prev();
         return $this->current;
     }
 
 
-    /**
-     * @return LinkedDataNode
-     */
-    private function seekHead() {
+    private function seekHead(): LinkedDataNode {
         $this->offset = 0;
         return $this->current = $this->head->next();
     }
 
 
-    /**
-     * @param $offset
-     * @return LinkedDataNode
-     */
-    private function seekTo($offset) {
+    private function seekTo($offset): LinkedDataNode {
         $diff = $this->offset - $offset;
         $action = $diff < 0 ? 'forward' : 'backward';
         $n = abs($diff);

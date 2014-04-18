@@ -92,11 +92,7 @@ class HashSet extends AbstractSet implements Set {
     }
 
 
-    /**
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return HashSetIterator
-     */
-    function getIterator() {
+    function getIterator(): SetIterator {
         return new HashSetIterator($this->objects);
     }
 

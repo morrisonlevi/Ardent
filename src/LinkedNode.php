@@ -5,15 +5,9 @@ namespace Collections;
 
 interface LinkedNode {
 
-    /**
-     * @return LinkedNode
-     */
-    function prev();
+    function prev(): LinkedNode;
 
-    /**
-     * @return LinkedNode
-     */
-    function next();
+    function next(): LinkedNode;
 
     function setPrev(LinkedNode $prev);
 

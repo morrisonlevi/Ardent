@@ -28,13 +28,11 @@ class HashMap implements Map {
         return empty($this->storage);
     }
 
-    /**
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return HashMapIterator
-     */
-    function getIterator() {
+
+    function getIterator(): MapIterator {
         return new HashMapIterator($this->storage);
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
@@ -44,6 +42,7 @@ class HashMap implements Map {
     function offsetExists($offset) {
         return array_key_exists(call_user_func($this->hashFunction, $offset), $this->storage);
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
@@ -64,6 +63,7 @@ class HashMap implements Map {
         return $pair->second;
     }
 
+
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
      * @param mixed $offset
@@ -74,6 +74,7 @@ class HashMap implements Map {
         $hash = call_user_func($this->hashFunction, $offset);
         $this->storage[$hash] = new Pair($offset, $value);
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
@@ -87,9 +88,6 @@ class HashMap implements Map {
         }
     }
 
-    function areEqual($a, $b) {
-        return $a === $b;
-    }
 
     /**
      * @param $item
@@ -99,7 +97,7 @@ class HashMap implements Map {
      * @throws TypeException when $item is not the correct type.
      */
     function contains($item, callable $comparator = NULL) {
-        $compare = $comparator ?: [$this, 'areEqual'];
+        $compare = $comparator ?: '\Collections\same';
 
         $storage = $this->storage;
         for (reset($storage); key($storage) !== NULL; next($storage)) {
@@ -114,6 +112,7 @@ class HashMap implements Map {
         return FALSE;
     }
 
+
     /**
      * @param $key
      *
@@ -124,6 +123,7 @@ class HashMap implements Map {
     function get($key) {
         return $this->offsetGet($key);
     }
+
 
     /**
      * Note that if the key is considered equal to an already existing key in
@@ -139,6 +139,7 @@ class HashMap implements Map {
         $this->offsetSet($key, $value);
     }
 
+
     /**
      * @param $key
      *
@@ -149,6 +150,7 @@ class HashMap implements Map {
         $this->offsetUnset($key);
     }
 
+
     /**
      * @link http://php.net/manual/en/countable.count.php
      * @return int
@@ -156,5 +158,6 @@ class HashMap implements Map {
     function count() {
         return count($this->storage);
     }
+
 
 }

@@ -2,7 +2,8 @@
 
 namespace Collections;
 
-interface Stack extends \IteratorAggregate, \Countable, Enumerable {
+interface Stack extends \Countable, Enumerable {
+
 
     /**
      * @param mixed $object
@@ -12,11 +13,13 @@ interface Stack extends \IteratorAggregate, \Countable, Enumerable {
      */
     function push($object);
 
+
     /**
      * @throws StateException if the Stack is empty.
      * @return mixed
      */
     function pop();
+
 
     /**
      * @throws StateException if the Stack is empty.
@@ -24,14 +27,17 @@ interface Stack extends \IteratorAggregate, \Countable, Enumerable {
      */
     function last();
 
-    /**
-     * @return array
-     */
-    function toArray();
+
+    function toArray(): array;
+
 
     /**
      * @return bool
      */
     function isEmpty();
+
+
+    function getIterator(): StackIterator;
+
 
 }

@@ -4,9 +4,8 @@ namespace Collections;
 
 interface Enumerable extends Collection, \IteratorAggregate {
 
-    /**
-     * @return Enumerator
-     */
-    function getIterator();
+
+    function getIterator(): Enumerator;
+
 
 } 

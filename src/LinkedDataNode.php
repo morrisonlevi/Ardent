@@ -24,18 +24,12 @@ class LinkedDataNode implements LinkedNode {
     }
 
 
-    /**
-     * @return LinkedNode
-     */
-    function prev() {
+    function prev(): LinkedNode {
         return $this->prev;
     }
 
 
-    /**
-     * @return LinkedNode
-     */
-    function next() {
+    function next(): LinkedNode {
         return $this->next;
     }
 

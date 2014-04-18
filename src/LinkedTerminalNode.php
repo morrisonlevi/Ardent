@@ -9,18 +9,12 @@ class LinkedTerminalNode implements LinkedNode {
     private $prev;
 
 
-    /**
-     * @return LinkedNode
-     */
-    function prev() {
+    function prev(): LinkedNode {
         return $this->prev;
     }
 
 
-    /**
-     * @return LinkedNode
-     */
-    function next() {
+    function next(): LinkedNode {
         return $this->next;
     }
 

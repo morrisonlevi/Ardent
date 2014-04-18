@@ -111,11 +111,7 @@ class SortedSet extends AbstractSet implements Set {
     }
 
 
-    /**
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return SortedSetIterator
-     */
-    function getIterator() {
+    function getIterator(): SetIterator {
         return new SortedSetIterator($this->bst->getIterator(), $this->count());
     }
 

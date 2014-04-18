@@ -30,10 +30,8 @@ class VectorIterator extends IteratorCollectionAdapter implements CountableSeeka
         $this->getInnerIterator()->seek($index);
     }
 
-    /**
-     * @return \ArrayIterator
-     */
-    function getInnerIterator() {
+
+    function getInnerIterator(): \Iterator {
         return parent::getInnerIterator();
     }
 

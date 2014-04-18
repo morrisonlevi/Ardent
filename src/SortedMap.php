@@ -16,11 +16,13 @@ class SortedMap implements Map {
      */
     private $comparator;
 
+
     function __construct($comparator = NULL) {
         $this->comparator = $comparator ?: '\Collections\compare';
 
         $this->avl = new SplayTree([$this, 'compareKeys']);
     }
+
 
     function compareKeys(Pair $a, Pair $b) {
         return call_user_func($this->comparator, $a->first, $b->first);
@@ -33,6 +35,7 @@ class SortedMap implements Map {
     function clear() {
         $this->avl->clear();
     }
+
 
     /**
      * @param mixed $item
@@ -57,12 +60,14 @@ class SortedMap implements Map {
         return FALSE;
     }
 
+
     /**
      * @return bool
      */
     function isEmpty() {
         return $this->avl->isEmpty();
     }
+
 
     /** 
      * @return mixed
@@ -72,6 +77,7 @@ class SortedMap implements Map {
         return $this->avl->first();
     }
 
+
     /** 
      * @return mixed
      * @throws EmptyException when the tree is empty
@@ -79,6 +85,7 @@ class SortedMap implements Map {
     function last() {
         return $this->avl->last();
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
@@ -90,6 +97,7 @@ class SortedMap implements Map {
     function offsetExists($offset) {
         return $this->avl->contains(new Pair($offset, NULL));
     }
+
 
     /**
      * @param mixed $offset
@@ -105,6 +113,7 @@ class SortedMap implements Map {
         return $this->get($offset);
     }
 
+
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
      *
@@ -117,6 +126,7 @@ class SortedMap implements Map {
         $this->set($offset, $value);
     }
 
+
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
      *
@@ -127,6 +137,7 @@ class SortedMap implements Map {
     function offsetUnset($offset) {
         $this->remove($offset);
     }
+
 
     /**
      * @param $key
@@ -148,6 +159,7 @@ class SortedMap implements Map {
         return $pair->second;
     }
 
+
     /**
      * Note that if the key is considered equal to an already existing key in
      * the map that it's value will be replaced with the new one.
@@ -162,6 +174,7 @@ class SortedMap implements Map {
         $this->avl->add(new Pair($key, $value));
     }
 
+
     /**
      * @param $key
      *
@@ -172,6 +185,7 @@ class SortedMap implements Map {
         $this->avl->remove(new Pair($key, NULL));
     }
 
+
     /**
      * @link http://php.net/manual/en/countable.count.php
      * @return int
@@ -180,14 +194,13 @@ class SortedMap implements Map {
         return $this->avl->count();
     }
 
-    /**
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return SortedMapIterator
-     */
-    function getIterator() {
+
+    function getIterator(): MapIterator {
         return new SortedMapIterator(
             new InOrderIterator($this->avl->toBinaryTree(), $this->avl->count()),
             $this->avl->count()
         );
     }
+
+
 }

@@ -192,7 +192,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @param callable $map
      * @return Vector
      */
-    function map(callable $map) {
+    function map(callable $map): Vector {
         $vector = new self();
         $vector->appendAll($this->getIterator()->map($map));
         return $vector;
@@ -203,16 +203,16 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return VectorIterator
      */
-    function getIterator() {
+    function getIterator(): VectorIterator {
         return new VectorIterator($this);
     }
 
 
     /**
      * @param int $n
-     * @return Enumerator
+     * @return Vector
      */
-    function limit($n) {
+    function limit($n): Vector {
         $v = new Vector();
         $v->array = array_slice($this->array, 0, $n);
         return $v;
@@ -223,7 +223,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @param int $n
      * @return Vector
      */
-    function skip($n) {
+    function skip($n): Vector {
         $v = new Vector();
         $v->array = array_slice($this->array, $n);
         return $v;
@@ -235,17 +235,14 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @param int $count
      * @return Vector
      */
-    function slice($start, $count) {
+    function slice($start, $count): Vector {
         $v = new Vector();
         $v->array = array_slice($this->array, $start, $count);
         return $v;
     }
 
 
-    /**
-     * @return array
-     */
-    function toArray() {
+    function toArray(): array {
        return $this->array;
     }
 
@@ -260,31 +257,21 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
     }
 
 
-    /**
-     * @param callable $filter
-     * @return Vector
-     */
-    function filter(callable $filter) {
+    function filter(callable $filter): Vector {
         $vector = new self();
         $vector->appendAll($this->getIterator()->filter($filter));
         return $vector;
     }
 
 
-    /**
-     * @return Vector
-     */
-    function keys() {
+    function keys(): Vector {
         $vector = new Vector();
         $vector->appendAll($this->getIterator()->keys());
         return $vector;
     }
 
 
-    /**
-     * @return Vector
-     */
-    function values() {
+    function values(): Vector {
         return $this;
     }
 

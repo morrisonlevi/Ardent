@@ -141,10 +141,7 @@ class SplayTree implements BinarySearchTree {
     }
 
 
-    /**
-     * @return BinaryTreeIterator
-     */
-    function getIterator() {
+    function getIterator(): BinaryTreeIterator {
         $root = $this->copyNode($this->root);
         return new InOrderIterator($root, 0);
     }

@@ -28,13 +28,10 @@ class LinkedQueue implements Queue {
     }
 
 
-    /**
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return QueueIterator
-     */
-    function getIterator() {
+    function getIterator(): QueueIterator {
         return new LinkedQueueIterator($this->size, $this->head);
     }
+
 
 
     /**

@@ -21,19 +21,22 @@ class BinaryTree {
         $this->value = $value;
     }
 
+
     /**
-     * @return BinaryTree
+     * @return BinaryTree|null
      */
     function right() {
         return $this->right;
     }
 
+
     /**
-     * @return BinaryTree
+     * @return BinaryTree|null
      */
     function left() {
         return $this->left;
     }
+
 
     /**
      * @param BinaryTree $node
@@ -44,6 +47,7 @@ class BinaryTree {
         $this->recalculateHeight();
     }
 
+
     /**
      * @param BinaryTree $node
      * @return void
@@ -53,12 +57,14 @@ class BinaryTree {
         $this->recalculateHeight();
     }
 
+
     /**
      * @return int
      */
     function height() {
         return $this->height;
     }
+
 
     /**
      * @return int
@@ -67,6 +73,7 @@ class BinaryTree {
         return $this->left === NULL ? 0 : $this->left->height();
     }
 
+
     /**
      * @return int
      */
@@ -74,12 +81,14 @@ class BinaryTree {
         return $this->right === NULL ? 0 : $this->right->height();
     }
 
+
     /**
      * @return mixed
      */
     function value() {
         return $this->value;
     }
+
 
     /**
      * @param mixed $value
@@ -89,21 +98,24 @@ class BinaryTree {
         $this->value = $value;
     }
 
+
     function recalculateHeight() {
         $this->height = max($this->leftHeight(), $this->rightHeight()) + 1;
     }
+
 
     /**
      * Note that this function is only safe to call when it has a predecessor.
      * @return BinaryTree
      */
-    function inOrderPredecessor() {
+    function inOrderPredecessor(): BinaryTree {
         $current = $this->left();
         while ($current->right() !== NULL) {
             $current = $current->right();
         }
         return $current;
     }
+
 
     function __clone() {
         $this->left = $this->left === NULL
@@ -114,5 +126,6 @@ class BinaryTree {
             ? NULL
             : clone $this->right;
     }
+
 
 }

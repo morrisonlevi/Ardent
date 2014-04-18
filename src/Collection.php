@@ -9,23 +9,15 @@ interface Collection extends \Traversable {
      */
     function isEmpty();
 
-    /**
-     * @param callable $map
-     * @return Collection
-     */
-    function map(callable $map);
+    function map(callable $map): Collection;
 
-    /**
-     * @param callable $filter
-     * @return Collection
-     */
-    function filter(callable $filter);
+    function filter(callable $filter): Collection;
 
     /**
      * @param int $n
      * @return Collection
      */
-    function limit($n);
+    function limit($n): Collection;
 
     /**
      * @param $initialValue
@@ -38,29 +30,26 @@ interface Collection extends \Traversable {
      * @param int $n
      * @return Collection
      */
-    function skip($n);
+    function skip($n): Collection;
 
     /**
      * @param int $start
      * @param int $count
      * @return Collection
      */
-    function slice($start, $count);
+    function slice($start, $count): Collection;
 
-    /**
-     * Note that if you attempt to use keys that are not valid as a PHP array key then you will get errors.
-     * @return array
-     */
-    function toArray();
+
+    function toArray(): array;
 
     /**
      * @return Collection containing the keys as the values
      */
-    function keys();
+    function keys(): Collection;
 
     /**
      * @return Collection containing the values but ignores keys
      */
-    function values();
+    function values(): Collection;
 
 } 

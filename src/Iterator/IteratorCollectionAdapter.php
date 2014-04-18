@@ -11,13 +11,16 @@ class IteratorCollectionAdapter implements Enumerator, \OuterIterator {
      */
     protected $inner;
 
+
     function __construct(\Iterator $Iterator) {
         $this->inner = $Iterator;
     }
 
-    function getInnerIterator() {
+
+    function getInnerIterator(): \Iterator {
         return $this->inner;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
@@ -27,6 +30,7 @@ class IteratorCollectionAdapter implements Enumerator, \OuterIterator {
         return $this->inner->current();
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.next.php
      * @return void
@@ -34,6 +38,7 @@ class IteratorCollectionAdapter implements Enumerator, \OuterIterator {
     function next() {
         $this->inner->next();
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
@@ -43,6 +48,7 @@ class IteratorCollectionAdapter implements Enumerator, \OuterIterator {
         return $this->inner->key();
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean
@@ -51,6 +57,7 @@ class IteratorCollectionAdapter implements Enumerator, \OuterIterator {
         return $this->inner->valid();
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void
@@ -58,5 +65,6 @@ class IteratorCollectionAdapter implements Enumerator, \OuterIterator {
     function rewind() {
         $this->inner->rewind();
     }
+
 
 }

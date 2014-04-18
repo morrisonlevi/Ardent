@@ -4,15 +4,14 @@ namespace Collections;
 
 trait IteratorCollection /* implements \Collections\Collection */ {
 
-    /**
-     * @return \Iterator
-     */
-    private function asIterator() {
+
+    private function asIterator(): \Iterator {
         if ($this instanceof \IteratorAggregate) {
             return $this->getIterator();
         }
         return $this;
     }
+
 
     /**
      * @return bool
@@ -23,19 +22,21 @@ trait IteratorCollection /* implements \Collections\Collection */ {
         return !$i->valid();
     }
 
+
     /**
      * @param callable $map
      * @return Enumerator
      */
-    function map(callable $map) {
+    function map(callable $map): Enumerator {
         return new MappingIterator($this->asIterator(), $map);
     }
+
 
     /**
      * @param callable $filter
      * @return Enumerator
      */
-    function filter(callable $filter) {
+    function filter(callable $filter): Enumerator {
         return new FilteringIterator($this->asIterator(), $filter);
     }
 
@@ -44,7 +45,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @param int $n
      * @return Enumerator
      */
-    function limit($n) {
+    function limit($n): Enumerator {
         return new LimitingIterator($this->asIterator(), $n);
     }
 
@@ -65,7 +66,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @param int $n
      * @return Enumerator
      */
-    function skip($n) {
+    function skip($n): Enumerator {
         return new SkippingIterator($this->asIterator(), $n);
     }
 
@@ -74,22 +75,22 @@ trait IteratorCollection /* implements \Collections\Collection */ {
      * @param int $count
      * @return Enumerator
      */
-    function slice($start, $count) {
+    function slice($start, $count): Enumerator {
         return new SlicingIterator($this->asIterator(), $start, $count);
     }
 
-    /**
-     * @return array
-     */
-    function toArray() {
+
+    function toArray(): array {
         return iterator_to_array($this->asIterator());
     }
 
-    function keys() {
+
+    function keys(): Enumerator {
         return new KeyIterator($this->asIterator());
     }
 
-    function values() {
+
+    function values(): Enumerator {
         return new ValueIterator($this->asIterator());
     }
 

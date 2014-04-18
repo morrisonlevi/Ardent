@@ -5,6 +5,9 @@ namespace Collections;
 interface Set extends \Countable, Enumerable {
 
 
+    function getIterator(): SetIterator;
+
+
     /**
      * Note that if the item is considered equal to an already existing item
      * in the set that it will be replaced.
