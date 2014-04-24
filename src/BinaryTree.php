@@ -7,19 +7,21 @@ class BinaryTree {
     /**
      * @var BinaryTree
      */
-    private $left = NULL;
+    private $left = null;
     /**
      * @var BinaryTree
      */
-    private $right = NULL;
+    private $right = null;
 
     private $value;
 
     private $height = 1;
 
+
     function __construct($value) {
         $this->value = $value;
     }
+
 
     /**
      * @return BinaryTree
@@ -28,6 +30,7 @@ class BinaryTree {
         return $this->right;
     }
 
+
     /**
      * @return BinaryTree
      */
@@ -35,23 +38,26 @@ class BinaryTree {
         return $this->left;
     }
 
-    /**
-     * @param BinaryTree $node
-     * @return void
-     */
-    function setRight(BinaryTree $node = NULL) {
-        $this->right = $node;
-        $this->recalculateHeight();
-    }
 
     /**
      * @param BinaryTree $node
      * @return void
      */
-    function setLeft(BinaryTree $node = NULL) {
+    function setRight(BinaryTree $node = null) {
+        $this->right = $node;
+        $this->recalculateHeight();
+    }
+
+
+    /**
+     * @param BinaryTree $node
+     * @return void
+     */
+    function setLeft(BinaryTree $node = null) {
         $this->left = $node;
         $this->recalculateHeight();
     }
+
 
     /**
      * @return int
@@ -60,19 +66,26 @@ class BinaryTree {
         return $this->height;
     }
 
+
     /**
      * @return int
      */
     function leftHeight() {
-        return $this->left === NULL ? 0 : $this->left->height();
+        return $this->left === null
+            ? 0
+            : $this->left->height();
     }
+
 
     /**
      * @return int
      */
     function rightHeight() {
-        return $this->right === NULL ? 0 : $this->right->height();
+        return $this->right === null
+            ? 0
+            : $this->right->height();
     }
+
 
     /**
      * @return mixed
@@ -80,6 +93,7 @@ class BinaryTree {
     function value() {
         return $this->value;
     }
+
 
     /**
      * @param mixed $value
@@ -89,9 +103,11 @@ class BinaryTree {
         $this->value = $value;
     }
 
+
     function recalculateHeight() {
         $this->height = max($this->leftHeight(), $this->rightHeight()) + 1;
     }
+
 
     /**
      * Note that this function is only safe to call when it has a predecessor.
@@ -99,19 +115,20 @@ class BinaryTree {
      */
     function inOrderPredecessor() {
         $current = $this->left();
-        while ($current->right() !== NULL) {
+        while ($current->right() !== null) {
             $current = $current->right();
         }
         return $current;
     }
 
+
     function __clone() {
-        $this->left = $this->left === NULL
-            ? NULL
+        $this->left = $this->left === null
+            ? null
             : clone $this->left;
 
-        $this->right = $this->right === NULL
-            ? NULL
+        $this->right = $this->right === null
+            ? null
             : clone $this->right;
     }
 

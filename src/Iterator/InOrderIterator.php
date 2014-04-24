@@ -19,7 +19,7 @@ class InOrderIterator implements BinaryTreeIterator {
     /**
      * @var int
      */
-    protected $key = NULL;
+    protected $key = null;
 
     /**
      * @var BinaryTree
@@ -28,10 +28,12 @@ class InOrderIterator implements BinaryTreeIterator {
 
     private $size = 0;
 
-    function __construct(BinaryTree $root = NULL, $count = 0) {
+
+    function __construct(BinaryTree $root = null, $count = 0) {
         $this->root = $root;
         $this->size = $count;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
@@ -40,6 +42,7 @@ class InOrderIterator implements BinaryTreeIterator {
     function current() {
         return $this->node->value();
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.next.php
@@ -52,19 +55,20 @@ class InOrderIterator implements BinaryTreeIterator {
         $node = $this->stack->pop();
 
         $right = $node->right();
-        if ($right !== NULL) {
+        if ($right !== null) {
             // left-most branch of the right side
             $this->pushLeft($right);
         }
 
         if ($this->stack->isEmpty()) {
-            $this->node = NULL;
+            $this->node = null;
             return;
         }
         $this->node = $this->stack->last();
 
         $this->key++;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
@@ -74,13 +78,15 @@ class InOrderIterator implements BinaryTreeIterator {
         return $this->key;
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean
      */
     function valid() {
-        return $this->node !== NULL;
+        return $this->node !== null;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
@@ -97,13 +103,14 @@ class InOrderIterator implements BinaryTreeIterator {
         }
     }
 
+
     function count() {
         return $this->size;
     }
 
 
     private function pushLeft(BinaryTree $n = null) {
-        for ($current = $n; $current !== NULL; $current = $current->left()) {
+        for ($current = $n; $current !== null; $current = $current->left()) {
             $this->stack->push($current);
         }
     }

@@ -17,6 +17,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(2, $tree);
     }
 
+
     function testAddLeft() {
         $tree = new SplayTree();
         $tree->add(1);
@@ -27,6 +28,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertBinaryTree($root);
         $this->assertCount(2, $tree);
     }
+
 
     function testAddLeftRight() {
         $tree = new SplayTree();
@@ -40,6 +42,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(3, $tree);
     }
 
+
     function testAddRightRight() {
         $tree = new SplayTree();
         $tree->add(1);
@@ -51,6 +54,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertBinaryTree($root);
         $this->assertCount(3, $tree);
     }
+
 
     function testAddLeftLeft() {
         $tree = new SplayTree();
@@ -64,6 +68,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(3, $tree);
     }
 
+
     function testAddExisting() {
         $tree = new SplayTree();
         $tree->add(1);
@@ -74,21 +79,23 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(1, $tree);
     }
 
+
     protected function assertBinaryTree(BinaryTree $root) {
         $x = $root->value();
         $left = $root->left();
-        if ($left !== NULL) {
+        if ($left !== null) {
             $y = $root->left()->value();
             $this->assertLessThan($x, $y);
             $this->assertBinaryTree($root->left());
         }
         $right = $root->right();
-        if ($right !== NULL) {
+        if ($right !== null) {
             $y = $right->value();
             $this->assertLessThan($y, $x);
             $this->assertBinaryTree($root->right());
         }
     }
+
 
     function testAddItemThatAlreadyExists() {
         $object = new SplayTree();
@@ -101,6 +108,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expectedRoot, $actualRoot);
 
     }
+
 
     function testContains() {
         $object = new SplayTree();
@@ -122,6 +130,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $actual);
     }
 
+
     function testFindLast() {
         $tree = new SplayTree();
         $tree->add(2);
@@ -132,6 +141,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $actual = $tree->last();
         $this->assertEquals($expected, $actual);
     }
+
 
     function testFindFirst() {
         $tree = new SplayTree();
@@ -144,6 +154,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $actual);
     }
 
+
     /**
      * @expectedException \Collections\LookupException
      */
@@ -151,6 +162,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree = new SplayTree();
         $tree->get(1);
     }
+
 
     /**
      * @expectedException \Collections\LookupException
@@ -160,6 +172,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $tree->add(0);
         $tree->get(1);
     }
+
 
     function testGet() {
         $tree = new SplayTree();
@@ -172,6 +185,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $actual);
     }
 
+
     function testRemove() {
         $tree = new SplayTree();
         $tree->add(1);
@@ -180,6 +194,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(1, $tree);
         $this->assertTrue($tree->contains(1));
     }
+
 
     function testRemoveNonExistent() {
         $tree = new SplayTree();
@@ -203,7 +218,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
 
     function testSetCompare() {
         $tree = new SplayTree();
-        $tree->setCompare(function($a, $b) {
+        $tree->setCompare(function ($a, $b) {
             if ($a < $b) {
                 return 1;
             } elseif ($b < $a) {
@@ -229,7 +244,7 @@ class SplayTreeTest extends \PHPUnit_Framework_TestCase {
     function testSetCompareNotEmpty() {
         $tree = new SplayTree();
         $tree->add(0);
-        $tree->setCompare(function($a, $b) {
+        $tree->setCompare(function ($a, $b) {
 
         });
     }

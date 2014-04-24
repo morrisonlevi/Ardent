@@ -21,11 +21,12 @@ class CollectionTestDriver extends \PHPUnit_Framework_TestCase {
 
         $this->assertCount(4, $a);
 
-        $expect = [0,2,4,6];
+        $expect = [0, 2, 4, 6];
         foreach ($a as $key => $value) {
             $this->assertEquals($expect[$key], $value[0]);
         }
     }
+
 
     /**
      * @param Enumerator $collection
@@ -45,7 +46,7 @@ class CollectionTestDriver extends \PHPUnit_Framework_TestCase {
 
         $b = $collection->slice(0, 2);
         $this->assertCount(2, $b);
-        $expect = [0,1];
+        $expect = [0, 1];
         foreach ($b as $key => $value) {
             $this->assertEquals($expect[$key], $value);
         }
@@ -53,7 +54,7 @@ class CollectionTestDriver extends \PHPUnit_Framework_TestCase {
 
         $c = $collection->slice(1, 2);
         $this->assertCount(2, $c);
-        $expect = [1=>1, 2=>2];
+        $expect = [1 => 1, 2 => 2];
         foreach ($c as $key => $value) {
             $this->assertEquals($expect[$key], $value);
         }
@@ -61,7 +62,7 @@ class CollectionTestDriver extends \PHPUnit_Framework_TestCase {
 
         $d = $collection->slice(0, 6);
         $this->assertCount(4, $d);
-        $expect = [0,1,2,3];
+        $expect = [0, 1, 2, 3];
         foreach ($d as $key => $value) {
             $this->assertEquals($expect[$key], $value);
         }

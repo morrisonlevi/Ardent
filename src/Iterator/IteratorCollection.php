@@ -14,6 +14,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
         return $this;
     }
 
+
     /**
      * @return bool
      */
@@ -23,6 +24,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
         return !$i->valid();
     }
 
+
     /**
      * @param callable $map
      * @return Enumerator
@@ -30,6 +32,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
     function map(callable $map) {
         return new MappingIterator($this->asIterator(), $map);
     }
+
 
     /**
      * @param callable $filter
@@ -48,6 +51,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
         return new LimitingIterator($this->asIterator(), $n);
     }
 
+
     /**
      * @param $initialValue
      * @param callable $combine
@@ -61,6 +65,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
         return $carry;
     }
 
+
     /**
      * @param int $n
      * @return Enumerator
@@ -68,6 +73,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
     function skip($n) {
         return new SkippingIterator($this->asIterator(), $n);
     }
+
 
     /**
      * @param int $start
@@ -78,6 +84,7 @@ trait IteratorCollection /* implements \Collections\Collection */ {
         return new SlicingIterator($this->asIterator(), $start, $count);
     }
 
+
     /**
      * @return array
      */
@@ -85,9 +92,11 @@ trait IteratorCollection /* implements \Collections\Collection */ {
         return iterator_to_array($this->asIterator());
     }
 
+
     function keys() {
         return new KeyIterator($this->asIterator());
     }
+
 
     function values() {
         return new ValueIterator($this->asIterator());

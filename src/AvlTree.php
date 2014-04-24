@@ -10,7 +10,7 @@ class AvlTree implements BinarySearchTree {
     /**
      * @var BinaryTree
      */
-    private $root = NULL;
+    private $root = null;
 
     /**
      * @var callable
@@ -20,16 +20,17 @@ class AvlTree implements BinarySearchTree {
     /**
      * @var BinaryTree
      */
-    private $cache = NULL;
+    private $cache = null;
 
     private $size = 0;
 
     private $deleteOptions;
 
+
     /**
      * @param callable $comparator
      */
-    function __construct(callable $comparator = NULL) {
+    function __construct(callable $comparator = null) {
         $this->comparator = $comparator ?: '\Collections\compare';
         $this->deleteOptions = [
             0b000 => [$this, 'doNothing'],
@@ -45,7 +46,7 @@ class AvlTree implements BinarySearchTree {
      */
     function add($element) {
         $this->root = $this->addRecursive($element, $this->root);
-        $this->cache = NULL;
+        $this->cache = null;
     }
 
 
@@ -54,7 +55,7 @@ class AvlTree implements BinarySearchTree {
      */
     function remove($element) {
         $this->root = $this->removeRecursive($element, $this->root);
-        $this->cache = NULL;
+        $this->cache = null;
     }
 
 
@@ -77,9 +78,9 @@ class AvlTree implements BinarySearchTree {
      * @return BinaryTree A copy of the current BinaryTree
      */
     function toBinaryTree() {
-        return $this->root !== NULL
+        return $this->root !== null
             ? clone $this->root
-            : NULL;
+            : null;
     }
 
 
@@ -87,7 +88,7 @@ class AvlTree implements BinarySearchTree {
      * @return void
      */
     function clear() {
-        $this->root = NULL;
+        $this->root = null;
         $this->size = 0;
     }
 
@@ -127,7 +128,7 @@ class AvlTree implements BinarySearchTree {
      * @return bool
      */
     function isEmpty() {
-        return $this->root === NULL;
+        return $this->root === null;
     }
 
 
@@ -150,8 +151,8 @@ class AvlTree implements BinarySearchTree {
 
 
     function __clone() {
-        $this->root = $this->root === NULL
-            ? NULL
+        $this->root = $this->root === null
+            ? null
             : clone $this->root;
     }
 
@@ -162,7 +163,7 @@ class AvlTree implements BinarySearchTree {
      * @throws StateException when the tree is not empty
      */
     function setCompare(callable $f) {
-        if ($this->root !== NULL) {
+        if ($this->root !== null) {
             throw new StateException('Cannot set compare function when the BinarySearchTree is not empty');
         }
         $this->comparator = $f;
@@ -175,9 +176,9 @@ class AvlTree implements BinarySearchTree {
      *
      * @return BinaryTree
      */
-    protected function addRecursive($element, BinaryTree $node = NULL) {
+    protected function addRecursive($element, BinaryTree $node = null) {
         $nullAction = [$this, 'createTree'];
-        $matchAction = function(BinaryTree $n) use($element) {
+        $matchAction = function (BinaryTree $n) use ($element) {
             $n->setValue($element);
             return $n;
         };
@@ -191,7 +192,7 @@ class AvlTree implements BinarySearchTree {
      *
      * @return BinaryTree
      */
-    protected function removeRecursive($element, BinaryTree $node = NULL) {
+    protected function removeRecursive($element, BinaryTree $node = null) {
         $nullAction = [$this, 'doNothing'];
         $matchAction = [$this, 'deleteNode'];
         return $this->doRecursive($nullAction, $matchAction, $element, $node);
@@ -199,7 +200,7 @@ class AvlTree implements BinarySearchTree {
 
 
     private function doRecursive($nullAction, $matchAction, $element, BinaryTree $node = null) {
-        if ($node === NULL) {
+        if ($node === null) {
             return $nullAction($element);
         }
 
@@ -233,9 +234,9 @@ class AvlTree implements BinarySearchTree {
      *
      * @return BinaryTree
      */
-    protected function balance(BinaryTree $node = NULL) {
-        if ($node === NULL) {
-            return NULL;
+    protected function balance(BinaryTree $node = null) {
+        if ($node === null) {
+            return null;
         }
 
         $diff = $node->leftHeight() - $node->rightHeight();
@@ -307,8 +308,8 @@ class AvlTree implements BinarySearchTree {
     }
 
 
-    private function findNode($element, BinaryTree $context = NULL) {
-        while ($context !== NULL) {
+    private function findNode($element, BinaryTree $context = null) {
+        while ($context !== null) {
             $comparisonResult = call_user_func($this->comparator, $element, $context->value());
 
             if ($comparisonResult < 0) {
@@ -324,7 +325,9 @@ class AvlTree implements BinarySearchTree {
 
 
     private function farthest($direction, BinaryTree $context) {
-        for ($node = $context; $node->$direction() !== NULL; $node = $node->$direction());
+        for ($node = $context; $node->$direction() !== null; $node = $node->$direction()) {
+            ;
+        }
         return $node->value();
     }
 
@@ -346,14 +349,14 @@ class AvlTree implements BinarySearchTree {
      */
     private function deleteSelectState(BinaryTree $node) {
         $state = 0;
-        $state |= ($node->right() != NULL) << 0;
-        $state |= ($node->left() != NULL) << 1;
+        $state |= ($node->right() != null) << 0;
+        $state |= ($node->left() != null) << 1;
         return $state;
     }
 
 
     private function deleteSelect($direction) {
-        return function(BinaryTree $node) use ($direction) {
+        return function (BinaryTree $node) use ($direction) {
             $d = $node->$direction();
             unset($node);
             return $d;

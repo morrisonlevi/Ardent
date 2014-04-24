@@ -12,6 +12,7 @@ interface Map extends \ArrayAccess, \Countable, Enumerable {
      */
     function get($key);
 
+
     /**
      * Store a value into the Map with the specified key, overwriting a previous value if already present.
      *
@@ -21,6 +22,7 @@ interface Map extends \ArrayAccess, \Countable, Enumerable {
      * @return void
      */
     function set($key, $value);
+
 
     /**
      * @param $key

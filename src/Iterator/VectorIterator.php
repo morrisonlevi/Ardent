@@ -9,6 +9,7 @@ class VectorIterator extends IteratorCollectionAdapter implements CountableSeeka
         $this->rewind();
     }
 
+
     /**
      * @link http://php.net/manual/en/countable.count.php
      * @return int
@@ -16,6 +17,7 @@ class VectorIterator extends IteratorCollectionAdapter implements CountableSeeka
     function count() {
         return $this->getInnerIterator()->count();
     }
+
 
     /**
      * @param int $index
@@ -29,6 +31,7 @@ class VectorIterator extends IteratorCollectionAdapter implements CountableSeeka
         }
         $this->getInnerIterator()->seek($index);
     }
+
 
     /**
      * @return \ArrayIterator

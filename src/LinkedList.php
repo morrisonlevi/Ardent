@@ -242,7 +242,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
             case 0:
                 $n = $this->seekHead();
                 break;
-            case $this->size-1:
+            case $this->size - 1:
                 $n = $this->seekTail();
                 break;
 
@@ -261,7 +261,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     function indexOf($value, callable $f = null) {
         $equal = $f ?: '\Collections\equal';
 
-        $filter = $this->filter(function($item) use ($equal, $value) {
+        $filter = $this->filter(function ($item) use ($equal, $value) {
             return $equal($item, $value);
         });
 
@@ -376,7 +376,9 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
      */
     private function seekTo($offset) {
         $diff = $this->offset - $offset;
-        $action = $diff < 0 ? 'forward' : 'backward';
+        $action = $diff < 0
+            ? 'forward'
+            : 'backward';
         $n = abs($diff);
         for ($i = 0; $i < $n; $i++) {
             $this->$action();

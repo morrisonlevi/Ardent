@@ -85,7 +85,8 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
         $iterator = new ArrayIterator([0]);
         $this->assertInstanceOf(
             'Collections\\MappingIterator',
-            $iterator->map(function() {})
+            $iterator->map(function () {
+            })
         );
     }
 
@@ -153,7 +154,8 @@ class ArrayIteratorTest extends \PHPUnit_Framework_TestCase {
         $iterator = new ArrayIterator([0]);
         $this->assertInstanceOf(
             'Collections\\FilteringIterator',
-            $iterator->filter(function () {})
+            $iterator->filter(function () {
+            })
         );
     }
 

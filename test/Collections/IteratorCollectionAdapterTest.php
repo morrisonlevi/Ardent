@@ -32,7 +32,8 @@ class IteratorCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
         $iterator = new IteratorCollectionAdapter(new ArrayIterator([0]));
         $this->assertInstanceOf(
             'Collections\\MappingIterator',
-            $iterator->map(function() {})
+            $iterator->map(function () {
+            })
         );
     }
 
@@ -79,16 +80,17 @@ class IteratorCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
         $iterator = new IteratorCollectionAdapter(new ArrayIterator([0]));
         $this->assertInstanceOf(
             'Collections\\FilteringIterator',
-            $iterator->filter(function () {})
+            $iterator->filter(function () {
+            })
         );
     }
 
 
     function testValuesArray() {
-        $array = [1,2,3];
+        $array = [1, 2, 3];
         $iterator = new IteratorCollectionAdapter(new ArrayIterator($array));
 
-        $this->assertEquals([1,2,3], $iterator->values()->toArray());
+        $this->assertEquals([1, 2, 3], $iterator->values()->toArray());
     }
 
 
@@ -96,15 +98,15 @@ class IteratorCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
         $array = ['one' => 1, 'two' => 2, 'three' => 3];
         $iterator = new IteratorCollectionAdapter(new ArrayIterator($array));
 
-        $this->assertEquals([1,2,3], $iterator->values()->toArray());
+        $this->assertEquals([1, 2, 3], $iterator->values()->toArray());
     }
 
 
     function testKeysArray() {
-        $array = [1,2,3];
+        $array = [1, 2, 3];
         $iterator = new IteratorCollectionAdapter(new ArrayIterator($array));
 
-        $this->assertEquals([0,1,2], $iterator->keys()->toArray());
+        $this->assertEquals([0, 1, 2], $iterator->keys()->toArray());
     }
 
 

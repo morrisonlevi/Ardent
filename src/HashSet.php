@@ -11,7 +11,7 @@ class HashSet extends AbstractSet implements Set {
     /**
      * @var callable
      */
-    private $hashFunction = NULL;
+    private $hashFunction = null;
 
 
     /**
@@ -19,7 +19,7 @@ class HashSet extends AbstractSet implements Set {
      *
      * @return HashSet
      */
-    function __construct(callable $hashFunction = NULL) {
+    function __construct(callable $hashFunction = null) {
         $this->hashFunction = $hashFunction ?: '\Collections\hash';
     }
 
@@ -109,7 +109,7 @@ class HashSet extends AbstractSet implements Set {
     }
 
 
-    private function hashGuard($hash){
+    private function hashGuard($hash) {
         if (!is_scalar($hash)) {
             throw new FunctionException(
                 'Hashing function must return a scalar value'

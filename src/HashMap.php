@@ -11,13 +11,15 @@ class HashMap implements Map {
     /**
      * @var callable
      */
-    private $hashFunction = NULL;
+    private $hashFunction = null;
+
 
     /**
      * @param callable $hashingFunction
      */
-    function __construct(callable $hashingFunction = NULL) {
-        $this->hashFunction = $hashingFunction ?: '\Collections\hash';
+    function __construct(callable $hashingFunction = null) {
+        $this->hashFunction = $hashingFunction
+            ?: '\Collections\hash';
     }
 
 
@@ -28,6 +30,7 @@ class HashMap implements Map {
         return empty($this->storage);
     }
 
+
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return HashMapIterator
@@ -35,6 +38,7 @@ class HashMap implements Map {
     function getIterator() {
         return new HashMapIterator($this->storage);
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
@@ -44,6 +48,7 @@ class HashMap implements Map {
     function offsetExists($offset) {
         return array_key_exists(call_user_func($this->hashFunction, $offset), $this->storage);
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
@@ -64,6 +69,7 @@ class HashMap implements Map {
         return $pair->second;
     }
 
+
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
      * @param mixed $offset
@@ -74,6 +80,7 @@ class HashMap implements Map {
         $hash = call_user_func($this->hashFunction, $offset);
         $this->storage[$hash] = new Pair($offset, $value);
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
@@ -87,9 +94,11 @@ class HashMap implements Map {
         }
     }
 
+
     function areEqual($a, $b) {
         return $a === $b;
     }
+
 
     /**
      * @param $item
@@ -98,21 +107,22 @@ class HashMap implements Map {
      * @return bool
      * @throws TypeException when $item is not the correct type.
      */
-    function contains($item, callable $comparator = NULL) {
+    function contains($item, callable $comparator = null) {
         $compare = $comparator ?: [$this, 'areEqual'];
 
         $storage = $this->storage;
-        for (reset($storage); key($storage) !== NULL; next($storage)) {
+        for (reset($storage); key($storage) !== null; next($storage)) {
             /**
              * @var Pair $pair
              */
             $pair = current($storage);
             if (call_user_func($compare, $item, $pair->second)) {
-                return TRUE;
+                return true;
             }
         }
-        return FALSE;
+        return false;
     }
+
 
     /**
      * @param $key
@@ -124,6 +134,7 @@ class HashMap implements Map {
     function get($key) {
         return $this->offsetGet($key);
     }
+
 
     /**
      * Note that if the key is considered equal to an already existing key in
@@ -139,6 +150,7 @@ class HashMap implements Map {
         $this->offsetSet($key, $value);
     }
 
+
     /**
      * @param $key
      *
@@ -148,6 +160,7 @@ class HashMap implements Map {
     function remove($key) {
         $this->offsetUnset($key);
     }
+
 
     /**
      * @link http://php.net/manual/en/countable.count.php

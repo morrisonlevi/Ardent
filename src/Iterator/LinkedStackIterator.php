@@ -14,7 +14,7 @@ class LinkedStackIterator implements StackIterator {
     /**
      * @var int
      */
-    private $key = NULL;
+    private $key = null;
 
     /**
      * @var Pair
@@ -26,14 +26,16 @@ class LinkedStackIterator implements StackIterator {
      */
     private $top;
 
+
     /**
      * @param int $count
      * @param Pair $top
      */
-    function __construct($count, Pair $top = NULL) {
+    function __construct($count, Pair $top = null) {
         $this->pair = $this->top = $top;
         $this->count = $count;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
@@ -41,18 +43,20 @@ class LinkedStackIterator implements StackIterator {
      */
     function rewind() {
         $this->pair = $this->top;
-        if ($this->pair !== NULL) {
+        if ($this->pair !== null) {
             $this->key = 0;
         }
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean
      */
     function valid() {
-        return $this->pair !== NULL;
+        return $this->pair !== null;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
@@ -62,6 +66,7 @@ class LinkedStackIterator implements StackIterator {
         return $this->key;
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed
@@ -69,6 +74,7 @@ class LinkedStackIterator implements StackIterator {
     function current() {
         return $this->pair->first;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.next.php
@@ -78,6 +84,7 @@ class LinkedStackIterator implements StackIterator {
         $this->pair = $this->pair->second;
         $this->key++;
     }
+
 
     /**
      * @link http://php.net/manual/en/countable.count.php

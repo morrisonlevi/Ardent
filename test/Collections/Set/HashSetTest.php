@@ -15,6 +15,7 @@ class HashSetTest extends SetTest {
         return new HashSet();
     }
 
+
     function test_has() {
         $set = $this->instance();
 
@@ -45,7 +46,7 @@ class HashSetTest extends SetTest {
         $set->add($array);
         $this->assertTrue($set->has($array));
 
-        $null = NULL;
+        $null = null;
 
         $this->assertFalse($set->has($null));
         $set->add($null);
@@ -57,7 +58,9 @@ class HashSetTest extends SetTest {
     function test_has_badHashingFunction_throwsException() {
         $this->setExpectedException('\Collections\FunctionException');
 
-        $obj = new HashSet(function($item) {return array($item);});
+        $obj = new HashSet(function ($item) {
+            return array($item);
+        });
         $obj->has($obj);
     }
 
@@ -65,7 +68,9 @@ class HashSetTest extends SetTest {
     function test_add_badHashingFunction_throwsException() {
         $this->setExpectedException('\Collections\FunctionException');
 
-        $obj = new HashSet(function($item) {return array($item);});
+        $obj = new HashSet(function ($item) {
+            return array($item);
+        });
         $obj->add($obj);
     }
 
@@ -76,7 +81,9 @@ class HashSetTest extends SetTest {
     function test_remove_badHashingFunction_throwsException() {
         $this->setExpectedException('\Collections\FunctionException');
 
-        $obj = new HashSet(function($item) {return array($item);});
+        $obj = new HashSet(function ($item) {
+            return array($item);
+        });
         $obj->remove($obj);
     }
 

@@ -21,8 +21,9 @@ class SplayTree implements BinarySearchTree {
     private $size = 0;
 
 
-    function __construct(callable $comparator = NULL) {
-        $this->comparator = $comparator ? : '\Collections\compare';
+    function __construct(callable $comparator = null) {
+        $this->comparator = $comparator
+            ?: '\Collections\compare';
         $this->header = new SplayNode(null);
     }
 
@@ -33,7 +34,7 @@ class SplayTree implements BinarySearchTree {
      * @throws StateException when the tree is not empty
      */
     function setCompare(callable $f) {
-        if ($this->root !== NULL) {
+        if ($this->root !== null) {
             throw new StateException;
         }
         $this->comparator = $f;
@@ -64,7 +65,7 @@ class SplayTree implements BinarySearchTree {
      * @param mixed $value the item to remove.
      */
     function remove($value) {
-        if ($this->root === NULL) {
+        if ($this->root === null) {
             return;
         }
         $this->removeImpl($value);
@@ -113,7 +114,7 @@ class SplayTree implements BinarySearchTree {
      */
     function contains($item) {
         if ($this->root == null) {
-            return FALSE;
+            return false;
         }
         $this->splay($item);
         return call_user_func($this->comparator, $this->root->value, $item) === 0;
@@ -135,7 +136,7 @@ class SplayTree implements BinarySearchTree {
 
 
     function clear() {
-        $this->root = NULL;
+        $this->root = null;
         $this->header = new SplayNode(null);
         $this->size = 0;
     }
@@ -161,8 +162,7 @@ class SplayTree implements BinarySearchTree {
             $n->left = $this->root->left;
             $n->right = $this->root;
             $this->root->left = null;
-        }
-        else {
+        } else {
             $n->right = $this->root->right;
             $n->left = $this->root;
             $this->root->right = null;
@@ -180,8 +180,7 @@ class SplayTree implements BinarySearchTree {
         $this->size--;
         if ($this->root->left == null) {
             $this->root = $this->root->right;
-        }
-        else {
+        } else {
             $x = $this->root->right;
             $this->root = $this->root->left;
             $this->splay($value);
@@ -202,15 +201,17 @@ class SplayTree implements BinarySearchTree {
      * @return SplayNode
      */
     private function farthest($direction, SplayNode $context) {
-        for ($n = $context; $n->$direction != null; $n = $n->$direction);
+        for ($n = $context; $n->$direction != null; $n = $n->$direction) {
+            ;
+        }
         $this->splay($n->value);
         return $n->value;
     }
 
 
-    private function copyNode(SplayNode $n = NULL) {
-        if ($n === NULL) {
-            return NULL;
+    private function copyNode(SplayNode $n = null) {
+        if ($n === null) {
+            return null;
         }
         $new = new BinaryTree($n->value);
         $new->setLeft($this->copyNode($n->left));
@@ -273,12 +274,13 @@ class SplayTree implements BinarySearchTree {
 
     private function splay_loop($value, $t, $r, $l) {
         $continue = false;
-        $result = call_user_func($this->comparator, $value, $t->value) ;
+        $result = call_user_func($this->comparator, $value, $t->value);
         if ($result < 0) {
             list($continue, $t, $r) = $this->splay_rotate('left', 'rotateRight', $value, $t, $r);
-        }
-        else if ($result > 0) {
-            list($continue, $t, $l) = $this->splay_rotate('right', 'rotateLeft', $value, $t, $l);
+        } else {
+            if ($result > 0) {
+                list($continue, $t, $l) = $this->splay_rotate('right', 'rotateLeft', $value, $t, $l);
+            }
         }
         return [$continue, $t, $r, $l];
     }

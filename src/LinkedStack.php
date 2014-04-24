@@ -14,12 +14,14 @@ class LinkedStack implements Stack {
 
     private $size = 0;
 
+
     /**
      * @return bool
      */
     function isEmpty() {
-        return $this->top === NULL;
+        return $this->top === null;
     }
+
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
@@ -29,13 +31,14 @@ class LinkedStack implements Stack {
         return new LinkedStackIterator($this->size, $this->clonePair($this->top));
     }
 
-    private function clonePair(Pair $pair = NULL) {
-        if ($pair === NULL) {
-            return NULL;
+
+    private function clonePair(Pair $pair = null) {
+        if ($pair === null) {
+            return null;
         }
 
         $new = new Pair($pair->first, $pair->second);
-        for ($current = $new; $current->second !== NULL; $current = $current->second) {
+        for ($current = $new; $current->second !== null; $current = $current->second) {
             $current->second = new Pair(
                 $current->second->first,
                 $current->second->second
@@ -44,6 +47,7 @@ class LinkedStack implements Stack {
         return $new;
     }
 
+
     /**
      * @link http://php.net/manual/en/countable.count.php
      * @return int
@@ -51,6 +55,7 @@ class LinkedStack implements Stack {
     function count() {
         return $this->size;
     }
+
 
     /**
      * @param mixed $object
@@ -63,6 +68,7 @@ class LinkedStack implements Stack {
         $this->top = new Pair($object, $this->top);
         $this->size++;
     }
+
 
     /**
      * @throws EmptyException if the Stack is empty.
@@ -77,6 +83,7 @@ class LinkedStack implements Stack {
         return $value;
     }
 
+
     /**
      * @throws EmptyException if the Stack is empty.
      * @return mixed
@@ -88,7 +95,7 @@ class LinkedStack implements Stack {
 
 
     function clear() {
-        $this->top = NULL;
+        $this->top = null;
         $this->size = 0;
     }
 
@@ -99,7 +106,7 @@ class LinkedStack implements Stack {
     function toArray() {
         $a = [];
         $current = $this->top;
-        while ($current !== NULL) {
+        while ($current !== null) {
             $a[] = $current->first;
             $current = $current->second;
         }

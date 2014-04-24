@@ -39,6 +39,7 @@ abstract class AbstractSet implements Set {
         return $difference;
     }
 
+
     /**
      * Creates a new set that contains the items that are in current set that
      * are also contained in the provided set.
@@ -99,6 +100,7 @@ abstract class AbstractSet implements Set {
 
         return $union;
     }
+
 
     private function for_each(\Traversable $i, callable $f) {
         foreach ($i as $item) {

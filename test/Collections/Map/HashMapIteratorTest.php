@@ -26,7 +26,7 @@ class HashMapIteratorTest extends TestCase {
 
 
     /**
-     * @depends test_getIterator_any_returnsCorrectInstance
+     * @depends      test_getIterator_any_returnsCorrectInstance
      * @dataProvider provide_rangeZeroToN
      */
     function testCount_containsN_returnsN(array $data) {
@@ -42,7 +42,7 @@ class HashMapIteratorTest extends TestCase {
 
 
     /**
-     * @depends test_getIterator_any_returnsCorrectInstance
+     * @depends      test_getIterator_any_returnsCorrectInstance
      * @dataProvider provide_rangeZeroToN
      */
     function test_containsN_returnsKeyValuePairCorrectly($dataToAdd) {

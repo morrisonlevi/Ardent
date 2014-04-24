@@ -11,6 +11,7 @@ class LimitingIterator extends IteratorCollectionAdapter {
 
     private $used = 0;
 
+
     /**
      * @param \Iterator $iterator
      * @param int $n
@@ -20,6 +21,7 @@ class LimitingIterator extends IteratorCollectionAdapter {
         $this->n = $n;
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void
@@ -28,6 +30,7 @@ class LimitingIterator extends IteratorCollectionAdapter {
         parent::rewind();
         $this->used = 0;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.next.php
@@ -39,6 +42,7 @@ class LimitingIterator extends IteratorCollectionAdapter {
             $this->inner->next();
         }
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php

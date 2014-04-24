@@ -12,13 +12,13 @@
 
     <logging>
         <log
-            type="coverage-html"
-            target="test/coverage"
-            charset="UTF-8"
-            yui="true"
-            lowUpperBound="35"
-            highLowerBound="70"
-            showUncoveredFiles="true"
-        />
+                type="coverage-html"
+                target="test/coverage"
+                charset="UTF-8"
+                yui="true"
+                lowUpperBound="35"
+                highLowerBound="70"
+                showUncoveredFiles="true"
+                />
     </logging>
 </phpunit>

@@ -3,12 +3,14 @@
 namespace Collections;
 
 class VectorMock extends Vector {
+
     public function &getInnerArray() {
         return $this->array;
     }
 }
 
 class VectorTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @var Vector
      */
@@ -237,7 +239,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $vector = new Vector();
         $vector->appendAll(new \ArrayIterator($map));
 
-        $this->assertEquals([0,1,2], $vector->keys()->toArray());
+        $this->assertEquals([0, 1, 2], $vector->keys()->toArray());
     }
 
 
@@ -261,7 +263,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     function testMap() {
         $vector = new Vector(0, 1, 2, 3);
-        $mapped = $vector->map(function($value, $key) {
+        $mapped = $vector->map(function ($value, $key) {
             return $value + $key;
         });
         $this->assertInstanceOf('Collections\\Vector', $mapped);
@@ -315,7 +317,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     function testWhere() {
         $vector = new Vector(0, 1, 2, 3);
-        $odd = $vector->filter(function($value) {
+        $odd = $vector->filter(function ($value) {
             return $value % 2;
         });
         $this->assertInstanceOf('Collections\\Vector', $odd);
@@ -327,7 +329,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     function testToArray() {
         $copy = [];
-        $emptyArray = $this->object->toArray($copy, NULL);
+        $emptyArray = $this->object->toArray($copy, null);
         $this->assertTrue(is_array($emptyArray));
         $this->assertCount(0, $emptyArray);
 
@@ -335,7 +337,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
         $this->object->append(5);
         $this->object->append(3);
 
-        $notEmptyArray = $this->object->toArray($copy, NULL);
+        $notEmptyArray = $this->object->toArray($copy, null);
         $this->assertTrue(is_array($notEmptyArray));
         $this->assertCount(3, $notEmptyArray);
     }
@@ -351,7 +353,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
         $copy = [];
         $expect = [0, 1, 2, 3];
-        $actual = $b->toArray($copy, NULL);
+        $actual = $b->toArray($copy, null);
         $this->assertEquals($expect, $actual);
     }
 
@@ -366,7 +368,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
         $copy = [];
         $expect = [2, 3];
-        $actual = $b->toArray($copy, NULL);
+        $actual = $b->toArray($copy, null);
         $this->assertEquals($expect, $actual);
     }
 
@@ -381,7 +383,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
         $expect = [];
         $copy = [];
-        $actual = $b->toArray($copy, NULL);
+        $actual = $b->toArray($copy, null);
         $this->assertEquals($expect, $actual);
     }
 

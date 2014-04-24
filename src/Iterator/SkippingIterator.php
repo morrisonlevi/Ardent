@@ -9,10 +9,12 @@ class SkippingIterator extends IteratorCollectionAdapter {
      */
     private $n;
 
+
     function __construct(\Iterator $iterator, $n) {
         parent::__construct($iterator);
         $this->n = $n;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.rewind.php

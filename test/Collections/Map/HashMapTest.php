@@ -49,6 +49,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($map->isEmpty());
     }
 
+
     function testOffsetSetOffsetGet() {
         $map = new HashMap();
         $this->assertCount(0, $map);
@@ -67,15 +68,18 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($map->isEmpty());
     }
 
+
     function testRemoveEmpty() {
         $map = new HashMap();
         $map->remove(0);
     }
 
+
     function testOffsetUnsetEmpty() {
         $map = new HashMap();
         unset($map[0]);
     }
+
 
     /**
      * @depends testInsertGet
@@ -89,6 +93,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($map->isEmpty());
     }
 
+
     /**
      * @depends testOffsetSetOffsetGet
      */
@@ -100,6 +105,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $map);
         $this->assertTrue($map->isEmpty());
     }
+
 
     /**
      * @depends testOffsetSetOffsetGet
@@ -117,6 +123,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($map->offsetExists(1));
         $this->assertFalse($map->offsetExists(-1));
     }
+
 
     /**
      * @depends testOffsetUnset
@@ -140,6 +147,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($map->contains(4));
     }
 
+
     /**
      * @depends testOffsetSetOffsetGet
      */
@@ -149,6 +157,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $map[0]);
     }
 
+
     /**
      * @depends testOffsetSetOffsetGet
      */
@@ -157,6 +166,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $map['0'] = '1';
         $this->assertEquals('1', $map['0']);
     }
+
 
     /**
      * @depends testOffsetSetOffsetGet
@@ -168,6 +178,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $map->get($resource));
     }
 
+
     /**
      * @depends testOffsetSetOffsetGet
      */
@@ -177,6 +188,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $map->set($array, 1);
         $this->assertEquals(1, $map->get($array));
     }
+
 
     /**
      * @depends testContains
@@ -192,13 +204,14 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($map->contains($copy));
     }
 
+
     /**
      * @depends testOffsetSetOffsetGet
      */
     function testHashNull() {
         $map = new HashMap();
-        $map->set(NULL, 1);
-        $this->assertEquals(1, $map->get(NULL));
+        $map->set(null, 1);
+        $this->assertEquals(1, $map->get(null));
     }
 
 }

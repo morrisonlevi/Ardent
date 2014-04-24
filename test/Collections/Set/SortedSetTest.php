@@ -71,10 +71,10 @@ class SortedSetTest extends SetTest {
 
 
     function test__construct() {
-        $set = new SortedSet(NULL, new AvlTree());
+        $set = new SortedSet(null, new AvlTree());
         // assert?
 
-        $set = new SortedSet(function($a, $b){
+        $set = new SortedSet(function ($a, $b) {
             if ($a < $b) {
                 return 1;
             } elseif ($b < $a) {
@@ -100,7 +100,7 @@ class SortedSetTest extends SetTest {
         $tree = new SplayTree();
         $tree->add(1);
 
-        new SortedSet(NULL, $tree);
+        new SortedSet(null, $tree);
     }
 
 

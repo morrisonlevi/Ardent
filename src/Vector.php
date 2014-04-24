@@ -8,10 +8,10 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
 
 
     /**
-     * @param mixed,... $varargs
+     * @param mixed ,... $varargs
      * @throws TypeException
      */
-    function __construct($varargs = NULL) {
+    function __construct($varargs = null) {
         $this->array = func_get_args();
     }
 
@@ -81,7 +81,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @return void
      */
     function offsetSet($offset, $value) {
-        if ($offset === NULL) {
+        if ($offset === null) {
             $this->append($value);
             return;
         }
@@ -168,7 +168,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      */
     function removeItem($object) {
         $index = array_search($object, $this->array);
-        if ($index === FALSE) {
+        if ($index === false) {
             return;
         }
         array_splice($this->array, $index, 1);
@@ -246,7 +246,7 @@ class Vector implements \ArrayAccess, \Countable, Enumerable {
      * @return array
      */
     function toArray() {
-       return $this->array;
+        return $this->array;
     }
 
 

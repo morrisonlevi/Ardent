@@ -16,25 +16,26 @@ class FilteringIteratorTest extends \PHPUnit_Framework_TestCase {
                 'expectPreserveKeys' => [],
             ],
             'match none' => [
-                'insert' => [0,2,4],
+                'insert' => [0, 2, 4],
                 'filter' => $and1,
                 'expect' => [],
                 'expectPreserveKeys' => [],
             ],
             'match all' => [
-                'insert' => [1,3],
+                'insert' => [1, 3],
                 'filter' => $and1,
-                'expect' => [1,3],
+                'expect' => [1, 3],
                 'expectPreserveKeys' => [0 => 1, 1 => 3],
             ],
             'match some' => [
-                'insert' => [0,1,2,3,4],
+                'insert' => [0, 1, 2, 3, 4],
                 'filter' => $and1,
-                'expect' => [1,3],
+                'expect' => [1, 3],
                 'expectPreserveKeys' => [1 => 1, 3 => 3],
             ],
         ];
     }
+
 
     /**
      * @dataProvider provideCases

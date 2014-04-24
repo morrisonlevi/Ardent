@@ -9,10 +9,12 @@ class MappingIterator extends IteratorCollectionAdapter {
      */
     private $mapper;
 
+
     function __construct(\Iterator $iterator, callable $map) {
         parent::__construct($iterator);
         $this->mapper = $map;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.current.php

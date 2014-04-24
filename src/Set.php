@@ -31,7 +31,6 @@ interface Set extends \Countable, Enumerable {
     function remove($item);
 
 
-
     /**
      * Computes the symmetric difference.
      *

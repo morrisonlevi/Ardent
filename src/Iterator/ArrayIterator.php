@@ -6,10 +6,12 @@ class ArrayIterator extends IteratorCollectionAdapter implements CountableSeekab
 
     private $count;
 
+
     function __construct(array $array) {
         parent::__construct(new \ArrayIterator($array));
         $this->count = count($array);
     }
+
 
     /**
      * @param int $position
@@ -20,9 +22,11 @@ class ArrayIterator extends IteratorCollectionAdapter implements CountableSeekab
         $this->getInnerIterator()->seek($position);
     }
 
+
     function count() {
         return $this->count;
     }
+
 
     /**
      * @return \ArrayIterator

@@ -3,6 +3,7 @@
 namespace Collections;
 
 class MethodCallCountingIterator implements \OuterIterator {
+
     private $calls = [
         'rewind' => 0,
         'valid' => 0,
@@ -11,38 +12,47 @@ class MethodCallCountingIterator implements \OuterIterator {
         'next' => 0,
     ];
     private $inner;
+
+
     function __construct(\Iterator $i) {
         $this->inner = $i;
     }
+
 
     function rewind() {
         $this->calls[__FUNCTION__]++;
         $this->inner->rewind();
     }
 
+
     function valid() {
         $this->calls[__FUNCTION__]++;
         return $this->inner->valid();
     }
+
 
     function key() {
         $this->calls[__FUNCTION__]++;
         return $this->inner->key();
     }
 
+
     function current() {
         $this->calls[__FUNCTION__]++;
         return $this->inner->current();
     }
+
 
     function next() {
         $this->calls[__FUNCTION__]++;
         $this->inner->next();
     }
 
+
     function getInnerIterator() {
         return $this->inner;
     }
+
 
     function getMethodCallCount($method) {
         return isset($this->calls[$method])
@@ -57,26 +67,27 @@ class LimitingIteratorTest extends \PHPUnit_Framework_TestCase {
         return [
             'empty' => [
                 'insert' => [],
-                'limit'  => 2,
+                'limit' => 2,
                 'expect' => []
             ],
             'zero' => [
-                'insert' => [1,4,5],
-                'limit'  => 0,
+                'insert' => [1, 4, 5],
+                'limit' => 0,
                 'expect' => []
             ],
             'limit' => [
-                'insert' => [1,4,5],
-                'limit'  => 2,
-                'expect' => [1,4]
+                'insert' => [1, 4, 5],
+                'limit' => 2,
+                'expect' => [1, 4]
             ],
             'limit extra' => [
-                'insert' => [1,4,5],
-                'limit'  => 4,
-                'expect' => [1,4,5]
+                'insert' => [1, 4, 5],
+                'limit' => 4,
+                'expect' => [1, 4, 5]
             ],
         ];
     }
+
 
     /**
      * @dataProvider provideCases
@@ -88,14 +99,16 @@ class LimitingIteratorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expect, $limited->toArray());
     }
 
+
     function provideInnerIteratorCases() {
-        $data = [1,2,3];
+        $data = [1, 2, 3];
         return [
             [$data, 1, 0],
             [$data, 2, 1],
             [$data, 3, 2],
         ];
     }
+
 
     /**
      * @dataProvider provideInnerIteratorCases

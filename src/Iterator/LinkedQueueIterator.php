@@ -21,18 +21,20 @@ class LinkedQueueIterator implements QueueIterator {
     /**
      * @var int
      */
-    private $key = NULL;
+    private $key = null;
+
 
     /**
      * @param int $count
      * @param Pair $head
      */
-    function __construct($count, Pair $head = NULL) {
+    function __construct($count, Pair $head = null) {
         $this->head = $head;
         $this->count = $count;
         $this->rewind();
     }
-    
+
+
     /**
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed Can return any type.
@@ -41,46 +43,51 @@ class LinkedQueueIterator implements QueueIterator {
         return $this->current->first;
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.next.php
-     * @return void 
+     * @return void
      */
     function next() {
         $this->current = $this->current->second;
         $this->key++;
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed 
+     * @return mixed
      */
     function key() {
         return $this->key;
     }
 
+
     /**
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean 
+     * @return boolean
      */
     function valid() {
-        return $this->current !== NULL;
+        return $this->current !== null;
     }
+
 
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void 
+     * @return void
      */
     function rewind() {
         $this->current = $this->head;
 
-        $this->key = $this->head !== NULL
+        $this->key = $this->head !== null
             ? 0
-            : NULL;
+            : null;
     }
+
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return int 
+     * @return int
      */
     function count() {
         return $this->count;

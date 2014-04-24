@@ -26,7 +26,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
     private $size = 0;
 
 
-    function __construct(BinaryTree $root = NULL, $count = 0) {
+    function __construct(BinaryTree $root = null, $count = 0) {
         $this->root = $root;
         $this->size = $count;
     }
@@ -89,13 +89,15 @@ class LevelOrderIterator implements BinaryTreeIterator {
         $this->pushIfNotNull('left', $node);
         $this->pushIfNotNull('right', $node);
 
-        $this->value = empty($this->queue) ? null : $this->queue[0];
+        $this->value = empty($this->queue)
+            ? null
+            : $this->queue[0];
     }
 
 
     private function pushIfNotNull($direction, BinaryTree $context) {
         $value = $context->$direction();
-        if ($value !== NULL) {
+        if ($value !== null) {
             $this->queue[] = $value;
         }
     }

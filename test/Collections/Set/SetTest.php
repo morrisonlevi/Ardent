@@ -25,7 +25,7 @@ abstract class SetTest extends TestCase {
 
 
     /**
-     * @depends test_count_sizeN_returnsN
+     * @depends      test_count_sizeN_returnsN
      * @dataProvider provide_rangeZeroToN
      */
     function test_clear_sizeN_isEmpty(array $data) {
@@ -70,6 +70,7 @@ abstract class SetTest extends TestCase {
 
         $this->assertEquals(count($data) === 0, $set->isEmpty());
     }
+
 
     /**
      * @depends test_count_sizeN_returnsN
@@ -170,6 +171,7 @@ abstract class SetTest extends TestCase {
         }
     }
 
+
     function testIntersectionSome() {
         $a = $this->instance();
         $a->add(0);
@@ -197,6 +199,7 @@ abstract class SetTest extends TestCase {
 
     }
 
+
     function testRelativeComplementSelf() {
         $a = $this->instance();
         $a->add(2);
@@ -207,6 +210,7 @@ abstract class SetTest extends TestCase {
         $this->assertInstanceOf('Collections\\Set', $complement);
         $this->assertCount(0, $complement);
     }
+
 
     function testRelativeComplement() {
         $a = $this->instance();
@@ -230,6 +234,7 @@ abstract class SetTest extends TestCase {
         $this->assertTrue($complement->has(4));
     }
 
+
     function testUnionSelf() {
         $a = $this->instance();
         $a->add(1);
@@ -244,6 +249,7 @@ abstract class SetTest extends TestCase {
             $this->assertTrue($union->has($item));
         }
     }
+
 
     function testUnion() {
         $a = $this->instance();

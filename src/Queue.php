@@ -12,11 +12,13 @@ interface Queue extends \Countable, Enumerable {
      */
     function enqueue($item);
 
+
     /**
      * @return mixed
      * @throws StateException if the Queue is empty.
      */
     function dequeue();
+
 
     /**
      * Returns the next item to be removed without removing it.

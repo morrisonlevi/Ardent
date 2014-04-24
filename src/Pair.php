@@ -8,6 +8,7 @@ class Pair {
 
     public $second;
 
+
     function __construct($first, $second) {
         $this->first = $first;
         $this->second = $second;

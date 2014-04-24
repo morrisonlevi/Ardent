@@ -34,7 +34,7 @@ class SortedMapIteratorTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(count($map), $iterator);
 
     }
-    
+
 
     function test_key_badInnerIterator_throwsException() {
         $this->setExpectedException('\Collections\TypeException');

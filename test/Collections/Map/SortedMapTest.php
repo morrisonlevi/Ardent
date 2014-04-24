@@ -23,6 +23,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(3, $map);
     }
 
+
     /**
      * @depends testOffsetSet
      */
@@ -36,6 +37,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $actual);
     }
 
+
     /**
      * @depends testOffsetSet
      */
@@ -47,6 +49,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertCount(0, $map);
     }
+
 
     /**
      * @depends testOffsetSet
@@ -63,6 +66,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($map->isEmpty());
     }
 
+
     /**
      * @expectedException \Collections\KeyException
      */
@@ -71,6 +75,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $map->offsetGet(0);
     }
 
+
     /**
      * @expectedException \Collections\KeyException
      */
@@ -78,6 +83,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $map = new SortedMap();
         $map->get(0);
     }
+
 
     /**
      * @depends testOffsetSet
@@ -91,6 +97,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $map->offsetGet(0);
     }
 
+
     /**
      * @depends testOffsetSet
      * @depends testOffsetUnset
@@ -102,6 +109,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         unset($map[0]);
         $map->get(0);
     }
+
 
     /**
      * @depends testOffsetSet
@@ -116,6 +124,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($map->contains(1));
     }
 
+
     /**
      * @expectedException \Collections\EmptyException
      */
@@ -124,6 +133,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $map->first();
     }
 
+
     /**
      * @expectedException \Collections\EmptyException
      */
@@ -131,6 +141,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $map = new SortedMap();
         $map->last();
     }
+
 
     /**
      * @depends testOffsetSet
@@ -150,6 +161,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($map->offsetExists(2));
     }
 
+
     /**
      * @depends testOffsetSet
      */
@@ -161,6 +173,7 @@ class SortedMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $map);
         $this->assertTrue($map->isEmpty());
     }
+
 
     /**
      * @depends testOffsetSet

@@ -4,6 +4,7 @@ namespace Collections;
 
 
 class LinkedDataNode implements LinkedNode {
+
     private $prev;
     private $value;
     private $next;

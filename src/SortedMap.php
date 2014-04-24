@@ -16,11 +16,13 @@ class SortedMap implements Map {
      */
     private $comparator;
 
-    function __construct($comparator = NULL) {
+
+    function __construct($comparator = null) {
         $this->comparator = $comparator ?: '\Collections\compare';
 
         $this->avl = new SplayTree([$this, 'compareKeys']);
     }
+
 
     function compareKeys(Pair $a, Pair $b) {
         return call_user_func($this->comparator, $a->first, $b->first);
@@ -34,6 +36,7 @@ class SortedMap implements Map {
         $this->avl->clear();
     }
 
+
     /**
      * @param mixed $item
      * @param callable $callback
@@ -41,8 +44,8 @@ class SortedMap implements Map {
      * @return bool
      * @throws TypeException when $item is not the correct type.
      */
-    function contains($item, callable $callback = NULL) {
-        if ($callback === NULL) {
+    function contains($item, callable $callback = null) {
+        if ($callback === null) {
             $callback = '\Collections\compare';
         }
         foreach ($this->avl as $pair) {
@@ -50,12 +53,13 @@ class SortedMap implements Map {
              * @var Pair $pair
              */
             if (call_user_func($callback, $pair->second, $item) === 0) {
-                return TRUE;
+                return true;
             }
         }
 
-        return FALSE;
+        return false;
     }
+
 
     /**
      * @return bool
@@ -64,7 +68,8 @@ class SortedMap implements Map {
         return $this->avl->isEmpty();
     }
 
-    /** 
+
+    /**
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
@@ -72,13 +77,15 @@ class SortedMap implements Map {
         return $this->avl->first();
     }
 
-    /** 
+
+    /**
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
     function last() {
         return $this->avl->last();
     }
+
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
@@ -88,8 +95,9 @@ class SortedMap implements Map {
      * @return bool
      */
     function offsetExists($offset) {
-        return $this->avl->contains(new Pair($offset, NULL));
+        return $this->avl->contains(new Pair($offset, null));
     }
+
 
     /**
      * @param mixed $offset
@@ -105,6 +113,7 @@ class SortedMap implements Map {
         return $this->get($offset);
     }
 
+
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
      *
@@ -117,6 +126,7 @@ class SortedMap implements Map {
         $this->set($offset, $value);
     }
 
+
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
      *
@@ -127,6 +137,7 @@ class SortedMap implements Map {
     function offsetUnset($offset) {
         $this->remove($offset);
     }
+
 
     /**
      * @param $key
@@ -143,10 +154,11 @@ class SortedMap implements Map {
         /**
          * @var Pair $pair
          */
-        $pair = $this->avl->get(new Pair($key, NULL));
+        $pair = $this->avl->get(new Pair($key, null));
 
         return $pair->second;
     }
+
 
     /**
      * Note that if the key is considered equal to an already existing key in
@@ -162,6 +174,7 @@ class SortedMap implements Map {
         $this->avl->add(new Pair($key, $value));
     }
 
+
     /**
      * @param $key
      *
@@ -169,8 +182,9 @@ class SortedMap implements Map {
      * @throws TypeException when the $key is not the correct type.
      */
     function remove($key) {
-        $this->avl->remove(new Pair($key, NULL));
+        $this->avl->remove(new Pair($key, null));
     }
+
 
     /**
      * @link http://php.net/manual/en/countable.count.php
@@ -179,6 +193,7 @@ class SortedMap implements Map {
     function count() {
         return $this->avl->count();
     }
+
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php

@@ -23,8 +23,8 @@ class LinkedQueue implements Queue {
     /**
      * @return bool
      */
-    function isEmpty()  {
-        return $this->head === NULL;
+    function isEmpty() {
+        return $this->head === null;
     }
 
 
@@ -42,9 +42,9 @@ class LinkedQueue implements Queue {
      * @return void
      */
     function enqueue($item) {
-        $pair = new Pair($item, NULL);
+        $pair = new Pair($item, null);
 
-        if ($this->tail !== NULL) {
+        if ($this->tail !== null) {
             $this->tail = $this->tail->second = $pair;
         } else {
             $this->head = $this->tail = $pair;
@@ -93,12 +93,12 @@ class LinkedQueue implements Queue {
      * @return bool
      */
     function contains($item) {
-        for ($n = $this->head; $n !== NULL; $n = $n->second) {
+        for ($n = $this->head; $n !== null; $n = $n->second) {
             if ($item == $n->first) {
-                return TRUE;
+                return true;
             }
         }
-        return FALSE;
+        return false;
     }
 
 
@@ -108,7 +108,7 @@ class LinkedQueue implements Queue {
      */
     function clear() {
         $this->size = 0;
-        $this->head = $this->tail = NULL;
+        $this->head = $this->tail = null;
     }
 
 }

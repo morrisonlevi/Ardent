@@ -6,15 +6,18 @@ class SortedMapIterator extends IteratorCollectionAdapter implements MapIterator
 
     private $size = 0;
 
+
     function __construct(InOrderIterator $iterator, $size) {
         parent::__construct($iterator);
         $this->size = $size;
         $this->rewind();
     }
 
+
     function count() {
         return $this->size;
     }
+
 
     /**
      * @link https://bugs.php.net/bug.php?id=45684

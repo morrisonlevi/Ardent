@@ -5,22 +5,23 @@ namespace Collections;
 class MappingIteratorTest extends \PHPUnit_Framework_TestCase {
 
     function provideCases() {
-        $multiplyBy2 = function($i) {
+        $multiplyBy2 = function ($i) {
             return $i * 2;
         };
         return [
             'empty' => [
                 'insert' => [],
-                'map'    => $multiplyBy2,
+                'map' => $multiplyBy2,
                 'expect' => [],
             ],
             'map' => [
-                'insert' => [0,1,2,3],
-                'map'    => $multiplyBy2,
-                'expect' => [0,2,4,6],
+                'insert' => [0, 1, 2, 3],
+                'map' => $multiplyBy2,
+                'expect' => [0, 2, 4, 6],
             ],
         ];
     }
+
 
     /**
      * @dataProvider provideCases

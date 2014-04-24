@@ -114,7 +114,7 @@ class SLinkedListTest extends TestCase {
 
 
     /**
-     * @depends test_pop_sizeN_returnsNValue
+     * @depends      test_pop_sizeN_returnsNValue
      * @dataProvider provide_rangeOneToN
      */
     function test_offsetSet_withNull_pushesValue(array $data) {
@@ -130,7 +130,7 @@ class SLinkedListTest extends TestCase {
 
 
     /**
-     * @depends test_pop_sizeN_returnsNValue
+     * @depends      test_pop_sizeN_returnsNValue
      * @dataProvider provide_rangeOneToN
      */
     function test_count_offsetSetWithNull_returnsN(array $data) {
@@ -365,7 +365,7 @@ class SLinkedListTest extends TestCase {
         $n = count($data);
         for ($i = 1; $i < $n; ++$i) {
             $expect = ($i - 1) * 2;
-            $actual = $list->seek($i-1);
+            $actual = $list->seek($i - 1);
             $this->assertEquals($expect, $actual);
         }
     }
@@ -375,7 +375,7 @@ class SLinkedListTest extends TestCase {
         $list = $this->instance();
         $n = 6;
         for ($i = 0; $i < $n; ++$i) {
-            $list->push($i*13);
+            $list->push($i * 13);
         }
         $list->seek(0);
         $expect = 3 * 13;
@@ -388,7 +388,7 @@ class SLinkedListTest extends TestCase {
         $list = $this->instance();
         $n = 6;
         for ($i = 0; $i < $n; ++$i) {
-            $list->push($i*13);
+            $list->push($i * 13);
         }
         $list->seek(5);
         $expect = 3 * 13;

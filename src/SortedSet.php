@@ -22,15 +22,15 @@ class SortedSet extends AbstractSet implements Set {
      * @param BinarySearchTree $tree
      * @throws StateException
      */
-    function __construct(callable $comparator = NULL, BinarySearchTree $tree = NULL) {
-        if ($tree !== NULL) {
+    function __construct(callable $comparator = null, BinarySearchTree $tree = null) {
+        if ($tree !== null) {
             if (!$tree->isEmpty()) {
                 throw new StateException(
                     'The BinarySearchTree provided to SortedSet was not empty'
                 );
             }
             $this->bst = $tree;
-            if ($comparator !== NULL) {
+            if ($comparator !== null) {
                 $tree->setCompare($comparator);
             }
         } else {
@@ -93,16 +93,16 @@ class SortedSet extends AbstractSet implements Set {
     }
 
 
-    /** 
+    /**
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
     function first() {
         return $this->bst->first();
-    }   
+    }
 
 
-    /** 
+    /**
      * @return mixed
      * @throws EmptyException when the tree is empty
      */
