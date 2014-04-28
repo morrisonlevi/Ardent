@@ -3,7 +3,7 @@
 namespace Collections;
 
 
-class SLinkedListTest extends TestCase {
+class LinkedListTest extends TestCase {
 
 
     function instance() {
