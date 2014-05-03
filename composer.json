@@ -17,7 +17,7 @@
         "php": "~5.4"
     },
     "autoload": {
-        "files": ["src/autoload.php"]
+        "files": ["autoload.php"]
     },
     "extra": {
         "branch-alias": {
