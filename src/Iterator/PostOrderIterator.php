@@ -104,7 +104,7 @@ class PostOrderIterator implements BinaryTreeIterator {
 
 
     private function next_right() {
-        $right = $this->value->right();
+        $right = $this->value->right;
         if ($right !== null && !$this->stack->isEmpty() && $right === $this->stack->last()) {
             $this->stack->pop();
             $this->next_push($right);
@@ -115,11 +115,11 @@ class PostOrderIterator implements BinaryTreeIterator {
 
 
     private function next_valueNotNull() {
-        $right = $this->value->right();
+        $right = $this->value->right;
         if ($right !== null) {
             $this->stack->push($right);
         }
-        $this->next_push($this->value->left());
+        $this->next_push($this->value->left);
     }
 
 

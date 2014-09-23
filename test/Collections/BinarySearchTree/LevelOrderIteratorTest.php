@@ -14,8 +14,8 @@ class LevelOrderIteratorTest extends BinaryTreeIteratorTest {
     function test_toArray() {
         $tree = new BinaryTree(0);
         $tree->setLeft(new BinaryTree(-4));
-        $tree->left()->setLeft(new BinaryTree(1));
-        $tree->left()->setRight(new BinaryTree(2));
+        $tree->left->setLeft(new BinaryTree(1));
+        $tree->left->setRight(new BinaryTree(2));
 
 
         $tree->setRight(new BinaryTree(4));
