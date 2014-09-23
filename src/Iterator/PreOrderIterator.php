@@ -99,7 +99,7 @@ class PreOrderIterator implements BinaryTreeIterator {
 
 
     private function pushIfNotNull($direction, BinaryTree $n) {
-        $next = $n->$direction;
+        $next = $n->$direction();
         if ($next !== null) {
             $this->stack->push($next);
         }

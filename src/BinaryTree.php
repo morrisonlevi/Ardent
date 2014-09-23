@@ -7,20 +7,35 @@ class BinaryTree {
     /**
      * @var BinaryTree
      */
-    public  $left = null;
-
+    private $left = null;
     /**
      * @var BinaryTree
      */
-    public $right = null;
+    private $right = null;
 
-    public $value;
+    private $value;
 
-    public $height = 1;
+    private $height = 1;
 
 
     function __construct($value) {
         $this->value = $value;
+    }
+
+
+    /**
+     * @return BinaryTree
+     */
+    function right() {
+        return $this->right;
+    }
+
+
+    /**
+     * @return BinaryTree
+     */
+    function left() {
+        return $this->left;
     }
 
 
@@ -47,10 +62,18 @@ class BinaryTree {
     /**
      * @return int
      */
+    function height() {
+        return $this->height;
+    }
+
+
+    /**
+     * @return int
+     */
     function leftHeight() {
         return $this->left === null
             ? 0
-            : $this->left->height;
+            : $this->left->height();
     }
 
 
@@ -60,7 +83,7 @@ class BinaryTree {
     function rightHeight() {
         return $this->right === null
             ? 0
-            : $this->right->height;
+            : $this->right->height();
     }
 
 
@@ -91,9 +114,9 @@ class BinaryTree {
      * @return BinaryTree
      */
     function inOrderPredecessor() {
-        $current = $this->left;
-        while ($current->right !== null) {
-            $current = $current->right;
+        $current = $this->left();
+        while ($current->right() !== null) {
+            $current = $current->right();
         }
         return $current;
     }

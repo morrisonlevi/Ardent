@@ -54,7 +54,7 @@ class InOrderIterator implements BinaryTreeIterator {
          */
         $node = $this->stack->pop();
 
-        $right = $node->right;
+        $right = $node->right();
         if ($right !== null) {
             // left-most branch of the right side
             $this->pushLeft($right);
@@ -110,7 +110,7 @@ class InOrderIterator implements BinaryTreeIterator {
 
 
     private function pushLeft(BinaryTree $n = null) {
-        for ($current = $n; $current !== null; $current = $current->left) {
+        for ($current = $n; $current !== null; $current = $current->left()) {
             $this->stack->push($current);
         }
     }

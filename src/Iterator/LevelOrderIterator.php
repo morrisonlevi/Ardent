@@ -96,7 +96,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
 
 
     private function pushIfNotNull($direction, BinaryTree $context) {
-        $value = $context->$direction;
+        $value = $context->$direction();
         if ($value !== null) {
             $this->queue[] = $value;
         }

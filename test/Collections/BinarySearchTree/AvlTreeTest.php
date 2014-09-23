@@ -81,10 +81,10 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
         $binary = $tree->toBinaryTree();
         $this->assertInstanceOf('Collections\\BinaryTree', $binary);
-        $this->assertNotNull($binary->left);
-        $this->assertEquals(2, $binary->left->value());
-        $this->assertNotNull($binary->right);
-        $this->assertEquals(0, $binary->right->value());
+        $this->assertNotNull($binary->left());
+        $this->assertEquals(2, $binary->left()->value());
+        $this->assertNotNull($binary->right());
+        $this->assertEquals(0, $binary->right()->value());
     }
 
 
@@ -231,12 +231,12 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         // build a test tree to validate that we are set up correctly
         $expectedRoot = new BinaryTree(5);
         $expectedRoot->setLeft(new BinaryTree(2));
-        $expectedRoot->left->setLeft(new BinaryTree(1));
-        $expectedRoot->left->setRight(new BinaryTree(4));
-        $expectedRoot->left->right->setLeft(new BinaryTree(3));
+        $expectedRoot->left()->setLeft(new BinaryTree(1));
+        $expectedRoot->left()->setRight(new BinaryTree(4));
+        $expectedRoot->left()->right()->setLeft(new BinaryTree(3));
         $expectedRoot->setRight(new BinaryTree(9));
-        $expectedRoot->right->setLeft(new BinaryTree(8));
-        $expectedRoot->right->setRight(new BinaryTree(11));
+        $expectedRoot->right()->setLeft(new BinaryTree(8));
+        $expectedRoot->right()->setRight(new BinaryTree(11));
 
         $this->reCalculateHeights($expectedRoot);
 
@@ -255,11 +255,11 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
         $expectedRoot = new BinaryTree(4);
         $expectedRoot->setLeft(new BinaryTree(2));
-        $expectedRoot->left->setLeft(new BinaryTree(1));
-        $expectedRoot->left->setRight(new BinaryTree(3));
+        $expectedRoot->left()->setLeft(new BinaryTree(1));
+        $expectedRoot->left()->setRight(new BinaryTree(3));
         $expectedRoot->setRight(new BinaryTree(9));
-        $expectedRoot->right->setLeft(new BinaryTree(8));
-        $expectedRoot->right->setRight(new BinaryTree(11));
+        $expectedRoot->right()->setLeft(new BinaryTree(8));
+        $expectedRoot->right()->setRight(new BinaryTree(11));
         $this->reCalculateHeights($expectedRoot);
         $actualRoot = $object->toBinaryTree();
         $this->assertEquals($expectedRoot, $actualRoot);
@@ -282,8 +282,8 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         // build a test tree to validate that we are set up correctly
         $expectedRoot = new BinaryTree(4);
         $expectedRoot->setLeft(new BinaryTree(2));
-        $expectedRoot->left->setLeft(new BinaryTree(1));
-        $expectedRoot->left->setRight(new BinaryTree(3));
+        $expectedRoot->left()->setLeft(new BinaryTree(1));
+        $expectedRoot->left()->setRight(new BinaryTree(3));
         $expectedRoot->setRight(new BinaryTree(9));
 
         $this->reCalculateHeights($expectedRoot);
@@ -311,10 +311,10 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
         $expectedRoot = new BinaryTree(2);
         $expectedRoot->setLeft(new BinaryTree(1));
-        $expectedRoot->left->setLeft(new BinaryTree(0));
+        $expectedRoot->left()->setLeft(new BinaryTree(0));
         $expectedRoot->setRight(new BinaryTree(4));
-        $expectedRoot->right->setRight(new BinaryTree(9));
-        $expectedRoot->right->setLeft(new BinaryTree(3));
+        $expectedRoot->right()->setRight(new BinaryTree(9));
+        $expectedRoot->right()->setLeft(new BinaryTree(3));
 
         $this->reCalculateHeights($expectedRoot);
 
@@ -339,8 +339,8 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         // build a test tree to validate that we are set up correctly
         $expectedRoot = new BinaryTree(5);
         $expectedRoot->setLeft(new BinaryTree(2));
-        $expectedRoot->left->setLeft(new BinaryTree(1));
-        $expectedRoot->left->setRight(new BinaryTree(3));
+        $expectedRoot->left()->setLeft(new BinaryTree(1));
+        $expectedRoot->left()->setRight(new BinaryTree(3));
         $expectedRoot->setRight(new BinaryTree(9));
 
         $this->reCalculateHeights($expectedRoot);
@@ -368,10 +368,10 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
 
         $expectedRoot = new BinaryTree(3);
         $expectedRoot->setLeft(new BinaryTree(2));
-        $expectedRoot->left->setLeft(new BinaryTree(1));
+        $expectedRoot->left()->setLeft(new BinaryTree(1));
         $expectedRoot->setRight(new BinaryTree(5));
-        $expectedRoot->right->setRight(new BinaryTree(9));
-        $expectedRoot->right->setLeft(new BinaryTree(4));
+        $expectedRoot->right()->setRight(new BinaryTree(9));
+        $expectedRoot->right()->setLeft(new BinaryTree(4));
 
         $this->reCalculateHeights($expectedRoot);
 
@@ -384,8 +384,8 @@ class AvlTreeTest extends \PHPUnit_Framework_TestCase {
         if ($root === null) {
             return;
         }
-        $this->reCalculateHeights($root->left);
-        $this->reCalculateHeights($root->right);
+        $this->reCalculateHeights($root->left());
+        $this->reCalculateHeights($root->right());
         $root->recalculateHeight();
 
     }

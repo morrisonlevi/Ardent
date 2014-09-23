@@ -206,9 +206,9 @@ class AvlTree implements BinarySearchTree {
         $comparisonResult = call_user_func($this->comparator, $element, $node->value());
 
         if ($comparisonResult < 0) {
-            $node->setLeft($this->doRecursive($nullAction, $matchAction, $element, $node->left));
+            $node->setLeft($this->doRecursive($nullAction, $matchAction, $element, $node->left()));
         } elseif ($comparisonResult > 0) {
-            $node->setRight($this->doRecursive($nullAction, $matchAction, $element, $node->right));
+            $node->setRight($this->doRecursive($nullAction, $matchAction, $element, $node->right()));
         } else {
             $node = $matchAction($node);
         }
@@ -258,7 +258,7 @@ class AvlTree implements BinarySearchTree {
      * @return BinaryTree
      */
     protected function rotateRight(BinaryTree $root) {
-        $leftNode = $root->left;
+        $leftNode = $root->left();
         $leftHeight = $leftNode->leftHeight();
         $rightHeight = $leftNode->rightHeight();
 
@@ -266,14 +266,14 @@ class AvlTree implements BinarySearchTree {
 
         if ($diff < 0) {
             // Left-Right case
-            $pivot = $leftNode->right;
-            $leftNode->setRight($pivot->left);
+            $pivot = $leftNode->right();
+            $leftNode->setRight($pivot->left());
             $pivot->setLeft($leftNode);
             $root->setLeft($pivot);
         }
 
-        $pivot = $root->left;
-        $root->setLeft($pivot->right);
+        $pivot = $root->left();
+        $root->setLeft($pivot->right());
         $pivot->setRight($root);
 
         return $pivot;
@@ -286,21 +286,21 @@ class AvlTree implements BinarySearchTree {
      * @return BinaryTree
      */
     protected function rotateLeft(BinaryTree $root) {
-        $rightNode = $root->right;
+        $rightNode = $root->right();
 
         $diff = $rightNode->leftHeight() - $rightNode->rightHeight();
 
         if ($diff >= 0) {
             // Right-Left case
-            $pivot = $rightNode->left;
-            $rightNode->setLeft($pivot->right);
+            $pivot = $rightNode->left();
+            $rightNode->setLeft($pivot->right());
             $pivot->setRight($rightNode);
             $root->setRight($pivot);
         }
 
 
-        $pivot = $root->right;
-        $root->setRight($pivot->left);
+        $pivot = $root->right();
+        $root->setRight($pivot->left());
         $pivot->setLeft($root);
 
         return $pivot;
@@ -312,9 +312,9 @@ class AvlTree implements BinarySearchTree {
             $comparisonResult = call_user_func($this->comparator, $element, $context->value());
 
             if ($comparisonResult < 0) {
-                $context = $context->left;
+                $context = $context->left();
             } elseif ($comparisonResult > 0) {
-                $context = $context->right;
+                $context = $context->right();
             } else {
                 return $context;
             }
@@ -324,7 +324,7 @@ class AvlTree implements BinarySearchTree {
 
 
     private function farthest($direction, BinaryTree $context) {
-        for ($node = $context; $node->$direction !== null; $node = $node->$direction) {
+        for ($node = $context; $node->$direction() !== null; $node = $node->$direction()) {
             ;
         }
         return $node->value();
@@ -348,8 +348,8 @@ class AvlTree implements BinarySearchTree {
      */
     private function deleteSelectState(BinaryTree $node) {
         $state = 0;
-        $state |= ($node->right != null) << 0;
-        $state |= ($node->left != null) << 1;
+        $state |= ($node->right() != null) << 0;
+        $state |= ($node->left() != null) << 1;
         return $state;
     }
 
@@ -362,7 +362,7 @@ class AvlTree implements BinarySearchTree {
 
     private function deleteSelect($direction) {
         return function (BinaryTree $node) use ($direction) {
-            $d = $node->$direction;
+            $d = $node->$direction();
             unset($node);
             return $d;
         };
@@ -375,7 +375,7 @@ class AvlTree implements BinarySearchTree {
      */
     private function deleteNeitherChildIsNull(BinaryTree $node) {
         $value = $node->inOrderPredecessor()->value();
-        $node->setLeft($this->removeRecursive($value, $node->left));
+        $node->setLeft($this->removeRecursive($value, $node->left()));
         $node->setValue($value);
         return $node;
     }
