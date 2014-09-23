@@ -136,8 +136,7 @@ class AvlTree implements BinarySearchTree {
      * @return BinaryTreeIterator
      */
     function getIterator() {
-        $tree = clone $this;
-        return new InOrderIterator($tree->root, $tree->size);
+        return new InOrderIterator($this->root, $this->size);
     }
 
 
@@ -348,10 +347,9 @@ class AvlTree implements BinarySearchTree {
      * @return int
      */
     private function deleteSelectState(BinaryTree $node) {
-        // Shifting an object or null will convert it to an integer 0 or 1
         $state = 0;
-        $state |= $node->right() << 0;
-        $state |= $node->left() << 1;
+        $state |= ($node->right() != null) << 0;
+        $state |= ($node->left() != null) << 1;
         return $state;
     }
 

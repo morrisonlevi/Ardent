@@ -28,23 +28,7 @@ class LinkedStack implements Stack {
      * @return StackIterator
      */
     function getIterator() {
-        return new LinkedStackIterator($this->size, $this->clonePair($this->top));
-    }
-
-
-    private function clonePair(Pair $pair = null) {
-        if ($pair === null) {
-            return null;
-        }
-
-        $new = new Pair($pair->first, $pair->second);
-        for ($current = $new; $current->second !== null; $current = $current->second) {
-            $current->second = new Pair(
-                $current->second->first,
-                $current->second->second
-            );
-        }
-        return $new;
+        return new LinkedStackIterator($this->size, $this->top);
     }
 
 
