@@ -97,7 +97,7 @@ class SortedSetTest extends SetTest {
     function test__constructException() {
         $this->setExpectedException('\Collections\StateException');
 
-        $tree = new SplayTree();
+        $tree = new AvlTree();
         $tree->add(1);
 
         new SortedSet(null, $tree);

@@ -7,7 +7,7 @@ class SortedMap implements Map {
     use IteratorCollection;
 
     /**
-     * @var SplayTree
+     * @var BinarySearchTree
      */
     private $avl;
 
@@ -20,7 +20,7 @@ class SortedMap implements Map {
     function __construct($comparator = null) {
         $this->comparator = $comparator ?: '\Collections\compare';
 
-        $this->avl = new SplayTree([$this, 'compareKeys']);
+        $this->avl = new AvlTree([$this, 'compareKeys']);
     }
 
 

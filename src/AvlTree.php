@@ -33,7 +33,7 @@ class AvlTree implements BinarySearchTree {
     function __construct(callable $comparator = null) {
         $this->comparator = $comparator ?: '\Collections\compare';
         $this->deleteOptions = [
-            0b000 => [$this, 'doNothing'],
+            0b000 => [$this, 'deleteNoChildren'],
             0b001 => $this->deleteSelect('right'),
             0b010 => $this->deleteSelect('left'),
             0b011 => [$this, 'deleteNeitherChildIsNull'],
@@ -348,10 +348,17 @@ class AvlTree implements BinarySearchTree {
      * @return int
      */
     private function deleteSelectState(BinaryTree $node) {
+        // Shifting an object or null will convert it to an integer 0 or 1
         $state = 0;
-        $state |= ($node->right() != null) << 0;
-        $state |= ($node->left() != null) << 1;
+        $state |= $node->right() << 0;
+        $state |= $node->left() << 1;
         return $state;
+    }
+
+
+    private function deleteNoChildren(BinaryTree $tree) {
+        $this->size--;
+        return null;
     }
 
 

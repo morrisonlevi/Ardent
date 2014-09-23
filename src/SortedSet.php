@@ -34,7 +34,7 @@ class SortedSet extends AbstractSet implements Set {
                 $tree->setCompare($comparator);
             }
         } else {
-            $this->bst = new SplayTree($comparator);
+            $this->bst = new AvlTree($comparator);
         }
     }
 

@@ -111,8 +111,6 @@ function autoload($className) {
         'Collections\\Set' => 'Set.php',
         'Collections\\SortedMap' => 'SortedMap.php',
         'Collections\\SortedSet' => 'SortedSet.php',
-        'Collections\\SplayNode' => 'SplayNode.php',
-        'Collections\\SplayTree' => 'SplayTree.php',
         'Collections\\Stack' => 'Stack.php',
         'Collections\\ValueIterator' => 'Iterator/ValueIterator.php',
         'Collections\\Vector' => 'Vector.php',
