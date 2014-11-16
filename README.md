@@ -1,16 +1,16 @@
 # A Libray of Collections for OO Programming
 
-While developing and helping others develop PHP applications I noticed the trend to use PHP's arrays in nearly every task. Arrays in PHP are useful but they aren't well suited to object-oriented programming since they are not objects. I made this library to make writing object-oriented code easier and more expressive.
+While developing and helping others develop PHP applications I noticed the trend to use PHP's arrays in nearly every task. Arrays in PHP are useful but are overused because PHP doesn't have rich standard libraries for working with common data structures and algorithms. This library hopes to fill in that gap. Undoubtably, I've made mistakes in design and implementation; hopefully more community involvement can help identify and fix such mistakes.
 
 ## Requirements
 
-##### PHP 5.4
-This project requires **PHP 5.4** because it uses Traits, the callable type-hint and short-array syntax. Depending on how long this project takes to mature it might require PHP 5.5 for generators and improved handling of non-scalar keys in `foreach` loops.
-
-You can also use HHVM. I won't let HHVM compatibility stop me from using features in PHP 5.5 or 5.6 if I feel those features will help me, but for now we are compatible.
-
 ##### Patience
-This project is unstable and subject to significant changes from release to release. Therefore it requires that you exercise patience if you use it in your project.
+This project is unstable and subject to significant changes from release to release. Stability is not a goal during this phase of development. To be clear: you are using this project at your own risk. I highly value your experience using this library and am thankful for the early adopters, but I want to emphasize that this project is highly unstable.
+
+##### PHP 5.4
+This project requires **PHP 5.4** because PHP 5.3 is at its End Of Life (EOL). As such the project makes use of Traits, the callable type and short array syntax. Depending on how long this project takes to mature it might require PHP 5.5 for generators and improved handling of non-scalar keys in `foreach` loops, or maybe PHP 5.6 for `…` support.
+
+You can also use HHVM. I won't let HHVM compatibility stop me from doing what I feel is right for this library, but hopefully we can maintain compatibility.
 
 ## Roadmap
 
@@ -18,15 +18,15 @@ There is no official roadmap for this project. I intend to release version 1.0.0
 
 ## How can I help?
 
-The best way to help is to use the library and [submit issues](https://github.com/morrisonlevi/Ardent/issues) when you find them. Over 99% of the library has been executed in a unit test but the quality of some of these tests is poor; improved tests are definitely welcome.
+The best way to help is to use the library (again, at your own risk) and [submit issues](https://github.com/morrisonlevi/Ardent/issues) when you find them. Over 99% of the library has been executed in a unit test but the quality of some of these tests is poor; improved tests are definitely welcome.
 
 ##### Can you add X structure?
 
-Maybe. Open an issue and mark it as a feature request and I'll look into it. 
+Maybe. Open an issue and I'll look into it. 
 
 ## Why not use the existing Standard PHP Library?
 
-The Standard PHP Library (SPL) has many problems, some of which are documented in an [unfinished RFC regarding the SPL](https://wiki.php.net/rfc/spl-improvements).  I won't go into them here, but I felt I needed to give at least some reasoning for not using it.
+The Standard PHP Library (SPL) has many problems, some of which are documented in an [unfinished RFC regarding the SPL](https://wiki.php.net/rfc/spl-improvements). I won't go into full details here, but essentially the SPL is not providing the standardized data structures and algorithms that I feel the PHP community needs.
 
 ### What's up with the name?
 
