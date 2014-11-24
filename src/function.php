@@ -136,7 +136,9 @@ function autoload($className) {
 function hash($item) {
     if (is_object($item)) {
         return spl_object_hash($item);
-    } elseif (is_scalar($item)) {
+    } elseif (is_numeric($item) || is_bool($item)) {
+        return "s_" . intval($item);
+    } elseif (is_string($item)) {
         return "s_$item";
     } elseif (is_resource($item)) {
         return "r_$item";
@@ -159,3 +161,4 @@ function intGuard($i) {
     }
     return (int)$i;
 }
+
