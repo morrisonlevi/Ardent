@@ -36,7 +36,7 @@ interface BinarySearchTree extends \Countable, Enumerable {
 
 
     /**
-     * @return BinaryTree A copy of the current BinaryTree
+     * @return BinaryTree|null A copy of the current BinaryTree
      */
     function toBinaryTree();
 
