@@ -75,7 +75,7 @@ class AvlTree implements BinarySearchTree {
 
 
     /**
-     * @return BinaryTree A copy of the current BinaryTree
+     * @return BinaryTree|null A copy of the current BinaryTree
      */
     function toBinaryTree() {
         return $this->root !== null
@@ -189,7 +189,7 @@ class AvlTree implements BinarySearchTree {
      * @param $element
      * @param BinaryTree $node
      *
-     * @return BinaryTree
+     * @return BinaryTree|null
      */
     protected function removeRecursive($element, BinaryTree $node = null) {
         $nullAction = [$this, 'doNothing'];
@@ -220,7 +220,7 @@ class AvlTree implements BinarySearchTree {
     /**
      * @param BinaryTree $node
      *
-     * @return BinaryTree
+     * @return BinaryTree|null
      */
     protected function deleteNode(BinaryTree $node) {
         $state = $this->deleteSelectState($node);
@@ -231,7 +231,7 @@ class AvlTree implements BinarySearchTree {
     /**
      * @param BinaryTree $node
      *
-     * @return BinaryTree
+     * @return BinaryTree|null
      */
     protected function balance(BinaryTree $node = null) {
         if ($node === null) {

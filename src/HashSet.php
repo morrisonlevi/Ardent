@@ -16,8 +16,6 @@ class HashSet extends AbstractSet implements Set {
 
     /**
      * @param callable $hashFunction
-     *
-     * @return HashSet
      */
     function __construct(callable $hashFunction = null) {
         $this->hashFunction = $hashFunction ?: '\Collections\hash';

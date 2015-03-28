@@ -5,11 +5,11 @@ namespace Collections;
 class BinaryTree {
 
     /**
-     * @var BinaryTree
+     * @var BinaryTree|null
      */
     private $left = null;
     /**
-     * @var BinaryTree
+     * @var BinaryTree|null
      */
     private $right = null;
 
@@ -24,7 +24,7 @@ class BinaryTree {
 
 
     /**
-     * @return BinaryTree
+     * @return BinaryTree|null
      */
     function right() {
         return $this->right;
@@ -32,7 +32,7 @@ class BinaryTree {
 
 
     /**
-     * @return BinaryTree
+     * @return BinaryTree|null
      */
     function left() {
         return $this->left;

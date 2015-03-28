@@ -2,7 +2,7 @@
 
 namespace Collections;
 
-interface Stack extends \IteratorAggregate, \Countable, Enumerable {
+interface Stack extends \Countable, Enumerable {
 
     /**
      * @param mixed $object
