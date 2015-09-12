@@ -2,3 +2,4 @@
 vendor/
 !vendor/autoload.php
 test/coverage/
+Ardent.phar
