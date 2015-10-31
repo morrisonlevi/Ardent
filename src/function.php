@@ -3,6 +3,9 @@
 namespace Collections;
 
 
+use Collections\Attribute\Filterable;
+use Collections\Attribute\Mappable;
+
 function negate(callable $f) {
     return function () use ($f) {
         return !call_user_func_array($f, func_get_args());
@@ -162,5 +165,33 @@ function intGuard($i) {
         throw new TypeException;
     }
     return (int)$i;
+}
+
+
+/**
+ * @param callable $mapper
+ * @param $input
+ * @return \Traversable
+ */
+function map(callable $mapper, $input) {
+    if ($input instanceof Mappable) {
+        return $input->map($mapper);
+    }
+
+    return new MappingIterator($input, $mapper);
+}
+
+
+/**
+ * @param callable $filter
+ * @param $input
+ * @return \Traversable
+ */
+function filter(callable $filter, $input) {
+    if ($input instanceof Filterable) {
+        return $input->filter($filter);
+    }
+
+    return new FilteringIterator($input, $filter);
 }
 

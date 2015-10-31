@@ -10,7 +10,7 @@ class MappingIterator extends IteratorCollectionAdapter {
     private $mapper;
 
 
-    function __construct(\Iterator $iterator, callable $map) {
+    function __construct($iterator, callable $map) {
         parent::__construct($iterator);
         $this->mapper = $map;
     }

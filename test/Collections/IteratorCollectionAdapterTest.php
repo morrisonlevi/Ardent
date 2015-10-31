@@ -112,7 +112,7 @@ class IteratorCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
 
     function testKeysMap() {
         $array = ['one' => 1, 'two' => 2, 'three' => 3];
-        $iterator = new IteratorCollectionAdapter(new ArrayIterator($array));
+        $iterator = new IteratorCollectionAdapter($array);
 
         $this->assertEquals(['one', 'two', 'three'], $iterator->keys()->toArray());
     }
@@ -120,7 +120,7 @@ class IteratorCollectionAdapterTest extends \PHPUnit_Framework_TestCase {
 
     function testValuesOnValuesReturnsSame() {
         $array = ['one' => 1, 'two' => 2, 'three' => 3];
-        $iterator = new ValueIterator(new ArrayIterator($array));
+        $iterator = new ValueIterator(new \ArrayObject($array));
 
         $this->assertSame($iterator, $iterator->values());
 

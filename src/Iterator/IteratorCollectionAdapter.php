@@ -12,8 +12,18 @@ class IteratorCollectionAdapter implements Enumerator, \OuterIterator {
     protected $inner;
 
 
-    function __construct(\Iterator $Iterator) {
-        $this->inner = $Iterator;
+    function __construct($iterable) {
+
+        if (is_array($iterable)) {
+            $iterator = new ArrayIterator($iterable);
+        } else if ($iterable instanceof \Iterator) {
+            $iterator = $iterable;
+        } else {
+            assert($iterable instanceof \Traversable);
+            $iterator = new \IteratorIterator($iterable);
+        }
+
+        $this->inner = $iterator;
     }
 
 
