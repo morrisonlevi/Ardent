@@ -2,7 +2,11 @@
 
 namespace Collections;
 
-interface Collection extends \Traversable {
+use Collections\Attribute\Filterable;
+use Collections\Attribute\Mappable;
+
+
+interface Collection extends \Traversable, Filterable, Mappable {
 
     /**
      * @return bool

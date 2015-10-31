@@ -55,6 +55,8 @@ function autoload($className) {
     static $classMap = [
         'Collections\\AbstractSet' => 'AbstractSet.php',
         'Collections\\ArrayIterator' => 'Iterator/ArrayIterator.php',
+        'Collections\\Attribute\\Filterable' => 'Attribute/Filterable.php',
+        'Collections\\Attribute\\Mappable' => 'Attribute/Mappable.php',
         'Collections\\AvlTree' => 'AvlTree.php',
         'Collections\\BinarySearchTree' => 'BinarySearchTree.php',
         'Collections\\BinaryTree' => 'BinaryTree.php',

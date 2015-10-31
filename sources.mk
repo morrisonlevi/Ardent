@@ -1,5 +1,7 @@
 SOURCES = \
 	src/AbstractSet.php \
+	src/Attribute/Filterable.php
+	src/Attribute/Mappable.php
 	src/AvlTree.php \
 	src/BinarySearchTree.php \
 	src/BinaryTree.php \
