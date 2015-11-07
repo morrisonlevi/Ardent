@@ -1,27 +1,25 @@
 <?php
 
+require __DIR__ . '/../load.php';
+
 spl_autoload_register(function ($class) {
     switch ($class) {
-        case 'Collections\\CollectionTestDriver':
-            require __DIR__ . '/Collections/CollectionTestDriver.php';
+
+        case 'Ardent\\Collection\\SetIteratorTest':
+            require __DIR__ . '/Collection/Set/SetIteratorTest.php';
             break;
 
-        case 'Collections\\SetIteratorTest':
-            require __DIR__ . '/Collections/Set/SetIteratorTest.php';
+        case 'Ardent\Collection\\SetTest':
+            require __DIR__ . '/Collection/Set/SetTest.php';
             break;
 
-        case 'Collections\\SetTest':
-            require __DIR__ . '/Collections/Set/SetTest.php';
+        case 'Ardent\Collection\\TestCase':
+            require __DIR__ . '/Collection/TestCase.php';
             break;
 
-        case 'Collections\\TestCase':
-            require __DIR__ . '/Collections/TestCase.php';
-            break;
-
-        case 'Collections\\BinaryTreeIteratorTest':
-            require __DIR__ . '/Collections/BinarySearchTree/BinaryTreeIteratorTest.php';
+        case 'Ardent\Collection\\BinaryTreeIteratorTest':
+            require __DIR__ . '/Collection/BinarySearchTree/BinaryTreeIteratorTest.php';
             break;
     }
 });
 
-require __DIR__ . '/../autoload.php';
