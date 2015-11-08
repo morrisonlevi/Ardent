@@ -8,4 +8,3 @@ use Countable;
 interface SetIterator extends Countable, Enumerator {
 
 }
-

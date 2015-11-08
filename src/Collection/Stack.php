@@ -39,4 +39,3 @@ interface Stack extends Countable, Enumerable {
 
 
 }
-

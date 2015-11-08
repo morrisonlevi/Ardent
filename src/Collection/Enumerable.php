@@ -13,4 +13,3 @@ interface Enumerable extends Collection, IteratorAggregate {
     function getIterator();
 
 }
-

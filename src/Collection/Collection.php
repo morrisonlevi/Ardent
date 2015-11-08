@@ -13,4 +13,3 @@ interface Collection extends Traversable {
     function isEmpty();
 
 }
-

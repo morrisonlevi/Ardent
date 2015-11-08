@@ -8,4 +8,3 @@ use Countable;
 interface StackIterator extends Countable, Enumerator {
 
 }
-

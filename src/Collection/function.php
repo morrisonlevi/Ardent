@@ -66,4 +66,3 @@ function hash($item) {
 
     return '0';
 }
-

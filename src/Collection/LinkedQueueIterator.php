@@ -102,4 +102,3 @@ class LinkedQueueIterator implements QueueIterator {
 
 
 }
-

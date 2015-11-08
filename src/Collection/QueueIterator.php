@@ -8,4 +8,3 @@ use Countable;
 interface QueueIterator extends Countable, Enumerator {
 
 }
-

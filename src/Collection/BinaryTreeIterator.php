@@ -8,4 +8,3 @@ use Countable;
 interface BinaryTreeIterator extends Countable, Enumerator {
 
 }
-

@@ -20,4 +20,3 @@ class ArrayIterator extends \ArrayIterator implements Enumerator {
 
 
 }
-

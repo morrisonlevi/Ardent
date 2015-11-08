@@ -41,4 +41,3 @@ final class HashSetIterator implements SetIterator {
 
 
 }
-

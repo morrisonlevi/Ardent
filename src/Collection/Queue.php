@@ -33,4 +33,3 @@ interface Queue extends \Countable, Enumerable {
     function getIterator();
 
 }
-

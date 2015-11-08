@@ -8,4 +8,3 @@ use Countable;
 interface MapIterator extends Countable, Enumerator {
 
 }
-

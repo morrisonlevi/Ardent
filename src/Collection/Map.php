@@ -9,4 +9,3 @@ use Countable;
 interface Map extends ArrayAccess, Countable, Enumerable {
 
 }
-
