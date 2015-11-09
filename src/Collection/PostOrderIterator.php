@@ -55,7 +55,7 @@ class PostOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean
+     * @return bool
      */
     function valid() {
         return $this->current !== null;

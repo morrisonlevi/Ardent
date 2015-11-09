@@ -42,7 +42,7 @@ class HashMap implements Map {
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      * @param mixed $offset
-     * @return boolean
+     * @return bool
      */
     function offsetExists($offset) {
         return array_key_exists(call_user_func($this->hashFunction, $offset), $this->storage);

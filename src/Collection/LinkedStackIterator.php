@@ -50,7 +50,7 @@ class LinkedStackIterator implements StackIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean
+     * @return bool
      */
     function valid() {
         return $this->pair !== null;

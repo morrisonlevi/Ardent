@@ -80,7 +80,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      * @param int $offset
-     * @return boolean
+     * @return bool
      */
     function offsetExists($offset) {
         return $offset >= 0 && $offset < $this->count();
@@ -195,7 +195,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean
+     * @return bool
      */
     function valid() {
         return $this->current instanceof LinkedDataNode;
