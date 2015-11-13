@@ -3,10 +3,10 @@ include sources.mk
 
 .PHONY: clean check phar
 
-phar: Ardent.phar
-
 load.php: $(SOURCES)
 	$(PHP) make-loader.php $^ > $@
+
+phar: Ardent.phar
 
 Ardent.phar: load.php $(SOURCES)
 	$(PHP) -d phar.readonly=0 make-phar.php $@ $^
