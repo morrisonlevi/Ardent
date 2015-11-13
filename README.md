@@ -10,7 +10,7 @@ While developing and helping others develop PHP applications I noticed the trend
 This project is unstable and subject to significant changes from release to release. Stability is not a goal during this phase of development. To be clear: you are using this project at your own risk. I highly value your experience using this library and am thankful for the early adopters, but I want to emphasize that this project is highly unstable.
 
 ##### PHP 5.4
-This project requires **PHP 5.4** because PHP 5.3 is at its End Of Life (EOL). As such the project makes use of Traits, the callable type and short array syntax. Depending on how long this project takes to mature it might require PHP 5.5 for generators and improved handling of non-scalar keys in `foreach` loops, or maybe PHP 5.6 for `…` support.
+This project requires **PHP 5.4** because PHP 5.3 is at its End Of Life (EOL). As such the project makes use of Traits, the callable type and short array syntax. Depending on how long this project takes to mature it might require PHP 5.5 for generators and improved handling of non-scalar keys in `foreach` loops, or maybe PHP 5.6 for `...` support.
 
 You can also use HHVM. I won't let HHVM compatibility stop me from doing what I feel is right for this library, but hopefully we can maintain compatibility.
 
@@ -32,4 +32,4 @@ The Standard PHP Library (SPL) has many problems, some of which are documented i
 
 ### What's up with the name?
 
-This project was originally aimed to fix the SPL; as such I had named it SPL. Eventually I realized that I would do better with a different name; I picked Ardent it describes how I feel about the need for this kind of library. Right now the Ardent namespace isn't used within the project at all. I will eventually move away from the name Ardent because another PHP project decided to use the name after I had already picked it. I am not sure what the final name will be, so for now they are simply "Collections".
+This project was originally aimed to fix the SPL; as such I had named it SPL. Eventually I realized that I would do better with a different name; I picked Ardent it describes how I feel about the need for this kind of library. Unfortunately another PHP project decided to use the name after I had already picked it.
