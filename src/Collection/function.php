@@ -3,7 +3,7 @@
 namespace Ardent\Collection;
 
 
-function negate(Callable $f) {
+function negate(callable $f) {
     return function () use ($f) {
         return !call_user_func_array($f, func_get_args());
     };
@@ -13,7 +13,7 @@ function negate(Callable $f) {
 /**
  * @param $a
  * @param $b
- * @return Int
+ * @return int
  */
 function compare($a, $b) {
     if ($a < $b) {
@@ -29,7 +29,7 @@ function compare($a, $b) {
 /**
  * @param $a
  * @param $b
- * @return Bool
+ * @return bool
  */
 function equal($a, $b) {
     return $a == $b;
@@ -39,7 +39,7 @@ function equal($a, $b) {
 /**
  * @param $a
  * @param $b
- * @return Bool
+ * @return bool
  */
 function same($a, $b) {
     return $a === $b;
@@ -49,7 +49,7 @@ function same($a, $b) {
 /**
  * @param $item
  *
- * @return String
+ * @return string
  */
 function hash($item) {
     if (is_object($item)) {

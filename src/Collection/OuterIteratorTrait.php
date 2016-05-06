@@ -16,7 +16,7 @@ trait OuterIteratorTrait {
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
-     * @return Mixed
+     * @return mixed
      */
     function current() {
         return $this->getInnerIterator()->current();
@@ -34,7 +34,7 @@ trait OuterIteratorTrait {
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return Mixed
+     * @return mixed
      */
     function key() {
         return $this->getInnerIterator()->key();
@@ -43,7 +43,7 @@ trait OuterIteratorTrait {
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return Bool
+     * @return bool
      */
     function valid() {
         return $this->getInnerIterator()->valid();

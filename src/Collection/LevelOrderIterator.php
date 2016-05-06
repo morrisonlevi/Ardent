@@ -6,7 +6,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
 
 
     /**
-     * @var Array
+     * @var array
      */
     protected $queue = [];
 
@@ -49,7 +49,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return Bool
+     * @return bool
      */
     function valid() {
         return $this->key < $this->count();
@@ -58,7 +58,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return Int
+     * @return int
      */
     function key() {
         return $this->key;
@@ -67,7 +67,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
-     * @return Mixed
+     * @return mixed
      */
     function current() {
         return $this->value->value();
@@ -103,7 +103,7 @@ class LevelOrderIterator implements BinaryTreeIterator {
 
 
     /**
-     * @return Bool
+     * @return bool
      */
     function isEmpty() {
         return $this->count() === 0;

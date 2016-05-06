@@ -8,7 +8,7 @@ use Traversable;
 interface Collection extends Traversable {
 
     /**
-     * @return Bool
+     * @return bool
      */
     function isEmpty();
 

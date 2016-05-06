@@ -8,21 +8,21 @@ use Countable;
 interface BinarySearchTree extends Countable, Enumerable {
 
     /**
-     * @param Callable $f
-     * @return Mixed
+     * @param callable $f
+     * @return mixed
      */
-    function setCompare(Callable $f);
+    function setCompare(callable $f);
 
 
     /**
-     * @param Mixed $element
+     * @param mixed $element
      * @return void
      */
     function add($element);
 
 
     /**
-     * @param Mixed $element
+     * @param mixed $element
      * @return void
      */
     function remove($element);
@@ -31,7 +31,7 @@ interface BinarySearchTree extends Countable, Enumerable {
     /**
      * @param $element
      *
-     * @return Mixed
+     * @return mixed
      */
     function get($element);
 
@@ -51,25 +51,25 @@ interface BinarySearchTree extends Countable, Enumerable {
     /**
      * @param $item
      *
-     * @return Bool
+     * @return bool
      */
     function contains($item);
 
 
     /**
-     * @return Mixed
+     * @return mixed
      */
     function first();
 
 
     /**
-     * @return Mixed
+     * @return mixed
      */
     function last();
 
 
     /**
-     * @return Bool
+     * @return bool
      */
     function isEmpty();
 

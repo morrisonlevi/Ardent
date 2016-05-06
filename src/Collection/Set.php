@@ -20,8 +20,8 @@ interface Set extends Countable, Enumerable {
 
 
     /**
-     * @param Mixed $item
-     * @return Bool
+     * @param mixed $item
+     * @return bool
      */
     function has($item);
 

@@ -14,7 +14,7 @@ interface Queue extends \Countable, Enumerable {
 
 
     /**
-     * @return Mixed
+     * @return mixed
      */
     function dequeue();
 
@@ -22,7 +22,7 @@ interface Queue extends \Countable, Enumerable {
     /**
      * Returns the next item to be removed without removing it.
      *
-     * @return Mixed
+     * @return mixed
      */
     function first();
 

@@ -103,14 +103,14 @@ abstract class AbstractSet implements Set {
     }
 
 
-    private function for_each(\Traversable $i, Callable $f) {
+    private function for_each(\Traversable $i, callable $f) {
         foreach ($i as $item) {
             $f($item);
         }
     }
 
 
-    private function addIf(Set $to, Set $from, Callable $f) {
+    private function addIf(Set $to, Set $from, callable $f) {
         foreach ($from as $value) {
             if ($f($value)) {
                 $to->add($value);

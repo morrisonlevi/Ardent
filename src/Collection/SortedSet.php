@@ -10,16 +10,16 @@ class SortedSet extends AbstractSet implements Set {
     private $bst;
 
     /**
-     * @var Callable
+     * @var callable
      */
     private $comparator;
 
 
     /**
-     * @param Callable $comparator
+     * @param callable $comparator
      * @param BinarySearchTree $tree
      */
-    function __construct(Callable $comparator = null, BinarySearchTree $tree = null) {
+    function __construct(callable $comparator = null, BinarySearchTree $tree = null) {
         if ($tree !== null) {
             assert($tree->isEmpty());
             $this->bst = $tree;
@@ -46,7 +46,7 @@ class SortedSet extends AbstractSet implements Set {
 
 
     /**
-     * @return Bool
+     * @return bool
      */
     function isEmpty() {
         return $this->bst->isEmpty();
@@ -55,7 +55,7 @@ class SortedSet extends AbstractSet implements Set {
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return Int
+     * @return int
      */
     function count() {
         return $this->bst->count();
@@ -87,7 +87,7 @@ class SortedSet extends AbstractSet implements Set {
 
 
     /**
-     * @return Mixed
+     * @return mixed
      */
     function first() {
         return $this->bst->first();
@@ -95,7 +95,7 @@ class SortedSet extends AbstractSet implements Set {
 
 
     /**
-     * @return Mixed
+     * @return mixed
      */
     function last() {
         return $this->bst->last();

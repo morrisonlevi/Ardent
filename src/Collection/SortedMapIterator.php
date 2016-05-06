@@ -37,7 +37,7 @@ class SortedMapIterator implements MapIterator {
     /**
      * @link https://bugs.php.net/bug.php?id=45684
      * @link http://php.net/manual/en/iterator.key.php
-     * @return Mixed
+     * @return mixed
      */
     function key() {
         return $this->inner->current()->first;
@@ -46,7 +46,7 @@ class SortedMapIterator implements MapIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
-     * @return Mixed
+     * @return mixed
      */
     function current() {
         return $this->inner->current()->second;
@@ -54,7 +54,7 @@ class SortedMapIterator implements MapIterator {
 
 
     /**
-     * @return Bool
+     * @return bool
      */
     function isEmpty() {
         return $this->count() === 0;

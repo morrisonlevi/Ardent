@@ -13,7 +13,7 @@ class LinkedStack implements Stack {
 
 
     /**
-     * @return Bool
+     * @return bool
      */
     function isEmpty() {
         return $this->top === null;
@@ -31,7 +31,7 @@ class LinkedStack implements Stack {
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return Int
+     * @return int
      */
     function count() {
         return $this->size;
@@ -39,7 +39,7 @@ class LinkedStack implements Stack {
 
 
     /**
-     * @param Mixed $object
+     * @param mixed $object
      * @return void
      */
     function push($object) {
@@ -49,7 +49,7 @@ class LinkedStack implements Stack {
 
 
     /**
-     * @return Mixed
+     * @return mixed
      */
     function pop() {
         assert(!$this->isEmpty());
@@ -62,7 +62,7 @@ class LinkedStack implements Stack {
 
 
     /**
-     * @return Mixed
+     * @return mixed
      */
     function last() {
         assert(!$this->isEmpty());
@@ -77,7 +77,7 @@ class LinkedStack implements Stack {
 
 
     /**
-     * @return Array
+     * @return array
      */
     function toArray() {
         $a = [];

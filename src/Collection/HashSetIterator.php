@@ -11,7 +11,7 @@ final class HashSetIterator implements SetIterator {
     private $inner;
 
 
-    function  __construct(Array $set) {
+    function  __construct(array $set) {
         $this->inner = new \ArrayIterator(array_values($set));
     }
 
@@ -25,7 +25,7 @@ final class HashSetIterator implements SetIterator {
 
 
     /**
-     * @return Int
+     * @return int
      */
     function count() {
         return $this->inner->count();
@@ -33,7 +33,7 @@ final class HashSetIterator implements SetIterator {
 
 
     /**
-     * @return Bool
+     * @return bool
      */
     function isEmpty() {
         return $this->count() === 0;

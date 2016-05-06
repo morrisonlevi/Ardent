@@ -10,7 +10,7 @@ class AvlTree implements BinarySearchTree {
     private $root = null;
 
     /**
-     * @var Callable
+     * @var callable
      */
     protected $comparator;
 
@@ -25,9 +25,9 @@ class AvlTree implements BinarySearchTree {
 
 
     /**
-     * @param Callable $comparator
+     * @param callable $comparator
      */
-    function __construct(Callable $comparator = null) {
+    function __construct(callable $comparator = null) {
         $this->comparator = $comparator ?: __NAMESPACE__ . '\\compare';
         $this->deleteOptions = [
             0b000 => [$this, 'deleteNoChildren'],
@@ -39,7 +39,7 @@ class AvlTree implements BinarySearchTree {
 
 
     /**
-     * @param Mixed $element
+     * @param mixed $element
      */
     function add($element) {
         $this->root = $this->addRecursive($element, $this->root);
@@ -48,7 +48,7 @@ class AvlTree implements BinarySearchTree {
 
 
     /**
-     * @param Mixed $element
+     * @param mixed $element
      */
     function remove($element) {
         $this->root = $this->removeRecursive($element, $this->root);
@@ -59,7 +59,7 @@ class AvlTree implements BinarySearchTree {
     /**
      * @param $element
      *
-     * @return Mixed
+     * @return mixed
      */
     function get($element) {
         $node = $this->findNode($element, $this->root);
@@ -92,7 +92,7 @@ class AvlTree implements BinarySearchTree {
     /**
      * @param $item
      *
-     * @return Bool
+     * @return bool
      */
     function contains($item) {
         return $this->findNode($item, $this->root) !== null;
@@ -100,7 +100,7 @@ class AvlTree implements BinarySearchTree {
 
 
     /**
-     * @return Mixed
+     * @return mixed
      */
     function first() {
         assert(!$this->isEmpty());
@@ -109,7 +109,7 @@ class AvlTree implements BinarySearchTree {
 
 
     /**
-     * @return Mixed
+     * @return mixed
      */
     function last() {
         assert(!$this->isEmpty());
@@ -118,7 +118,7 @@ class AvlTree implements BinarySearchTree {
 
 
     /**
-     * @return Bool
+     * @return bool
      */
     function isEmpty() {
         return $this->root === null;
@@ -135,7 +135,7 @@ class AvlTree implements BinarySearchTree {
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return Int
+     * @return int
      */
     function count() {
         return $this->size;
@@ -150,10 +150,10 @@ class AvlTree implements BinarySearchTree {
 
 
     /**
-     * @param Callable $f
-     * @return Mixed
+     * @param callable $f
+     * @return mixed
      */
-    function setCompare(Callable $f) {
+    function setCompare(callable $f) {
         assert($this->isEmpty());
         $this->comparator = $f;
     }
@@ -334,7 +334,7 @@ class AvlTree implements BinarySearchTree {
 
     /**
      * @param BinaryTree $node
-     * @return Int
+     * @return int
      */
     private function deleteSelectState(BinaryTree $node) {
         $state = 0;

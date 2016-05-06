@@ -70,7 +70,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return Int
+     * @return int
      */
     function count() {
         return $this->size;
@@ -79,8 +79,8 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param Int $offset
-     * @return Bool
+     * @param int $offset
+     * @return bool
      */
     function offsetExists($offset) {
         return $offset >= 0 && $offset < $this->count();
@@ -89,8 +89,8 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param Int $offset
-     * @return Mixed
+     * @param int $offset
+     * @return mixed
      */
     function offsetGet($offset) {
         $n = $this->guardedSeek($offset);
@@ -100,8 +100,8 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param Int|null $offset
-     * @param Mixed $value
+     * @param int|null $offset
+     * @param mixed $value
      * @return void
      */
     function offsetSet($offset, $value) {
@@ -116,7 +116,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param Int $offset
+     * @param int $offset
      * @return void
      */
     function offsetUnset($offset) {
@@ -130,8 +130,8 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
 
     /**
-     * @param Int $position
-     * @param Mixed $value
+     * @param int $position
+     * @param mixed $value
      * @return void
      */
     function insertBefore($position, $value) {
@@ -143,8 +143,8 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
 
     /**
-     * @param Int $position
-     * @param Mixed $value
+     * @param int $position
+     * @param mixed $value
      * @return void
      */
     function insertAfter($position, $value) {
@@ -156,7 +156,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
-     * @return Mixed
+     * @return mixed
      */
     function current() {
         /**
@@ -186,7 +186,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return Mixed
+     * @return mixed
      */
     function key() {
         return $this->offset;
@@ -195,7 +195,7 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return Bool
+     * @return bool
      */
     function valid() {
         return $this->current instanceof LinkedDataNode;
@@ -215,8 +215,8 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @link http://php.net/manual/en/seekableiterator.seek.php
-     * @param Int $position
-     * @return Mixed
+     * @param int $position
+     * @return mixed
      */
     function seek($position) {
         assert($this->offsetExists($position));
@@ -237,10 +237,10 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @param $value
-     * @param Callable $f
-     * @return Int
+     * @param callable $f
+     * @return int
      */
-    function indexOf($value, Callable $f = null) {
+    function indexOf($value, callable $f = null) {
         $equal = $f ?: __NAMESPACE__ . '\\equal';
 
         foreach ($this as $ndx => $x) {
@@ -255,10 +255,10 @@ class LinkedList implements \ArrayAccess, \Countable, Enumerator {
 
     /**
      * @param $value
-     * @param Callable $f [optional]
-     * @return Bool
+     * @param callable $f [optional]
+     * @return bool
      */
-    function contains($value, Callable $f = null) {
+    function contains($value, callable $f = null) {
         return $this->indexOf($value, $f) >= 0;
     }
 
