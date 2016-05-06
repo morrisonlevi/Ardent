@@ -14,7 +14,7 @@ class HashMapIterator implements MapIterator {
     private $inner;
 
 
-    function __construct(array $storage) {
+    function __construct(Array $storage) {
         $this->inner = new \ArrayIterator($storage);
     }
 
@@ -26,7 +26,7 @@ class HashMapIterator implements MapIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed
+     * @return Mixed
      */
     function key() {
         /**
@@ -39,7 +39,7 @@ class HashMapIterator implements MapIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed
+     * @return Mixed
      */
     function current() {
         /**
@@ -52,7 +52,7 @@ class HashMapIterator implements MapIterator {
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return int
+     * @return Int
      */
     function count() {
         return $this->inner->count();
@@ -60,7 +60,7 @@ class HashMapIterator implements MapIterator {
 
 
     /**
-     * @return bool
+     * @return Bool
      */
     function isEmpty() {
         return $this->count() === 0;

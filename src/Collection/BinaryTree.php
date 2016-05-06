@@ -62,7 +62,7 @@ class BinaryTree {
 
 
     /**
-     * @return int
+     * @return Int
      */
     function height() {
         return $this->height;
@@ -70,7 +70,7 @@ class BinaryTree {
 
 
     /**
-     * @return int
+     * @return Int
      */
     function leftHeight() {
         return $this->left === null
@@ -80,7 +80,7 @@ class BinaryTree {
 
 
     /**
-     * @return int
+     * @return Int
      */
     function rightHeight() {
         return $this->right === null
@@ -90,7 +90,7 @@ class BinaryTree {
 
 
     /**
-     * @return mixed
+     * @return Mixed
      */
     function value() {
         return $this->value;
@@ -98,7 +98,7 @@ class BinaryTree {
 
 
     /**
-     * @param mixed $value
+     * @param Mixed $value
      * @return void
      */
     function setValue($value) {

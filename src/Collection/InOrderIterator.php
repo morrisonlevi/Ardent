@@ -15,7 +15,7 @@ class InOrderIterator implements BinaryTreeIterator {
     protected $root;
 
     /**
-     * @var int
+     * @var Int
      */
     protected $key = null;
 
@@ -35,7 +35,7 @@ class InOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed
+     * @return Mixed
      */
     function current() {
         return $this->node->value();
@@ -70,7 +70,7 @@ class InOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return int|NULL
+     * @return Int|NULL
      */
     function key() {
         return $this->key;
@@ -79,7 +79,7 @@ class InOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return bool
+     * @return Bool
      */
     function valid() {
         return $this->node !== null;
@@ -115,7 +115,7 @@ class InOrderIterator implements BinaryTreeIterator {
 
 
     /**
-     * @return bool
+     * @return Bool
      */
     function isEmpty() {
         return $this->size === 0;

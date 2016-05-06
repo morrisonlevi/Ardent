@@ -8,32 +8,32 @@ use Countable;
 interface Stack extends Countable, Enumerable {
 
     /**
-     * @param mixed $object
+     * @param Mixed $object
      * @return void
      */
     function push($object);
 
 
     /**
-     * @return mixed
+     * @return Mixed
      */
     function pop();
 
 
     /**
-     * @return mixed
+     * @return Mixed
      */
     function last();
 
 
     /**
-     * @return array
+     * @return Array
      */
     function toArray();
 
 
     /**
-     * @return bool
+     * @return Bool
      */
     function isEmpty();
 

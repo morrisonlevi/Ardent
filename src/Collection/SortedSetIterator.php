@@ -29,7 +29,7 @@ class SortedSetIterator implements SetIterator {
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return int
+     * @return Int
      */
     function count() {
         return $this->size;
@@ -37,7 +37,7 @@ class SortedSetIterator implements SetIterator {
 
 
     /**
-     * @return bool
+     * @return Bool
      */
     function isEmpty() {
         return $this->count() === 0;

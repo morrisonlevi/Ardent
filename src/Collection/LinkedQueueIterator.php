@@ -18,13 +18,13 @@ class LinkedQueueIterator implements QueueIterator {
     private $current;
 
     /**
-     * @var int
+     * @var Int
      */
     private $key = null;
 
 
     /**
-     * @param int $count
+     * @param Int $count
      * @param Pair $head
      */
     function __construct($count, Pair $head = null) {
@@ -36,7 +36,7 @@ class LinkedQueueIterator implements QueueIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
+     * @return Mixed Can return any type.
      */
     function current() {
         return $this->current->first;
@@ -55,7 +55,7 @@ class LinkedQueueIterator implements QueueIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed
+     * @return Mixed
      */
     function key() {
         return $this->key;
@@ -64,7 +64,7 @@ class LinkedQueueIterator implements QueueIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return bool
+     * @return Bool
      */
     function valid() {
         return $this->current !== null;
@@ -86,7 +86,7 @@ class LinkedQueueIterator implements QueueIterator {
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return int
+     * @return Int
      */
     function count() {
         return $this->size;
@@ -94,7 +94,7 @@ class LinkedQueueIterator implements QueueIterator {
 
 
     /**
-     * @return bool
+     * @return Bool
      */
     function isEmpty() {
         return $this->count() === 0;

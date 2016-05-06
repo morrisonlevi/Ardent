@@ -49,7 +49,7 @@ class PreOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return bool
+     * @return Bool
      */
     function valid() {
         return $this->value !== null;
@@ -58,7 +58,7 @@ class PreOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.key.php
-     * @return int
+     * @return Int
      */
     function key() {
         return $this->key;
@@ -67,7 +67,7 @@ class PreOrderIterator implements BinaryTreeIterator {
 
     /**
      * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed
+     * @return Mixed
      */
     function current() {
         return $this->value->value();
@@ -105,7 +105,7 @@ class PreOrderIterator implements BinaryTreeIterator {
 
 
     /**
-     * @return bool
+     * @return Bool
      */
     function isEmpty() {
         return $this->count() === 0;

@@ -11,7 +11,7 @@ class SortedMap implements Map {
     private $avl;
 
     /**
-     * @var callable
+     * @var Callable
      */
     private $comparator;
 
@@ -37,12 +37,12 @@ class SortedMap implements Map {
 
 
     /**
-     * @param mixed $item
-     * @param callable $callback
+     * @param Mixed $item
+     * @param Callable $callback
      *
-     * @return bool
+     * @return Bool
      */
-    function contains($item, callable $callback = null) {
+    function contains($item, Callable $callback = null) {
         if ($callback === null) {
             $callback = __NAMESPACE__ . '\\compare';
         }
@@ -60,7 +60,7 @@ class SortedMap implements Map {
 
 
     /**
-     * @return bool
+     * @return Bool
      */
     function isEmpty() {
         return $this->avl->isEmpty();
@@ -68,7 +68,7 @@ class SortedMap implements Map {
 
 
     /**
-     * @return mixed
+     * @return Mixed
      */
     function firstKey() {
         return $this->avl->first()->first;
@@ -76,7 +76,7 @@ class SortedMap implements Map {
 
 
     /**
-     * @return mixed
+     * @return Mixed
      */
     function lastKey() {
         return $this->avl->last()->first;
@@ -86,9 +86,9 @@ class SortedMap implements Map {
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      *
-     * @param mixed $offset
+     * @param Mixed $offset
      *
-     * @return bool
+     * @return Bool
      */
     function offsetExists($offset) {
         return $this->avl->contains(new Pair($offset, null));
@@ -96,9 +96,9 @@ class SortedMap implements Map {
 
 
     /**
-     * @param mixed $offset
+     * @param Mixed $offset
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @return mixed
+     * @return Mixed
      */
     function offsetGet($offset) {
         assert($this->offsetExists($offset));
@@ -110,8 +110,8 @@ class SortedMap implements Map {
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
      *
-     * @param mixed $offset
-     * @param mixed $value
+     * @param Mixed $offset
+     * @param Mixed $value
      *
      * @return void
      */
@@ -123,7 +123,7 @@ class SortedMap implements Map {
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
      *
-     * @param mixed $offset
+     * @param Mixed $offset
      *
      * @return void
      */
@@ -135,7 +135,7 @@ class SortedMap implements Map {
     /**
      * @param $key
      *
-     * @return mixed
+     * @return Mixed
      */
     function get($key) {
         assert($this->offsetExists($key));
@@ -154,7 +154,7 @@ class SortedMap implements Map {
      * the map that it's value will be replaced with the new one.
      *
      * @param $key
-     * @param mixed $value
+     * @param Mixed $value
      *
      * @return void
      */
@@ -166,7 +166,7 @@ class SortedMap implements Map {
     /**
      * @param $key
      *
-     * @return mixed
+     * @return Mixed
      */
     function remove($key) {
         $this->avl->remove(new Pair($key, null));
@@ -175,7 +175,7 @@ class SortedMap implements Map {
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return int
+     * @return Int
      */
     function count() {
         return $this->avl->count();

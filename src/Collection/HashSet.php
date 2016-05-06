@@ -8,15 +8,15 @@ class HashSet extends AbstractSet implements Set {
     private $objects = [];
 
     /**
-     * @var callable
+     * @var Callable
      */
     private $hashFunction = null;
 
 
     /**
-     * @param callable $hashFunction
+     * @param Callable $hashFunction
      */
-    function __construct(callable $hashFunction = null) {
+    function __construct(Callable $hashFunction = null) {
         $this->hashFunction = $hashFunction ?: __NAMESPACE__ . '\\hash';
     }
 
@@ -24,7 +24,7 @@ class HashSet extends AbstractSet implements Set {
     /**
      * @param $item
      *
-     * @return bool
+     * @return Bool
      */
     function has($item) {
         $hash = call_user_func($this->hashFunction, $item);
@@ -45,7 +45,7 @@ class HashSet extends AbstractSet implements Set {
 
 
     /**
-     * @return bool
+     * @return Bool
      */
     function isEmpty() {
         return $this->count() === 0;
@@ -54,7 +54,7 @@ class HashSet extends AbstractSet implements Set {
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return int
+     * @return Int
      */
     function count() {
         return count($this->objects);

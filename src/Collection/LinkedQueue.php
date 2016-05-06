@@ -18,7 +18,7 @@ class LinkedQueue implements Queue {
 
 
     /**
-     * @return bool
+     * @return Bool
      */
     function isEmpty() {
         return $this->head === null;
@@ -52,7 +52,7 @@ class LinkedQueue implements Queue {
 
 
     /**
-     * @return mixed
+     * @return Mixed
      */
     function dequeue() {
         assert(!$this->isEmpty());
@@ -66,7 +66,7 @@ class LinkedQueue implements Queue {
 
     /**
      * Returns the first element in the Queue without removing it.
-     * @return mixed
+     * @return Mixed
      */
     function first() {
         assert(!$this->isEmpty());
@@ -76,7 +76,7 @@ class LinkedQueue implements Queue {
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return int
+     * @return Int
      */
     function count() {
         return $this->size;
@@ -84,8 +84,8 @@ class LinkedQueue implements Queue {
 
 
     /**
-     * @param mixed $item
-     * @return bool
+     * @param Mixed $item
+     * @return Bool
      */
     function contains($item) {
         for ($n = $this->head; $n !== null; $n = $n->second) {

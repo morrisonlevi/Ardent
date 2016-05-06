@@ -6,13 +6,13 @@ namespace Ardent\Collection;
 class ArrayIterator extends \ArrayIterator implements Enumerator {
 
 
-    function __construct(array $array) {
+    function __construct(Array $array) {
         parent::__construct($array);
     }
 
 
     /**
-     * @return bool
+     * @return Bool
      */
     function isEmpty() {
         return parent::count() === 0;

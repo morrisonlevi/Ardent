@@ -8,22 +8,22 @@ class HashMap implements Map {
     private $storage = [];
 
     /**
-     * @var callable
+     * @var Callable
      */
     private $hashFunction = null;
 
 
     /**
-     * @param callable $hashingFunction
+     * @param Callable $hashingFunction
      */
-    function __construct(callable $hashingFunction = null) {
+    function __construct(Callable $hashingFunction = null) {
         $this->hashFunction = $hashingFunction
             ?: __NAMESPACE__ . '\\hash';
     }
 
 
     /**
-     * @return bool
+     * @return Bool
      */
     function isEmpty() {
         return empty($this->storage);
@@ -41,8 +41,8 @@ class HashMap implements Map {
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param mixed $offset
-     * @return bool
+     * @param Mixed $offset
+     * @return Bool
      */
     function offsetExists($offset) {
         return array_key_exists(call_user_func($this->hashFunction, $offset), $this->storage);
@@ -51,8 +51,8 @@ class HashMap implements Map {
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param mixed $offset
-     * @return mixed
+     * @param Mixed $offset
+     * @return Mixed
      */
     function offsetGet($offset) {
         $hash = call_user_func($this->hashFunction, $offset);
@@ -69,8 +69,8 @@ class HashMap implements Map {
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param mixed $offset
-     * @param mixed $value
+     * @param Mixed $offset
+     * @param Mixed $value
      * @return void
      */
     function offsetSet($offset, $value) {
@@ -81,7 +81,7 @@ class HashMap implements Map {
 
     /**
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset
+     * @param Mixed $offset
      * @return void
      */
     function offsetUnset($offset) {
@@ -99,11 +99,11 @@ class HashMap implements Map {
 
     /**
      * @param $item
-     * @param callable $comparator function($a, $b) returns bool
+     * @param Callable $comparator function($a, $b) returns Bool
      *
-     * @return bool
+     * @return Bool
      */
-    function contains($item, callable $comparator = null) {
+    function contains($item, Callable $comparator = null) {
         $compare = $comparator ?: [$this, 'areEqual'];
 
         $storage = $this->storage;
@@ -122,7 +122,7 @@ class HashMap implements Map {
 
     /**
      * @link http://php.net/manual/en/countable.count.php
-     * @return int
+     * @return Int
      */
     function count() {
         return count($this->storage);
