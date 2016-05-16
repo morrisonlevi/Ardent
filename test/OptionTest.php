@@ -19,7 +19,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase {
 	function testSomeIterator_YieldsSingleExpectedValue() {
 		$expect = 13;
 		$iterator = Option::some($expect)->getIterator();
-		$this->assertInstanceOf('Iterator', $iterator);
+		$this->assertInstanceOf(\Iterator::class, $iterator);
 
 		$iterator->rewind();
 		$this->assertTrue($iterator->valid());
@@ -33,7 +33,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase {
 	public
 	function testNoneIterator_YieldsNoValues() {
 		$iterator = Option::none()->getIterator();
-		$this->assertInstanceOf('Iterator', $iterator);
+		$this->assertInstanceOf(\Iterator::class, $iterator);
 
 		$iterator->rewind();
 		$this->assertFalse($iterator->valid());
