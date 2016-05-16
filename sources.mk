@@ -2,6 +2,7 @@
 # library without triggering the autoloading mechanism
 SOURCES = \
 	src/Collection/function.php \
+	src/Option.php \
 	src/Collection/Pair.php \
 	src/Collection/Collection.php \
 	src/Collection/Enumerator.php \
