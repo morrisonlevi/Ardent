@@ -87,13 +87,13 @@ class Optional implements Countable, IteratorAggregate {
 	}
 
 	public
-    function unwrap() {
-	    if (!$this->has_value) {
-            throw new \RuntimeException();
-        }
+	function unwrap() {
+		if (!$this->has_value) {
+			throw new \RuntimeException();
+		}
 
-	    return $this->value;
-    }
+		return $this->value;
+	}
 
 }
 

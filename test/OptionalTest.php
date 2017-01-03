@@ -246,17 +246,17 @@ class OptionalTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public
-    function testUnwrap_WithValue_ReturnsValue() {
-	    $expect = 17;
-        $actual = Optional::some($expect)->unwrap();
-        self::assertEquals($expect, $actual);
-    }
+	function testUnwrap_WithValue_ReturnsValue() {
+		$expect = 17;
+		$actual = Optional::some($expect)->unwrap();
+		self::assertEquals($expect, $actual);
+	}
 
-    public
-    function testUnwrap_WithoutValue_Throws() {
-        $this->expectException(RuntimeException::class);
+	public
+	function testUnwrap_WithoutValue_Throws() {
+		$this->expectException(RuntimeException::class);
 
-        Optional::none()->unwrap();
-    }
+		Optional::none()->unwrap();
+	}
 
 }
