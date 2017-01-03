@@ -1,69 +1,69 @@
 <?php
 
-use Ardent\Option;
+use Ardent\Optional;
 
 
-class OptionTest extends \PHPUnit_Framework_TestCase {
+class OptionalTest extends \PHPUnit_Framework_TestCase {
 
 	public
 	function testSomeCount_ReturnsOne() {
-		$this->assertCount(1, Option::some(null));
+		self::assertCount(1, Optional::some(null));
 	}
 
 	public
 	function testNoneCount_ReturnsZero() {
-		$this->assertCount(0, Option::none());
+		self::assertCount(0, Optional::none());
 	}
 
 	public
 	function testSomeIterator_YieldsSingleExpectedValue() {
 		$expect = 13;
-		$iterator = Option::some($expect)->getIterator();
-		$this->assertInstanceOf(\Iterator::class, $iterator);
+		$iterator = Optional::some($expect)->getIterator();
+		self::assertInstanceOf(\Iterator::class, $iterator);
 
 		$iterator->rewind();
-		$this->assertTrue($iterator->valid());
-		$this->assertEquals(0, $iterator->key());
-		$this->assertEquals($expect, $iterator->current());
+		self::assertTrue($iterator->valid());
+		self::assertEquals(0, $iterator->key());
+		self::assertEquals($expect, $iterator->current());
 
 		$iterator->next();
-		$this->assertFalse($iterator->valid());
+		self::assertFalse($iterator->valid());
 	}
 
 	public
 	function testNoneIterator_YieldsNoValues() {
-		$iterator = Option::none()->getIterator();
-		$this->assertInstanceOf(\Iterator::class, $iterator);
+		$iterator = Optional::none()->getIterator();
+		self::assertInstanceOf(\Iterator::class, $iterator);
 
 		$iterator->rewind();
-		$this->assertFalse($iterator->valid());
+		self::assertFalse($iterator->valid());
 	}
 
 	public
 	function testFromMaybeNull_WithNull_HasCountOfZero() {
-		$this->assertCount(0, Option::fromMaybeNull(null));
+		self::assertCount(0, Optional::fromMaybeNull(null));
 	}
 
 	public
 	function testFromMaybeNull_WithNonNull_HasCountOfOne() {
-		$this->assertCount(1, Option::fromMaybeNull("NonNull"));
+		self::assertCount(1, Optional::fromMaybeNull("NonNull"));
 	}
 
 	public
 	function testFromMaybeFalse_WithNonFalse_HasCountOfOne() {
-		$this->assertCount(1, Option::fromMaybeFalse(0));
+		self::assertCount(1, Optional::fromMaybeFalse(0));
 	}
 
 	public
 	function testFromMaybeFalse_WithFalse_HasCountOfZero() {
-		$this->assertCount(0, Option::fromMaybeFalse(false));
+		self::assertCount(0, Optional::fromMaybeFalse(false));
 	}
 
 	public
 	function testSomeMatch_CallsOnlyIfSomeAndReturnsValue() {
 		$expect = 17;
 		$ifSome = function ($value) use($expect) {
-			$this->assertEquals($expect, $value);
+			self::assertEquals($expect, $value);
 			return 11;
 		};
 
@@ -71,8 +71,8 @@ class OptionTest extends \PHPUnit_Framework_TestCase {
 			$this->fail();
 		};
 
-		$value = Option::some($expect)->match($ifSome, $ifNone);
-		$this->assertEquals(11, $value);
+		$value = Optional::some($expect)->match($ifSome, $ifNone);
+		self::assertEquals(11, $value);
 	}
 
 	public
@@ -86,8 +86,8 @@ class OptionTest extends \PHPUnit_Framework_TestCase {
 			return $expect;
 		};
 
-		$actual = Option::none()->match($ifSome, $ifNone);
-		$this->assertEquals($expect, $actual);
+		$actual = Optional::none()->match($ifSome, $ifNone);
+		self::assertEquals($expect, $actual);
 	}
 
 	public
@@ -106,11 +106,11 @@ class OptionTest extends \PHPUnit_Framework_TestCase {
 			$this->fail();
 		};
 
-		$actual = Option::some($input)
+		$actual = Optional::some($input)
 			->map($m)
 			->match($ifSome, $ifNone);
 
-		$this->assertEquals($expect, $actual);
+		self::assertEquals($expect, $actual);
 	}
 
 	public
@@ -128,11 +128,11 @@ class OptionTest extends \PHPUnit_Framework_TestCase {
 			return $expect;
 		};
 
-		$actual = Option::none()
+		$actual = Optional::none()
 			->map($m)
 			->match($ifSome, $ifNone);
 
-		$this->assertEquals($expect, $actual);
+		self::assertEquals($expect, $actual);
 	}
 
 	public
@@ -151,11 +151,11 @@ class OptionTest extends \PHPUnit_Framework_TestCase {
 			return $expect;
 		};
 
-		$actual = Option::some($expect + 1)
+		$actual = Optional::some($expect + 1)
 			->filter($predicate)
 			->match($ifSome, $ifNone);
 
-		$this->assertEquals($expect, $actual);
+		self::assertEquals($expect, $actual);
 	}
 
 	public
@@ -174,11 +174,11 @@ class OptionTest extends \PHPUnit_Framework_TestCase {
 			$this->fail();
 		};
 
-		$actual = Option::some($expect)
+		$actual = Optional::some($expect)
 			->filter($predicate)
 			->match($ifSome, $ifNone);
 
-		$this->assertEquals($expect, $actual);
+		self::assertEquals($expect, $actual);
 	}
 
 	public
@@ -196,11 +196,11 @@ class OptionTest extends \PHPUnit_Framework_TestCase {
 			return $expect;
 		};
 
-		$actual = Option::none()
+		$actual = Optional::none()
 			->filter($f)
 			->match($ifSome, $ifNone);
 
-		$this->assertEquals($expect, $actual);
+		self::assertEquals($expect, $actual);
 	}
 
 	public
@@ -218,10 +218,10 @@ class OptionTest extends \PHPUnit_Framework_TestCase {
 			$this->fail();
 		};
 
-		$actual = Option::fromPredicate($f, $expect)
+		$actual = Optional::fromPredicate($f, $expect)
 			->match($ifSome, $ifNone);
 
-		$this->assertEquals($expect, $actual);
+		self::assertEquals($expect, $actual);
 	}
 
 	public
@@ -239,10 +239,24 @@ class OptionTest extends \PHPUnit_Framework_TestCase {
 			return $expect;
 		};
 
-		$actual = Option::fromPredicate($f, $expect)
+		$actual = Optional::fromPredicate($f, $expect)
 			->match($ifSome, $ifNone);
 
-		$this->assertEquals($expect, $actual);
+		self::assertEquals($expect, $actual);
 	}
+
+	public
+    function testUnwrap_WithValue_ReturnsValue() {
+	    $expect = 17;
+        $actual = Optional::some($expect)->unwrap();
+        self::assertEquals($expect, $actual);
+    }
+
+    public
+    function testUnwrap_WithoutValue_Throws() {
+        $this->expectException(RuntimeException::class);
+
+        Optional::none()->unwrap();
+    }
 
 }

@@ -7,7 +7,7 @@ use IteratorAggregate;
 
 
 final
-class Option implements Countable, IteratorAggregate {
+class Optional implements Countable, IteratorAggregate {
 
 	private $has_value;
 	private $value;
@@ -20,14 +20,14 @@ class Option implements Countable, IteratorAggregate {
 
 	public static
 	function some($thing) {
-		return new Option(true, $thing);
+		return new Optional(true, $thing);
 	}
 
 	public static
 	function none() {
 		static $none = null;
 		if ($none === null) {
-			$none = new Option(false, null);
+			$none = new Optional(false, null);
 		}
 		return $none;
 	}
@@ -35,22 +35,22 @@ class Option implements Countable, IteratorAggregate {
 	public static
 	function fromMaybeNull($value) {
 		return ($value !== null)
-			? Option::some($value)
-			: Option::none();
+			? Optional::some($value)
+			: Optional::none();
 	}
 
 	public static
 	function fromMaybeFalse($value) {
 		return ($value !== false)
-			? Option::some($value)
-			: Option::none();
+			? Optional::some($value)
+			: Optional::none();
 	}
 
 	public static
 	function fromPredicate(callable $f, $value) {
 		return $f($value)
-			? Option::some($value)
-			: Option::none();
+			? Optional::some($value)
+			: Optional::none();
 	}
 
 	public
@@ -62,7 +62,7 @@ class Option implements Countable, IteratorAggregate {
 	function filter(callable $f) {
 		return ($this->has_value && $f($this->value))
 			? $this
-			: Option::none();
+			: Optional::none();
 	}
 
 	public
@@ -75,8 +75,8 @@ class Option implements Countable, IteratorAggregate {
 	public
 	function map(callable $f) {
 		return ($this->has_value)
-			? Option::some($f($this->value))
-			: Option::none();
+			? Optional::some($f($this->value))
+			: Optional::none();
 	}
 
 	public
@@ -85,6 +85,15 @@ class Option implements Countable, IteratorAggregate {
 			? $ifSome($this->value)
 			: $ifNone();
 	}
+
+	public
+    function unwrap() {
+	    if (!$this->has_value) {
+            throw new \RuntimeException();
+        }
+
+	    return $this->value;
+    }
 
 }
 
