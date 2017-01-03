@@ -7,7 +7,7 @@ use IteratorAggregate;
 
 
 final
-class Optional implements Countable, IteratorAggregate {
+class Optional implements Countable, IteratorAggregate, Enumerable {
 
 	private $has_value;
 	private $value;
@@ -66,7 +66,7 @@ class Optional implements Countable, IteratorAggregate {
 	}
 
 	public
-	function getIterator() {
+	function getIterator(): \Iterator {
 		if ($this->has_value) {
 			yield $this->value;
 		}
@@ -93,6 +93,20 @@ class Optional implements Countable, IteratorAggregate {
 		}
 
 		return $this->value;
+	}
+
+	public
+	function reduce(callable $f): Optional {
+		return $this;
+	}
+
+	public
+	function fold(callable $f, $initial) {
+		if ($this->has_value) {
+			return $f($initial, $this->value);
+		} else {
+			return $initial;
+		}
 	}
 
 }
