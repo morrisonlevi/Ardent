@@ -2,14 +2,12 @@
 
 namespace Ardent\Collection;
 
-use Ardent\Collection;
 use Ardent\Enumerable;
 use Ardent\EnumerableTrait;
-use Ardent\Optional;
 
 
 final
-class ArrayCollection implements Collection, Enumerable {
+class ArrayCollection implements Enumerable {
 
 	use EnumerableTrait;
 
@@ -38,19 +36,6 @@ class ArrayCollection implements Collection, Enumerable {
 	public
 	function getIterator(): \Iterator {
 		return new \ArrayIterator($this->inner);
-	}
-
-	public
-	function choose(callable $f): ArrayCollection {
-		$output = new ArrayCollection();
-		foreach ($this->inner as $k => $v) {
-			$opt = $f($v);
-			assert($opt instanceof Optional);
-			foreach ($opt as $w) {
-				$output->inner[$k] = $w;
-			}
-		}
-		return $output;
 	}
 
 }
