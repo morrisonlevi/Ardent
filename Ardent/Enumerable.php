@@ -53,5 +53,7 @@ interface Enumerable extends \IteratorAggregate {
 	 */
 	function choose(callable $f);
 
+	function isEmpty(): bool;
+
 }
 

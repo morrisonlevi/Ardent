@@ -155,5 +155,10 @@ class Optional implements Countable, IteratorAggregate, Enumerable {
         }
     }
 
+    public
+	function isEmpty(): bool {
+		return !$this->has_value;
+	}
+
 }
 

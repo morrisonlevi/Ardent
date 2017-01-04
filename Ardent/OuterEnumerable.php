@@ -68,5 +68,16 @@ class OuterEnumerable implements \IteratorAggregate, Enumerable {
 		return \iterator_to_array($this->inner, $preserve_keys = true);
 	}
 
+	public
+	function choose(callable $f) {
+		return new self(Algorithm\choose($f, $this->inner));
+	}
+
+	public
+	function isEmpty(): bool {
+		$this->inner->rewind();
+		return $this->inner->valid();
+	}
+
 }
 

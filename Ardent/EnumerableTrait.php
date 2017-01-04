@@ -115,5 +115,12 @@ trait EnumerableTrait {
 		return $bldr->result();
 	}
 
+	public
+	function isEmpty(): bool {
+		$iter = $this->getIterator();
+		$iter->rewind();
+		return $iter->valid();
+	}
+
 }
 
