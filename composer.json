@@ -1,12 +1,14 @@
 {
   "name": "morrisonlevi/ardent",
   "type": "library",
-  "description": "A healthy library for PHP",
+  "description": "A collections library for PHP",
   "keywords": [
     "ardent",
     "algorithms",
     "collections",
     "data structures",
+    "enumerable",
+    "iterable",
     "library",
     "php",
     "spl"
@@ -22,14 +24,14 @@
     }
   ],
   "require": {
-    "php": "^5.5 || ^7.0"
+    "php": "^7.0"
   },
   "autoload": {
     "files": [
       "src/Collection/function.php"
     ],
     "psr-4": {
-      "Ardent\\": "src"
+      "Ardent\\": ["src", "Ardent"]
     }
   },
   "extra": {
