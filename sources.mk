@@ -2,6 +2,7 @@
 # library without triggering the autoloading mechanism
 SOURCES = \
 	src/Collection/function.php \
+	Ardent/Enumerable.php \
 	Ardent/Optional.php \
 	src/Collection/Pair.php \
 	src/Collection/Collection.php \
