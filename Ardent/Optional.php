@@ -109,5 +109,51 @@ class Optional implements Countable, IteratorAggregate, Enumerable {
 		}
 	}
 
+    public
+    function skip(int $n) {
+        if ($n <= 0) {
+            return $this;
+        } else {
+            return Optional::none();
+        }
+    }
+
+    public
+    function limit(int $n) {
+        if ($n < 1) {
+            return Optional::none();
+        } else {
+            return $this;
+        }
+    }
+
+    public
+    function to(Collection\Builder $builder) {
+        if ($this->has_value) {
+            $builder->add(0, $this->value);
+        }
+        return $builder->result();
+    }
+
+    public
+    function toArray(): array {
+        if ($this->has_value) {
+            return [$this->value];
+        } else {
+            return [];
+        }
+    }
+
+    public
+    function choose(callable $f) {
+        if ($this->has_value) {
+            $opt = $f($this->value);
+            assert($opt instanceof self);
+            return $opt;
+        } else {
+            return $this;
+        }
+    }
+
 }
 
