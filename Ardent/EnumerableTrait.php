@@ -13,58 +13,43 @@ trait EnumerableTrait {
 	abstract
 	function getIterator(): \Iterator;
 
+	private
+	function build(callable $algorithm, ... $args) {
+		$bldr = $this->newBuilder();
+		foreach ($algorithm(... $args) as $key => $value) {
+			$bldr->add($key, $value);
+		}
+		return $bldr->result();
+	}
+
+	public
+	function choose(callable $f) {
+		return $this->build('Ardent\Algorithm\choose', $f, $this->getIterator());
+	}
+
 	public
 	function filter(callable $f) {
-		$bldr = $this->newBuilder();
-		foreach ($this->getIterator() as $key => $value) {
-			if ($f($value)) {
-				$bldr->add($key, $value);
-			}
-		}
-		return $bldr->result();
+		return $this->build('Ardent\Algorithm\filter', $f, $this->getIterator());
 	}
 
 	public
-	function map(callable $f) {
-		$bldr = $this->newBuilder();
-		foreach ($this->getIterator() as $key => $value) {
-			$bldr->add($key, $f($value));
-		}
-		return $bldr->result();
-	}
-
-	public
-	function skip(int $n) {
-		$bldr = $this->newBuilder();
-		$iter = $this->getIterator();
-		$i = 0;
-
-		$iter->rewind();
-		while ($iter->valid() && $i++ < $n) {
-			$iter->next();
-		}
-
-		while ($iter->valid()) {
-			$bldr->add($iter->key(), $iter->current());
-			$iter->next();
-		}
-
-		return $bldr->result();
+	function flatten() {
+		return $this->build('Ardent\Algorithm\flatten', $this->getIterator());
 	}
 
 	public
 	function limit(int $n) {
-		$bldr = $this->newBuilder();
-		$iter = $this->getIterator();
-		$i = 0;
+		return $this->build('Ardent\Algorithm\limit', $n, $this->getIterator());
+	}
 
-		$iter->rewind();
-		while ($iter->valid() && $i++ < $n) {
-			$bldr->add($iter->key(), $iter->current());
-			$iter->next();
-		}
+	public
+	function map(callable $f) {
+		return $this->build('Ardent\Algorithm\map', $f, $this->getIterator());
+	}
 
-		return $bldr->result();
+	public
+	function skip(int $n) {
+		return $this->build('Ardent\Algorithm\skip', $n, $this->getIterator());
 	}
 
 	public
@@ -100,19 +85,6 @@ trait EnumerableTrait {
 	public
 	function toArray(): array {
 		return \iterator_to_array($this->getIterator(), $preserve_keys = true);
-	}
-
-	public
-	function choose(callable $f) {
-		$bldr = $this->newBuilder();
-		foreach ($this->getIterator() as $k => $v) {
-			$opt = $f($v);
-			assert($opt instanceof Optional);
-			foreach ($opt as $w) {
-				$bldr->add($k, $w);
-			}
-		}
-		return $bldr->result();
 	}
 
 	public

@@ -79,5 +79,10 @@ class OuterEnumerable implements \IteratorAggregate, Enumerable {
 		return $this->inner->valid();
 	}
 
+	public
+	function flatten() {
+		return new self(Algorithm\flatten($this->inner));
+	}
+
 }
 

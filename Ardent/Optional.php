@@ -66,6 +66,16 @@ class Optional implements Countable, IteratorAggregate, Enumerable {
 	}
 
 	public
+	function flatten() {
+		if ($this->has_value) {
+			assert($this->value instanceof Optional);
+			return $this->value;
+		} else {
+			return $this;
+		}
+	}
+
+	public
 	function getIterator(): \Iterator {
 		if ($this->has_value) {
 			yield $this->value;
