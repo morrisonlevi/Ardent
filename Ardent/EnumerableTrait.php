@@ -2,13 +2,11 @@
 
 namespace Ardent;
 
-use Ardent\Collection\Builder;
-
 
 trait EnumerableTrait {
 
 	abstract
-	function newBuilder(): Builder;
+	function newBuilder(): Collection\Builder;
 
 	abstract
 	function getIterator(): \Iterator;
