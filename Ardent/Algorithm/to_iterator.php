@@ -2,6 +2,7 @@
 
 namespace Ardent\Algorithm;
 
+
 function to_iterator($iterable): \Iterator {
 	if (\is_array($iterable)) {
 		return new \ArrayIterator($iterable);
