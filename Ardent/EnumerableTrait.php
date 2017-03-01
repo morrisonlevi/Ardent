@@ -81,8 +81,8 @@ trait EnumerableTrait {
 	}
 
 	public
-	function toArray(): array {
-		return \iterator_to_array($this->getIterator(), $preserve_keys = true);
+	function toSequentialArray(): array {
+		return \iterator_to_array($this->getIterator(), $preserve_keys = false);
 	}
 
 	public

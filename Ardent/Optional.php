@@ -143,7 +143,7 @@ class Optional implements Enumerable {
     }
 
     public
-    function toArray(): array {
+    function toSequentialArray(): array {
         if ($this->has_value) {
             return [$this->value];
         } else {

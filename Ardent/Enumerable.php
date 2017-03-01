@@ -9,7 +9,7 @@ namespace Ardent;
  * stronger subtype if possible, and are encouraged to do so.
  * @todo Revisit above if/when covariant return types are available
  */
-interface Enumerable extends \IteratorAggregate {
+interface Enumerable extends \Countable, \IteratorAggregate {
 
 	function getIterator(): \Iterator;
 
@@ -55,7 +55,15 @@ interface Enumerable extends \IteratorAggregate {
 
 	function to(Collection\Builder $builder);
 
-	function toArray(): array;
+	/**
+	 * Return the values of the Enumerable as a sequential array. The order
+	 * of the elements is the same order as they would be if getIterator()
+	 * was used. The keys must be in incrementing integer order beginning
+	 * with 0.
+	 *
+	 * @return array
+	 */
+	function toSequentialArray(): array;
 
 }
 

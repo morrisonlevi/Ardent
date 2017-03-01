@@ -39,37 +39,10 @@ class ArrayCollection implements Enumerable {
 	}
 
 	public
-	function filter(callable $f) {
-		$output = new self();
-		foreach ($this->inner as $key => $value) {
-			if ($f($value)) {
-				$output->inner[$key] = $value;
-			}
-		}
-		return $output;
+	function count(): int {
+		return \count($this->inner);
 	}
 
-	public
-	function map(callable $f) {
-		$output = new self();
-		foreach ($this->inner as $key => $value) {
-			$output->inner[$key] = $f($value);
-		}
-		return $output;
-	}
-
-	public
-	function reduce(callable $f): \Ardent\Optional {
-		if (!empty($this->inner)) {
-			$carry = \array_shift($this->inner);
-			foreach ($this->inner as $value) {
-				$carry = $f($carry, $value);
-			}
-			return \Ardent\Optional::some($carry);
-		} else {
-			return \Ardent\Optional::none();
-		}
-	}
 
 }
 

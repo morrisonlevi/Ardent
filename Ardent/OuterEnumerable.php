@@ -2,19 +2,25 @@
 
 namespace Ardent;
 
+
 final
-class OuterEnumerable implements \IteratorAggregate, Enumerable {
+class OuterEnumerable implements Enumerable {
 
 	private $inner;
 
 	public
 	function __construct(\Iterator $inner) {
-		$this->inner = $inner;
+		$this->inner = new CountedIteratorAggregate($inner);
+	}
+
+	public
+	function count(): int {
+		return $this->inner->count();
 	}
 
 	public
 	function getIterator(): \Iterator {
-		return $this->inner;
+		return $this->inner->getIterator();
 	}
 
 	/**
@@ -64,7 +70,7 @@ class OuterEnumerable implements \IteratorAggregate, Enumerable {
 	}
 
 	public
-	function toArray(): array {
+	function toSequentialArray(): array {
 		return \iterator_to_array($this->inner, $preserve_keys = true);
 	}
 
@@ -75,8 +81,7 @@ class OuterEnumerable implements \IteratorAggregate, Enumerable {
 
 	public
 	function isEmpty(): bool {
-		$this->inner->rewind();
-		return $this->inner->valid();
+		return $this->inner->count() === 0;
 	}
 
 	public
