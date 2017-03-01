@@ -254,7 +254,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase {
 
 	public
 	function testUnwrap_WithoutValue_Throws() {
-		$this->expectException(RuntimeException::class);
+		$this->expectException(\RuntimeException::class);
 
 		Optional::none()->unwrap();
 	}

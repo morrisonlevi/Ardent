@@ -2,12 +2,9 @@
 
 namespace Ardent;
 
-use Countable;
-use IteratorAggregate;
-
 
 final
-class Optional implements Countable, IteratorAggregate, Enumerable {
+class Optional implements Enumerable {
 
 	private $has_value;
 	private $value;
