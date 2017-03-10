@@ -3,7 +3,7 @@
 use Ardent\Optional;
 
 
-class OptionalTest extends \PHPUnit_Framework_TestCase {
+class OptionalTest extends \PHPUnit\Framework\TestCase {
 
 	public
 	function testSomeCount_ReturnsOne() {
