@@ -23,7 +23,7 @@ namespace Ardent {
 		function rewind() {
 			$this->inner->rewind();
 			if ($this->inner->valid()) {
-				$item = $this->inner->current();
+				$this->item = $this->inner->current();
 			}
 		}
 
