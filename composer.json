@@ -1,0 +1,30 @@
+{
+  "name": "morrisonlevi/ardent",
+  "type": "library",
+  "description": "A library for building Collections and Sequences",
+  "keywords": [
+    "ardent",
+    "collections",
+    "data structures",
+    "php",
+    "spl"
+  ],
+  "homepage": "https://github.com/morrisonlevi/Ardent",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Levi Morrison",
+      "email": "levim@php.net",
+      "homepage": "http://morrisonlevi.github.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ardent\\": "src/"
+    }
+  }
+}

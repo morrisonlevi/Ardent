@@ -1,0 +1,18 @@
+<phpunit bootstrap="vendor/autoload.php" colors="true">
+	<testsuites>
+		<testsuite name="Unit-Tests">
+			<directory>test</directory>
+		</testsuite>
+	</testsuites>
+	<logging>
+		<log
+			type="coverage-html"
+			target="test/coverage"
+			charset="UTF-8"
+			yui="true"
+			lowUpperBound="50"
+			highLowerBound="75"
+			showUncoveredFiles="true"
+			/>
+	</logging>
+</phpunit>
