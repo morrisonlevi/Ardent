@@ -19,7 +19,7 @@ namespace Ardent {
 		}
 
 		function current() {
-			return ($this->mapping_function)($inner->current());
+			return ($this->mapping_function)($this->inner->current());
 		}
 
 		function getIterator(): self {
