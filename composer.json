@@ -26,5 +26,13 @@
     "psr-4": {
       "Ardent\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ardent\\": "test/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.4"
   }
 }

@@ -4,10 +4,15 @@
 			<directory>test</directory>
 		</testsuite>
 	</testsuites>
+
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory>src</directory>
+		</whitelist>
+	</filter>
+
 	<logging>
 		<log
-			type="coverage-html"
-			target="test/coverage"
 			charset="UTF-8"
 			yui="true"
 			lowUpperBound="50"

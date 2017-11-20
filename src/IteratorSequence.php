@@ -2,7 +2,7 @@
 
 namespace Ardent {
 
-	trait IteratorSequence {
+	final class IteratorSequence implements \OuterIterator {
 
 		use OuterIteratorTrait;
 		use Sequence;
