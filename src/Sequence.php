@@ -16,7 +16,7 @@ namespace Ardent {
 
 		function reduce($initial, callable $fn) {
 			$result = $initial;
-			foreach ($this as $value) {
+			foreach ($this->getIterator() as $value) {
 				$result = $fn($result, $value);
 			}
 			return $result;
