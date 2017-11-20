@@ -21,9 +21,11 @@ namespace Ardent {
 		}
 
 		function rewind() {
-			$this->inner->rewind();
-			if ($this->inner->valid()) {
+			for ($this->inner->rewind(); $this->inner->valid(); $this->inner->next()) {
 				$this->item = $this->inner->current();
+				if (($this->filtering_function)($this->item)) {
+					break;
+				}
 			}
 		}
 
