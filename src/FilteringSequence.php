@@ -20,22 +20,24 @@ namespace Ardent {
 			return $this->inner;
 		}
 
-		function rewind() {
-			for ($this->inner->rewind(); $this->inner->valid(); $this->inner->next()) {
+		private function find_matching() {
+			while ($this->inner->valid()) {
 				$this->item = $this->inner->current();
 				if (($this->filtering_function)($this->item)) {
 					break;
 				}
+				$this->inner->next();
 			}
 		}
 
+		function rewind() {
+			$this->inner->rewind();
+			$this->find_matching();
+		}
+
 		function next(): void {
-			for ($this->inner->next(); $this->inner->valid(); $this->inner->next()) {
-				$this->item = $this->inner->current();
-				if (($this->filtering_function)($this->item)) {
-					break;
-				}
-			}
+			$this->inner->next();
+			$this->find_matching();
 		}
 
 		function current() {
