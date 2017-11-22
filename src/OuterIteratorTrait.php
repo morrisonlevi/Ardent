@@ -3,6 +3,7 @@
 namespace Ardent {
 
 	trait OuterIteratorTrait {
+
 		 abstract function getInnerIterator(): \Iterator;
 
 		 function rewind(): void {

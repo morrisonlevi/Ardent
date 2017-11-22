@@ -1,6 +1,7 @@
 <?php
 
 namespace Ardent {
+
 	final class MappingSequence implements \OuterIterator {
 
 		private $inner;
