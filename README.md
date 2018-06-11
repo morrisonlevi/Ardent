@@ -7,12 +7,14 @@ Arrays in PHP are useful but sometimes stronger type guarantees are needed or wa
 This is the general idea:
 
 ```php
-use morrisonlevi\ardent{
-  int_t,
-  nullable_t,
-  string_t,
+// include src/ardent.php or composer's autoloader
+
+use morrisonlevi\ardent\{
+  function int_t,
+  function nullable_t,
+  function string_t,
   dict,
-  vec,
+  vec
 };
 
 // Represents vec<int>.
@@ -22,10 +24,10 @@ $vec = vec::of(int_t());
 $vec->append(1, 3, 7);
 
 // Possibly a type-error, depending on your assertion settings.
-$vec[0] = 'Not an int'; 
+//$vec[0] = 'Not an int';
 
 // Represents dict<string, ?int>.
-$dict = dict::of(string_t(), nullable_t(int_t());
+$dict = dict::of(string_t(), nullable_t(int_t()));
 // dict optionally takes 2 optional functions for hashing and equality.
 
 // These are good.
@@ -33,8 +35,8 @@ $dict['one'] = 1;
 $dict['null'] = null;
 
 // Possibly type-errors, depending on your assertion settings.
-$dict[true] = 1;
-$dict['float'] = 1.6;
+//$dict[true] = 1;
+//$dict['float'] = 1.6;
 
 // use class_t(ClassName::class) for classes and interfaces
 ```
