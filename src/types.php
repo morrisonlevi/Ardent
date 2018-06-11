@@ -2,7 +2,7 @@
 
 namespace morrisonlevi\ardent {
 
-	interface _type {
+	interface type_t {
 		function accepts($value): bool;
 	}
 
@@ -36,42 +36,42 @@ namespace morrisonlevi\ardent {
 	}
 
 
-	final class _bool implements _type {
+	final class bool_t implements type_t {
 		function accepts($value): bool {
 			return \is_bool($value);
 		}
 	}
 
 
-	final class _int implements _type {
+	final class int_t implements type_t {
 		function accepts($value): bool {
 			return \is_int($value);
 		}
 	}
 
 
-	final class _float implements _type {
+	final class float_t implements type_t {
 		function accepts($value): bool {
 			return \is_float($value);
 		}
 	}
 
 
-	final class _string implements _type {
+	final class string_t implements type_t {
 		function accepts($value): bool {
 			return \is_string($value);
 		}
 	}
 
 
-	final class _nullable implements _type {
+	final class nullable_t implements type_t {
 		private $inner_type;
 
-		private function __construct(_type $inner_type) {
+		private function __construct(type_t $inner_type) {
 			$this->inner_type = $inner_type;
 		}
 
-		static function of(_type $type) {
+		static function of(type_t $type) {
 			return new self($type);
 		}
 
@@ -80,7 +80,7 @@ namespace morrisonlevi\ardent {
 		}
 	}
 
-	final class _class implements _type {
+	final class class_t implements type_t {
 		private $classname;
 		private function __construct(string $classname) {
 			$this->classname = $classname;
@@ -97,14 +97,14 @@ namespace morrisonlevi\ardent {
 	}
 
 
-	final class _array implements _type {
+	final class array_t implements type_t {
 		private $inner_type;
 
-		private function __construct(_type $inner_type) {
+		private function __construct(type_t $inner_type) {
 			$this->inner_type = $inner_type;
 		}
 
-		static function of(_type $type) {
+		static function of(type_t $type) {
 			return new self($type);
 		}
 
@@ -122,6 +122,16 @@ namespace morrisonlevi\ardent {
 		}
 	}
 
+
+	/* I don't particularly like having functions that just construct something
+	 * of the same name but done for UX. */
+	function bool_t() { return new bool_t(); }
+	function int_t() { return new int_t(); }
+	function float_t() { return new float_t(); }
+	function string_t() { return new string_t(); }
+	function nullable_t(type_t $t) { return nullable_t::of($t); }
+	function array_t(type_t $t) { return array_t::of($t); }
+	function class_t(string $name) { return class_t::of($name); };
 
 }
 

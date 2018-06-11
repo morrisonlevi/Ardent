@@ -8,7 +8,7 @@ namespace morrisonlevi\ardent {
 
 		const T = 0;
 
-		private function __construct(_type $type) {
+		private function __construct(type_t $type) {
 			$this->_type = $type;
 			$this->data = [];
 		}
@@ -34,7 +34,7 @@ namespace morrisonlevi\ardent {
 			$this->offset_unset($offset);
 		}
 
-		static function of(_type $type) {
+		static function of(type_t $type) {
 			return new self($type);
 		}
 
@@ -73,7 +73,7 @@ namespace morrisonlevi\ardent {
 		}
 
 		function append(/*T*/ ... $values): void {
-			assert(_array::of($this->_type)->accepts($values), new \TypeError());
+			assert(array_t::of($this->_type)->accepts($values), new \TypeError());
 			$this->data = \array_merge($this->data, $values);
 		}
 

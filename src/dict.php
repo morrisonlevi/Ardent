@@ -12,7 +12,7 @@ namespace morrisonlevi\ardent {
 		private $values;
 		private $_count;
 
-		private function __construct(_type $key, _type $value, callable $hasher, callable $equater) {
+		private function __construct(type_t $key, type_t $value, callable $hasher, callable $equater) {
 			$this->_types = [$key, $value];
 			$this->hash = $hasher;
 			$this->eq = $equater;
@@ -21,7 +21,7 @@ namespace morrisonlevi\ardent {
 			$this->_count = 0;
 		}
 		
-		static function of(_type $key, _type $value, ?callable $hash_fn = null, ?callable $eq_fn = null) {
+		static function of(type_t $key, type_t $value, ?callable $hash_fn = null, ?callable $eq_fn = null) {
 			assert(!$key->accepts(null));
 			if ($hash_fn === null) {
 				$hash_fn = __NAMESPACE__ . '\hash';

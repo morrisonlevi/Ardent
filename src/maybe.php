@@ -14,18 +14,18 @@ namespace morrisonlevi\ardent {
 			return [$this->_type];
 		}
 
-		private function __construct(_type $t, bool $has_data, /*T*/ $data) {
+		private function __construct(type_t $t, bool $has_data, /*T*/$data) {
 			$this->_type = $t;
 			$this->has_data = $has_data;
 			$this->data = $data;
 		}
 
-		static function of(_type $t, /*T*/ $data): maybe {
+		static function of(type_t $t, /*T*/$data): maybe {
 			assert($t->accepts($data), new \TypeError());
 			return new self($t, true, $data);
 		}
 
-		static function empty(_type $t): maybe {
+		static function empty(type_t $t): maybe {
 			return new self($t, false, null);
 		}
 

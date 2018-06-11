@@ -4,19 +4,19 @@
 
 Arrays in PHP are useful but sometimes stronger type guarantees are needed or wanted. This library hopes to fill the gap.
 
-Some effort needs to go into making it nicer to use. This is the general idea:
+This is the general idea:
 
 ```php
 use morrisonlevi\ardent{
-  _int,
-  _nullable,
-  _string,
+  int_t,
+  nullable_t,
+  string_t,
   dict,
   vec,
 };
 
 // Represents vec<int>.
-$vec = vec::of(new _int());
+$vec = vec::of(int_t());
 
 // Okay, all values are ints.
 $vec->append(1, 3, 7);
@@ -25,7 +25,8 @@ $vec->append(1, 3, 7);
 $vec[0] = 'Not an int'; 
 
 // Represents dict<string, ?int>.
-$dict = dict::of(new _string(), _nullable::of(new _int());
+$dict = dict::of(string_t(), nullable_t(int_t());
+// dict optionally takes 2 optional functions for hashing and equality.
 
 // These are good.
 $dict['one'] = 1;
@@ -34,6 +35,8 @@ $dict['null'] = null;
 // Possibly type-errors, depending on your assertion settings.
 $dict[true] = 1;
 $dict['float'] = 1.6;
+
+// use class_t(ClassName::class) for classes and interfaces
 ```
 
 ### Requirements
