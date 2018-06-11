@@ -1,0 +1,36 @@
+{
+  "name": "morrisonlevi/ardent",
+  "type": "library",
+  "description": "A generic data structures library for PHP without language-level support",
+  "keywords": [
+    "ardent",
+    "collections",
+    "data structures"
+  ],
+  "homepage": "https://github.com/morrisonlevi/Ardent",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Levi Morrison",
+      "email": "levim@php.net",
+      "homepage": "http://morrisonlevi.github.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.1"
+  },
+  "autoload": {
+    "files": [
+      "src/ardent.php"
+    ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.22-dev"
+    }
+  }
+}

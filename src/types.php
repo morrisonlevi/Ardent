@@ -1,0 +1,128 @@
+<?php
+
+namespace morrisonlevi\ardent {
+
+	interface _type {
+		function accepts($value): bool;
+	}
+
+
+	function basic_type_name_of($value) {
+		$basic_type = \gettype($value);
+		switch ($basic_type) {
+
+			case 'boolean':
+				return 'bool';
+			case 'integer':
+				return 'int';
+			case 'double':
+				return 'float';
+
+			case 'object':
+				return \get_class($value);
+
+			case 'NULL':
+				return 'null';
+			case 'string':
+			case 'array':
+				return $basic_type;
+
+			case 'resource':
+			case 'resource (closed)':
+			case 'unknown type':
+			default:
+				throw new \TypeError("Type \"$basic_type\" unsupported");
+		}
+	}
+
+
+	final class _bool implements _type {
+		function accepts($value): bool {
+			return \is_bool($value);
+		}
+	}
+
+
+	final class _int implements _type {
+		function accepts($value): bool {
+			return \is_int($value);
+		}
+	}
+
+
+	final class _float implements _type {
+		function accepts($value): bool {
+			return \is_float($value);
+		}
+	}
+
+
+	final class _string implements _type {
+		function accepts($value): bool {
+			return \is_string($value);
+		}
+	}
+
+
+	final class _nullable implements _type {
+		private $inner_type;
+
+		private function __construct(_type $inner_type) {
+			$this->inner_type = $inner_type;
+		}
+
+		static function of(_type $type) {
+			return new self($type);
+		}
+
+		function accepts($value): bool {
+			return \is_null($value) || $this->inner_type->accepts($value);
+		}
+	}
+
+	final class _class implements _type {
+		private $classname;
+		private function __construct(string $classname) {
+			$this->classname = $classname;
+		}
+
+		static function of(string $type) {
+			assert(\class_exists($type) || \interface_exists($type), new \TypeError());
+			return new self($type);
+		}
+
+		function accepts($value): bool {
+			return \is_object($value) && $value instanceof $this->classname;
+		}
+	}
+
+
+	final class _array implements _type {
+		private $inner_type;
+
+		private function __construct(_type $inner_type) {
+			$this->inner_type = $inner_type;
+		}
+
+		static function of(_type $type) {
+			return new self($type);
+		}
+
+		private function all_members_are_correct_type($array): bool {
+			foreach ($array as $value) {
+				if (!$this->inner_type->accepts($value)) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		function accepts($value): bool {
+			return \is_array($value) && $this->all_members_are_correct_type($value);
+		}
+	}
+
+
+}
+
+?>
