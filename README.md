@@ -28,7 +28,7 @@ $vec->append(1, 3, 7);
 
 // Represents dict<string, ?int>.
 $dict = dict::of(string_t(), nullable_t(int_t()));
-// dict optionally takes 2 optional functions for hashing and equality.
+// dict optionally takes 2 functions for hashing and equality.
 
 // These are good.
 $dict['one'] = 1;
