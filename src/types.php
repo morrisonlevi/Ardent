@@ -36,6 +36,13 @@ namespace morrisonlevi\ardent {
 	}
 
 
+	final class mixed_t implements type_t {
+		function accepts($value): bool {
+			return true;
+		}
+	}
+
+
 	final class bool_t implements type_t {
 		function accepts($value): bool {
 			return \is_bool($value);
@@ -123,8 +130,53 @@ namespace morrisonlevi\ardent {
 	}
 
 
+	final class union_t implements type_t {
+		private $inner_types;
+
+		private function __construct(type_t ... $inner_types) {
+			$this->inner_types = $inner_types;
+		}
+
+		static function of(type_t $first, type_t ... $types) {
+			return new self($first, ... $types);
+		}
+
+		function accepts($value): bool {
+			foreach ($this->inner_types as $inner_type) {
+				if ($inner_type->accepts($value)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
+
+	final class intersection_t implements type_t {
+		private $inner_types;
+
+		private function __construct(type_t ... $inner_types) {
+			$this->inner_types = $inner_types;
+		}
+
+		static function of(type_t $first, type_t ... $types) {
+			return new self($first, ... $types);
+		}
+
+		function accepts($value): bool {
+			foreach ($this->inner_types as $inner_type) {
+				if (!$inner_type->accepts($value)) {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+
+
 	/* I don't particularly like having functions that just construct something
 	 * of the same name but done for UX. */
+	function mixed_t() { return new mixed_t(); }
 	function bool_t() { return new bool_t(); }
 	function int_t() { return new int_t(); }
 	function float_t() { return new float_t(); }
@@ -132,6 +184,14 @@ namespace morrisonlevi\ardent {
 	function nullable_t(type_t $t) { return nullable_t::of($t); }
 	function array_t(type_t $t) { return array_t::of($t); }
 	function class_t(string $name) { return class_t::of($name); };
+
+	function union_t(type_t $t, type_t ... $types) {
+		return union_t::of($t, ... $types);
+	}
+
+	function intersection_t(type_t $t, type_t ... $types) {
+		return intersection_t::of($t, ... $types);
+	}
 
 }
 

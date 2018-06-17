@@ -7,7 +7,7 @@ namespace morrisonlevi\ardent {
 			$vec = vec::of(int_t());
 			self::assertCount(0, $vec);
 
-			$vec->append(1, 3, 7);
+			$vec->append([1, 3, 7]);
 			self::assertCount(3, $vec);
 			self::assertSame(1, $vec[0]);
 			self::assertSame(3, $vec[1]);
@@ -30,7 +30,7 @@ namespace morrisonlevi\ardent {
 			$vec = vec::of(int_t());
 
 			$expect = [1, 3, 7];
-			$vec->append(... $expect);
+			$vec->append($expect);
 			$actual = \iterator_to_array($vec);
 			self::assertSame($expect, $actual);
 		}
@@ -49,7 +49,7 @@ namespace morrisonlevi\ardent {
 		function test_bad_type_append() {
 			$this->expectException(\TypeError::class);
 			$vec = vec::of(int_t());
-			$vec->append("1");
+			$vec->append(["1"]);
 		}
 
 		function test_bad_type_get() {

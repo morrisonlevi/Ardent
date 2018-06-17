@@ -25,6 +25,29 @@ namespace morrisonlevi\ardent {
 			$dict = dict::of(string_t(), float_t());
 			$dict['non-existent key'];
 		}
+
+		function test_iterator() {
+			$dict = dict::of(int_t(), bool_t());
+
+			$keys = [1, 3, 5, 7, 9];
+			$values = [true, true, true, true, false];
+
+			assert(\count($keys) == \count($values));
+			$map = \array_combine($keys, $values);
+			foreach ($map as $key => $value) {
+				$dict[$key] = $value;
+			}
+
+			$visited = [];
+			foreach ($dict as $key => $value) {
+				self::assertSame($map[$key], $value);
+				$visited[$key] = $value;
+			}
+
+			ksort($visited);
+			self::assertSame($map, $visited);
+
+		}
 	}
 
 }

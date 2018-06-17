@@ -2,22 +2,22 @@
 
 namespace morrisonlevi\ardent {
 
-	final class dict/*<Key,Value>*/ implements \ArrayAccess, \Countable {
+	final class dict/*<Key,Value>*/ implements \ArrayAccess, \Countable, \IteratorAggregate {
 
 		private $_types;
 		private $hash;
 		private $eq;
 
-		private $keys;
-		private $values;
+		private $_keys;
+		private $_values;
 		private $_count;
 
 		private function __construct(type_t $key, type_t $value, callable $hasher, callable $equater) {
 			$this->_types = [$key, $value];
 			$this->hash = $hasher;
 			$this->eq = $equater;
-			$this->keys = [];
-			$this->values = [];
+			$this->_keys = [];
+			$this->_values = [];
 			$this->_count = 0;
 		}
 		
@@ -42,7 +42,7 @@ namespace morrisonlevi\ardent {
 
 		private function find(/*Key*/$key) {
 			$hash = ($this->hash)($key);
-			$keys = $this->keys[$hash] ?? null;
+			$keys = $this->_keys[$hash] ?? null;
 			if ($keys === null) {
 				return null;
 			}
@@ -73,7 +73,7 @@ namespace morrisonlevi\ardent {
 				throw new \OutOfBoundsException();
 			}
 
-			return $this->values[$hash][$key];
+			return $this->_values[$hash][$key];
 		}
 
 		function offsetGet($offset) {
@@ -87,22 +87,22 @@ namespace morrisonlevi\ardent {
 
 
 			$hash = ($this->hash)($key);
-			$keys = $this->keys[$hash] ?? null;
+			$keys = $this->_keys[$hash] ?? null;
 			if ($keys === null) {
-				$this->keys[$hash] = [];
-				$this->values[$hash] = [];
+				$this->_keys[$hash] = [];
+				$this->_values[$hash] = [];
 			} else {
 				$eq = $this->eq;
 				foreach ($keys as $offset => $k) {
 					if ($eq($k, $key)) {
-						$this->keys[$hash][$offset] = $key;
-						$this->values[$hash][$offset] = $value;
+						$this->_keys[$hash][$offset] = $key;
+						$this->_values[$hash][$offset] = $value;
 						return;
 					}
 				}
 			}
-			$this->keys[$hash][] = $key;
-			$this->values[$hash][] = $value;
+			$this->_keys[$hash][] = $key;
+			$this->_values[$hash][] = $value;
 			$this->_count += 1;
 		}
 
@@ -118,13 +118,13 @@ namespace morrisonlevi\ardent {
 			assert($Key->accepts($key), new \TypeError());
 
 			$hash = ($this->hash)($key);
-			$keys = $this->keys[$hash] ?? null;
+			$keys = $this->_keys[$hash] ?? null;
 			if ($keys !== null) {
 				$eq = $this->eq;
 				foreach ($keys as $offset => $k) {
 					if ($eq($k, $key)) {
-						\array_splice($this->keys[$hash], $offset, 1);
-						\array_splice($this->values[$hash], $offset, 1);
+						\array_splice($this->_keys[$hash], $offset, 1);
+						\array_splice($this->_values[$hash], $offset, 1);
 						$this->_count -= 1;
 					}
 				}
@@ -137,6 +137,22 @@ namespace morrisonlevi\ardent {
 
 		function count(): int {
 			return $this->_count;
+		}
+
+		private function _iterate() {
+			// prevent iterator invalidation
+			$keys = $this->_keys;
+			$values = $this->_values;
+			foreach ($keys as $hash => $bucket_of_keys) {
+				foreach ($bucket_of_keys as $offset => $key) {
+					yield $key => $values[$hash][$offset];
+				}
+			}
+		}
+
+		function getIterator(): keyed_iterable {
+			list($Key, $Value) = $this->_types;
+			return keyed_iterable::of($Key, $Value, $this->_iterate());
 		}
 
 	}

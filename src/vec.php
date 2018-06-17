@@ -2,7 +2,7 @@
 
 namespace morrisonlevi\ardent {
 
-	final class vec/*<T>*/ implements \ArrayAccess, \Countable, \IteratorAggregate, has_iterator {
+	final class vec/*<T>*/ implements \ArrayAccess, \Countable, \IteratorAggregate {
 		private $_type;
 		private $data;
 
@@ -23,7 +23,8 @@ namespace morrisonlevi\ardent {
 
 		function offsetSet($offset, $value) {
 			if ($offset === null) {
-				$this->append($value);
+				assert($this->_type->accepts($value), new \TypeError());
+				$this->data[] = $value;
 			} else  {
 				$this->offset_set($offset, $value);
 			}
@@ -72,54 +73,23 @@ namespace morrisonlevi\ardent {
 			$this->offset_set($ndx, null);
 		}
 
-		function append(/*T*/ ... $values): void {
-			assert(array_t::of($this->_type)->accepts($values), new \TypeError());
-			$this->data = \array_merge($this->data, $values);
+		function append(iterable $iterable): void {
+			$type_error = new \TypeError();
+			foreach ($iterable as $value) {
+				assert($this->_type->accepts($value), $type_error);
+				$this->data[] = $value;
+			}
 		}
 
 		function count(): int {
 			return \count($this->data);
 		}
 
-		function get_iterator(): iterator/*<T>*/ {
-			return new vec_iterator($this, 0, \count($this->data));
-		}
-
-		function getIterator(): \Iterator {
-			return adapt_iterator($this->get_iterator());
+		function getIterator(): value_iterable {
+			return value_iterable::of($this->_type, $this->data);
 		}
 
 	}
-
-
-	final class vec_iterator implements iterator	{
-		private $vec;
-		private $begin;
-		private $offset;
-		private $end;
-
-		function __construct(vec $vec, int $begin, int $end) {
-			$this->vec = $vec;
-			$this->begin = $begin; // just for debugging purposes
-			$this->offset = $begin;
-			$this->end = $end;
-
-			// todo: support negative ranges?
-			assert($begin >= 0);
-			assert($begin <= $end);
-		}
-
-		function next(): maybe {
-			$type = $this->vec->type_arguments()[0];
-			$offset_exists = $this->vec->offset_exists($this->offset);
-			if ($offset_exists && $this->offset < $this->end) {
-				return maybe::of($type, $this->vec->offset_get($this->offset++));
-			} else {
-				return maybe::empty($type);
-			}
-		}
-	}
-
 
 }
 
