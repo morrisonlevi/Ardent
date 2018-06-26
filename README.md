@@ -21,7 +21,7 @@ use morrisonlevi\ardent\{
 $vec = vec::of(int_t());
 
 // Okay, all values are ints.
-$vec->append(1, 3, 7);
+$vec->append([1, 3, 7]);
 
 // Possibly a type-error, depending on your assertion settings.
 //$vec[0] = 'Not an int';
