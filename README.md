@@ -4,42 +4,7 @@
 
 Arrays in PHP are useful but sometimes stronger type guarantees are needed or wanted. This library hopes to fill the gap.
 
-This is the general idea:
-
-```php
-// include src/ardent.php or composer's autoloader
-
-use morrisonlevi\ardent\{
-  function int_t,
-  function nullable_t,
-  function string_t,
-  dict,
-  vec
-};
-
-// Represents vec<int>.
-$vec = vec::of(int_t());
-
-// Okay, all values are ints.
-$vec->append([1, 3, 7]);
-
-// Possibly a type-error, depending on your assertion settings.
-//$vec[0] = 'Not an int';
-
-// Represents dict<string, ?int>.
-$dict = dict::of(string_t(), nullable_t(int_t()));
-// dict optionally takes 2 functions for hashing and equality.
-
-// These are good.
-$dict['one'] = 1;
-$dict['null'] = null;
-
-// Possibly type-errors, depending on your assertion settings.
-//$dict[true] = 1;
-//$dict['float'] = 1.6;
-
-// use class_t(ClassName::class) for classes and interfaces
-```
+Examples can be found in the [doc/](./doc/) subdirectory.
 
 ### Requirements
 
