@@ -4,20 +4,16 @@ namespace morrisonlevi\ardent {
 
 
 	function to_associative_array(iterable $iterable): array {
-		if (\is_array($iterable)) {
-			return $iterable;
-		} else {
-			return \iterator_to_array($iterable, $use_keys = true);
-		}
+		return \is_array($iterable)
+			? $iterable
+			: \iterator_to_array($iterable, $use_keys = true);
 	}
 
 
 	function to_array(iterable $iterable): array {
-		if (\is_array($iterable)) {
-			return \array_values($iterable);
-		} else {
-			return \iterator_to_array($iterable, $use_keys = false);
-		}
+		return \is_array($iterable)
+			? \array_values($iterable)
+			: \iterator_to_array($iterable, $use_keys = false);
 	}
 
 
