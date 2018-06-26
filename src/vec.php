@@ -6,8 +6,6 @@ namespace morrisonlevi\ardent {
 		private $_type;
 		private $data;
 
-		const T = 0;
-
 		private function __construct(type_t $type) {
 			$this->_type = $type;
 			$this->data = [];
