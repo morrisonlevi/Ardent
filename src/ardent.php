@@ -13,6 +13,11 @@ namespace ardent {
 		else return \iterator_to_array($iter, $preserve_keys = false);
 	}
 
+	function to_assoc_array(iterable $iter) {
+		if (\is_array($iter)) return $iter;
+		else return \iterator_to_array($iter, $preserve_keys = true);
+	}
+
 	function zip(iterable ... $ins): \Iterator {
 		if (empty($ins)) return;
 
