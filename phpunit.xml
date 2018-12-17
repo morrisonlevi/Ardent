@@ -1,0 +1,22 @@
+<phpunit bootstrap="src/ardent.php" colors="true">
+    <testsuites>
+        <testsuite name="Unit-Tests">
+            <directory>./test</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory>./src</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log
+                type="coverage-html"
+                target="test/coverage"
+                lowUpperBound="35"
+                highLowerBound="70"
+                showUncoveredFiles="true"
+                />
+    </logging>
+</phpunit>

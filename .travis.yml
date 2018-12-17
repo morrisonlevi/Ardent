@@ -1,0 +1,13 @@
+sudo: false
+
+language: php
+
+php:
+  - '7.1'
+  - '7.2'
+  - '7.3'
+  - nightly
+
+before_script: phpenv config-add travis.ini
+
+install: composer install
