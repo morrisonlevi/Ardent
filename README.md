@@ -4,6 +4,16 @@
 
 This library aims to add algorithms and data structures that are lacking in standard PHP, or the standard version is deficient enough that it needs an alternate.
 
+This example shows a `Vector` and a `Slice` being used, and shows that modifying the slice did not affect the original:
+
+```php
+$input = ardent\Vector::from([1, 1, 2, 3, 3]);
+$input2 = new ardent\Slice($input, 0, $input->count());
+ardent\unique('ardent\eq', $input2);
+var_export(\iterator_to_array($input)); echo "\n";
+var_export(\iterator_to_array($input2)); echo "\n";
+```
+
 ### Requirements
 
   - Patience. This project is unstable and subject to significant changes from release to release.

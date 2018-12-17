@@ -297,10 +297,4 @@ namespace ardent {
 
 }
 
-namespace {
-	$input = ardent\Vector::from([1, 1, 2, 3, 3]);
-	$input2 = new ardent\Slice($input, 0, $input->count());
-	ardent\unique('ardent\eq', $input2);
-	var_export(\iterator_to_array($input)); echo "\n";
-	var_export(\iterator_to_array($input2)); echo "\n";
-}
+?>
