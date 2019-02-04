@@ -19,10 +19,10 @@
     }
   ],
   "require": {
-    "php": "^7.1"
+    "php": "^7.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.1"
+    "phpunit/phpunit": "^8.0"
   },
   "autoload": {
     "files": [
