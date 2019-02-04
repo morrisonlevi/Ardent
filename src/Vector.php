@@ -20,20 +20,20 @@ namespace ardent {
 		}
 
 		function offsetExists($ndx): bool {
-			assert(\is_int($ndx), new TypeError());
+			assert(\is_int($ndx));
 			return 0 <= $ndx && $ndx < $this->count();
 		}
 
 		function offsetGet($ndx) {
-			assert(\is_int($ndx), new TypeError());
-			assert($this->offsetExists($ndx), new OutOfBoundsException());
+			assert(\is_int($ndx));
+			assert($this->offsetExists($ndx));
 			return $this->data[$ndx];
 		}
 
 		function offsetSet($ndx, $value): void {
 			if ($ndx !== null) {
-				assert(\is_int($ndx), new TypeError());
-				assert($this->offsetExists($ndx), new OutOfBoundsException());
+				assert(\is_int($ndx));
+				assert($this->offsetExists($ndx));
 				$this->data[$ndx] = $value;
 			} else {
 				$this->data[] = $value;
@@ -41,7 +41,7 @@ namespace ardent {
 		}
 
 		function offsetUnset($ndx): void {
-			assert(\is_int($ndx), new TypeError());
+			assert(\is_int($ndx));
 			if ($this->offsetExists($ndx)) {
 				// Do not allow holes!
 				$end = $this->count() - 1;
@@ -53,7 +53,7 @@ namespace ardent {
 		}
 
 		function truncate(int $ndx): void {
-			assert($this->offsetExists($ndx), new \OutOfBoundsException());
+			assert($this->offsetExists($ndx));
 			// todo: ensure this doesn't have un-intended effects
 			\array_splice($this->data, $ndx);
 		}

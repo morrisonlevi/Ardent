@@ -12,8 +12,8 @@ namespace ardent {
 		private $ndx;
 
 		function __construct(LinearCollection $data, int $begin, int $end) {
-			assert(0 <= $begin && $begin <= $end, new UnexpectedValueException());
-			assert($end <= $data->count(), new UnexpectedValueException());
+			assert(0 <= $begin && $begin <= $end);
+			assert($end <= $data->count());
 			$this->data = clone $data;
 			$this->begin = $begin;
 			$this->end = $end;

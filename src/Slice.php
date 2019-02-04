@@ -12,8 +12,8 @@ namespace ardent {
 		private $begin, $end;
 
 		function __construct(LinearCollection $data, int $begin, int $end) {
-			assert(0 <= $begin && $begin <= $end, new UnexpectedValueException());
-			assert($end <= $data->count(), new UnexpectedValueException());
+			assert(0 <= $begin && $begin <= $end);
+			assert($end <= $data->count());
 			$this->data = clone $data;
 			$this->begin = $begin;
 			$this->end = $end;
@@ -38,40 +38,40 @@ namespace ardent {
 		}
 
 		function offsetExists($ndx): bool {
-			assert(\is_int($ndx), new TypeError());
+			assert(\is_int($ndx));
 			return 0 <= $ndx && $ndx < $this->count();
 		}
 
 		function offsetGet($ndx) {
-			assert(\is_int($ndx), new TypeError());
-			assert($this->offsetExists($ndx), new OutOfBoundsException());
+			assert(\is_int($ndx));
+			assert($this->offsetExists($ndx));
 			return $this->data[$ndx + $this->begin];
 		}
 
 		function offsetSet($ndx, $value): void {
 			if ($ndx !== null) {
-				assert(\is_int($ndx), new TypeError());
-				assert($this->offsetExists($ndx), new OutOfBoundsException());
+				assert(\is_int($ndx));
+				assert($this->offsetExists($ndx));
 				$this->data[$ndx + $this->begin] = $value;
 			} else {
-				assert(false, new \RuntimeException("Not yet implemented"));
+				assert(false && "Not yet implemented");
 				$this->data[] = $value;
 			}
 		}
 
 		function offsetUnset($ndx): void {
-			assert(\is_int($ndx), new TypeError());
+			assert(\is_int($ndx));
 			if ($this->offsetExists($ndx)) {
 				if ($ndx == $this->end - 1) {
 					--$this->end;
 				} else {
-					assert(false, new \RuntimeException("Not yet implemented"));
+					assert(false && "Not yet implemented");
 				}
 			}
 		}
 
 		function truncate(int $ndx): void {
-			assert($this->offsetExists($ndx), new OutOfBoundsException());
+			assert($this->offsetExists($ndx));
 			$this->end = $this->begin + $ndx;
 		}
 
