@@ -2,9 +2,6 @@
 
 namespace ardent {
 
-	use OutOfBoundsException;
-	use TypeError;
-
 	final class Vector implements LinearCollection
 	{
 		private $data = [];

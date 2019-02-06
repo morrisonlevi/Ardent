@@ -2,10 +2,6 @@
 
 namespace ardent {
 
-	use OutOfBoundsException;
-	use TypeError;
-	use UnexpectedValueException;
-
 	final class Slice implements LinearCollection
 	{
 		private $data;

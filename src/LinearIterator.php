@@ -2,8 +2,6 @@
 
 namespace ardent {
 
-	use UnexpectedValueException;
-
 	final class LinearIterator
 		implements \Countable, \Iterator
 	{
